@@ -6,11 +6,25 @@ export default {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primary: "var(--primary)",
+        main: "var(--main)",
+        gray400: "var(--gray400)",
+        gray300: "var(--gray300)",
+        gray200: "var(--gray200)",
+        placeholder: "var(--placeholder)",
+        black: "var(--black)",
+
+        backgroundMain: "var(--background-main)",
+        backgroundLayout: "var(--background-layout)",
+        backgroundDisabled: "var(--background-disabled)",
+        backgroundTab: "var(--background-tab)",
+
+        borderMain: "var(--border-main)",
+        borderSelected: "var(--border-selected)",
       },
     },
   },
