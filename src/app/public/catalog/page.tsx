@@ -3,9 +3,9 @@ import CatalogView from "@/views/catalog";
 import React from "react";
 
 const CatalogPage = async () => {
-  // const response = await GetCmsByContentType(1);
+  const response = await GetCmsByContentType(1);
 
-  // console.log(response);
+  console.log(response);
 
   return <CatalogView />;
 };

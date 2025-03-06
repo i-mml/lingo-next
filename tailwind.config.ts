@@ -28,5 +28,8 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-rtl")],
+  corePlugins: {
+    preflight: false, // Disable to prevent conflicts with MUI
+  },
 } satisfies Config;
