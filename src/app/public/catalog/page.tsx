@@ -1,22 +1,13 @@
-"use client";
-
-import { useTheme } from "next-themes";
+import { GetCmsByContentType } from "@/api/services/cms";
+import CatalogView from "@/views/catalog";
 import React from "react";
 
-const CatalogPage = () => {
-  const { theme, setTheme } = useTheme();
-  console.log(theme);
-  return (
-    <div className="bg-primary">
-      <button
-        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-        className="text-textColors-light-main dark:text-textColors-dark-main"
-      >
-        click me
-      </button>
-      <div className="w-10 h-10 rounded-md bg-gray400 !dark:bg-red-950"></div>
-    </div>
-  );
+const CatalogPage = async () => {
+  // const response = await GetCmsByContentType(1);
+
+  // console.log(response);
+
+  return <CatalogView />;
 };
 
 export default CatalogPage;

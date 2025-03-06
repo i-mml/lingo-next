@@ -16,27 +16,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-        refetchOnMount: false,
-        refetchOnReconnect: false,
-        retry: false,
-        staleTime: halfHour,
-      },
-      mutations: {
-        retry: false,
-      },
-    },
-  });
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`antialiased`}>
-        <Providers>
-          <ThemeProvider>{children}</ThemeProvider>
-        </Providers>
+        <ThemeProvider>
+          <Providers>{children}</Providers>
+        </ThemeProvider>
       </body>
     </html>
   );
