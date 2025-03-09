@@ -1,0 +1,37 @@
+{
+  "sidebar": {
+    "Movie and Series": "فیلم و سریال",
+    "Animations": "انیمیشن‌",
+    "Review Words": "فلش‌کارت‌ها",
+    "Audio Book": "کتاب صوتی",
+    "Logout Of Account": "خروج از حساب",
+    "Logout": "خروج",
+    "Account": "پروفایل",
+    "Category": "دسته‌بندی",
+    "Learning": "یادگیری",
+    "User": "ناحیه کاربری",
+    "Panel": "پنل ویدیو",
+    "Create Content": "تولید محتوا",
+    "Quiz": "کوئیز",
+    "Home": "خانه",
+    "Subscriptions": "خرید اشتراک",
+    "Download App": "اپلیکیشن",
+    "Grammers": "گرامر ها",
+    "Victionary": "دیکشنری",
+    "Music": "موسیقی",
+    "HowToUse": "نحوه استفاده",
+    "Bookmarks": "علاقه‌مندی‌ها",
+    "Vocabulary": "واژه آموزی"
+  },
+  "header": {
+    "Account": "حساب کاربری",
+    "Logout": "خروج از حساب",
+    "Your All Time": "پروسه شما:",
+    "Watched": "محتوا تماشا کردی",
+    "Words Added": "باقیمانده",
+    "Words Learned": "یادگرفتی",
+    "Watched Unit": "ساعت",
+    "Words Added Unit": "لغت",
+    "Learned Unit": "لغت"
+  }
+}

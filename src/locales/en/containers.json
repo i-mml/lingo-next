@@ -1,0 +1,30 @@
+{
+  "sidebar": {
+    "Movie and Series": "Movie and Series",
+    "Review Words": "Review Words",
+    "Audio Book": "Audio Book",
+    "Logout": "Logout",
+    "Account": "Account",
+    "Category": "Category",
+    "Learning": "Learning",
+    "User": "User",
+    "Panel": "Video Panel",
+    "Create Content": "Create Content",
+    "Quiz": "Quiz",
+    "Home": "Home",
+    "Subscriptions": "Subscriptions",
+    "Download App": "Application",
+    "Music": "Music"
+  },
+  "header": {
+    "Account": "Account",
+    "Logout": "Logout",
+    "Your All Time": "Your all-time progress:",
+    "Watched": "watched",
+    "Words Added": "words added",
+    "Words Learned": "words learned",
+    "Watched Unit": "Hours",
+    "Words Added Unit": "Word",
+    "Learned Unit": "Word"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "Are_you_ready_title": "آماده‌ای تا یادگیری واژگان خود را به چالش بکشی؟",
+  "Are_you_ready_description": "در این بخش، می‌توانید با پاسخ دادن به سؤالات مرتبط با واژگان، دانش و مهارت‌ خود را ارزیابی کنید. هر کوئیز شامل سؤالاتی درباره واژگانی‌ست که هنگام مشاهده ویدیو اضافه کرده‌اید.",
+  "Start_quiz": "شروع کوئیز",
+  "Restart_quiz": "برو کوئیز بعدی",
+  "Select_right_choice": "گزینه صحیح رو انتخاب کنید.",
+  "Next_quiz": "بعدی",
+  "Finish_quiz": "اتمام کوئیز",
+  "Great_job": "کارت عالی بود!",
+  "Good_job": "خوبه، ادامه بده!",
+  "You_answered_questions_great": "شما به {{right_answer_count}} سوال از کوئیز واژگان پاسخ درست دادی.",
+  "You_answered_questions_good": "شما به {{right_answer_count}} سوال کوئیز پاسخ درست دادی. کوئیز رو ادامه بده تا همه واژه‌ها رو یاد بگیری.",
+  "Do_it_again": "انجام دوباره کوئیز",
+  "No Option Found In Autocomplete": "موردی یافت نشد",
+  "Your_quiz_result": "امتیاز کوئیز شما: %{{right_answer_count}}",
+  "There_Is_No_Flashcard_Title": "سوالی برای انجام کوئیز وجود ندارد",
+  "There_Is_No_Flashcard": "برای انجام کوئیز حداقل باید 4 فلش کارت داشته باشید.",
+  "Choose_Another_Movie": "محتوای دیگری را برای کوئیز انتخاب کنید.",
+  "Choose_Another_Grammar": "گرامر دیگری را برای کوئیز انتخاب کنید."
+}

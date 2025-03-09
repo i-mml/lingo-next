@@ -1,0 +1,19 @@
+{
+  "Are_you_ready_title": "Ready to challenge your vocabulary learning?",
+  "Are_you_ready_description": "In this section, you can assess your knowledge and skills by answering questions related to vocabulary. Each quiz includes questions about the vocabulary you added when watching the video.",
+  "Start_quiz": "Start Quiz",
+  "Restart_quiz": "Restart Quiz",
+  "Select_right_choice": "Choose the correct option related to the meaning of the above phrase.",
+  "Next_quiz": "Next",
+  "Finish_quiz": "Finish Quiz",
+  "Great_job": "Fantastic job!",
+  "Good_job": "Well done, keep going!",
+  "You_answered_questions_great": "You answered all {{right_answer_count}} vocabulary quiz questions correctly.",
+  "You_answered_questions_good": "You answered {{right_answer_count}} out of quiz questions correctly. Continue the quiz to learn all the words.",
+  "Do_it_again": "Take the quiz again",
+  "No Option Found In Autocomplete": "No Option!",
+  "Your_quiz_result": "Your Quiz Result: {{right_answer_count}}%",
+  "There_Is_No_Flashcard_Title": "There is no flashcard to start quiz",
+  "There_Is_No_Flashcard": "You should at least have 4 flashcard to start quiz.",
+  "Choose_Another_Movie": "Choose another content for quiz"
+}

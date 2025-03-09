@@ -1,0 +1,30 @@
+{
+  "Account Information": "اطلاعات شخصی",
+  "Learning Language Info": "انتخاب زبان یادگیری",
+  "Change Password": "تغییر رمز عبور",
+  "Settings": "تنظیمات",
+  "Save Changes": "ذخیره تغییرات",
+  "Invite Friends": "دعوت از دوستان",
+
+  "Mobile Number": "شماره همراه",
+  "Fullname": "نام و نام خانوادگی",
+  "Birthdate": "تاریخ تولد",
+  "Select Birthdate": "تاریخ تولد خود را انتخاب کنید",
+  "Learning Language": "زبان یادگیری",
+  "Accent": "لهجه",
+  "My Language Level": "سطح زبان من",
+  "Current Password": "رمز عبور فعلی",
+  "New Password": "رمز عبور جدید",
+  "Confirm New Password": "تکرار رمز عبور جدید",
+  "Website Language": "زبان وبسایت",
+  "Select Learning Language": "انتخاب زبان یادگیری",
+  "Select Language Level": "انتخاب سطح زبان",
+  "Select Language Accent": "انتخاب لهجه",
+  "Select Website Language": "انتخاب زبان یادگیری",
+
+  "Profile Information": "اطلاعات حساب",
+  "Subscription Information": "اطلاعات اشتراک",
+  "Subscription Type": "اشتراک خریداری شده",
+  "Subscription Whole Duration": "مدت کل اشتراک",
+  "Subscription Remain Duration": "مدت باقی‌مانده"
+}

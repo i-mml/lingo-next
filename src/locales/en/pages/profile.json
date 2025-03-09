@@ -1,0 +1,29 @@
+{
+  "Account Information": "Account Information",
+  "Learning Language Info": "Learning Language Info",
+  "Change Password": "Change Password",
+  "Settings": "Settings",
+  "Save Changes": "Save Changes",
+
+  "Mobile Number": "Mobile Number",
+  "Fullname": "Full Name",
+  "Birthdate": "Birthdate",
+  "Select Birthdate": "Select Birthdate",
+  "Learning Language": "Learning Language",
+  "Accent": "Accent",
+  "My Language Level": "My Language Level",
+  "Current Password": "Current Password",
+  "New Password": "New Password",
+  "Confirm New Password": "Confirm New Password",
+  "Website Language": "Website Language",
+  "Select Learning Language": "Select Learning Language",
+  "Select Language Level": "Select Language Level",
+  "Select Language Accent": "Select Language Accent",
+  "Select Website Language": "Select Website Language",
+
+  "Profile Information": "Profile Information",
+  "Subscription Information": "Subscription Information",
+  "Subscription Type": "Purchased Subscription",
+  "Subscription Whole Duration": "Total Subscription Period",
+  "Subscription Remain Duration": "Remaining Subscription Period"
+}

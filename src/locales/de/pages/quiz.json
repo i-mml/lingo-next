@@ -1,0 +1,14 @@
+{
+  "Are_you_ready_title": "Bereit, um dein Vokabular zu testen?",
+  "Are_you_ready_description": "In diesem Abschnitt können Sie Ihre Kenntnisse und Fähigkeiten durch Beantwortung von Fragen zur Vokabel ermitteln. Jeder Quiz enthält Fragen zu den Vokabeln, die Sie beim Ansehen des Videos hinzugefügt haben.",
+  "Start_quiz": "Quiz starten",
+  "Restart_quiz": "Quiz erneut starten",
+  "Select_right_choice": "Wählen Sie die korrekte Option, die dem obigen Ausdruck entspricht.",
+  "Next_quiz": "Weiter",
+  "Finish_quiz": "Quiz abschließen",
+  "Great_job": "Ausgezeichnetes Ergebnis!",
+  "Good_job": "Gut gemacht, weitermachen!",
+  "You_answered_questions_great": "Sie haben alle {{right_answer_count}} Fragen des Vokabel-Quizzes richtig beantwortet.",
+  "You_answered_questions_good": "Sie haben {{right_answer_count}} von Quizfragen richtig beantwortet. Fahren Sie mit dem Quiz fort, um alle Wörter zu lernen.",
+  "Do_it_again": "Quiz noch einmal machen"
+}

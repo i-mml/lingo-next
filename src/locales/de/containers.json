@@ -1,0 +1,28 @@
+{
+  "sidebar": {
+    "Movie and Series": "Film und Serie",
+    "Review Words": "Wörter überprüfen",
+    "Audio Book": "Hörbuch",
+    "Logout": "Abmelden",
+    "Account": "Konto",
+    "Category": "Kategorie",
+    "Learning": "Lernen",
+    "User": "Benutzer",
+    "Panel": "Videopanel",
+    "Create Content": "Inhalt erstellen",
+    "Quiz": "Quiz",
+    "Subscriptions": "Abonnements",
+    "Download App": "Application"
+  },
+  "header": {
+    "Account": "Konto",
+    "Logout": "Abmelden",
+    "Your All Time": "Ihr Gesamtfortschritt:",
+    "Watched": "angesehen",
+    "Words Added": "Wörter hinzugefügt",
+    "Words Learned": "Wörter gelernt",
+    "Watched Unit": "Stunde",
+    "Words Added Unit": "Wort",
+    "Learned Unit": "Wort"
+  }
+}

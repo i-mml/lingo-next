@@ -1,0 +1,20 @@
+{
+  "My Vocabulary": "Mein Vokabular",
+  "Words Uni": "Wörter Uni",
+  "Review All": "Überprüfen Sie alle Wörter, die Sie in Videos oder Hörbüchern hinzugefügt haben.",
+  "Flashcard Button": "Überprüfen Sie Wörter im Flashcard-Format",
+  "LAST OCCURRENCE": "Letzte Erwähnung",
+  "NUMBER OF VIEWS": "Anzahl der Aufrufe",
+  "LAST SEEN": "Zuletzt gesehen",
+  "Seconds Ago": "Vor einigen Sekunden",
+  "Time": "Zeit",
+  "Is Learning Tab": "Lernt",
+  "Is Learned Tab": "Gelernt",
+  "View Unit": "Einheit anzeigen",
+  "GET_SPEACH_COMPARE": "Durch die Wiederholung des aktuellen Untertitels wird Ihnen Ihr Prozentsatz der Ähnlichkeit zum Satz angezeigt",
+
+  "empty": {
+    "title": "Du hast noch kein Wort zur Überprüfung hinzugefügt!",
+    "description": "Du kannst das Vokabular, das du überprüfen musst, hinzufügen, indem du die entsprechenden Videos für dein Niveau in Zabano anschaut und sie in diesem Abschnitt überprüfst."
+  }
+}

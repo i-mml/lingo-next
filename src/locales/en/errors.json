@@ -1,0 +1,5 @@
+{
+  "BROWSER_AUDIO_RECORD_SUPPORT": "The MediaRecorder API is not supported in your browser.",
+  "YOU_SHOULD_GIVE_ACCESS": "To record sound, you must give access to use the microphone",
+  "GIVE_MIC_ACCESS": "Give access"
+}

@@ -1,0 +1,19 @@
+{
+  "My Vocabulary": "My vocabulary",
+  "Words Uni": "Words uni",
+  "Review All": "Review all the words you have added in videos or audiobooks here.",
+  "Flashcard Button": "Review words in flashcard",
+  "LAST OCCURRENCE": "Last occurrence",
+  "NUMBER OF VIEWS": "Number of views",
+  "LAST SEEN": "Last seen",
+  "Seconds Ago": "Seconds ago",
+  "Time": "time",
+  "Is Learning Tab": "Is learning",
+  "Is Learned Tab": "Is learned",
+  "View Unit": "",
+  "GET_SPEACH_COMPARE": "By repeating the current subtitle, your percentage of similarity to the sentence will be displayed to you",
+  "empty": {
+    "title": "You have not added a word to review yet!",
+    "description": "You can add the vocabulary you need to review by watching the appropriate videos for your level in Zabano and review them in this section."
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "container": {
+    "Back Icon": "Back"
+  },
+  "languages": {
+    "FA": "Persian",
+    "EN": "English",
+    "DE": "German"
+  },
+  "errors": {
+    "Minimum 8 Character": "The minimum password must be 8 characters.",
+    "Password And Confirm Same Issue": "The new password and its confirmation must be the same"
+  },
+  "level": "level",
+  "Minute": "m",
+  "Second": "s",
+  "Audio & text": "Audio & text"
+}

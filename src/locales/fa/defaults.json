@@ -1,0 +1,18 @@
+{
+  "container": {
+    "Back Icon": "بازگشت"
+  },
+  "languages": {
+    "FA": "فارسی",
+    "EN": "انگلیسی",
+    "DE": "آلمانی"
+  },
+  "errors": {
+    "Minimum 8 Character": "رمز عبور حدقال باید شامل 8 کاراکتر باشد.",
+    "Password And Confirm Same Issue": "رمز جدید و تکرار آن باید یکسان باشد"
+  },
+  "level": "سطح",
+  "Minute": "دقیقه",
+  "Second": "ثانیه",
+  "Audio & text": "صوت + متن"
+}
