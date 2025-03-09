@@ -4,6 +4,9 @@ import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
 import { useEffect } from "react";
 import { useLanguage } from "@/store";
+import English from "@/locales/en";
+import Farsi from "@/locales/fa";
+import German from "@/locales/de";
 
 export default function I18nProvider({
   children,
@@ -21,6 +24,17 @@ export default function I18nProvider({
         },
         react: {
           useSuspense: false,
+        },
+        resources: {
+          EN: {
+            translation: English,
+          },
+          FA: {
+            translation: Farsi,
+          },
+          DE: {
+            translation: German,
+          },
         },
       });
     };
