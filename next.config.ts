@@ -31,6 +31,13 @@ const nextConfig: NextConfig = {
     });
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        hostname: "statics-zabano.s3.ir-thr-at1.arvanstorage.ir",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
