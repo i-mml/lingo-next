@@ -125,7 +125,7 @@ const CatalogView: FC<CatalogPageTypes> = (props) => {
       <section
         aria-label="Banners of newest movies carousel"
         role="region"
-        className="mb-16"
+        className=""
       >
         {!isFreeOnly &&
           (isGuest ||
@@ -154,7 +154,7 @@ const CatalogView: FC<CatalogPageTypes> = (props) => {
 
               <div
                 onClick={() => handleClickMovie(banners?.[activeIndex] as any)}
-                className="absolute bottom-[200px] md:bottom-[238px] mx-[5%] border-2 border-primary bg-primary/50 text-white py-3 px-5  rounded-lg text-[16px] md:text-xl font-semibold"
+                className="absolute bottom-[200px] md:bottom-[500px] mx-[5%] border border-primary bg-primary bg-opacity-20 text-white py-3 px-5  rounded-lg text-[16px] md:text-xl font-semibold"
               >
                 تماشا و یادگیری
               </div>
