@@ -103,7 +103,7 @@ const CatalogBannersRowSlider = (props: CatalogPageTypes) => {
 
             <div
               onClick={() => handleClickMovie(banners?.[activeIndex] as any)}
-              className="absolute bottom-[200px] md:bottom-[240px] mx-[5%] border border-primary bg-primary backdrop:opacity-10 text-white py-3 px-5  rounded-lg text-[16px] md:text-xl font-semibold"
+              className="absolute bottom-[210px] md:bottom-[240px] mx-[5%] border border-primary bg-primary backdrop:opacity-10 text-white py-3 px-5  rounded-lg text-[16px] md:text-xl font-semibold"
             >
               تماشا و یادگیری
             </div>

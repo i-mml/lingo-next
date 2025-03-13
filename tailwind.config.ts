@@ -27,6 +27,15 @@ export default {
         borderMain: "var(--border-main)",
         borderSelected: "var(--border-selected)",
       },
+      keyframes: {
+        grow: {
+          "0%, 100%": { transform: "scaleY(1)" },
+          "50%": { transform: "scaleY(1.3)" },
+        },
+      },
+      animation: {
+        grow: "grow 1.5s ease infinite",
+      },
     },
   },
   plugins: [require("tailwindcss-rtl")],
