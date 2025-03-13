@@ -5,8 +5,8 @@ import React from "react";
 
 const CatalogPage = async () => {
   const accessToken = (await cookies()).get("zabano-access-token")?.value;
-  const catalogs = await GetCmsByContentType(1, accessToken);
-  const banners = await GetCmsByBanner(1, accessToken);
+  const catalogs = await GetCmsByContentType(6, accessToken);
+  const banners = await GetCmsByBanner(6, accessToken);
 
   return (
     <>
@@ -15,9 +15,9 @@ const CatalogPage = async () => {
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: "یادگیری زبان با فیلم و سریال و انیمیشن",
+          name: "یادگیری زبان با انیمیشن",
           description:
-            "مجموعه فیلم و سریال ها برای یادگیری زبان به کمک هوش مصنوعی",
+            "مجموعه انیمیشن های جذاب برای یادگیری زبان به کمک هوش مصنوعی",
           mainEntity: [
             ...banners.map((banner) => ({
               "@type": "CreativeWork",

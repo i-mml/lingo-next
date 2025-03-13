@@ -44,13 +44,19 @@ const CatalogBannersRowSlider = (props: CatalogPageTypes) => {
   };
 
   const bannerBreakPoints = {
-    1390: {
+    1550: {
       slidesPerView:
         !isGuest && whoAmI?.userpreference?.preferred_language !== 2 ? 5.9 : 7,
     },
 
+    1390: {
+      slidesPerView:
+        !isGuest && whoAmI?.userpreference?.preferred_language !== 2 ? 4.2 : 5,
+    },
+
     1024: {
-      slidesPerView: 5,
+      slidesPerView:
+        !isGuest && whoAmI?.userpreference?.preferred_language !== 2 ? 3.4 : 4,
     },
 
     760: {
@@ -138,14 +144,24 @@ const CatalogBannersRowSlider = (props: CatalogPageTypes) => {
                 >
                   <div className="relative w-fit">
                     <Image
-                      width={127}
-                      height={190.5}
+                      width={
+                        isGuest ||
+                        whoAmI?.userpreference?.preferred_language === 2
+                          ? 127
+                          : 212
+                      }
+                      height={
+                        isGuest ||
+                        whoAmI?.userpreference?.preferred_language === 2
+                          ? 190.5
+                          : 120
+                      }
                       className={clsx(
-                        `mx-auto !block rounded-lg w-[112px] h-[168px] md:w-[127px] md:h-[190.5px]`,
+                        `mx-auto !block rounded-lg`,
                         isGuest ||
                           whoAmI?.userpreference?.preferred_language === 2
-                          ? "rounded-lg"
-                          : ""
+                          ? "w-[112px] h-[168px] md:w-[127px] md:h-[190.5px]"
+                          : "w-[212px] h-[120px] "
                       )}
                       src={
                         process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL + node.image
@@ -215,7 +231,7 @@ const CatalogBannersRowSlider = (props: CatalogPageTypes) => {
                   )}
                 >
                   <div
-                    className="flex-1 line-clamp-1 text-white"
+                    className="flex-1 line-clamp-1 text-white text-lg lg:text-xl px-2 font-medium"
                     dir={
                       !isGuest &&
                       whoAmI?.userpreference?.preferred_language !== 2

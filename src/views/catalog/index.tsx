@@ -25,7 +25,7 @@ const CatalogView: FC<CatalogPageTypes> = (props) => {
   const router = useRouter();
 
   return (
-    <main className="">
+    <main className="pb-10">
       {isFreeOnly && (
         <div
           className="flex flex-wrap my-5 items-center"

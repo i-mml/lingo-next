@@ -52,7 +52,7 @@ const CatalogRowSliders = (props: CatalogPageTypes) => {
     1450: {
       slidesPerView:
         !isGuest && whoAmI?.userpreference?.preferred_language !== 2
-          ? 3.8
+          ? 4.2
           : 5.2,
     },
 
@@ -85,7 +85,7 @@ const CatalogRowSliders = (props: CatalogPageTypes) => {
   };
 
   return (
-    <section className="px-4 md:px-6">
+    <section className="px-4 md:px-6 mt-5">
       <div className="sliders-content-view">
         {catalogData?.map((section, index) => (
           <div key={index} className="slider-wrapper">
@@ -124,7 +124,7 @@ const CatalogRowSliders = (props: CatalogPageTypes) => {
                         isGuest ||
                           whoAmI?.userpreference?.preferred_language === 2
                           ? "w-[156px] h-[230px] md:w-[212px] md:h-[318px]"
-                          : "w-[262px] h-[147px] md:w-[305px] md:h-[172px]"
+                          : "w-[262px] h-[147px] md:w-[274px] md:h-[155px]"
                       )}
                       src={
                         process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL +

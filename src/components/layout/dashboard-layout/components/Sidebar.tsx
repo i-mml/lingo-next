@@ -28,10 +28,9 @@ import clsx from "clsx";
 const Sidebar = () => {
   const pathname = usePathname();
   const { whoAmI, isGuest } = useAuth();
-  const { theme }: any = useThemeCreator();
+
   const { t } = useTranslation();
-  const { theme: themeType } = useTheme();
-  console.log(themeType);
+
   const { toggleLoginModal } = useLoginModal();
   const [open, setOpen] = useState(false);
 
@@ -44,106 +43,119 @@ const Sidebar = () => {
       title: "",
       id: 0,
       items: [
-        !whoAmI?.has_subscription && {
-          id: 7,
+        {
+          id: 1,
           title: t("containers.sidebar.Subscriptions"),
           link: "/app/subscriptions",
           icon: <AutoAwesomeIcon />,
+          hide: !!whoAmI?.has_subscription,
         },
         {
-          id: 1,
+          id: 2,
           title: t("containers.sidebar.Home"),
           link: `/public/home`,
           icon: <HomeIcon />,
+          hide: false,
         },
-        !isGuest && {
-          id: 2,
+        {
+          id: 3,
           title: t("containers.sidebar.Bookmarks"),
           link: "/app/bookmarks",
           icon: <BookmarksIcon />,
+          hide: isGuest,
         },
       ],
     },
     {
       title: t("containers.sidebar.Category"),
-      id: 1,
+      id: 4,
       items: [
         {
-          id: 1,
+          id: 5,
           title: t("containers.sidebar.Movie and Series"),
           link: `/public/catalog`,
           icon: <TheatersIcon />,
-        },
-        {
-          id: 11,
-          title: t("containers.sidebar.Animations"),
-          link: `/public/animations`,
-          icon: <BedroomBabyOutlinedIcon />,
-        },
-        (!!isGuest || whoAmI?.userpreference?.preferred_language === 2) && {
-          id: 4,
-          title: t("containers.sidebar.Audio Book"),
-          link: `/public/audio-book`,
-
-          icon: <PlayLessonIcon />,
-        },
-        (!!isGuest || whoAmI?.userpreference?.preferred_language === 2) && {
-          id: 10,
-          title: t("containers.sidebar.Music"),
-          link: `/public/music-list`,
-          icon: <QueueMusicOutlinedIcon />,
-        },
-      ],
-    },
-    !isGuest && {
-      title: t("containers.sidebar.Learning"),
-      id: 2,
-      items: [
-        !isGuest &&
-          whoAmI?.userpreference?.preferred_language === 2 && {
-            id: 9,
-            title: t("containers.sidebar.Vocabulary"),
-            link: "/public/vocabulary",
-            icon: <TranslateIcon />,
-          },
-        !isGuest &&
-          whoAmI?.userpreference?.preferred_language === 2 && {
-            id: 5,
-            title: t("containers.sidebar.Grammers"),
-            link: `/public/grammar-list`,
-            icon: <AutoStoriesIcon />,
-          },
-        {
-          id: 2,
-          title: t("containers.sidebar.Review Words"),
-          link: "/app/review",
-          icon: <GradingIcon />,
+          hide: false,
         },
         {
           id: 6,
-          title: t("containers.sidebar.Quiz"),
-          link: "/app/quiz",
-          icon: <QuizIcon />,
+          title: t("containers.sidebar.Animations"),
+          link: `/public/animations`,
+          icon: <BedroomBabyOutlinedIcon />,
+          hide: false,
+        },
+        {
+          id: 7,
+          title: t("containers.sidebar.Audio Book"),
+          link: `/public/audio-book`,
+          icon: <PlayLessonIcon />,
+          hide: false,
         },
         {
           id: 8,
+          title: t("containers.sidebar.Music"),
+          link: `/public/music-list`,
+          icon: <QueueMusicOutlinedIcon />,
+          hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
+        },
+      ],
+      hide: false,
+    },
+    {
+      title: t("containers.sidebar.Learning"),
+      id: 9,
+      items: [
+        {
+          id: 10,
+          title: t("containers.sidebar.Vocabulary"),
+          link: "/public/vocabulary",
+          icon: <TranslateIcon />,
+          hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
+        },
+        {
+          id: 11,
+          title: t("containers.sidebar.Grammers"),
+          link: `/public/grammar-list`,
+          icon: <AutoStoriesIcon />,
+          hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
+        },
+        {
+          id: 12,
+          title: t("containers.sidebar.Review Words"),
+          link: "/app/review",
+          icon: <GradingIcon />,
+          hide: false,
+        },
+        {
+          id: 13,
+          title: t("containers.sidebar.Quiz"),
+          link: "/app/quiz",
+          icon: <QuizIcon />,
+          hide: false,
+        },
+        {
+          id: 14,
           title: t("containers.sidebar.Victionary"),
           link: "/app/dictionary",
           icon: <ScreenSearchDesktopIcon />,
+          hide: false,
         },
       ],
+      hide: isGuest,
     },
-    !isGuest && {
+    {
       title: t("containers.sidebar.User"),
-      id: 3,
+      id: 15,
       items: [
         {
-          id: 3,
+          id: 16,
           title: t("containers.sidebar.Account"),
           link: "/app/account",
           icon: <PersonOutlineOutlinedIcon />,
+          hide: false,
         },
       ],
+      hide: isGuest,
     },
   ];
 
@@ -163,65 +175,65 @@ const Sidebar = () => {
       />
 
       <nav>
-        {sidebarItems?.map((item: any) => (
-          <div key={item?.id} className="mt-4">
-            <div className="text-gray400 text-[16px] font-bold pr-3 mb-2">
-              {item?.title}
-            </div>
+        {sidebarItems
+          ?.filter((node) => !node?.hide)
+          ?.map((item) => (
+            <div key={item?.id} className="mt-4">
+              <div className="text-gray400 text-[16px] font-bold pr-3 mb-2">
+                {item?.title}
+              </div>
 
-            <ul className="p-0 m-0">
-              {item?.items
-                ?.filter((linkItem: any) =>
-                  isGuest ? linkItem?.link?.includes("public") : linkItem
-                )
-                ?.map((node: any) => (
-                  <li
-                    key={node?.id}
-                    className={`py-2 px-3 flex items-center list-none text-main rounded-xl transition-all hover:bg-backgroundDisabled ${
-                      pathname === node?.link
-                        ? "!text-backgroundMain !bg-main font-bold opacity-100"
-                        : ""
-                    }`}
-                    onClick={node?.action || function () {}}
-                  >
-                    <Badge
-                      overlap="rectangular"
-                      variant="dot"
-                      classes={{
-                        dot: node?.hasBadge ? "bg-primary" : "bg-none",
-                      }}
+              <ul className="p-0 m-0">
+                {item?.items
+                  ?.filter((linkItem: any) => !linkItem?.hide)
+                  ?.map((node: any) => (
+                    <li
+                      key={node?.id}
+                      className={`py-2 px-3 flex items-center list-none text-main rounded-xl transition-all hover:bg-backgroundDisabled ${
+                        pathname === node?.link
+                          ? "!text-backgroundMain !bg-main font-bold opacity-100"
+                          : ""
+                      }`}
+                      onClick={node?.action || function () {}}
                     >
-                      <span
-                        className={clsx(
-                          "text-[25px] !leading-[0]",
-                          pathname === node?.link
-                            ? "!text-backgroundMain"
-                            : "text-main"
-                        )}
+                      <Badge
+                        overlap="rectangular"
+                        variant="dot"
+                        classes={{
+                          dot: node?.hasBadge ? "bg-primary" : "bg-none",
+                        }}
                       >
-                        {node?.icon}
-                      </span>
-                      {!node?.action ? (
-                        <Link
-                          href={node?.link}
+                        <span
                           className={clsx(
-                            "no-underline font-bold cursor-pointer text-main mr-2.5",
+                            "text-[25px] !leading-[0]",
                             pathname === node?.link
                               ? "!text-backgroundMain"
                               : "text-main"
                           )}
                         >
-                          {node?.title}
-                        </Link>
-                      ) : (
-                        <div className="list-link">{node?.title}</div>
-                      )}
-                    </Badge>
-                  </li>
-                ))}
-            </ul>
-          </div>
-        ))}
+                          {node?.icon}
+                        </span>
+                        {!node?.action ? (
+                          <Link
+                            href={node?.link}
+                            className={clsx(
+                              "no-underline font-bold cursor-pointer text-main mr-2.5",
+                              pathname === node?.link
+                                ? "!text-backgroundMain"
+                                : "text-main"
+                            )}
+                          >
+                            {node?.title}
+                          </Link>
+                        ) : (
+                          <div className="list-link">{node?.title}</div>
+                        )}
+                      </Badge>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          ))}
         {isGuest && (
           <Button className="w-full" onClick={toggleLoginModal}>
             ورود | ثبت نام
