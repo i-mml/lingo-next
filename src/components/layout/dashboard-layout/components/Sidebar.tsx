@@ -160,7 +160,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className="flex-1 w-[236px] md:w-[180px] hidden lg:block sticky left-0 top-0 z-[99] bg-backgroundMain min-h-[100vh] px-4 py-6"
+      className="flex-1 w-[236px] md:w-[186px] hidden lg:block sticky left-0 top-0 z-[99] bg-backgroundMain min-h-[100vh] px-4 py-6 border-l border-borderMain"
       style={{
         boxShadow: "7px 0 12px 0 rgba(0, 0, 0, 0.1)",
       }}
@@ -188,7 +188,7 @@ const Sidebar = () => {
                   ?.map((node: any) => (
                     <li
                       key={node?.id}
-                      className={`py-2 px-3 flex items-center list-none text-main rounded-xl transition-all hover:bg-backgroundDisabled ${
+                      className={`mt-1 py-2 px-3 flex items-center list-none text-main rounded-xl transition-all hover:bg-backgroundDisabled ${
                         pathname === node?.link
                           ? "!text-backgroundMain !bg-main font-bold opacity-100"
                           : ""

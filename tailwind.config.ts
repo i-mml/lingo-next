@@ -5,6 +5,7 @@ export default {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@mui/material/**/*.js",
   ],
   darkMode: "class",
   theme: {
@@ -30,6 +31,6 @@ export default {
   },
   plugins: [require("tailwindcss-rtl")],
   corePlugins: {
-    preflight: false, // Disable to prevent conflicts with MUI
+    preflight: true,
   },
 } satisfies Config;
