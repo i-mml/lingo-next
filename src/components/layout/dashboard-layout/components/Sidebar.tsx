@@ -22,6 +22,7 @@ import Link from "next/link";
 import { useLoginModal } from "@/store/useLoginModal";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import PrimaryButton from "@/components/shared/PrimaryButton";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -160,7 +161,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className="flex-1 w-[236px] md:w-[186px] hidden lg:block sticky left-0 top-0 z-[99] bg-backgroundMain min-h-[100vh] px-4 py-6 border-l border-borderMain"
+      className="flex-1 w-[236px] md:w-[200px] hidden lg:block sticky left-0 top-0 z-[99] bg-backgroundMain min-h-[100vh] px-4 py-6 border-l border-borderMain"
       style={{
         boxShadow: "7px 0 12px 0 rgba(0, 0, 0, 0.1)",
       }}
@@ -233,10 +234,10 @@ const Sidebar = () => {
               </ul>
             </div>
           ))}
-        {isGuest && (
-          <Button className="w-full" onClick={toggleLoginModal}>
+        {!isGuest && (
+          <PrimaryButton className="w-full mt-2" onClick={toggleLoginModal}>
             ورود | ثبت نام
-          </Button>
+          </PrimaryButton>
         )}
       </nav>
     </div>

@@ -16,6 +16,12 @@ const breakpoints = {
 
 const darkTheme = createTheme({
   breakpoints,
+  typography: {
+    fontFamily: ["Dana"].join(","),
+    allVariants: {
+      fontFamily: "inherit",
+    },
+  },
   direction: "rtl",
   palette: {
     type: "dark",
