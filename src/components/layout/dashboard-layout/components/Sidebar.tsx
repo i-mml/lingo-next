@@ -6,23 +6,21 @@ import { useTranslation } from "react-i18next";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import BedroomBabyOutlinedIcon from "@mui/icons-material/BedroomBabyOutlined";
-import BookmarksIcon from "@mui/icons-material/Bookmarks";
+import PlayLessonOutlinedIcon from "@mui/icons-material/PlayLessonOutlined";
 import QueueMusicOutlinedIcon from "@mui/icons-material/QueueMusicOutlined";
 import ScreenSearchDesktopIcon from "@mui/icons-material/ScreenSearchDesktop";
 import TranslateIcon from "@mui/icons-material/Translate";
-import useThemeCreator from "@/hooks/useTheme";
-import HomeIcon from "@mui/icons-material/Home";
+import BookmarksOutlinedIcon from "@mui/icons-material/BookmarksOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import TheatersIcon from "@mui/icons-material/Theaters";
-import PlayLessonIcon from "@mui/icons-material/PlayLesson";
 import GradingIcon from "@mui/icons-material/Grading";
-import QuizIcon from "@mui/icons-material/Quiz";
+import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import Image from "next/image";
 import { Badge, Button } from "@mui/material";
 import Link from "next/link";
 import { useLoginModal } from "@/store/useLoginModal";
 import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
 import clsx from "clsx";
 
 const Sidebar = () => {
@@ -54,14 +52,15 @@ const Sidebar = () => {
           id: 2,
           title: t("containers.sidebar.Home"),
           link: `/public/home`,
-          icon: <HomeIcon />,
+          icon: <HomeOutlinedIcon />,
+
           hide: false,
         },
         {
           id: 3,
           title: t("containers.sidebar.Bookmarks"),
           link: "/app/bookmarks",
-          icon: <BookmarksIcon />,
+          icon: <BookmarksOutlinedIcon />,
           hide: isGuest,
         },
       ],
@@ -88,7 +87,7 @@ const Sidebar = () => {
           id: 7,
           title: t("containers.sidebar.Audio Book"),
           link: `/public/audio-book`,
-          icon: <PlayLessonIcon />,
+          icon: <PlayLessonOutlinedIcon />,
           hide: false,
         },
         {
@@ -130,7 +129,7 @@ const Sidebar = () => {
           id: 13,
           title: t("containers.sidebar.Quiz"),
           link: "/app/quiz",
-          icon: <QuizIcon />,
+          icon: <QuizOutlinedIcon />,
           hide: false,
         },
         {
