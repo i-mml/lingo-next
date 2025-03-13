@@ -169,10 +169,8 @@ const CatalogBannersRowSlider = (props: CatalogPageTypes) => {
                       src={
                         process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL + node.image
                       }
-                      alt={
-                        process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL +
-                          node.title || ""
-                      }
+                      alt={node.title}
+                      priority
                     />
                     {node?.is_locked && <NeedSubscriptionMovieBadge />}
                   </article>
@@ -228,6 +226,7 @@ const CatalogBannersRowSlider = (props: CatalogPageTypes) => {
                     }
                     alt={node.title}
                     className="!rounded-xl object-cover"
+                    priority
                   />
                   <div
                     className={clsx(

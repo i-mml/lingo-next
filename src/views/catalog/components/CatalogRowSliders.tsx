@@ -132,6 +132,7 @@ const CatalogRowSliders = (props: CatalogPageTypes) => {
                       }
                       alt={movie.title}
                       onClick={() => handleClickMovie(movie)}
+                      loading="lazy"
                     />
                     <div
                       className={clsx(
