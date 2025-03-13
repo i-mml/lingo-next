@@ -19,7 +19,9 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { contentTypeInfos } from "@/constants/content-types-infos";
 import NeedSubscriptionMovieBadge from "@/components/shared/NeedSubscriptionMovieBadge";
 
-const CatalogRowSliders = (props: CatalogPageTypes) => {
+const CatalogRowSliders = (
+  props: Pick<CatalogPageTypes, "catalogData" | "isFreeOnly">
+) => {
   const { catalogData, isFreeOnly } = props;
 
   const router = useRouter();

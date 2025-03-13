@@ -40,7 +40,7 @@ export interface CmsBannerItem {
   image: string;
   preview_image: string;
   banner_image: string;
-  content_type: string;
+  content_type: ContentType;
   publish_date: string | null;
   created_at: string;
   updated_at: string;

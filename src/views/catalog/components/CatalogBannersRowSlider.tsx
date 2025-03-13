@@ -24,7 +24,9 @@ const slideVariants = {
   exit: { opacity: 0, transition: { duration: 0.5 } },
 };
 
-const CatalogBannersRowSlider = (props: CatalogPageTypes) => {
+const CatalogBannersRowSlider = (
+  props: Pick<CatalogPageTypes, "isFreeOnly" | "banners">
+) => {
   const { banners, isFreeOnly } = props;
 
   const router = useRouter();

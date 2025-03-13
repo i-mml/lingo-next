@@ -21,7 +21,7 @@ const CatalogBannersRowSlider = dynamic(
 );
 
 const CatalogView: FC<CatalogPageTypes> = (props) => {
-  const { isFreeOnly } = props;
+  const { isFreeOnly, banners, catalogData } = props;
   const router = useRouter();
 
   return (
@@ -41,8 +41,8 @@ const CatalogView: FC<CatalogPageTypes> = (props) => {
         </div>
       )}
 
-      <CatalogBannersRowSlider {...props} />
-      <CatalogRowSliders {...props} />
+      <CatalogBannersRowSlider banners={banners} isFreeOnly={isFreeOnly} />
+      <CatalogRowSliders catalogData={catalogData} isFreeOnly={isFreeOnly} />
     </main>
   );
 };
