@@ -142,7 +142,10 @@ const CatalogBannersRowSlider = (props: CatalogPageTypes) => {
                     handleClickMovie(node as any);
                   }}
                 >
-                  <div className="relative w-fit">
+                  <article
+                    aria-labelledby={`item-${node.id}-title`}
+                    className="relative w-fit"
+                  >
                     <Image
                       width={
                         isGuest ||
@@ -172,7 +175,7 @@ const CatalogBannersRowSlider = (props: CatalogPageTypes) => {
                       }
                     />
                     {node?.is_locked && <NeedSubscriptionMovieBadge />}
-                  </div>
+                  </article>
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -205,44 +208,50 @@ const CatalogBannersRowSlider = (props: CatalogPageTypes) => {
           >
             {banners?.map((node) => (
               <SwiperSlide
-                className="!rounded-lg relative"
+                className="!rounded-lg "
                 key={node?.id}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleClickMovie(node as any);
                 }}
               >
-                <Image
-                  width={343}
-                  height={194}
-                  src={process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL + node.image}
-                  alt={
-                    process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL +
-                    node.preview_image
-                  }
-                  className="!rounded-xl object-cover"
-                />
-                <div
-                  className={clsx(
-                    "absolute bottom-0 right-0 left-0 bg-[black]/60 rounded-b-lg flex items-center z-50",
-                    !isGuest && whoAmI?.userpreference?.preferred_language !== 2
-                      ? "py-0.5 px-0.5"
-                      : "py-2 px-2"
-                  )}
+                <article
+                  className="relative"
+                  key={node.id}
+                  aria-labelledby={`item-${node.id}-title`}
                 >
-                  <div
-                    className="flex-1 line-clamp-1 text-white text-lg lg:text-xl px-2 font-medium"
-                    dir={
-                      !isGuest &&
-                      whoAmI?.userpreference?.preferred_language !== 2
-                        ? "ltr"
-                        : "rtl"
+                  <Image
+                    width={343}
+                    height={194}
+                    src={
+                      process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL + node.image
                     }
+                    alt={node.title}
+                    className="!rounded-xl object-cover"
+                  />
+                  <div
+                    className={clsx(
+                      "absolute bottom-0 right-0 left-0 bg-[black]/60 rounded-b-lg flex items-center z-50",
+                      !isGuest &&
+                        whoAmI?.userpreference?.preferred_language !== 2
+                        ? "py-0.5 px-0.5"
+                        : "py-2 px-2"
+                    )}
                   >
-                    {node?.title || ""}
+                    <h2
+                      className="flex-1 line-clamp-1 text-white text-lg lg:text-xl px-2 font-medium"
+                      dir={
+                        !isGuest &&
+                        whoAmI?.userpreference?.preferred_language !== 2
+                          ? "ltr"
+                          : "rtl"
+                      }
+                    >
+                      {node?.title || ""}
+                    </h2>
                   </div>
-                </div>
-                {node?.is_locked && <NeedSubscriptionMovieBadge />}
+                  {node?.is_locked && <NeedSubscriptionMovieBadge />}
+                </article>
               </SwiperSlide>
             ))}
           </Swiper>

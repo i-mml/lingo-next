@@ -105,7 +105,7 @@ const CatalogRowSliders = (props: CatalogPageTypes) => {
                   onClick={() => handleClickMovie(movie)}
                   className={clsx("rounded-lg")}
                 >
-                  <div className="relative w-fit">
+                  <article className="relative w-fit">
                     <Image
                       width={
                         isGuest ||
@@ -120,7 +120,7 @@ const CatalogRowSliders = (props: CatalogPageTypes) => {
                           : 147
                       }
                       className={clsx(
-                        "rounded-lg object-cover",
+                        "rounded-lg object-cover cursor-pointer",
                         isGuest ||
                           whoAmI?.userpreference?.preferred_language === 2
                           ? "w-[156px] h-[230px] md:w-[212px] md:h-[318px]"
@@ -130,22 +130,19 @@ const CatalogRowSliders = (props: CatalogPageTypes) => {
                         process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL +
                         movie.image
                       }
-                      alt={
-                        process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL +
-                        movie.title
-                      }
+                      alt={movie.title}
                       onClick={() => handleClickMovie(movie)}
                     />
                     <div
                       className={clsx(
-                        "absolute bottom-2 right-0 left-0 bg-[black]/60 rounded-b-lg flex items-center z-50",
+                        "absolute bottom-0 right-0 left-0 bg-[black]/60 rounded-b-lg flex items-center z-50",
                         !isGuest &&
                           whoAmI?.userpreference?.preferred_language !== 2
                           ? "py-0.5 px-0.5"
                           : "py-2 px-2"
                       )}
                     >
-                      <div
+                      <h2
                         className="flex-1 line-clamp-1 text-white"
                         dir={
                           !isGuest &&
@@ -155,7 +152,7 @@ const CatalogRowSliders = (props: CatalogPageTypes) => {
                         }
                       >
                         {movie?.title || ""}
-                      </div>
+                      </h2>
                       {!isGuest && (
                         <div
                           onClick={(e) => {
@@ -184,7 +181,7 @@ const CatalogRowSliders = (props: CatalogPageTypes) => {
                       )}
                     </div>
                     {movie?.is_locked && <NeedSubscriptionMovieBadge />}
-                  </div>
+                  </article>
                 </SwiperSlide>
               ))}
             </Swiper>
