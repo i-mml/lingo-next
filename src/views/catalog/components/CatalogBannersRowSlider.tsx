@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/use-auth";
 import React, { useState } from "react";
 import { A11y, Autoplay } from "swiper/modules";
 
@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { CatalogPageTypes } from "../types";
 import { CmsCatalogItem } from "@/api/types/cms";
 import { useRouter } from "next/navigation";
-import { contentTypeInfos } from "@/constants/contentTypesInfos";
+import { contentTypeInfos } from "@/constants/content-types-infos";
 import NeedSubscriptionMovieBadge from "@/components/shared/NeedSubscriptionMovieBadge";
 import { isMobile } from "react-device-detect";
 import { motion } from "framer-motion";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useThemeType } from "@/store/useThemeType";
+import { useThemeType } from "@/store/use-theme-type";
 import { useLayoutEffect } from "react";
 
 const ThemeChanger = () => {

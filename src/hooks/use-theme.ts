@@ -1,6 +1,6 @@
 import { createTheme, responsiveFontSizes } from "@mui/material";
 import { useLanguage } from "../store";
-import { useThemeType } from "../store/useThemeType";
+import { useThemeType } from "../store/use-theme-type";
 import { getDirection } from "@/utils/getDirection";
 import { useTheme } from "next-themes";
 

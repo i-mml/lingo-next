@@ -3,7 +3,7 @@
 import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useEffect, useState } from "react";
-import useThemeCreator from "@/hooks/useTheme";
+import useThemeCreator from "@/hooks/use-theme";
 
 export default function ThemeRegistry({
   children,

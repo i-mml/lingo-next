@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/use-auth";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
@@ -19,7 +19,7 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import Image from "next/image";
 import { Badge, Button } from "@mui/material";
 import Link from "next/link";
-import { useLoginModal } from "@/store/useLoginModal";
+import { useLoginModal } from "@/store/use-login-modal";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import PrimaryButton from "@/components/shared/PrimaryButton";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/use-auth";
 import AnswerItem from "@/views/how-to-use/components/AnswerItem";
 import React, { useState } from "react";
 import { A11y, Navigation, Pagination, Scrollbar } from "swiper/modules";
@@ -9,14 +9,14 @@ import OpenModalButton from "./OpenModalButton";
 import clsx from "clsx";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import useThemeCreator from "@/hooks/useTheme";
+import useThemeCreator from "@/hooks/use-theme";
 import useBookMarkMutation from "@/hooks/use-bookmark-mutation";
 import { CatalogPageTypes } from "../types";
 import { CmsCatalogItem } from "@/api/types/cms";
 import { useRouter } from "next/navigation";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import { contentTypeInfos } from "@/constants/contentTypesInfos";
+import { contentTypeInfos } from "@/constants/content-types-infos";
 import NeedSubscriptionMovieBadge from "@/components/shared/NeedSubscriptionMovieBadge";
 
 const CatalogRowSliders = (props: CatalogPageTypes) => {
