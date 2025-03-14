@@ -161,7 +161,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className="flex-1 w-[236px] md:w-[200px] hidden lg:block sticky left-0 top-0 z-[99] bg-backgroundMain min-h-[100vh] px-4 py-6 border-l border-borderMain"
+      className="w-[236px] md:w-[200px] hidden lg:block sticky left-0 top-0 z-[99] bg-backgroundMain min-h-[100vh] px-4 py-6 border-l border-borderMain"
       style={{
         boxShadow: "7px 0 12px 0 rgba(0, 0, 0, 0.1)",
       }}

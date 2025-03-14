@@ -71,7 +71,7 @@ const AudioBookRowSliders = (
               spaceBetween="10px"
             >
               {section?.movies?.map((movie, movieIndex) => (
-                <SwiperSlide key={movieIndex} className={clsx("rounded-lg")}>
+                <SwiperSlide key={movie.id} className={clsx("rounded-lg")}>
                   <Link
                     href={`/public/${
                       contentTypeInfos?.[movie?.content_type]?.route
