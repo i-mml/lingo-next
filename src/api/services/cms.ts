@@ -1,6 +1,6 @@
-import axios from "axios";
 import { CmsBannerItem, CmsCatalogList } from "../types/cms";
 import axiosAuth from "../configs/axiosAuth";
+import axiosInstance from "../configs";
 
 export const GetCmsByContentType = async (
   contentType: number,
@@ -36,4 +36,10 @@ export const GetCmsByBanner = async (contentType: number, token?: string) => {
   );
 
   return response.data as CmsBannerItem[];
+};
+
+export const GetCmsLanguage = async () => {
+  const response = await axiosInstance.get("/cms/language/");
+
+  return response;
 };
