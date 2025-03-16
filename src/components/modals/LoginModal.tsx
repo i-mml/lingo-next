@@ -1,5 +1,6 @@
 import React from "react";
 import CustomModal from "@/components/shared/CustomModal";
+import LoginView from "@/views/login";
 
 interface ModalProps {
   open: boolean;
@@ -12,8 +13,10 @@ const LoginModal = (props: ModalProps) => {
   return (
     <CustomModal open={open} toggle={onClose}>
       <div className="w-full lg:w-[500px] min-h-[60vh]">
-        login modal
-        {/* <LoginView inModal inModalCallback={inModalCallback ? inModalCallback : onClose} /> */}
+        <LoginView
+          inModal
+          inModalCallback={inModalCallback ? inModalCallback : onClose}
+        />
       </div>
     </CustomModal>
   );

@@ -32,7 +32,7 @@ const CustomModal = (props: IProps) => {
       }}
     >
       <div className="relative w-full">
-        <div className="absolute top-2 right-[45.56%] !block md:!hidden w-[8.88%] h-1 bg-gray-700 rounded sm:block"></div>
+        <div className="absolute -top-4 right-[45%] !block md:!hidden w-[10%] h-1 bg-gray-700 rounded sm:block"></div>
         {children}
       </div>
     </Dialog>
