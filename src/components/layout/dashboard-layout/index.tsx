@@ -5,9 +5,12 @@ import Sidebar from "./components/Sidebar";
 import AppHeader from "./components/AppHeader";
 import { isMobile } from "react-device-detect";
 import { usePathname } from "next/navigation";
+import LoginModal from "@/components/modals/LoginModal";
+import { useLoginModal } from "@/store/use-login-modal";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
+  const { isOpen, toggleLoginModal } = useLoginModal();
 
   const noHeaderRoutes = ["/quiz", `app/on-boarding`];
   const includesNoHeaderRotes = (pathname: string, strings: string[]) => {
@@ -22,6 +25,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
         {!includesNoHeaderRotes(pathname, noHeaderRoutes) && <AppHeader />}
         <div className="pt-24">{children}</div>
       </div>
+      {isOpen && <LoginModal open={isOpen} onClose={toggleLoginModal} />}
     </div>
   );
 };

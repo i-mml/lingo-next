@@ -234,7 +234,7 @@ const Sidebar = () => {
               </ul>
             </div>
           ))}
-        {!isGuest && (
+        {isGuest && (
           <PrimaryButton className="w-full mt-2" onClick={toggleLoginModal}>
             ورود | ثبت نام
           </PrimaryButton>
