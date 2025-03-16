@@ -18,10 +18,9 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
     <div className="flex items-start bg-backgroundLayout">
       <Sidebar />
 
-      <div className="w-full flex-1 md:w-[calc(100%-200)] relative pb-10 relative">
+      <div className="w-full flex-1 md:w-[calc(100%-200px)] relative pb-10">
         {!includesNoHeaderRotes(pathname, noHeaderRoutes) && <AppHeader />}
-
-        {children}
+        <div className="pt-24">{children}</div>
       </div>
     </div>
   );
