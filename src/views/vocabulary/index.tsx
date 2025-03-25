@@ -13,7 +13,7 @@ const VocabularyView = ({ data }: { data: VocabularyListItem[] }) => {
         <h1 className="text-lg lg:text-3xl font-bold text-main">
           منابع بین‌المللی یادگیری لغات انگلیسی با استاندارد جهانی
         </h1>
-        <p className="text-lg text-gray-700 leading-8 w-full">
+        <p className="text-lg text-gray400 leading-8 w-full">
           یادگیری لغات انگلیسی با استفاده از معتبرترین کتاب‌های آموزشی جهان مثل{" "}
           <strong>Oxford 3000</strong>، <strong>Longman Communication</strong> و{" "}
           <strong>Essential Words</strong>

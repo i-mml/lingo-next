@@ -22,6 +22,8 @@ import HeaderChangeLanguageMenu from "./HeaderChangeLanguageMenu";
 import useThemeCreator from "@/hooks/use-theme";
 import { useTheme } from "next-themes";
 import Image from "next/image";
+import DrawerMenu from "./DrawerMenu";
+import SearchModal from "@/components/modals/SearchModal";
 
 const AppHeader: React.FC = () => {
   const { t: translate } = useTranslation();
@@ -97,9 +99,9 @@ const AppHeader: React.FC = () => {
             sx={{ color: theme.palette.text.main }}
           >
             {appTheme === "dark" ? (
-              <NightsStayIcon sx={{ color: theme.palette.text.secondary }} />
+              <NightsStayIcon className="text-gray-400" />
             ) : (
-              <LightModeIcon sx={{ color: theme.palette.warning.main }} />
+              <LightModeIcon className="text-orange-400" />
             )}
           </IconButton>
 
@@ -108,7 +110,7 @@ const AppHeader: React.FC = () => {
             className="catalog-filter cursor-pointer mr-3 flex items-center w-1/4 min-w-[150px] bg-main-background rounded-full border border-layout-border h-12 px-4"
           >
             <SearchIcon sx={{ color: theme.palette.text.gray400 }} />
-            <div className="catalog-filter-input text-main-text text-base ml-2">
+            <div className="catalog-filter-input text-gray400 text-base ml-2">
               {translate("pages.catalog.Search Placeholder")}
             </div>
           </div>
@@ -191,12 +193,12 @@ const AppHeader: React.FC = () => {
         )}
       </div>
 
-      {/* {openDrawerMenu && (
+      {openDrawerMenu && (
         <DrawerMenu open={openDrawerMenu} toggleDrawerMenu={toggleDrawerMenu} />
       )}
       {searchModal && (
         <SearchModal open={searchModal} toggleModal={toggleSearchModal} />
-      )} */}
+      )}
     </header>
   );
 };

@@ -43,7 +43,13 @@ export const GetCmsLanguage = async () => {
 
   return response;
 };
+export const GetCmsMovies = async (search?: string) => {
+  const response = await axiosInstance
+    .get(`/cms/movies?search=${search}`)
+    .then((res) => res?.data);
 
+  return response;
+};
 export const getCmsSearch = async (search?: string) => {
   const response = await axiosInstance.get(`/cms/search/?q=${search}`);
 
