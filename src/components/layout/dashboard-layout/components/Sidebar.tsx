@@ -92,11 +92,12 @@ const Sidebar = () => {
           icon: <PlayLessonOutlinedIcon />,
           hide: false,
         },
-        (!!isGuest || whoAmI?.userpreference?.preferred_language === 2) && {
-          id: 10,
+        {
+          id: 17,
           title: t("containers.sidebar.Podcasts"),
           link: `/public/podcast-list`,
           icon: <PodcastsIcon />,
+          hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
         },
         {
           id: 8,
@@ -165,6 +166,8 @@ const Sidebar = () => {
       hide: isGuest,
     },
   ];
+
+  console.log(sidebarItems);
 
   return (
     <div
