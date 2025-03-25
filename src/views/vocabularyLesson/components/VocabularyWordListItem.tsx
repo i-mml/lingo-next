@@ -8,7 +8,9 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
   Divider,
+  IconButton,
 } from "@mui/material";
 import React, { useState } from "react";
 import SpeakerIcon from "@/assets/speaker.svg";
@@ -35,11 +37,11 @@ const VocabularyWordListItem = ({
   };
 
   return (
-    <>
-      <Accordion className="w-full !rounded-lg">
+    <Box className="[&_.MuiPaper-root]:bg-backgroundMain [&_.MuiPaper-root]:text-main">
+      <Accordion className="w-full !rounded-lg ">
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
-          className="!rounded-lg [&_.MuiAccordionSummary-expandIconWrapper]:text-gray-400"
+          className="!rounded-lg [&_.MuiAccordionSummary-expandIconWrapper]:!text-gray-400"
         >
           <div
             dir="ltr"
@@ -49,15 +51,16 @@ const VocabularyWordListItem = ({
               <span className="text-main font-medium text-lg lg:text-xl">
                 {index + 1}. {item?.text}
               </span>
-              <button
+              <div
                 className="cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleTextToSpeech({ text: item?.text });
-                }}
-                disabled={
+                onClick={
                   textToSpeachMutation?.isLoading &&
                   textToSpeachMutation?.text === item?.text
+                    ? () => {}
+                    : (e) => {
+                        e.stopPropagation();
+                        handleTextToSpeech({ text: item?.text });
+                      }
                 }
               >
                 {textToSpeachMutation?.isLoading &&
@@ -66,7 +69,7 @@ const VocabularyWordListItem = ({
                 ) : (
                   <SpeakerIcon />
                 )}
-              </button>
+              </div>
             </div>
             <WordTranslateListItem
               isBlurred={isBlurred}
@@ -124,7 +127,7 @@ const VocabularyWordListItem = ({
           }}
         />
       )}
-    </>
+    </Box>
   );
 };
 

@@ -1,12 +1,17 @@
-import { createWithEqualityFn } from "zustand/traditional";
+// lib/stores/player-store.ts
+import { create } from "zustand";
+import { shallow } from "zustand/shallow";
 
-export interface IPlayerBoxStoreType {
-  currentSubtitle: any;
+interface PlayerState {
+  currentSubtitle: string;
   currentCaptionIndex: number;
   playedSeconds: number;
+  setCurrentSubtitle: (subtitle: string) => void;
+  setCurrentCaptionIndex: (index: number) => void;
+  setPlayedSeconds: (second: number) => void;
 }
 
-const usePlayerBoxStore = createWithEqualityFn((set) => ({
+const usePlayerStore = create<PlayerState>()((set) => ({
   currentSubtitle: "",
   currentCaptionIndex: 0,
   playedSeconds: 0,
@@ -17,4 +22,4 @@ const usePlayerBoxStore = createWithEqualityFn((set) => ({
   setPlayedSeconds: (second: number) => set({ playedSeconds: second }),
 }));
 
-export default usePlayerBoxStore;
+export default usePlayerStore;

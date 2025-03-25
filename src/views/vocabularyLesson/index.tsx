@@ -55,6 +55,8 @@ const VocabularyLessonView = ({
       />
       <div className="flex items-center gap-4 mb-6">
         <Image
+          width={98}
+          height={157.5}
           alt={currentVocabulary?.title}
           src={currentVocabulary?.image}
           className="w-[98px] h-[157.5px] md:w-[105.6px] md:h-[200px] rounded-lg object-cover"

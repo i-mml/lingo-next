@@ -1,0 +1,51 @@
+.react-player video {
+  border-radius: 10px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  @media (max-width: 768px) {
+    height: unset !important;
+  }
+  /* Add more styles as needed */
+}
+
+.flashcard-actions-wrapper {
+  transition: 0.3s ease-in;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 10px;
+  .flashcard-actions-button {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+  }
+  .red-action,
+  .green-action,
+  .blue-action,
+  .learned-green-action {
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+  }
+  .green-action {
+    path {
+      fill: #97e590;
+    }
+  }
+  .learned-green-action {
+    background-color: #97e590;
+    path {
+      fill: #262626;
+    }
+  }
+  .red-action {
+    path {
+      fill: #ffe2e3;
+    }
+  }
+  .blue-action {
+    path {
+      stroke: #88c1ff;
+    }
+  }
+}

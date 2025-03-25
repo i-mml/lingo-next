@@ -49,7 +49,7 @@ const DictionaryModal = (props: Props) => {
 
   const cmsSearchMutation = useMutation({
     mutationFn: (text: string) => getCmsSearch(text),
-    mutationKey: ["search-in-dictionary-modal"],
+    mutationKey: ["search-in-dictionary-modal", searchedText],
   });
 
   const postFlashcardsMutation = useMutation({
@@ -152,12 +152,8 @@ const DictionaryModal = (props: Props) => {
                 <WaveLoading />
               ) : (
                 <div className="flex justify-center items-center gap-1 lg:gap-2 ">
-                  <LibraryAddIcon
-                    sx={{
-                      color: theme.palette.text.main,
-                    }}
-                  />
                   <span className="text-main">افزودن به فلش کارت</span>
+                  <LibraryAddIcon className="text-main" />
                 </div>
               )}
             </OutlineButton>

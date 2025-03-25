@@ -1,18 +1,17 @@
 import React from "react";
-import { Button } from "@mui/material";
 
 const OutlineButton = ({
   children,
-  height = "49.9px",
+  height = 49,
   onClick,
   className = "",
   style = {},
   buttonProps = {},
 }: any) => {
   return (
-    <Button
+    <button
+      style={{ height: `${height}px`, ...style }}
       className={`
-        h-[${height}]
         max-h-[50px]
         px-2
         font-dana
@@ -32,16 +31,14 @@ const OutlineButton = ({
         }
         cursor-pointer
         outline-none
-        text-primary ${className}
+        !text-primary ${className}
       `}
-      variant="outlined"
       height={height}
       onClick={onClick}
-      style={style}
       {...buttonProps}
     >
       {children}
-    </Button>
+    </button>
   );
 };
 

@@ -6,14 +6,11 @@ import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
-
 import { isIOS } from "react-device-detect";
-import { shallow } from "zustand/shallow";
-
 import TooltipBox from "./TooltipBox";
 import SpeachCompareModal from "../modals/SpeachCompareModal";
-import dynamic from "next/dynamic";
 import usePlayerBoxStore from "@/store/use-playerbox-store";
+import "@/styles/player.css";
 
 export interface IProps {
   playerState?: boolean;
@@ -47,12 +44,7 @@ export const PlayerBox = ({
     maxMaxBufferLength: 90,
   };
 
-  const { currentSubtitle } = usePlayerBoxStore(
-    (state: any) => ({
-      currentSubtitle: state.currentSubtitle,
-    }),
-    shallow
-  );
+  const { currentSubtitle } = usePlayerBoxStore();
 
   const [movieFile, setMovieFile] = useState("");
   const [recordModal, setRecordModal] = useState(false);
