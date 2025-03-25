@@ -22,6 +22,9 @@ import {
   PostAuthLoginVerify,
 } from "@/api/services/auth";
 import clsx from "clsx";
+import PhoneNumberStep from "./components/PhoneNumberStep";
+import PasswordStep from "./components/PasswordStep";
+import OtpStep from "./components/OtpStep";
 
 type LoginStepsType = "otp" | "login" | "password" | "set_password";
 type ITitleObjet = {
@@ -249,7 +252,7 @@ const LoginView = ({ inModal = false, inModalCallback = () => {} }) => {
     >
       <div
         className={clsx(
-          `bg-backgroundMain border border-borderMain w-[88.88%] md:w-[31.11%] md:min-w-[420px] px-8 md:px-10 py-[4.7%] md:py-[2.7%]
+          `bg-backgroundMain border border-borderMain w-[88.88%] md:w-[31.11%] md:min-w-[420px] px-8 md:px-5 py-[4.7%] md:py-[2.7%]
           rounded-2xl
           `,
           !inModal ? "mt-[10vh]" : ""
@@ -283,7 +286,7 @@ const LoginView = ({ inModal = false, inModalCallback = () => {} }) => {
               </div>
             ))}
 
-          {/* {formType === "login" ? (
+          {formType === "login" ? (
             <PhoneNumberStep
               phoneNumber={phoneNumber}
               setPhoneNumber={setPhoneNumber}
@@ -306,7 +309,7 @@ const LoginView = ({ inModal = false, inModalCallback = () => {} }) => {
             />
           ) : null}
 
-          {formType === "set_password" ? (
+          {/*  {formType === "set_password" ? (
             <ResetPasswordStep
               newPassword={newPassword}
               setNewPassword={setNewPassword}
@@ -358,16 +361,12 @@ const LoginView = ({ inModal = false, inModalCallback = () => {} }) => {
         </div>
 
         <button
-          className={`w-full flex items-center justify-center gap-2 rounded-xl h-12`}
-          style={{ backgroundColor: theme.palette?.text?.main }}
+          className={`w-full flex items-center justify-center gap-2 rounded-xl h-12 bg-main mb-5`}
           onClick={
             isFromInstagram ? () => toggleDeviceBrowserModal() : () => login()
           }
         >
-          <div
-            className="text-[16px] lg:text-lg font-semibold"
-            style={{ color: theme.palette?.background?.main }}
-          >
+          <div className="text-[16px] lg:text-lg font-semibold text-backgroundMain">
             ورود با گوگل
           </div>
           <img src="/images/google.png" alt="google" className="w-6 h-6" />

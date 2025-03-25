@@ -3963,6 +3963,16 @@ react-is@^19.0.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-19.0.0.tgz#d6669fd389ff022a9684f708cf6fa4962d1fea7a"
   integrity sha512-H91OHcwjZsbq3ClIDHMzBShc1rotbfACdWENsmEf0IFvZ3FgGPtdHMcsv45bQ1hAbgdfiA8SnxTKfDS+x/8m2g==
 
+react-otp-input@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/react-otp-input/-/react-otp-input-3.1.1.tgz#910169629812c40a614e6c175cc2c5f36102bb61"
+  integrity sha512-bjPavgJ0/Zmf/AYi4onj8FbH93IjeD+e8pWwxIJreDEWsU1ILR5fs8jEJmMGWSBe/yyvPP6X/W6Mk9UkOCkTPw==
+
+react-read-otp@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-read-otp/-/react-read-otp-1.0.0.tgz#040d3e6bf7320db1ba7e9b67d734459bbb2bdba7"
+  integrity sha512-lXca95hAxFrDe0hEkOmdJbwrDhiBt7IbThWi7yGZ0npXkFDp7w+D35PO4j/QOpqSJRqRHsjyJv14LM0/6I4oMg==
+
 react-toastify@^10.0.4:
   version "10.0.6"
   resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-10.0.6.tgz#19c364b1150f495522c738d592d1dcc93879ade1"
