@@ -23,6 +23,7 @@ import { useLoginModal } from "@/store/use-login-modal";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import PrimaryButton from "@/components/shared/PrimaryButton";
+import PodcastsIcon from "@mui/icons-material/Podcasts";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -90,6 +91,12 @@ const Sidebar = () => {
           link: `/public/audio-book`,
           icon: <PlayLessonOutlinedIcon />,
           hide: false,
+        },
+        (!!isGuest || whoAmI?.userpreference?.preferred_language === 2) && {
+          id: 10,
+          title: t("containers.sidebar.Podcasts"),
+          link: `/public/podcast-list`,
+          icon: <PodcastsIcon />,
         },
         {
           id: 8,
