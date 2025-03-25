@@ -45,7 +45,7 @@ const PhoneNumberStep = ({
 
   return (
     <div className="w-full">
-      <label className="block text-right text-sm font-medium text-gray-700 mb-2 mt-8">
+      <label className="block text-right text-sm font-medium text-gray-700 mb-2 mt-[53px]">
         شماره همراه
       </label>
 
@@ -60,7 +60,7 @@ const PhoneNumberStep = ({
           onBlur: () => setFocused(false),
           // @ts-ignore
           ref: inputRef,
-          className: "w-full px-4 py-3 border rounded-lg focus:border-blue-500",
+          className: "w-full px-4 py-3 rounded-lg",
         }}
         focused={focused}
       />

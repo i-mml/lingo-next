@@ -32,8 +32,8 @@ const InputWithIcon = ({
 
   return (
     <div
-      className={`relative flex items-center gap-2 w-full border rounded-lg transition-all
-        ${focused ? "border-blue-500 ring-1 ring-blue-500" : "border-gray-300"}
+      className={`relative flex items-center gap-2 w-full border rounded-lg hover:border-primary transition-all
+        ${focused ? "border-primary" : "border-gray-300"}
         hover:border-gray-400 ${className}`}
       onClick={onClickBox}
     >

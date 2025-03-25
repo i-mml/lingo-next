@@ -252,7 +252,7 @@ const LoginView = ({ inModal = false, inModalCallback = () => {} }) => {
     >
       <div
         className={clsx(
-          `bg-backgroundMain border border-borderMain w-[88.88%] md:w-[31.11%] md:min-w-[420px] px-8 md:px-5 py-[4.7%] md:py-[2.7%]
+          `bg-backgroundMain border border-borderMain w-[88.88%] md:w-[31.11%] md:min-w-[420px] px-8 md:px-5 py-[4.7%] md:py-10
           rounded-2xl
           `,
           !inModal ? "mt-[10vh]" : ""

@@ -21,7 +21,7 @@ const PasswordStep = (props: IProps) => {
 
   return (
     <>
-      <label className="block text-right text-sm font-medium text-gray-700 mb-2 mt-8">
+      <label className="block text-right text-sm font-medium text-gray-700 mb-2 mt-3">
         رمز عبور
       </label>
       <InputWithIcon
