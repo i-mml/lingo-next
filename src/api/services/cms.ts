@@ -43,3 +43,15 @@ export const GetCmsLanguage = async () => {
 
   return response;
 };
+
+export const getCmsSearch = async (search?: string) => {
+  const response = await axiosInstance.get(`/cms/search/?q=${search}`);
+
+  return response;
+};
+
+export const PostFlashcards = async (params: any) => {
+  const response = await axiosInstance.post("/education/flashcards", params);
+
+  return response;
+};

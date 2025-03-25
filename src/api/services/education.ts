@@ -46,10 +46,22 @@ export const getVocabularyLessonsByCategoryId = async (
 
   return response.data;
 };
-export const getEducationLessonById = async (lesson_id: number, params: {}) => {
-  const response = await axiosInstance.get(`/education/lessons/${lesson_id}/`, {
-    params,
-  });
+export const getEducationLessonById = async (
+  lesson_id: number,
+  token?: string
+) => {
+  let url = `/education/lessons/${lesson_id}/`;
+
+  const response = await axiosAuth.get(
+    url,
+    !!token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : {}
+  );
   return response.data;
 };
 export const PostEducationLessonCompleteByLessonId = async (
@@ -60,6 +72,18 @@ export const PostEducationLessonCompleteByLessonId = async (
 ) => {
   const response = await axiosInstance.post(
     `/education/lessons/${lesson_id}/complete/`,
+    body
+  );
+  return response.data;
+};
+
+// speech
+export const PostEducationSpeechSimilarity = async (body: {
+  target_text: string;
+  voice_text: string;
+}) => {
+  const response = await axiosInstance.post(
+    "/education/speach-similarity/",
     body
   );
   return response.data;
