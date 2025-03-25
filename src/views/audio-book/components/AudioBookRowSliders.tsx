@@ -18,9 +18,7 @@ import NeedSubscriptionMovieBadge from "@/components/shared/NeedSubscriptionMovi
 import { AudioBookProps } from "../types";
 import Link from "next/link";
 
-const AudioBookRowSliders = (
-  props: Pick<AudioBookProps, "audioBooks" | "isMusic">
-) => {
+const AudioBookRowSliders = (props: Pick<AudioBookProps, "audioBooks">) => {
   const { audioBooks } = props;
 
   const router = useRouter();

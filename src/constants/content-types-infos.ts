@@ -11,6 +11,11 @@ export const contentTypeInfos: Record<ContentType, ContentTypeInfo> = {
     route: "audio-info",
     listRoute: "music-list",
   },
+  Podcast: {
+    title: "پادکست",
+    route: "podcast-info",
+    listRoute: "podcast-list",
+  },
   Animation: {
     title: "انیمیشن",
     route: "video-info",

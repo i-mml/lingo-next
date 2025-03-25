@@ -7,7 +7,7 @@ const AudioBookPage = async () => {
   const accessToken = (await cookies()).get("zabano-access-token")?.value;
   const audioBooks = await GetCmsByContentType(3, accessToken);
 
-  return <AudioBookView audioBooks={audioBooks} />;
+  return <AudioBookView audioBooks={audioBooks} contentType={3} />;
 };
 
 export default AudioBookPage;

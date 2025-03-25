@@ -27,7 +27,13 @@ const HomeView = () => {
       link: `/public/catalog`,
       hide: false,
     },
-
+    {
+      title: "پادکست",
+      image: "/images/podcast.png",
+      description: "با پادکست هوای روح و زبانت رو باهم داری",
+      link: `/public/podcast-list`,
+      hide: !isGuest && whoAmI?.userpreference?.preferred_language !== 2,
+    },
     {
       title: "کتاب صوتی",
       image: "/images/bk3.JPG",

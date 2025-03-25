@@ -7,7 +7,13 @@ export interface CatalogPageTypes {
   banners: CmsBannerItem[];
 }
 
-export type ContentType = "Book" | "Music" | "Animation" | "Serial" | "Movie";
+export type ContentType =
+  | "Book"
+  | "Music"
+  | "Podcast"
+  | "Animation"
+  | "Serial"
+  | "Movie";
 
 export type ContentTypeInfo = {
   title: string;

@@ -15,7 +15,7 @@ const AudioBookRowSliders = dynamic(
 );
 
 const AudioBookView: FC<AudioBookProps> = (props) => {
-  const { audioBooks, isMusic } = props;
+  const { audioBooks, contentType } = props;
 
   return (
     <div>
@@ -25,7 +25,11 @@ const AudioBookView: FC<AudioBookProps> = (props) => {
           className="w-16 h-16 lg:w-20 lg:h-20"
         />
         <h1 className="text-lg lg:text-3xl font-bold text-main">
-          {isMusic ? "موسیقی ها" : "کتاب های صوتی"}
+          {contentType === 2
+            ? "موسیقی ها"
+            : contentType === 3
+            ? "کتاب های صوتی"
+            : "پادکست ها"}
         </h1>
       </div>
 
