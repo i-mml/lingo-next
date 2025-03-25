@@ -167,8 +167,6 @@ const Sidebar = () => {
     },
   ];
 
-  console.log(sidebarItems);
-
   return (
     <div
       className="w-[236px] md:w-[200px] hidden lg:block sticky left-0 top-0 z-[99] bg-backgroundMain min-h-[100vh] px-4 py-6 border-l border-borderMain"

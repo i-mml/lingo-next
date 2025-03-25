@@ -27,12 +27,23 @@ export const getVocabularyList = async (token?: string) => {
 };
 export const getVocabularyLessonsByCategoryId = async (
   category_id: number,
-  params: { page_size: number; page: number }
+  params: { page_size: number; page: number },
+  token?: string
 ) => {
-  const response = await axiosInstance.get(
-    `/education/categories/${category_id}/lessons/`,
-    { params }
+  let url = `/education/categories/${category_id}/lessons/`;
+
+  const response = await axiosAuth.get(
+    url,
+    !!token
+      ? {
+          params,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : { params }
   );
+
   return response.data;
 };
 export const getEducationLessonById = async (lesson_id: number, params: {}) => {
