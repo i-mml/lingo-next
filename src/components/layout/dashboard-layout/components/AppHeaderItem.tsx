@@ -12,12 +12,12 @@ const AppHeaderItem = ({
   color: string;
 }) => {
   return (
-    <div className="app-header-left-item">
-      <div className="top-box" style={{ color: color }}>
+    <div className="mx-3">
+      <div className="flex items-center gap-2 mb-1" style={{ color: color }}>
         {icon}
-        <span className="value">{value}</span>
+        <span className="text-lg ml-1">{value}</span>
       </div>
-      <div className="app-header-left-item-title">{title}</div>
+      <div className="text-gray400">{title}</div>
     </div>
   );
 };

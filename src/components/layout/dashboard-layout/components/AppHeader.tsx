@@ -48,7 +48,7 @@ const AppHeader: React.FC = () => {
 
   return (
     <header className="fixed right-0 left-0 w-full md:w-[calc(100%-200px)] bg-backgroundLayout h-28 md:h-24 border-b-0 md:border-b-2 border-borderMain transition-transform duration-300 ease-in-out z-[200] flex items-center">
-      <div className="app-header-content hidden w-full items-center justify-between px-5 md:block">
+      <div className="hidden w-full items-center justify-between px-5 md:flex">
         {isLoading ? (
           <CircularProgress />
         ) : (
@@ -57,7 +57,7 @@ const AppHeader: React.FC = () => {
               {!!data?.data?.learned_words && (
                 <div className="flex items-center">
                   <AppHeaderItem
-                    icon={<GraduationIcon className="w-5 h-5" />}
+                    icon={<GraduationIcon className="text-xl" />}
                     title={translate("containers.header.Words Learned")}
                     color="#61D058"
                     value={`${data.data.learned_words} ${translate(
@@ -65,7 +65,7 @@ const AppHeader: React.FC = () => {
                     )}`}
                   />
                   <AppHeaderItem
-                    icon={<ToLearnIcon className="w-5 h-5" />}
+                    icon={<ToLearnIcon className="text-xl" />}
                     title={translate("containers.header.Words Added")}
                     color="#88C1FF"
                     value={`${data.data.learning_words} ${translate(
