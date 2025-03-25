@@ -42,7 +42,7 @@ const HomeView = () => {
       hide: false,
     },
     {
-      title: "موسیقی و پادکست",
+      title: "پادکست",
       image: "/images/billi.JPG",
       description: "پادکست و موسیقی راهی برای رسیدن به لیسنینگ عالی",
       link: `/public/music-list`,
