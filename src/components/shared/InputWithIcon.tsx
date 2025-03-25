@@ -45,7 +45,7 @@ const InputWithIcon = ({
         {...inputProps}
         type={inputType}
         className={`w-full h-full py-3 bg-transparent !outline-none 
-          text-gray-900 !border-none ${inputProps?.className || ""}`}
+          text-main !border-none ${inputProps?.className || ""}`}
         dir="rtl"
       />
 
