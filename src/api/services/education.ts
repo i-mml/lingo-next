@@ -9,7 +9,22 @@ export const GetEducationStatistics = async () => {
 };
 
 // grammar
+export const GetEducationGrammarById = async (grammarId: number) => {
+  const response = await axiosInstance.get(`/education/grammars/${grammarId}`);
 
+  return response;
+};
+
+export const GetEducationGrammarTopicsById = async (
+  grammarId: number,
+  subcategoryId: number
+) => {
+  const response = await axiosInstance.get(
+    `/education/grammars/${grammarId}/subcategories/${subcategoryId}/topics`
+  );
+
+  return response;
+};
 export const GetEducationGrammars = async (search?: string, token?: string) => {
   let url = "/education/grammars/";
 

@@ -37,7 +37,7 @@ const GrammarListView = ({ grammars }: { grammars: GrammarCategory[] }) => {
           animationData={GrammarLineal}
           className="w-16 h-16 lg:w-[90px] lg:h-[90px]"
         />
-        <div className="flex-1">
+        <header className="flex-1">
           <h1 className="text-lg lg:text-3xl font-bold text-main mb-2">
             آموزش گرامر زبان انگلیسی از صفر تا صد (کتاب Grammar in Use)
           </h1>
@@ -45,7 +45,7 @@ const GrammarListView = ({ grammars }: { grammars: GrammarCategory[] }) => {
             با گرامر های زبانو تقریبا تمام مباحث گرامری برای سطوح مختلف رو
             میتونی یاد بگیری
           </p>
-        </div>
+        </header>
       </div>
 
       <div className="gap-4">
