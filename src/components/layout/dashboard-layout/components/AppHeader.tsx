@@ -49,7 +49,7 @@ const AppHeader: React.FC = () => {
   const toggleSearchModal = () => setSearchModal((prev) => !prev);
 
   return (
-    <header className="fixed right-0 left-0 w-full md:w-[calc(100%-200px)] bg-backgroundLayout h-28 md:h-24 border-b-0 md:border-b-2 border-borderMain transition-transform duration-300 ease-in-out z-[200] flex items-center">
+    <header className="fixed right-0 left-0 w-full md:w-[calc(100%-200px)] bg-backgroundLayout md:h-24 border-b-0 md:border-b-2 border-borderMain transition-transform duration-300 ease-in-out z-[200] flex items-center">
       <div className="hidden w-full items-center justify-between px-5 md:flex">
         {isLoading ? (
           <CircularProgress />
@@ -118,18 +118,14 @@ const AppHeader: React.FC = () => {
       </div>
 
       {/* Mobile Header */}
-      <div className="app-header-mobile w-full p-4 pb-2 block md:hidden">
+      <div className="app-header-mobile w-full px-[4.4%] pt-4 pb-2 block md:hidden">
         <div className="mobile-header-top flex w-full items-center justify-between">
           <div className="w-[30%] flex items-center gap-2">
             <button onClick={toggleDrawerMenu}>
-              <MenuOpenIcon
-                sx={{ color: theme.palette.text.main, width: 32, height: 32 }}
-              />
+              <MenuOpenIcon className="!text-main !w-8 !h-8" />
             </button>
             <button onClick={toggleSearchModal}>
-              <SearchIcon
-                sx={{ color: theme.palette.text.main, width: 32, height: 32 }}
-              />
+              <SearchIcon className="!text-main !w-8 !h-8" />
             </button>
           </div>
 
@@ -164,20 +160,20 @@ const AppHeader: React.FC = () => {
               <div
                 className={clsx(
                   "flex items-center gap-3",
-                  pathname?.includes("/public/home")
+                  !pathname?.includes("/public/home")
                     ? "w-full justify-between"
                     : ""
                 )}
               >
                 <AppHeaderItem
-                  icon={<GraduationIcon className="w-5 h-5" />}
+                  icon={<GraduationIcon className="!w-6 !h-6" />}
                   color="#61D058"
                   value={`${data.data.learned_words} ${translate(
                     "containers.header.Learned Unit"
                   )} ${translate("containers.header.Words Learned")}`}
                 />
                 <AppHeaderItem
-                  icon={<ToLearnIcon className="w-5 h-5" />}
+                  icon={<ToLearnIcon className="!w-6 !h-6" />}
                   color="#88C1FF"
                   value={`${data.data.learning_words} ${translate(
                     "containers.header.Words Added Unit"
