@@ -61,3 +61,11 @@ export const PostFlashcards = async (params: any) => {
 
   return response;
 };
+
+export const getCmsDictionary = async (word: string) => {
+  const response = await axiosInstance.get(
+    `/cms/dictionary?word=${word}&query_type=exact`
+  );
+
+  return response;
+};

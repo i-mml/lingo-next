@@ -1,9 +1,51 @@
 import axiosInstance from "../configs";
 import axiosAuth from "../configs/axiosAuth";
 import { VocabularyListItem } from "../types/education";
+import { FlashCardType } from "../types/flashcard";
 
+// statistics
 export const GetEducationStatistics = async () => {
   const response = await axiosInstance.get("/education/statistics/");
+
+  return response;
+};
+
+// flashcards
+
+export const GetEducationFlashcard = async (params: {
+  page_size: number;
+  page: number;
+  word: string;
+  episode: number | undefined;
+}) => {
+  const response = await axiosInstance.get("/education/flashcards", { params });
+
+  return response.data as { results: FlashCardType[]; count: number };
+};
+export const getFlashCardEpisodes = async () => {
+  const response = await axiosInstance.get("/education/flashcards/episodes");
+
+  return response.data;
+};
+export const PatchEducationFlashcardsUpdate = async ({
+  id,
+  body,
+}: {
+  id: number;
+  body: {
+    is_learned: boolean;
+    times_seen: number;
+  };
+}) => {
+  const response = await axiosInstance.patch(
+    `/education/flashcards/${id}/`,
+    body
+  );
+
+  return response;
+};
+export const DeleteEducationFlashcards = async ({ id }: { id: number }) => {
+  const response = await axiosInstance.delete(`/education/flashcards/${id}/`);
 
   return response;
 };
@@ -128,4 +170,10 @@ export const PostEducationSpeechSimilarity = async (body: {
     body
   );
   return response.data;
+};
+
+export const getEducationWordDetail = async (param: string) => {
+  const response = await axiosInstance.get(`/education/word-detail/?${param}`);
+
+  return response;
 };

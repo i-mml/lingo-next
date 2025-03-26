@@ -63,3 +63,20 @@ body {
     padding: 24px 5%;
   }
 }
+
+/* global reusable styles */
+.cards-lg-box-shadow {
+  -webkit-box-shadow: 0px 0px 19px 0px var(--primary);
+  -moz-box-shadow: 0px 0px 19px 0px var(--primary);
+  box-shadow: 0px 0px 19px 0px var(--primary);
+}
+.cards-md-box-shadow {
+  -webkit-box-shadow: 0px 0px 11px 0px var(--primary);
+  -moz-box-shadow: 0px 0px 11px 0px var(--primary);
+  box-shadow: 0px 0px 11px 0px var(--primary);
+}
+.cards-sm-box-shadow {
+  -webkit-box-shadow: 0px 0px 6px 0px var(--primary);
+  -moz-box-shadow: 0px 0px 6px 0px var(--primary);
+  box-shadow: 0px 0px 6px 0px var(--primary);
+}
