@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/components/providers";
-import { dana } from "./fonts";
+import { dana, vazirMatnRD } from "./fonts";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +14,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${dana.className}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${vazirMatnRD.className} ${dana.className}`}
+    >
       <body className={`antialiased`}>
         <Providers>{children}</Providers>
       </body>

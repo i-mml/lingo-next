@@ -14,7 +14,7 @@ const OutlineButton = ({
       className={`
         max-h-[50px]
         px-2
-        font-dana
+        font-vazirmatn
         text-[14px]
         text-center
         !rounded-2xl

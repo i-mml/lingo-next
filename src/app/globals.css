@@ -41,7 +41,7 @@
 
 body {
   background: var(--background-layout);
-  font-family: var(--font-dana) !important;
+  font-family: var(--font-vazirmatn), var(--font-dana) !important;
 }
 
 .custom-modal .MuiPaper-root {
