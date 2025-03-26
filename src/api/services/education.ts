@@ -8,6 +8,32 @@ export const GetEducationStatistics = async () => {
   return response;
 };
 
+// grammar
+
+export const GetEducationGrammars = async (search?: string, token?: string) => {
+  let url = "/education/grammars/";
+
+  const response = await axiosAuth.get(
+    url,
+    !!token
+      ? {
+          params: {
+            search: search || "",
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : {
+          params: {
+            search: search || "",
+          },
+        }
+  );
+
+  return response.data;
+};
+
 // Vocabulary
 export const getVocabularyList = async (token?: string) => {
   let url = `/education/categories/`;
