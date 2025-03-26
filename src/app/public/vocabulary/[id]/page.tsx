@@ -3,7 +3,7 @@ import {
   getVocabularyList,
 } from "@/api/services/education";
 import { VocabularyListItem } from "@/api/types/education";
-import SingleVocabularyView from "@/views/singleVocabulary";
+import SingleVocabularyView from "@/views/single-vocabulary";
 import { cookies } from "next/headers";
 import React from "react";
 
