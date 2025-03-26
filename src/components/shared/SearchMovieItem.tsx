@@ -61,11 +61,11 @@ const SearchMovieItem = ({
               targetWord={searchWord || ""}
             />
           </div>
-          <div className="text-gray300 text-sm mb-2 font-semibold">
+          <div className="text-gray400 text-sm mb-2 font-semibold">
             {item?.translate}
           </div>
           <Link
-            className="text-gray-400 opacity-85 font-semibold underline underline-offset-4 text-sm"
+            className="text-gray400 opacity-85 font-semibold underline underline-offset-4 text-sm"
             href={`/public/video-info/${item?.movie_id}`}
             replace
           >
