@@ -107,7 +107,7 @@ const AppHeader: React.FC = () => {
 
           <div
             onClick={toggleSearchModal}
-            className="catalog-filter cursor-pointer mr-3 flex items-center w-1/4 min-w-[150px] bg-main-background rounded-full border border-layout-border h-12 px-4"
+            className="catalog-filter cursor-pointer mr-3 flex items-center w-1/4 min-w-[150px] bg-main-background rounded-full border border-borderMain h-12 px-4"
           >
             <SearchIcon sx={{ color: theme.palette.text.gray400 }} />
             <div className="catalog-filter-input text-gray400 text-base ml-2">

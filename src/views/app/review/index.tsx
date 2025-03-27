@@ -136,38 +136,39 @@ const ReviewView = () => {
         />
       </div>
 
-      <div className="flex">
+      <div className="flex items-center justify-between">
         <div>
-          <div className="page-title-box">
+          <div className="flex items-center text-main font-semibold gap-2">
             <SectionTitle>
               {translate("pages.review.My Vocabulary")}
             </SectionTitle>
-            <div className="words-numbers">
+            <div className="">
               {data?.count} {translate("pages.review.Words Uni")}
             </div>
           </div>
-          <div className="sub-title hide-mobile">
+          <div className="text-base mt-2.5 text-main">
             {translate("pages.review.Review All")}
           </div>
         </div>
-        <Button
-          className="flash-card-button hide-mobile"
+        <button
+          className="w-fit h-12 py-3 px-6 rounded-lg bg-[#442604] text-[#fed702] text-sm font-semibold hidden md:block"
           onClick={() => (filterData?.length > 0 ? toggleModal() : {})}
           disabled={filterData?.length === 0}
         >
-          {translate("pages.review.Flashcard Button")}
-        </Button>
+          {translate("pages.review.Flashcard Button")} 33
+        </button>
       </div>
-      <div className="mobile-flashcard-button-box hide-desktop">
-        <Button
-          className="flash-card-button hide-desktop"
+      <div className="w-[70%] right-[15%] fixed bottom-[30px] flex items-center justify-center z-[99] md:hidden">
+        <button
+          className="w-full h-12 py-3 px-6 rounded-lg bg-[#442604] text-[#fed702] text-sm font-semibold"
           onClick={() => (filterData?.length > 0 ? toggleModal() : {})}
           disabled={filterData?.length === 0}
         >
           {translate("pages.review.Flashcard Button")}
-        </Button>
+        </button>
       </div>
       <TabsWithBorder
+        wrapperClassName="mt-4 mb-5"
         activeTab={currentTab}
         onTabClick={(id) => {
           setCurrentTab(id);
