@@ -149,7 +149,7 @@ const WordDetailModal = (props: IProps) => {
 
   return (
     <CustomModal open={open} toggle={toggleModal}>
-      <div className="min-w-[90vmin] w-full lg:w-[100%] min-h-[60vh]">
+      <div className="min-w-[90vmin] w-full lg:w-[100%] min-h-[60vh]" dir="rtl">
         {isLoading || longmanLoading ? (
           <WaveLoading isBlack={themeType !== "dark"} />
         ) : (
@@ -246,8 +246,11 @@ const WordDetailModal = (props: IProps) => {
               </div>
             ) : (
               <div>
-                {fields?.map((item) => (
-                  <div className="flex items-center justify-center gap-6 mb-3">
+                {fields?.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-center gap-6 mb-3"
+                  >
                     <span className="text-gray400 w-[40%]">
                       {partOfSpeechFields?.[item?.[0]] || item?.[0]}:
                     </span>
@@ -267,14 +270,15 @@ const WordDetailModal = (props: IProps) => {
                     ? node?.language === "FA"
                     : null
                 )
-                ?.map((definition: any) => (
+                ?.map((definition: any, index: number) => (
                   <div
                     className={`mb-3 ${
-                      currentTab === 1 || currentTab === 3
+                      currentTab === 2 || currentTab === 3
                         ? "text-left"
                         : "text-right"
                     } px-[5%] rounded-lg py-4 bg-layout w-[100%] mx-auto shadow-md`}
-                    dir={currentTab === 1 || currentTab === 3 ? "ltr" : "rtl"}
+                    dir={currentTab === 12 || currentTab === 3 ? "ltr" : "rtl"}
+                    key={index}
                   >
                     <div className="text-main text-lg lg:text-[20px] font-medium">
                       {definition?.example}

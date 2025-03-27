@@ -41,11 +41,13 @@
 
 body {
   background: var(--background-layout);
+  color: var(--main);
   font-family: var(--font-vazirmatn), var(--font-dana) !important;
 }
 
 .custom-modal .MuiPaper-root {
   max-width: 80%;
+  color: var(--main);
   background-color: var(--background-main);
   padding: 32px 24px;
   border-radius: 8px;

@@ -76,7 +76,7 @@ const FlashCardItem = ({
       {openDrawer && (
         <Drawer
           dir="rtl"
-          className="[&_.MuiDrawer-paper]:h-[100vh] md:[&_.MuiDrawer-paper]:w-full [&_.MuiDrawer-paper]:w-[80%] [&_.MuiDrawer-paper]:max-w-[472px] [&_.MuiDrawer-paper]:bg-backgroundMain [&_.MuiDrawer-paper]:rounded-tl-3xl [&_.MuiDrawer-paper]:rounded-bl-3xl [&_.MuiDrawer-paper]:border-l-4 [&_.MuiDrawer-paper]:border-primary"
+          className="[&_.MuiDrawer-paper]:h-[100vh] md:[&_.MuiDrawer-paper]:w-full [&_.MuiDrawer-paper]:w-[80%] [&_.MuiDrawer-paper]:max-w-[472px] [&_.MuiDrawer-paper]:bg-backgroundMain"
           open={openDrawer}
           onClose={toggleDrawer}
           anchor="bottom"
