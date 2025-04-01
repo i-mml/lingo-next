@@ -177,3 +177,18 @@ export const getEducationWordDetail = async (param: string) => {
 
   return response;
 };
+
+// Quiz
+export const GetEducationQuiz = async (param: string) => {
+  const response = await axiosInstance.get(`/education/quiz/${param}`);
+
+  return response;
+};
+export const PostEducationQuizResult = async (body: {
+  quiz: number;
+  questions: any[];
+}) => {
+  const response = await axiosInstance.post("/education/quiz/result/", body);
+
+  return response;
+};

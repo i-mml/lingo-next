@@ -69,3 +69,11 @@ export const getCmsDictionary = async (word: string) => {
 
   return response;
 };
+
+export const getCmsEpisodeSearch = async (search: string) => {
+  const response = await axiosInstance.get(
+    `/cms/episodes/${search !== "" ? `?search=${search}` : ""}`
+  );
+
+  return response;
+};
