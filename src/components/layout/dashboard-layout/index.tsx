@@ -23,7 +23,13 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
 
       <div className="w-full flex-1 md:w-[calc(100%-200px)] relative md:pb-10">
         {!includesNoHeaderRotes(pathname, noHeaderRoutes) && <AppHeader />}
-        <div className="pt-24">{children}</div>
+        <div
+          className={
+            !includesNoHeaderRotes(pathname, noHeaderRoutes) ? "pt-24" : ""
+          }
+        >
+          {children}
+        </div>
       </div>
       {isOpen && <LoginModal open={isOpen} onClose={toggleLoginModal} />}
     </div>

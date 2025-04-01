@@ -14,7 +14,7 @@ const QuizTypeCard = (props: IProps) => {
   return (
     <div
       onClick={onClick}
-      className="flex flex-col justify-center items-center bg-main w-[90%]
+      className="flex flex-col justify-center items-center bg-backgroundMain w-[90%]
        py-3 md:py-12 rounded-lg cards-md-box-shadow cursor-pointer"
     >
       <Lottie

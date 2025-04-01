@@ -183,7 +183,7 @@ const QuizView = () => {
   ]);
 
   return (
-    <section className="bg-background-layout p-6 min-h-[calc(100vh-110px)] px-[5%]">
+    <section className="bg-background-layout p-6 min-h-[calc(100vh)] px-[5%]">
       <AskBeforeReloadPage />
       <BackIconComponent
         className=""
@@ -244,7 +244,7 @@ const QuizView = () => {
         </div>
       ) : (
         <>
-          <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-3 mb-3" dir="ltr">
             <div className="w-full border border-border-main bg-background-main rounded-lg p-2 flex items-center gap-3">
               <div className="w-full bg-gray-800 h-2 rounded-full">
                 <div
@@ -266,14 +266,14 @@ const QuizView = () => {
           </div>
 
           {!questions?.length ? (
-            <div className="bg-background-main p-6 rounded-xl shadow-lg">
+            <div className="bg-background-main p-6 rounded-xl cards-lg-box-shadow">
               <QuizEmptyBox
                 clickAction={emptyBoxClickHandler}
                 quizType={quizType}
               />
             </div>
           ) : (
-            <div className="bg-background-main p-6 rounded-xl shadow-lg">
+            <div className="bg-background-main p-6 rounded-xl cards-lg-box-shadow">
               {step === "READY" && (
                 <QuizReadyBox handleStartQuiz={handleStartQuiz} />
               )}

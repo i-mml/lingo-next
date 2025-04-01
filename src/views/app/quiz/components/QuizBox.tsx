@@ -94,7 +94,7 @@ const QuizBox = ({
         <div className="select-right-choice text-gray400 text-xs md:text-sm leading-5 mt-2 md:mt-3 mb-4 md:mr-6">
           {translate("pages.quiz.Select_right_choice")}
         </div>
-        <div className="question-options-box w-full flex items-center gap-3 md:gap-6 mb-3 md:mb-6 min-h-[204px] md:min-h-[186px]">
+        <div className="question-options-box flex-col md:flex-row flex-wrap w-full flex items-stretch gap-3 mb-3 md:mb-6 min-h-[204px] md:min-h-[186px]">
           {options?.map(
             (
               node: { id: number; text: string; is_answer: boolean },
@@ -123,7 +123,7 @@ const QuizBox = ({
                 key={node?.text}
               >
                 <span
-                  className={`question-option-number text-main border-borderMain p-0 md:p-[14px] rounded-lg w-6 h-6 text-center ${
+                  className={`question-option-number text-main border border-borderMain p-0 md:p-[14px] rounded-lg text-center ${
                     selectedAnswer === node?.id
                       ? node?.is_answer
                         ? "border-[#225d1e] text-[#97e590]"
@@ -142,7 +142,7 @@ const QuizBox = ({
         <div>
           {!isLast ? (
             <PrimaryButton
-              className="question-next-button"
+              className="question-next-button flex justify-center items-center gap-2 w-full md:w-fit min-w-[160px] mr-auto flex-row-reverse"
               buttonProps={{
                 type: "button",
                 disabled: selectedAnswer === null || disabled,
@@ -154,7 +154,7 @@ const QuizBox = ({
             </PrimaryButton>
           ) : (
             <PrimaryButton
-              className="question-next-button"
+              className="question-next-button flex justify-center items-center gap-2 w-full md:w-fit min-w-[160px] mr-auto flex-row-reverse"
               buttonProps={{ type: "button", disabled: disabled }}
               onClick={onClickNext}
             >
