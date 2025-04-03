@@ -152,7 +152,7 @@ const AccountView = () => {
               <>
                 <div className="flex-1 w-full mb-5 lg:mb-0">
                   <div className="flex items-center justify-between w-full">
-                    <h2 className="page-title">
+                    <h2 className="page-title text-main text-base md:text-lg font-semibold">
                       {translate("pages.profile.Subscription Information")}
                     </h2>
 

@@ -54,12 +54,12 @@ const UserInformationForm = ({ userData }: any) => {
 
   return (
     <div className="profile-content mt-4 bg-backgroundMain w-[91.11%] md:w-[96%] md:min-w-[684px] mx-auto !mb-5 py-4 px-4 md:px-6 rounded-2xl">
-      <div className="flex-title">
-        <h2 className="page-title">
+      <div className="flex-title flex items-center justify-between mb-4 md:mb-6">
+        <h2 className="page-title text-main text-base md:text-lg font-semibold">
           {translate("pages.profile.Account Information")}
         </h2>
         <OutlineButton
-          className="save-change-button border-primary w-[130px]"
+          className="save-change-button text-center text-sm font-semibold leading-4 py-3 px-5 rounded-xl disabled:text-[#525252] !border-[#525252] border-primary w-[130px]"
           buttonProps={{
             disabled: disabledAction,
           }}
@@ -119,7 +119,7 @@ const UserInformationForm = ({ userData }: any) => {
         </div>
       </div>
       <OutlineButton
-        className="mobile-save-change-button border-primary w-[130px]"
+        className="mobile-save-change-button text-center text-sm font-semibold leading-4 py-3 px-5 rounded-xl disabled:text-[#525252] !border-[#525252] border-primary w-[130px]"
         buttonProps={{
           disabled: disabledAction,
         }}

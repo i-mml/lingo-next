@@ -117,7 +117,9 @@ const UserActivityBarChart: React.FC<{ userActivities: UserActivity[] }> = ({
 
   return (
     <div className="flex-1 w-full mx-auto rounded-2xl shadow-lg">
-      <h2 className="page-title">گزارش هفتگی</h2>
+      <h2 className="page-title text-main text-base md:text-lg font-semibold">
+        گزارش هفتگی
+      </h2>
       <ReactECharts
         option={options}
         style={{ height: "300px", width: "100%" }}
