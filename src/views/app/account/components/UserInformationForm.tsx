@@ -71,22 +71,24 @@ const UserInformationForm = ({ userData }: any) => {
         </OutlineButton>
       </div>
 
-      <div className="input-label disabled-label">
+      <div className="input-label disabled-label text-[#737373] text-xs font-medium mb-2">
         {translate("pages.profile.Mobile Number")}
       </div>
       {userData?.phone ? (
-        <div className="full-width name-input">
+        <div className="full-width name-input w-full h-12 p-4 flex items-center gap-2 bg-borderMain rounded-lg">
           <MobileIcon />
-          <div className="mobile">{userData?.phone}</div>
+          <div className="mobile text-sm text-[#737373]">{userData?.phone}</div>
         </div>
       ) : (
-        <div className="full-width name-input">
+        <div className="full-width name-input w-full h-12 p-4 flex items-center gap-2 bg-borderMain rounded-lg">
           <GoogleIcon style={{ color: "#9CA3AF" }} />
-          <div className="mobile">{userData?.email}</div>
+          <div className="mobile text-sm text-[#737373]">{userData?.email}</div>
         </div>
       )}
       <div className="input-box w-full mt-6">
-        <div className="input-label">{translate("pages.profile.Fullname")}</div>
+        <div className="input-label text-gray400 text-xs font-medium mb-2">
+          {translate("pages.profile.Fullname")}
+        </div>
         <InputWithIcon
           icon={<UserIcon />}
           inputProps={{
@@ -97,7 +99,7 @@ const UserInformationForm = ({ userData }: any) => {
         />
       </div>
       <div className="input-box w-full mt-6">
-        <div className="input-label text-gray400 text-xs font-medium mt-2">
+        <div className="input-label text-gray400 text-xs font-medium mb-2">
           {translate("pages.profile.Birthdate")}
         </div>
         <div
@@ -123,7 +125,7 @@ const UserInformationForm = ({ userData }: any) => {
         </div>
       </div>
       <OutlineButton
-        className="mobile-save-change-button md:hidden text-center text-sm font-semibold leading-4 py-3 px-5 rounded-xl disabled:!text-[#525252] !border-[#525252] border-primary w-[130px]"
+        className="mobile-save-change-button md:hidden block mt-8 text-center text-sm font-semibold leading-4 py-3 px-5 disabled:!text-[#525252] !border-[#525252] border-primary w-full md:w-[130px]"
         buttonProps={{
           disabled: disabledAction,
         }}

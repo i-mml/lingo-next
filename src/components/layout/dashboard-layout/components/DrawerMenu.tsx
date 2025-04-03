@@ -59,14 +59,14 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
           id: 1,
           title: t("containers.sidebar.Subscriptions"),
           link: "/app/subscriptions",
-          icon: <AutoAwesomeIcon />,
+          icon: <AutoAwesomeIcon className="!text-3xl" />,
           hide: !!whoAmI?.has_subscription,
         },
         {
           id: 2,
           title: t("containers.sidebar.Home"),
           link: `/public/home`,
-          icon: <HomeOutlinedIcon />,
+          icon: <HomeOutlinedIcon className="!text-3xl" />,
 
           hide: false,
         },
@@ -74,7 +74,7 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
           id: 3,
           title: t("containers.sidebar.Bookmarks"),
           link: "/app/bookmarks",
-          icon: <BookmarksOutlinedIcon />,
+          icon: <BookmarksOutlinedIcon className="!text-3xl" />,
           hide: isGuest,
         },
       ],
@@ -87,35 +87,35 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
           id: 5,
           title: t("containers.sidebar.Movie and Series"),
           link: `/public/catalog`,
-          icon: <TheatersIcon />,
+          icon: <TheatersIcon className="!text-3xl" />,
           hide: false,
         },
         {
           id: 6,
           title: t("containers.sidebar.Animations"),
           link: `/public/animations`,
-          icon: <BedroomBabyOutlinedIcon />,
+          icon: <BedroomBabyOutlinedIcon className="!text-3xl" />,
           hide: false,
         },
         {
           id: 7,
           title: t("containers.sidebar.Audio Book"),
           link: `/public/audio-book`,
-          icon: <PlayLessonOutlinedIcon />,
+          icon: <PlayLessonOutlinedIcon className="!text-3xl" />,
           hide: false,
         },
         {
           id: 17,
           title: t("containers.sidebar.Podcasts"),
           link: `/public/podcast-list`,
-          icon: <PodcastsIcon />,
+          icon: <PodcastsIcon className="!text-3xl" />,
           hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
         },
         {
           id: 8,
           title: t("containers.sidebar.Music"),
           link: `/public/music-list`,
-          icon: <QueueMusicOutlinedIcon />,
+          icon: <QueueMusicOutlinedIcon className="!text-3xl" />,
           hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
         },
       ],
@@ -129,35 +129,35 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
           id: 10,
           title: t("containers.sidebar.Vocabulary"),
           link: "/public/vocabulary",
-          icon: <TranslateIcon />,
+          icon: <TranslateIcon className="!text-3xl" />,
           hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
         },
         {
           id: 11,
           title: t("containers.sidebar.Grammers"),
           link: `/public/grammar-list`,
-          icon: <AutoStoriesIcon />,
+          icon: <AutoStoriesIcon className="!text-3xl" />,
           hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
         },
         {
           id: 12,
           title: t("containers.sidebar.Review Words"),
           link: "/app/review",
-          icon: <GradingIcon />,
+          icon: <GradingIcon className="!text-3xl" />,
           hide: false,
         },
         {
           id: 13,
           title: t("containers.sidebar.Quiz"),
           link: "/app/quiz",
-          icon: <QuizOutlinedIcon />,
+          icon: <QuizOutlinedIcon className="!text-3xl" />,
           hide: false,
         },
         {
           id: 14,
           title: t("containers.sidebar.Victionary"),
           link: "/app/dictionary",
-          icon: <ScreenSearchDesktopIcon />,
+          icon: <ScreenSearchDesktopIcon className="!text-3xl" />,
           hide: false,
         },
       ],
@@ -171,7 +171,7 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
           id: 16,
           title: t("containers.sidebar.Account"),
           link: "/app/account",
-          icon: <PersonOutlineOutlinedIcon />,
+          icon: <PersonOutlineOutlinedIcon className="!text-3xl" />,
           hide: false,
         },
       ],
@@ -190,13 +190,15 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
       <div className="w-64 bg-bgDefault h-full p-4" dir="rtl">
         <nav className="flex flex-col gap-4">
           {sidebarItems?.map((item) => (
-            <div key={item.id} className="mb-4">
-              <h3 className="text-gray-500 text-sm mb-2">{item.title}</h3>
-              <ul className="space-y-2">
+            <div key={item.id} className="mb-2">
+              <h3 className="text-gray400 text-base font-medium mb-2">
+                {item.title}
+              </h3>
+              <ul className="">
                 {item.items?.map((node) => (
                   <li
                     key={node.id}
-                    className={`p-2 rounded-lg transition-colors ${
+                    className={`py-2.5 rounded-lg transition-colors ${
                       pathname === node.link
                         ? "bg-primary/10 text-primary"
                         : "hover:bg-gray-100"
@@ -205,10 +207,10 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
                   >
                     <Link
                       href={node.link}
-                      className="flex items-center gap-2 text-gray-700 hover:text-primary"
+                      className="flex items-center gap-2 text-main hover:text-primary"
                     >
                       {node.icon}
-                      <span className="text-base">{node.title}</span>
+                      <span className="text-lg font-medium">{node.title}</span>
                     </Link>
                   </li>
                 ))}

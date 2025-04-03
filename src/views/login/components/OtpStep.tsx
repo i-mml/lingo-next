@@ -57,7 +57,9 @@ const OtpStep = (props: IProps) => {
 
   return (
     <>
-      <div className="input-label">رمز یکبار مصرف</div>
+      <div className="input-label text-gray400 text-xs font-medium mt-2">
+        رمز یکبار مصرف
+      </div>
 
       <OTPInput
         value={otpCode}

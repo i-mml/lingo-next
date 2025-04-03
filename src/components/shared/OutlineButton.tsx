@@ -17,7 +17,7 @@ const OutlineButton = ({
         font-vazirmatn
         text-[14px]
         text-center
-        !rounded-2xl
+        !rounded-xl
         border
         border-primary
         !border-b-4

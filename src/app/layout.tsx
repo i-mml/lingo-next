@@ -19,7 +19,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${vazirMatnRD.className} ${dana.className}`}
     >
-      <body className={`antialiased`}>
+      <body className={`antialiased bg-backgroundMain`}>
         <Providers>{children}</Providers>
       </body>
     </html>
