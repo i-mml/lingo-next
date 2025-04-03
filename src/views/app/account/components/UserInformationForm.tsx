@@ -1,3 +1,5 @@
+"use client";
+
 import { Datepicker } from "@ijavad805/react-datepicker";
 import GoogleIcon from "@mui/icons-material/Google";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -59,7 +61,7 @@ const UserInformationForm = ({ userData }: any) => {
           {translate("pages.profile.Account Information")}
         </h2>
         <OutlineButton
-          className="save-change-button text-center text-sm font-semibold leading-4 py-3 px-5 rounded-xl disabled:text-[#525252] !border-[#525252] border-primary w-[130px]"
+          className="save-change-button hidden md:block text-center text-sm font-semibold leading-4 py-3 px-5 rounded-xl disabled:!text-[#525252] !border-[#525252] border-primary w-[130px]"
           buttonProps={{
             disabled: disabledAction,
           }}
@@ -83,7 +85,7 @@ const UserInformationForm = ({ userData }: any) => {
           <div className="mobile">{userData?.email}</div>
         </div>
       )}
-      <div className="input-box">
+      <div className="input-box w-full mt-6">
         <div className="input-label">{translate("pages.profile.Fullname")}</div>
         <InputWithIcon
           icon={<UserIcon />}
@@ -94,13 +96,15 @@ const UserInformationForm = ({ userData }: any) => {
           }}
         />
       </div>
-      <div className="input-box">
-        <div className="input-label ">
+      <div className="input-box w-full mt-6">
+        <div className="input-label text-gray400 text-xs font-medium mt-2">
           {translate("pages.profile.Birthdate")}
         </div>
-        <div className={`with-icon-content`}>
-          <div className="icon">
-            <CalenderIcon />
+        <div
+          className={`with-icon-content flex items-center w-full gap-2 border border-borderMain rounded-lg h-12 py-3 px-4 hover:border-gray400 focus:border-borderSelected`}
+        >
+          <div className="icon w-6 h-6">
+            <CalenderIcon className="w-6 h-6" />
           </div>
           <Datepicker
             modeTheme="dark"
@@ -111,7 +115,7 @@ const UserInformationForm = ({ userData }: any) => {
             format="YYYY-M-D"
             input={
               <input
-                className="input !cursor-pointer"
+                className="input h-full !bg-transparent border-none outline-none text-main !cursor-pointer"
                 placeholder={translate("pages.profile.Select Birthdate")}
               />
             }
@@ -119,7 +123,7 @@ const UserInformationForm = ({ userData }: any) => {
         </div>
       </div>
       <OutlineButton
-        className="mobile-save-change-button text-center text-sm font-semibold leading-4 py-3 px-5 rounded-xl disabled:text-[#525252] !border-[#525252] border-primary w-[130px]"
+        className="mobile-save-change-button md:hidden text-center text-sm font-semibold leading-4 py-3 px-5 rounded-xl disabled:!text-[#525252] !border-[#525252] border-primary w-[130px]"
         buttonProps={{
           disabled: disabledAction,
         }}
