@@ -143,7 +143,7 @@ const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
   return (
     <section className="px-[5%] py-8 md:py-9" dir="rtl">
       <BackIconComponent
-        className="hidden mb-8 lg:block"
+        className="hidden mb-8 md:flex"
         clickHandler={() => router.back()}
       />
       <div className="flex flex-col items-start gap-6 md:flex-row">
@@ -237,7 +237,7 @@ const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
             {data.episodes.map((item: any, index: number) => (
               <div
                 key={item.id}
-                className="bg-backgroundMain text-main rounded-lg flex flex-col items-center py-2 px-[3%] shadow-md shadow-gray-500 mb-2 lg:mb-0"
+                className="bg-backgroundMain text-main rounded-lg flex flex-col items-center py-2 px-[3%] shadow-md shadow-gray-500 mb-2 md:mb-0"
               >
                 <div className="flex items-center w-full gap-3">
                   <Image
