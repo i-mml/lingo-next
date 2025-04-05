@@ -65,7 +65,7 @@ const AccountView = () => {
     );
   }
   return (
-    <section className="bg-backgroundLayout pt-0 py-6 md:pt-6 ">
+    <section className="bg-backgroundLayout pt-0 py-6 md:pt-6 min-h-[100vh] ">
       <div className="flex items-center justify-between mb-0 lg:mb-5 px-[5%] pt-8 lg:pt-3">
         <div className="flex items-center gap-4 !justify-start">
           <Lottie

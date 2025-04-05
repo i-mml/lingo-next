@@ -56,7 +56,7 @@ const UserInformationForm = ({ userData }: any) => {
 
   return (
     <div className="profile-content mt-4 bg-backgroundMain w-[91.11%] md:w-[96%] md:min-w-[684px] mx-auto !mb-5 py-4 px-4 md:px-6 rounded-2xl">
-      <div className="flex-title flex items-center justify-between mb-4 md:mb-6">
+      <div className="flex-title w-full flex items-center justify-between mb-4 md:mb-6">
         <h2 className="page-title text-main text-base md:text-lg font-semibold">
           {translate("pages.profile.Account Information")}
         </h2>
