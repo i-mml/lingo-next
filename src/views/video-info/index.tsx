@@ -36,6 +36,7 @@ const VideoInformationView = ({
   const { isOpen, toggleLoginModal } = useLoginModal();
 
   const [openSubsModal, setOpenSubsModal] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(data?.is_bookmarked);
   const [targetClick, setTargetClick] = useState<{
     type: "QUIZ" | "PLAY" | "";
     id: number | null;
@@ -47,6 +48,9 @@ const VideoInformationView = ({
   const bookmarkMutation = useMutation({
     mutationFn: async ({ movieId }: { movieId: number }) => {
       await PostAuthBookmarks(movieId);
+    },
+    onSuccess: () => {
+      setIsBookmarked((prev: boolean) => !prev);
     },
   });
 
@@ -280,13 +284,20 @@ const VideoInformationView = ({
             </h1>
 
             {!isGuest && (
-              <div className="absolute top-0 left-4">
-                {data?.is_bookmarked ? (
+              <button
+                className="absolute top-0 left-4"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  bookmarkMutation.mutate({ movieId: data?.id });
+                }}
+                disabled={bookmarkMutation.isPending}
+              >
+                {isBookmarked ? (
                   <Bookmark className="!text-3xl text-primary" />
                 ) : (
                   <BookmarkBorder className="!text-3xl text-primary" />
                 )}
-              </div>
+              </button>
             )}
 
             <p className="text-gray-400 text-base md:text-lg mb-6 line-clamp-3">
