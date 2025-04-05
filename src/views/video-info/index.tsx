@@ -377,7 +377,7 @@ const VideoInformationView = ({
             {whoAmI?.userpreference?.preferred_language === 2 &&
               data?.episodes?.length > 0 && (
                 <>
-                  <SectionTitle className="!mt-6 !mb-4 text-lg lg:text-xl font-medium">
+                  <SectionTitle className="!mt-8 !mb-4 text-lg lg:text-xl font-medium text-center text-main">
                     تعداد لغات براساس سطح
                   </SectionTitle>
                   <div className="w-[100%] lg:w-[60%] mx-auto">
@@ -425,7 +425,10 @@ const VideoInformationView = ({
                       labelPosition={85}
                     />
                   </div>
-                  <div className="grid grid-cols-3 gap-5" dir="ltr">
+                  <div
+                    className="w-fit mx-auto grid grid-cols-3 gap-5 place-items-center"
+                    dir="ltr"
+                  >
                     <PieChartInfos
                       color="bg-[#fafad2]"
                       title="A1"
