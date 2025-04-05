@@ -13,10 +13,15 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const { isOpen, toggleLoginModal } = useLoginModal();
 
   const noHeaderRoutes = ["/quiz", `app/on-boarding`];
+  const noLayoutRotes = [!isMobile && "video-info"];
+
   const includesNoHeaderRotes = (pathname: string, strings: string[]) => {
     return strings.some((string) => pathname.includes(string));
   };
 
+  if (!!includesNoHeaderRotes(pathname, noLayoutRotes as string[])) {
+    return <div className="w-full overflow-hidden">{children}</div>;
+  }
   return (
     <div className="flex items-start bg-backgroundLayout">
       <Sidebar />

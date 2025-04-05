@@ -77,3 +77,20 @@ export const getCmsEpisodeSearch = async (search: string) => {
 
   return response;
 };
+
+export const GetMovieDetailData = async (id: string, token?: string) => {
+  let url = `/cms/movie/${id}/preview-detail/`;
+
+  const response = await axiosAuth.get(
+    url,
+    !!token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : {}
+  );
+
+  return response.data;
+};
