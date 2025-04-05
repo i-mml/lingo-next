@@ -85,60 +85,48 @@ const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
     }
     router.push(`/app/quiz/${data?.id}/${episodeId}`);
   };
-
-  // Redirect logic
   const redirectWithReplace = useCallback(() => {
-    router.replace(
-      // @ts-ignore
-      `/public/${contentTypeInfos[data?.content_type]?.route}/${data?.id}-${
-        data?.slug
-      }`
-    );
-  }, [data, router]);
+    router.replace(`/public/video-info/${data?.id}-${data?.slug}`);
+  }, [data?.id, data?.slug]);
 
   useEffect(() => {
-    const firstPartOfSlug = data?.slug?.split("-")?.[0] || data?.slug;
-    const audioIdParts = audioId?.split("-") || [];
+    const firstPartOfSlug =
+      data?.slug?.split("-")?.length > 0
+        ? data?.slug?.split("-")?.[0]
+        : data?.slug;
 
-    if (audioId && audioIdParts.length < 2 && data?.slug) {
+    if (audioId && audioId?.split("-")?.length < 2 && data?.slug) {
       redirectWithReplace();
     }
     if (
       audioId &&
-      audioIdParts.length > 1 &&
+      audioId?.split("-")?.length > 1 &&
       data?.slug &&
-      firstPartOfSlug !== audioIdParts[1]
+      firstPartOfSlug !== audioId?.split("-")?.[1]
     ) {
       redirectWithReplace();
     }
     if (
-      data?.content_type &&
-      !["Book", "Music"].includes(data.content_type) &&
+      data?.content_type !== "Movie" &&
+      data?.content_type !== "Serial" &&
+      data?.content_type !== "Animation" &&
       data?.id &&
       data?.slug
     ) {
-      router.replace(
-        // @ts-ignore
-        `/public/${contentTypeInfos[data.content_type]?.route}/${data.id}-${
-          data.slug
-        }`
-      );
+      router.replace(`/public/audio-info/${data?.id}-${data?.slug}`);
     }
-  }, [audioId, data, router, redirectWithReplace]);
+  }, [data?.content_type, data?.id, data?.slug, redirectWithReplace, audioId]);
 
   useEffect(() => {
-    if (targetClick.type && data) {
-      if (data.is_locked) {
-        setOpenSubsModal(true);
+    if (targetClick?.type !== "")
+      if (!!data?.is_locked) {
+        toggleSubscriptionModal();
       } else {
-        const path =
-          targetClick.type === "PLAY"
-            ? `/app/show/${data.id}/${targetClick.id}`
-            : `/app/quiz/${data.id}/${targetClick.id}`;
-        router.push(path);
+        targetClick.type === "PLAY"
+          ? router.push(`/app/show/${data?.id}/${targetClick?.id}`)
+          : router.push(`/app/quiz/${data?.id}/${targetClick?.id}`);
       }
-    }
-  }, [isGuest, data?.is_locked, targetClick, router]);
+  }, [isGuest, data?.is_locked]);
 
   return (
     <section className="px-[5%] py-8 md:py-9" dir="rtl">
