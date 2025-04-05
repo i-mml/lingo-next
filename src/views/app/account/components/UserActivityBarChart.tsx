@@ -124,7 +124,7 @@ const UserActivityBarChart: React.FC<{ userActivities: UserActivity[] }> = ({
         option={options}
         style={{ height: "300px", width: "100%" }}
       />
-      <div className="flex justify-center gap-4 mt-4">
+      <div className="flex justify-center gap-4 mt-4 pb-6">
         <OutlineButton
           onClick={handlePreviousWeek}
           className="px-4 py-2 rounded-lg"
