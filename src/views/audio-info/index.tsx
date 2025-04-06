@@ -23,6 +23,7 @@ import SubscriptionModal from "@/components/modals/SubscriptionModal";
 import { contentTypeInfos } from "@/constants/content-types-infos";
 import { useLoginModal } from "@/store/use-login-modal";
 import { toast } from "react-toastify";
+import AudioInfoBreadcrumbs from "./components/AudioInfoBreadcrumbs";
 
 const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
   const { whoAmI, isGuest } = useAuth();
@@ -129,11 +130,13 @@ const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
   }, [isGuest, data?.is_locked]);
 
   return (
-    <section className="px-[5%] py-8 md:py-9" dir="rtl">
+    <section className="px-[5%] pb-4 md:py-9" dir="rtl">
       <BackIconComponent
         className="hidden mb-8 md:flex"
         clickHandler={() => router.back()}
       />
+      <AudioInfoBreadcrumbs data={data} />
+
       <div className="flex flex-col items-start gap-6 md:flex-row">
         {/* Image Section */}
         <div className="w-full rounded-xl md:w-[29.2%] mx-auto md:mx-0">

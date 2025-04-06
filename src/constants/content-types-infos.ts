@@ -22,12 +22,12 @@ export const contentTypeInfos: Record<ContentType, ContentTypeInfo> = {
     listRoute: "animations",
   },
   Serial: {
-    title: "فیلم",
+    title: "فیلم‌و‌سریال",
     route: "video-info",
     listRoute: "catalog",
   },
   Movie: {
-    title: "فیلم",
+    title: "فیلم‌و‌سریال",
     route: "video-info",
     listRoute: "catalog",
   },

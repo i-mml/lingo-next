@@ -24,6 +24,7 @@ import SubscriptionModal from "@/components/modals/SubscriptionModal";
 
 import AnouncementIcon from "@/assets/anouncement.svg";
 import LeadingIcon from "@/assets/leading.svg";
+import VideoInfoBreadcrumbs from "./components/VideoInfoBreadcrumbs";
 
 const VideoInformationView = ({
   params,
@@ -278,8 +279,9 @@ const VideoInformationView = ({
             </div>
 
             <div className="!block md:!hidden w-[10%] mx-auto mb-7 h-1 bg-gray-700 rounded sm:block"></div>
+            <VideoInfoBreadcrumbs data={data} />
 
-            <h1 className="text-xl md:text-2xl font-semibold text-main mb-4">
+            <h1 className="text-xl md:text-2xl font-semibold text-main mb-4 mt-6">
               {data?.title}
             </h1>
 
