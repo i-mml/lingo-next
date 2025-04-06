@@ -62,6 +62,14 @@ export const PostFlashcards = async (params: any) => {
   return response;
 };
 
+export const GetMovieFlashCard = async (param: string) => {
+  const response = await axiosInstance
+    .get(`education/flashcards${param}`)
+    .then((res) => res?.data);
+
+  return response;
+};
+
 export const getCmsDictionary = async (word: string) => {
   const response = await axiosInstance.get(
     `/cms/dictionary?word=${word}&query_type=exact`
@@ -110,4 +118,31 @@ export const GetMovieData = async (id: string, token?: string) => {
   );
 
   return response.data;
+};
+
+export const GetMovieDataInApp = async (id: string, token?: string) => {
+  const response = await axiosInstance.get(`/cms/movie/${id}`);
+
+  return response.data;
+};
+
+export const fetchCaptions = async (subtitleFileUrl: string) => {
+  const response = await axiosInstance.get(subtitleFileUrl);
+
+  return response?.data;
+};
+
+export const GetGrammerText = async (text: string) => {
+  const response = await axiosInstance
+    .get(`/cms/grammar-detect/?s=${text}`)
+    .then((res) => res?.data);
+
+  return response;
+};
+
+export const getSentenceGrammar = async (sentence: string) => {
+  const response = await axiosInstance.get(
+    `/cms/grammar-detect/?s=${sentence}`
+  );
+  return response;
 };

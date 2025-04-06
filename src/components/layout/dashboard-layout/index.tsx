@@ -13,7 +13,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const { isOpen, toggleLoginModal } = useLoginModal();
 
   const noHeaderRoutes = ["/quiz", `app/on-boarding`];
-  const noLayoutRotes = [!isMobile && "video-info"];
+  const noLayoutRotes = [!isMobile && "video-info", "/show/"];
 
   const includesNoHeaderRotes = (pathname: string, strings: string[]) => {
     return strings.some((string) => pathname.includes(string));
