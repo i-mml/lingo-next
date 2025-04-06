@@ -71,18 +71,18 @@ const UserInformationForm = ({ userData }: any) => {
         </OutlineButton>
       </div>
 
-      <div className="input-label disabled-label text-[#737373] text-xs font-medium mb-2">
+      <div className="input-label disabled-label text-gray400 text-xs font-medium mb-2">
         {translate("pages.profile.Mobile Number")}
       </div>
       {userData?.phone ? (
         <div className="full-width name-input w-full h-12 p-4 flex items-center gap-2 bg-borderMain rounded-lg">
           <MobileIcon />
-          <div className="mobile text-sm text-[#737373]">{userData?.phone}</div>
+          <div className="mobile text-sm text-gray400">{userData?.phone}</div>
         </div>
       ) : (
         <div className="full-width name-input w-full h-12 p-4 flex items-center gap-2 bg-borderMain rounded-lg">
           <GoogleIcon style={{ color: "#9CA3AF" }} />
-          <div className="mobile text-sm text-[#737373]">{userData?.email}</div>
+          <div className="mobile text-sm text-gray400">{userData?.email}</div>
         </div>
       )}
       <div className="input-box w-full mt-6">

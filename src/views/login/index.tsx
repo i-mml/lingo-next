@@ -274,7 +274,7 @@ const LoginView = ({ inModal = false, inModalCallback = () => {} }) => {
           />
         </div>
         <form onSubmit={handleActionClick}>
-          <div className="text-[#333] text-[16px] font-medium text-center">
+          <div className="text-main text-[16px] font-medium text-center">
             {TitleDictionary[formType]}
           </div>
           {formType === "login" ||
