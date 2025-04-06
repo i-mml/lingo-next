@@ -2,10 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Bookmark, BookmarkBorder, PlayArrow } from "@mui/icons-material";
 import { useAuth } from "@/hooks/use-auth";
-import WaveLoading from "@/components/shared/WaveLoading";
 import NeedSubscriptionMovieBadge from "@/components/shared/NeedSubscriptionMovieBadge";
 import BackIconComponent from "@/components/shared/BackIconComponent";
 import { contentTypeInfos } from "@/constants/content-types-infos";
@@ -25,6 +24,7 @@ import SubscriptionModal from "@/components/modals/SubscriptionModal";
 import AnouncementIcon from "@/assets/anouncement.svg";
 import LeadingIcon from "@/assets/leading.svg";
 import VideoInfoBreadcrumbs from "./components/VideoInfoBreadcrumbs";
+import clsx from "clsx";
 
 const VideoInformationView = ({
   params,
@@ -287,7 +287,11 @@ const VideoInformationView = ({
 
             {!isGuest && (
               <button
-                className="absolute top-0 left-4"
+                className={
+                  data?.is_locked
+                    ? "absolute top-0 left-8"
+                    : "absolute top-0 left-4"
+                }
                 onClick={(e) => {
                   e.stopPropagation();
                   bookmarkMutation.mutate({ movieId: data?.id });

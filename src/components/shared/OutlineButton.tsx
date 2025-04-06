@@ -15,7 +15,7 @@ const OutlineButton = ({
          text-center max-h-[50px] box-border font-semibold rounded-xl no-underline text-sm shadow-none bg-transparent border border-b-[5px] border-primary text-primary
         ${
           buttonProps.disabled
-            ? "border-disabled border-b-disabled"
+            ? "!border-backgroundDisabled !text-backgroundDisabled border-b-disabled"
             : "hover:translate-y-0.5 active:translate-y-1.5"
         }
          ${className}
