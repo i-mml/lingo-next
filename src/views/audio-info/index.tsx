@@ -245,7 +245,7 @@ const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
 
                 <div className="flex justify-end gap-3 mt-3 mr-auto">
                   <OutlineButton
-                    className="flex items-center gap-2 !text-main"
+                    className="flex items-center justify-center gap-2 !text-main w-20"
                     onClick={() => handleQuizClick(item.id)}
                   >
                     <Quiz className="text-main" /> کوئیز
