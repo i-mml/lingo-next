@@ -12,26 +12,13 @@ const OutlineButton = ({
     <button
       style={{ height: `${height}px`, ...style }}
       className={`
-        max-h-[50px]
-        px-2
-        font-vazirmatn
-        text-[14px]
-        text-center
-        !rounded-xl
-        border
-        border-primary
-        !border-b-4
-        !transition-all
-        !duration-500
-        bg-transparent
+         text-center max-h-[50px] box-border font-semibold rounded-xl no-underline text-sm shadow-none bg-transparent border border-b-[5px] border-primary text-primary
         ${
           buttonProps.disabled
             ? "border-disabled border-b-disabled"
             : "hover:translate-y-0.5 active:translate-y-1.5"
         }
-        cursor-pointer
-        outline-none
-        !text-primary ${className}
+         ${className}
       `}
       height={height}
       onClick={onClick}

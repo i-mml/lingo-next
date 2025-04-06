@@ -188,7 +188,7 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
       className="[&_.MuiDrawer-paper]:h-[100vh] md:[&_.MuiDrawer-paper]:w-full [&_.MuiDrawer-paper]:w-[80%] [&_.MuiDrawer-paper]:max-w-[472px] [&_.MuiDrawer-paper]:bg-backgroundMain [&_.MuiDrawer-paper]:rounded-tl-3xl [&_.MuiDrawer-paper]:rounded-bl-3xl [&_.MuiDrawer-paper]:border-l-4 [&_.MuiDrawer-paper]:border-primary"
     >
       <div className="w-64 bg-bgDefault h-full p-4" dir="rtl">
-        <nav className="flex flex-col gap-4">
+        <nav className="flex flex-col gap-4 pb-12">
           {sidebarItems?.map((item) => (
             <div key={item.id} className="mb-2">
               <h3 className="text-gray400 text-base font-medium mb-2">
@@ -218,32 +218,31 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
             </div>
           ))}
 
-          <li className="list-none flex items-center gap-2 p-2">
+          <li className="list-none flex items-center gap-2">
             <IconButton
               onClick={() => setTheme(appTheme === "dark" ? "light" : "dark")}
               aria-label="change-theme"
               sx={{ color: theme.palette.text.main }}
-              className="!p-2 !bg-gray-100 !rounded-lg"
             >
               {appTheme === "dark" ? (
-                <NightsStayIcon sx={{ color: theme.palette.text.secondary }} />
+                <NightsStayIcon className="!text-neutral-200" />
               ) : (
-                <LightModeIcon sx={{ color: theme.palette.warning.main }} />
+                <LightModeIcon className="!text-yellow-500" />
               )}
             </IconButton>
 
-            <span className="text-gray-700">تغییر تم</span>
+            <span className="text-main">تغییر تم</span>
           </li>
 
           {/* Guest Links */}
           <div className="mt-4 space-y-4">
             <Link href="/public/download-app">
-              <OutlineButton fullWidth className="!h-11">
+              <OutlineButton fullWidth className="!h-11 block w-full">
                 دانلود اپ
               </OutlineButton>
             </Link>
-            <Link href="/login">
-              <PrimaryButton fullWidth>ورود | ثبت نام</PrimaryButton>
+            <Link href="/login" className="!h-11 block w-full">
+              <PrimaryButton className="w-full">ورود | ثبت نام</PrimaryButton>
             </Link>
           </div>
         </nav>
