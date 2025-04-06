@@ -38,6 +38,7 @@ const TabsWithBorder = ({
             key={item?.id}
             onClick={() => onTabClick(item?.id)}
           >
+            {item?.icon}
             {item?.title}
           </div>
         ))}

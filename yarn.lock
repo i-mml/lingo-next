@@ -3809,6 +3809,11 @@ minimist@^1.2.0, minimist@^1.2.6:
   resolved "https://registry.yarnpkg.com/minipass/-/minipass-7.1.2.tgz#93a9626ce5e5e66bd4db86849e7515e92340a707"
   integrity sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==
 
+mobile-device-detect@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/mobile-device-detect/-/mobile-device-detect-0.4.3.tgz#05d73b4bde7ccb5beda1c4bd0ea0986ce30b1f3f"
+  integrity sha512-SN9EBE9SoJgkb83kuUVoIp3R9OGYE5dYEnLEz2oLooh0DzgtQ72BJmpNGqrgFvmfE4iLR2CaVJ3RjUcStheVZg==
+
 moment-jalaali@^0.10.4:
   version "0.10.4"
   resolved "https://registry.yarnpkg.com/moment-jalaali/-/moment-jalaali-0.10.4.tgz#8ca2c1651e3310be947049a1013acf9025cecfd6"
@@ -4294,6 +4299,13 @@ react-player@^2.16.0:
     memoize-one "^5.1.1"
     prop-types "^15.7.2"
     react-fast-compare "^3.0.1"
+
+react-pwa-install@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/react-pwa-install/-/react-pwa-install-1.0.12.tgz#f7203bd1ca2b2a4204bfc469ee11813d9c2567a9"
+  integrity sha512-zy1ZPfUIDTiBap1pycB6IZw+8wSRwncFwtjuUHYwRX2+285EabTcvXAwl2PdIzcXc1fh+K0ZI6Snccx5bgLpxg==
+  dependencies:
+    mobile-device-detect "^0.4.3"
 
 react-read-otp@^1.0.0:
   version "1.0.0"
