@@ -18,6 +18,7 @@ import { useVideoPlayerStore } from "../store/playerStore";
 import ArrowLeaner from "@/assets/lotties/arrow-leaner.json";
 import ActiveUserMovieTracker from "./ActiveUserMovieTracker";
 import PlayerContainer from "./PlayerContainer";
+import { Grid, Grid2 } from "@mui/material";
 
 const Player = ({
   movie,
@@ -27,7 +28,7 @@ const Player = ({
   difficulty,
   data: movieData,
 }: any) => {
-  const { theme } = useThemeCreator();
+  const { theme }: any = useThemeCreator();
 
   const [currentGrammerText, setCurrentGrammerText] = useState("");
   const [playerState, setPlayerState] = useState(true);
@@ -235,41 +236,71 @@ const Player = ({
   }, [window?.innerHeight]);
 
   return (
-    <div className="app relative">
+    <div className="app relative" dir="rtl">
       {!landscapeWarning ? (
-        <div
-          className={`flex flex-col md:flex-row justify-between gap-4 bg-backgroundMain p-0 md:px-4`}
+        <Grid
+          container
+          columns={16}
+          spacing={1}
           style={{
-            maxHeight: "100vh",
-            height: "100vh",
+            justifyContent: "space-between",
+            backgroundColor: theme?.palette?.background?.main,
+          }}
+          sx={{
+            padding: { xs: "unset", md: "0 16px" },
+            // eslint-disable-next-line no-restricted-globals
+            maxHeight: { xs: window.innerHeight, md: "100vh" },
+            // eslint-disable-next-line no-restricted-globals
+            height: { xs: window.innerHeight, md: "100vh" },
             overflow: "hidden",
           }}
         >
-          {/* FlashCard Section */}
-          <div
-            className={`w-full md:w-[37.5%] lg:w-[31.25%] xl:w-[25%] ${
-              isMobile ? "order-2" : "order-1"
-            }`}
-            style={{
-              height: isMobile
-                ? `calc(${height}px - (${height}px * 0.273 + 192px))`
-                : "auto",
+          <Grid
+            item
+            xs={16}
+            md={6}
+            lg={5}
+            xl={4}
+            order={isMobile ? 2 : 1}
+            sx={{
+              // eslint-disable-next-line no-restricted-globals
+              height: {
+                xs: `${
+                  window.innerHeight - (window.innerHeight * 0.273 + 192)
+                }px`,
+                md: "auto",
+              },
             }}
           >
+            {/* <FlashCardBox
+            activeTab={activeTab}
+            handleTabChange={handleTabChange}
+            data={memoizedData}
+            currentGrammerText={memoizedCurrentGrammerText}
+            goTocaptionsTime={goTocaptionsTime}
+            refetchFlashCards={refetch}
+            movie={movie}
+            movieFullData={movieData}
+            handleAction={handleAction}
+            currentSubtitle={currentSubtitle}
+            subtitle={subtitle}
+          /> */}
             FlashCardBox
-          </div>
+          </Grid>
 
-          <div
-            className={`w-full md:w-[62.5%] lg:w-[68.75%] xl:w-[75%] ${
-              isMobile ? "order-1" : "order-2"
-            }`}
-            style={{
-              height: isMobile
-                ? `${height * 0.273 + 102}px`
-                : `calc(${height}px - 200px)`,
-              margin: isMobile ? "0" : "auto 0",
-              paddingTop: 0,
+          <Grid
+            sx={{
+              // eslint-disable-next-line no-restricted-globals
+              height: { xs: window.innerHeight * 0.273 + 102, md: "auto" },
+              margin: { xs: "0", md: "auto 0" },
             }}
+            item
+            xs={16}
+            lg={11}
+            md={10}
+            xl={12}
+            style={{ paddingTop: 0 }}
+            order={isMobile ? 1 : 2}
           >
             <PlayerContainer
               playerState={playerState}
@@ -295,8 +326,8 @@ const Player = ({
               movie={movieData}
               episodeData={movie}
             />
-          </div>
-        </div>
+          </Grid>
+        </Grid>
       ) : (
         <div className="absolute inset-0 h-[90vh] text-main text-lg lg:text-2xl bg-layout text-center grid place-items-center">
           <div className="flex flex-col items-center gap-4">

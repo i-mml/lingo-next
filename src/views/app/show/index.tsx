@@ -58,7 +58,7 @@ const PlayerView = () => {
       </div>
     );
   return (
-    <>
+    <div dir="rtl">
       <Player
         title={data?.title}
         difficulty={data?.difficulty}
@@ -74,7 +74,7 @@ const PlayerView = () => {
           toggleModal={toggleSubscriptionModal}
         />
       )}
-    </>
+    </div>
   );
 };
 

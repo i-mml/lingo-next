@@ -146,3 +146,15 @@ export const getSentenceGrammar = async (sentence: string) => {
   );
   return response;
 };
+export const PostCmsWordIssues = async (params: {
+  description: string;
+  is_review: boolean;
+  sentencedetail: any;
+  word: number;
+}) => {
+  const response = await axiosInstance
+    .post("/cms/wordIssues/", params)
+    .then((res) => res?.data);
+
+  return response;
+};

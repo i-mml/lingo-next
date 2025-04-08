@@ -16,6 +16,7 @@ import { shallow } from "zustand/shallow";
 import { useParams } from "next/navigation";
 import screenfull from "screenfull";
 import WordDetailModal from "@/components/modals/WordDetailModal";
+import { StyledTooltip } from "./StyledTooltip";
 
 const Subtitle = React.memo(
   ({ currentSubtitle, handlePause, handlePlay, refetchFlashCards }: any) => {
@@ -174,7 +175,7 @@ const Subtitle = React.memo(
               },
             }}
           >
-            {words?.map((word, index) => (
+            {words?.map((word: any, index: number) => (
               <StyledTooltip
                 sx={{
                   zIndex: 9999,
@@ -199,36 +200,38 @@ const Subtitle = React.memo(
         )}
         {translateSubtitle && (
           <>
-            {subtitleTranslateLanguages?.map((language, index) => (
-              <Box
-                key={
-                  currentSubtitle?.translate?.best_translate +
-                  currentSubtitle?.start_time
-                }
-                sx={{
-                  width: "fit-content",
-                  minWidth: {
-                    xs: screenfull?.isFullscreen ? "50%" : "70%",
-                    md: "unset",
-                  },
-                  color: "#FCBE11",
-                  // backgroundColor: "#00000080",
-                  padding: { xs: "2px 4px", md: "4px 8px" },
-                  borderRadius: "0 0 4px 4px",
-                  margin: {
-                    xs: "0 auto",
-                    md: index === 0 ? "8px auto 0" : "5px auto 0",
-                  },
-                  fontSize: `${translate_fontSize}px`,
-                  fontWeight: 500,
-                  direction: language === "translate" ? "rtl" : "ltr",
-                }}
-              >
-                {!!language && !!currentSubtitle?.sentence?.[language]
-                  ? currentSubtitle?.sentence?.[language]
-                  : null}
-              </Box>
-            ))}
+            {subtitleTranslateLanguages?.map(
+              (language: string, index: number) => (
+                <Box
+                  key={
+                    currentSubtitle?.translate?.best_translate +
+                    currentSubtitle?.start_time
+                  }
+                  sx={{
+                    width: "fit-content",
+                    minWidth: {
+                      xs: screenfull?.isFullscreen ? "50%" : "70%",
+                      md: "unset",
+                    },
+                    color: "#FCBE11",
+                    // backgroundColor: "#00000080",
+                    padding: { xs: "2px 4px", md: "4px 8px" },
+                    borderRadius: "0 0 4px 4px",
+                    margin: {
+                      xs: "0 auto",
+                      md: index === 0 ? "8px auto 0" : "5px auto 0",
+                    },
+                    fontSize: `${translate_fontSize}px`,
+                    fontWeight: 500,
+                    direction: language === "translate" ? "rtl" : "ltr",
+                  }}
+                >
+                  {!!language && !!currentSubtitle?.sentence?.[language]
+                    ? currentSubtitle?.sentence?.[language]
+                    : null}
+                </Box>
+              )
+            )}
           </>
         )}
         {wordDetailModal && (

@@ -182,6 +182,14 @@ const QuizView = () => {
     whoAmI?.userpreference?.preferred_language,
   ]);
 
+  if (isLoading) {
+    return (
+      <div className="w-full h-[85vh] flex items-center justify-center">
+        <WaveLoading />
+      </div>
+    );
+  }
+
   return (
     <section className="bg-background-layout p-6 min-h-[calc(100vh)] px-[5%]">
       <AskBeforeReloadPage />

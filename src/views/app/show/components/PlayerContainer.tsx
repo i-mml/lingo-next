@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import {
   isIOS,
@@ -7,6 +9,17 @@ import {
 } from "react-device-detect";
 
 import ReactPlayer, { ReactPlayerProps } from "react-player";
+import { useVideoPlayerStore } from "../store/playerStore";
+import { shallow } from "zustand/shallow";
+import useStore from "../store/useStore";
+import useThemeCreator from "@/hooks/use-theme";
+import { useAuth } from "@/hooks/use-auth";
+import { useTextToAudio } from "@/hooks/use-text-to-audio";
+import { getSentenceGrammar } from "@/api/services/cms";
+import { useMutation } from "@tanstack/react-query";
+import screenfull from "screenfull";
+import WaveLoading from "@/components/shared/WaveLoading";
+import { StyledPlayer } from "./playerStyels";
 
 const EmojiObjectsIcon = React.lazy(
   () => import("@mui/icons-material/EmojiObjects")
@@ -27,13 +40,13 @@ const ViewCarouselIcon = React.lazy(
 const WysiwygIcon = React.lazy(() => import("@mui/icons-material/Wysiwyg"));
 
 // Lazy components
-const Subtitle = React.lazy(() => import("../../Subtitle"));
-const TooltipBox = React.lazy(() => import("../../TooltipBox"));
+const Subtitle = React.lazy(() => import("./Subtitle"));
+const TooltipBox = React.lazy(() => import("./HoveredTooltipBox"));
 const SpeachCompareModal = React.lazy(
-  () => import("../../components/SpeachCompareModal")
+  () => import("@/components/modals/SpeachCompareModal")
 );
-const PlayerSettingsModal = React.lazy(() => import("../PlayerSettingsModal"));
-const WannaQuizModal = React.lazy(() => import("../wannaQuizModal"));
+const PlayerSettingsModal = React.lazy(() => import("./PlayerSettingsModal"));
+const WannaQuizModal = React.lazy(() => import("./WannaQuizModal"));
 const PlayerControls = React.lazy(() => import("./PlayerControls"));
 
 const PlayerContainer: React.FC<ReactPlayerProps> = (props) => {
@@ -93,7 +106,7 @@ const PlayerContainer: React.FC<ReactPlayerProps> = (props) => {
   );
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const { currentSubtitle } = useStore(
-    (state) => ({ currentSubtitle: state.currentSubtitle }),
+    (state: any) => ({ currentSubtitle: state.currentSubtitle }),
     shallow
   );
   const [recordModal, setRecordModal] = React.useState(false);
@@ -108,7 +121,7 @@ const PlayerContainer: React.FC<ReactPlayerProps> = (props) => {
   const [settingModal, setSettingModal] = React.useState(false);
   const [started, setStarted] = React.useState(false);
 
-  const { theme }: any = useTheme();
+  const { theme }: any = useThemeCreator();
   const { whoAmI } = useAuth();
   const { isLandscape } = useMobileOrientation();
 
@@ -173,7 +186,6 @@ const PlayerContainer: React.FC<ReactPlayerProps> = (props) => {
   };
 
   const handleFetchGrammarDetect = useMutation({
-    // @ts-ignore
     mutationKey: ["fetch-grammar-detect", currentSubtitle?.sentence?.subtitle],
     mutationFn: () => fetchSubtitleGrammar(currentSubtitle?.sentence?.subtitle),
   });
@@ -215,7 +227,7 @@ const PlayerContainer: React.FC<ReactPlayerProps> = (props) => {
   React.useEffect(() => {
     if (isMobile && isLandscape && !screenfull?.isFullscreen) {
       if (!isIOS) {
-        screenfull.toggle(findDOMNode(wrapperRef.current) as Element);
+        screenfull.toggle(wrapperRef.current as Element);
       }
     }
   }, [isLandscape]);

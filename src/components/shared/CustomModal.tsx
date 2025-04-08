@@ -1,3 +1,4 @@
+import useThemeCreator from "@/hooks/use-theme";
 import { Dialog, Slide } from "@mui/material";
 import React, { ReactNode } from "react";
 
@@ -14,6 +15,7 @@ const Transition = function Transition(props: any) {
 
 const CustomModal = (props: IProps) => {
   const { open, toggle, children } = props;
+  const { theme } = useThemeCreator();
 
   return (
     <Dialog
@@ -30,6 +32,7 @@ const CustomModal = (props: IProps) => {
       classes={{
         paper: "!mx-0",
       }}
+      dir={theme.direction}
     >
       <div className="relative w-full">
         <div className="absolute -top-4 right-[45%] !block md:!hidden w-[10%] h-1 bg-gray-700 rounded sm:block"></div>
