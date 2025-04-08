@@ -41,7 +41,7 @@ const WysiwygIcon = React.lazy(() => import("@mui/icons-material/Wysiwyg"));
 
 // Lazy components
 const Subtitle = React.lazy(() => import("./Subtitle"));
-const TooltipBox = React.lazy(() => import("./HoveredTooltipBox"));
+const TooltipBox = React.lazy(() => import("./TooltipBox"));
 const SpeachCompareModal = React.lazy(
   () => import("@/components/modals/SpeachCompareModal")
 );

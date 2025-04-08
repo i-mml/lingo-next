@@ -19,6 +19,7 @@ import ArrowLeaner from "@/assets/lotties/arrow-leaner.json";
 import ActiveUserMovieTracker from "./ActiveUserMovieTracker";
 import PlayerContainer from "./PlayerContainer";
 import { Grid, Grid2 } from "@mui/material";
+import { FlashCardBox } from "./FlashcardBox";
 
 const Player = ({
   movie,
@@ -116,8 +117,6 @@ const Player = ({
     mutationKey: ["fetch-grammar-detect", currentSubtitle?.sentence?.subtitle],
     mutationFn: () => fetchSubtitleGrammar(currentSubtitle?.sentence?.subtitle),
   });
-
-  const [activeTab, setActiveTab] = useState(1);
 
   const handlePause = () => {
     setPlayerState(false);
@@ -223,6 +222,12 @@ const Player = ({
     [playerRef, captionsData]
   );
 
+  const [activeTab, setActiveTab] = useState(1);
+
+  const handleTabChange = useCallback((_: any, newValue: number) => {
+    setActiveTab(newValue);
+  }, []);
+
   useEffect(() => {
     if (isIOS && isLandscape) {
       setLandscapeWarning(true);
@@ -272,20 +277,19 @@ const Player = ({
               },
             }}
           >
-            {/* <FlashCardBox
-            activeTab={activeTab}
-            handleTabChange={handleTabChange}
-            data={memoizedData}
-            currentGrammerText={memoizedCurrentGrammerText}
-            goTocaptionsTime={goTocaptionsTime}
-            refetchFlashCards={refetch}
-            movie={movie}
-            movieFullData={movieData}
-            handleAction={handleAction}
-            currentSubtitle={currentSubtitle}
-            subtitle={subtitle}
-          /> */}
-            FlashCardBox
+            <FlashCardBox
+              activeTab={activeTab}
+              handleTabChange={handleTabChange}
+              data={memoizedData}
+              currentGrammerText={memoizedCurrentGrammerText}
+              goTocaptionsTime={goTocaptionsTime}
+              refetchFlashCards={refetch}
+              movie={movie}
+              movieFullData={movieData}
+              handleAction={handleAction}
+              currentSubtitle={currentSubtitle}
+              subtitle={subtitle}
+            />
           </Grid>
 
           <Grid

@@ -144,6 +144,7 @@ const Subtitle = React.memo(
           <Box
             key="subtitleLearning1234"
             sx={{
+              direction: "ltr",
               width: "fit-content",
               minWidth: {
                 xs: screenfull?.isFullscreen ? "50%" : "70%",
