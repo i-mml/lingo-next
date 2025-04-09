@@ -35,6 +35,11 @@ export default {
       },
       animation: {
         grow: "grow 1.5s ease infinite",
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "footer-marquee": "footer-marquee 20s linear infinite",
+        "footer-pulse": "footer-pulse 2s ease-in-out infinite",
+        "spin-slow": "spin 3s linear infinite",
       },
     },
   },

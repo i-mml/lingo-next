@@ -81,6 +81,11 @@ const WordDetailModal = (props: IProps) => {
       whoAmI?.userpreference?.preferred_language === 2,
     staleTime: 20000,
   });
+  console.log(
+    { word },
+    (!!word?.id || !!word?.text) &&
+      whoAmI?.userpreference?.preferred_language === 2
+  );
 
   const { data: longmanData, isLoading: longmanLoading } = useQuery({
     queryKey: ["fetchCaptions", word?.text],
