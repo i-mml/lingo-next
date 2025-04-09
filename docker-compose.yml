@@ -5,7 +5,7 @@ services:
     container_name: nextjs-app
     build: .
     ports:
-      - "3005:3000"
+      - "3030:3800"
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_API_BASE_URL=https://api.zabano.com
