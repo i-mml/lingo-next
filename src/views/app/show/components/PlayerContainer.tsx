@@ -93,13 +93,13 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
     shallow
   );
 
-  const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const wrapperRef = React.useRef<any>(null);
   const { currentSubtitle } = useStore(
     (state: any) => ({ currentSubtitle: state.currentSubtitle }),
     shallow
   );
   const [started, setStarted] = React.useState(false);
-  const { theme } = useThemeCreator();
+  const { theme }: any = useThemeCreator();
   const { isLandscape } = useMobileOrientation();
 
   const {
