@@ -1,13 +1,10 @@
 import * as React from "react";
 import { isMobile, isTablet } from "react-device-detect";
-import { useThemeCreator } from "@/hooks/use-theme";
-import { useVideoPlayerStore } from "../../store/playerStore";
-import { shallow } from "zustand/shallow";
-import useStore from "../../store/useStore";
 import { useTextToAudio } from "@/hooks/use-text-to-audio";
 import { useAuth } from "@/hooks/use-auth";
 import WaveLoading from "@/components/shared/WaveLoading";
 import TooltipBox from "../TooltipBox";
+import useThemeCreator from "@/hooks/use-theme";
 
 const KeyboardVoiceIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardVoice")
@@ -47,7 +44,7 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
   handleAction,
   handleFetchGrammar,
 }) => {
-  const { theme } = useThemeCreator();
+  const { theme }: any = useThemeCreator();
   const { whoAmI } = useAuth();
   const { handleTextToSpeech, textToSpeachMutation } = useTextToAudio();
 

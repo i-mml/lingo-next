@@ -5,7 +5,6 @@ import PlayArrowRounded from "@mui/icons-material/PlayArrowRounded";
 import Replay10Icon from "@mui/icons-material/Replay10";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { IconButton, Slider, Stack, Typography } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
 import { styled } from "@mui/system";
 import * as React from "react";
 import {
