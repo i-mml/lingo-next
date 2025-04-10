@@ -52,7 +52,7 @@ const ResetPasswordStep = (props: IProps) => {
           onChange: (e) => handleChangePassWord(e),
         }}
       />
-      <div className="block text-right text-sm font-medium text-gray-700 mb-2 mt-24">
+      <div className="block text-right text-sm font-medium text-gray-700 mb-2 mt-4">
         تکرار رمز عبور
       </div>
       <InputWithIcon

@@ -25,6 +25,7 @@ import clsx from "clsx";
 import PhoneNumberStep from "./components/PhoneNumberStep";
 import PasswordStep from "./components/PasswordStep";
 import OtpStep from "./components/OtpStep";
+import ResetPasswordStep from "./components/ResetPasswordStep";
 
 type LoginStepsType = "otp" | "login" | "password" | "set_password";
 type ITitleObjet = {
@@ -248,14 +249,13 @@ const LoginView = ({ inModal = false, inModalCallback = () => {} }) => {
   return (
     <div
       dir={theme.direction}
-      className="bg-backgroundLayout grid place-items-center text-center"
+      className="grid place-items-center text-center w-full"
     >
       <div
         className={clsx(
           `bg-backgroundMain border border-borderMain w-[88.88%] md:w-[31.11%] md:min-w-[420px] px-8 md:px-5 py-[4.7%] md:py-10
           rounded-2xl
-          `,
-          !inModal ? "mt-[10vh]" : ""
+          `
         )}
       >
         {formType !== "login" && (
@@ -309,13 +309,13 @@ const LoginView = ({ inModal = false, inModalCallback = () => {} }) => {
             />
           ) : null}
 
-          {/*  {formType === "set_password" ? (
+          {formType === "set_password" ? (
             <ResetPasswordStep
               newPassword={newPassword}
               setNewPassword={setNewPassword}
               setConfNewPass={setConfNewPass}
             />
-          ) : null} */}
+          ) : null}
 
           <PrimaryButton
             onClick={handleActionClick}

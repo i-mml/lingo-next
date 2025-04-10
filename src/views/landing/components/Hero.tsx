@@ -18,7 +18,7 @@ export function Hero() {
           className="flex w-full flex-col items-center justify-center gap-2 text-balance py-6 text-center font-display text-2xl lg:text-3xl font-bold capitalize leading-normal tracking-tighter sm:text-4xl sm:leading-snug md:gap-4 md:text-6xl"
           dir="rtl"
         >
-          <span className="flex items-center gap-1 flex-row-reverse">
+          <span className="flex items-center gap-1">
             به هر
             <span className="rounded-full border border-[#ffa80098] bg-[#ffa80098] px-[0.35em] py-[0.125em] text-white dark:bg-highlight/85 dark:text-background">
               زبانی
