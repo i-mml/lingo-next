@@ -9,7 +9,9 @@ const axiosAuth = axios.create({
 axiosAuth.interceptors.response.use(
   (response) => response,
   (error) => {
-    toast.error(error.response?.data?.detail || "");
+    if (typeof window !== "undefined") {
+      toast.error(error.response?.data?.detail || "");
+    }
 
     return error;
   }

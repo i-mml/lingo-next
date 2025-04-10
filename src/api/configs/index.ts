@@ -28,31 +28,43 @@ axiosInstance.interceptors.response.use(
 
     switch (status) {
       case 401:
-        toast.error(
-          error?.response?.data?.error ||
-            "نشست شما منقضی شده است، دوباره وارد حساب خود شوید"
-        );
+        if (typeof window !== "undefined") {
+          toast.error(
+            error?.response?.data?.error ||
+              "نشست شما منقضی شده است، دوباره وارد حساب خود شوید"
+          );
+        }
 
         deleteCookie("zabano-refresh-token");
         deleteCookie("zabano-access-token");
 
         break;
       case 403:
-        toast.error(
-          error?.response?.data?.error || "شما به این بخش دسترسی ندارید"
-        );
+        if (typeof window !== "undefined") {
+          toast.error(
+            error?.response?.data?.error || "شما به این بخش دسترسی ندارید"
+          );
+        }
         break;
       case 404:
-        toast.error(error?.response?.data?.error || "خطا در انجام عملیات");
+        if (typeof window !== "undefined") {
+          toast.error(error?.response?.data?.error || "خطا در انجام عملیات");
+        }
         break;
       case 400:
-        toast.error(error?.response?.data?.error || "خطا در انجام عملیات");
+        if (typeof window !== "undefined") {
+          toast.error(error?.response?.data?.error || "خطا در انجام عملیات");
+        }
         break;
       case 422:
-        console.error("Unprocessable Entity");
+        if (typeof window !== "undefined") {
+          console.error("Unprocessable Entity");
+        }
         break;
       default:
-        console.error(`Unexpected error: ${error.message}`);
+        if (typeof window !== "undefined") {
+          console.error(`Unexpected error: ${error.message}`);
+        }
     }
     return Promise.reject(error);
   }

@@ -40,7 +40,9 @@ export function useTextToAudio() {
 
         window.speechSynthesis.speak(utterance);
       } else {
-        toast.error("Error fetching text to speech data", errorOption);
+        if (typeof window !== "undefined") {
+          toast.error("Error fetching text to speech data", errorOption);
+        }
         setCurrentText(null);
       }
     },

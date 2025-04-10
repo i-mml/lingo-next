@@ -59,6 +59,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@typescript-eslint/eslint-plugin": "^8.29.1",
+    "@typescript-eslint/parser": "^8.29.1",
     "cookies-next": "^5.0.2",
     "eslint": "^9",
     "eslint-config-next": "15.1.2",
