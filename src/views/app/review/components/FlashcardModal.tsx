@@ -28,12 +28,12 @@ const FlashCardModal = ({ open, toggle, data, swiperRef }: IProps) => {
     <Dialog
       open={open}
       keepMounted
-      className="[&_.MuiDialog-scrollPaper]:backdrop-blur-xl [&_.MuiDialog-paper]:bg-transparent [&_.MuiDialog-paper]:!w-full [&_.MuiDialog-paper]:mx-2 [&_.MuiDialog-paper]:md:!max-w-[80%] shadow-none overflow-hidden"
+      className="[&_.MuiDialog-scrollPaper]:backdrop-blur-xl [&_.MuiDialog-paper]:h-[100vh] [&_.MuiDialog-paper]:!mt-0 [&_.MuiDialog-paper]:pt-8 [&_.MuiDialog-paper]:bg-transparent [&_.MuiDialog-paper]:!w-full [&_.MuiDialog-paper]:mx-2 [&_.MuiDialog-paper]:md:!max-w-[80%] shadow-none overflow-hidden relative"
       PaperProps={{
-        className: " bg-transparent rounded-lg overflow-hidden shadow-none",
+        className: " bg-transparent rounded-lg overflow-x-hidden shadow-none",
       }}
     >
-      <div className="w-full bg-transparent ">
+      <div className="w-full bg-transparent">
         <div className="flex items-center justify-center gap-4 flex-row-reverse overflow-y-hidden">
           <Button
             className="min-w-0 p-1 bg-backgroundMain !hidden md:!grid place-items-center"
@@ -89,19 +89,18 @@ const FlashCardModal = ({ open, toggle, data, swiperRef }: IProps) => {
             <LeftArrowIcon className="text-main" />
           </Button>
         </div>
-
-        <div
-          className="absolute top-[-9%] md:top-[-20px] lg:top-0 w-[90%] pb-2.5 right-[5%] flex items-center justify-between"
-          dir="rtl"
-        >
-          <BackIconComponent
-            className="bg-backgroundMain py-2 px-3.5 rounded-lg"
-            clickHandler={toggle}
-          />
-          <div className="bg-backgroundMain flex items-center gap-1.5 text-main border border-gray-300 rounded-lg px-3 py-2">
-            <SuccessCheckedIcon />
-            <span>{getNonRepetitiveItems(learnedIds)?.length}</span>
-          </div>
+      </div>
+      <div
+        className="absolute top-[-0px] md:top-[-20px] lg:top-0 w-[90%] pb-2.5 right-[5%] flex items-center justify-between z-[999]"
+        dir="rtl"
+      >
+        <BackIconComponent
+          className="bg-backgroundMain py-2 px-3.5 rounded-lg"
+          clickHandler={toggle}
+        />
+        <div className="bg-backgroundMain flex items-center gap-1.5 text-main border border-gray-300 rounded-lg px-3 py-2">
+          <SuccessCheckedIcon />
+          <span>{getNonRepetitiveItems(learnedIds)?.length}</span>
         </div>
       </div>
     </Dialog>
