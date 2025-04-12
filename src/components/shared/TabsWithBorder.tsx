@@ -19,7 +19,7 @@ const TabsWithBorder = ({
   onTabClick,
 }: IProps) => {
   return (
-    <div className={clsx("border-b border-placeholder", wrapperClassName)}>
+    <div className={clsx("", wrapperClassName)}>
       <div
         className={clsx(
           "flex items-center gap-4 md:gap-8 px-[5%]",
@@ -29,10 +29,8 @@ const TabsWithBorder = ({
         {tabList?.map((item) => (
           <div
             className={clsx(
-              `text-placeholder text-sm md:text-[16px] font-semibold border-b border-placeholder pb-[11px] mb-[-1px] cursor-pointer`,
-              activeTab === item?.id
-                ? "!text-primary !border-b-[3px] !border-primary pb-2.5"
-                : "",
+              `text-placeholder text-sm md:text-[16px] font-semibold pb-[11px] mb-[-1px] cursor-pointer`,
+              activeTab === item.id ? "!text-main pb-0" : "",
               tabClassName
             )}
             key={item?.id}
@@ -40,6 +38,9 @@ const TabsWithBorder = ({
           >
             {item?.icon}
             {item?.title}
+            {activeTab === item.id && (
+              <div className="w-[60%] h-1 mt-1 bg-primary mx-auto rounded-full"></div>
+            )}
           </div>
         ))}
       </div>
