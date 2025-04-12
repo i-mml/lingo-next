@@ -92,7 +92,7 @@ const FlashCardDrawerItem = ({
 
       {/* Sentence Box */}
       <div className="my-6 py-4 border-t border-b border-gray300">
-        <div className="text-sm text-main text-center dir-ltr sm:text-xs">
+        <div className="text-sm text-main text-center sm:text-xs" dir="ltr">
           <HighlightWord sentence={item?.text} targetWord={item?.word} />
         </div>
         <div className="text-sm text-gray400 text-center mt-2 sm:text-xs">
@@ -120,7 +120,7 @@ const FlashCardDrawerItem = ({
 
           <OutlineButton
             onClick={deleteFlashCard}
-            className="w-36 border-pink-200 text-pink-400 hover:border-pink-300 hover:text-pink-500"
+            className="w-24 md:w-36 border-pink-200 text-pink-400 hover:border-pink-300 hover:text-pink-500"
           >
             <div className="flex items-center justify-center gap-2">
               <PinkTrashIcon className="w-5 h-5" />
