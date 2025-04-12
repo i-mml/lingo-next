@@ -29,7 +29,7 @@ const TabsWithBorder = ({
         {tabList?.map((item) => (
           <div
             className={clsx(
-              `text-placeholder text-sm md:text-[16px] font-semibold pb-[11px] mb-[-1px] cursor-pointer`,
+              `!min-w-fit text-placeholder text-sm md:text-[16px] font-semibold pb-[11px] mb-[-1px] cursor-pointer`,
               activeTab === item.id ? "!text-main pb-0" : "",
               tabClassName
             )}

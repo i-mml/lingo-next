@@ -70,7 +70,7 @@ const FlashCardModalItem = (props: IProps) => {
   };
 
   return (
-    <div className="bg-backgroundMain p-4 rounded-xl flex flex-col w-full max-w-[472px] sm:w-[91.11%] sm:mx-auto sm:p-3">
+    <div className="bg-backgroundMain p-4 rounded-xl flex flex-col w-full max-w-[330px] md:max-w-[472px] md:w-[91.11%] md:mx-auto md:p-3">
       {/* Video Player */}
       <div className="w-full h-[calc(100vw*0.55)] max-h-64 mb-4">
         {activeIndex - 1 === index && (
@@ -112,29 +112,29 @@ const FlashCardModalItem = (props: IProps) => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-center gap-6 sm:justify-between sm:gap-4">
-        <Button
-          className="rounded-full border border-gray300 bg-white/10 text-gray300 px-6 py-3 hover:bg-white/20 transition-colors sm:text-sm sm:px-3"
+      <div className="flex items-center justify-between sm:justify-between sm:gap-4">
+        <button
+          className="flex items-center rounded-full border border-gray300 bg-white/10 text-gray300 px-3 py-3 hover:bg-white/20 transition-colors text-sm"
           onClick={() => learnedStatusAction(false)}
         >
           <RetryRoundedIcon className="w-6 h-6 sm:w-5 sm:h-5" />
           <span className="mr-2">دوره دوباره</span>
-        </Button>
+        </button>
 
-        <Button
+        <button
           className="rounded-full border border-gray300 bg-white/10 p-3 hover:bg-white/20 transition-colors"
           onClick={() => learnedStatusAction(true)}
         >
           <FlashCardModalTickIcon className="w-8 h-8 sm:w-6 sm:h-6" />
-        </Button>
+        </button>
 
-        <Button
-          className="rounded-full border border-gray300 bg-white/10 text-gray300 px-6 py-3 hover:bg-white/20 transition-colors sm:text-sm sm:px-3"
+        <button
+          className="flex items-center rounded-full border border-gray300 bg-white/10 text-gray300 px-3 py-3 hover:bg-white/20 transition-colors text-sm"
           onClick={() => learnedStatusAction(false)}
         >
           <CloseLightIcon className="w-6 h-6 sm:w-5 sm:h-5" />
           <span className="mr-2">یاد نگرفتم</span>
-        </Button>
+        </button>
       </div>
 
       {wordDetailModal && (
