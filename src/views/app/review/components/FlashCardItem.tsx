@@ -48,15 +48,18 @@ const FlashCardItem = ({
           <WordTypeCard title={wordGrammarJson?.pt} />
         </div>
       </div>
-      <div className="text-sm md:text-base text-main text-left direction-ltr mx-3 my-4">
+      <div
+        className="text-sm md:text-base text-main text-left direction-ltr mx-3 my-4"
+        dir="ltr"
+      >
         <HighlightWord sentence={item?.text} targetWord={item?.word} />
       </div>
       <div className="flex items-center justify-between mt-auto">
         <div className="flex items-center gap-1 md:gap-[9px] text-gray400 text-xs md:text-sm font-medium">
           <Play
             onClick={toggleDrawer}
-            className="!w-5 !h-5 cursor-pointer"
-            fill="red"
+            className="!w-5 !h-5 cursor-pointer !text-main"
+            fill="white"
           />
           <div className="text-gray300 text-xs md:text-sm">
             {item?.movie_detail?.title || ""}

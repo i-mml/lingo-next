@@ -9,23 +9,20 @@ const HighlightWord = ({
   targetWord: string;
 }) => {
   const removePunctuation = (word: string) => {
-    return word?.replace(/[.,!?]/g, "");
+    return word.replace(/[.,!?]/g, "");
   };
 
-  const isPartOfTarget = (word: string) => {
+  const isExactMatch = (word: string) => {
     const cleanedWord = removePunctuation(word);
     const cleanedTarget = removePunctuation(targetWord);
-
-    const index = cleanedTarget?.indexOf(cleanedWord);
-    return index !== -1;
+    return cleanedWord === cleanedTarget;
   };
 
-  return sentence?.split(" ")?.map((word: string, index) => (
-    // @ts-ignore
+  return sentence.split(" ").map((word: string, index) => (
     <span
       className={clsx(
         "font-medium",
-        !!isPartOfTarget(word) ? "text-primary" : "text-main"
+        isExactMatch(word) ? "text-primary" : "text-main"
       )}
       key={index}
     >

@@ -112,7 +112,7 @@ const FlashCardDrawerItem = ({
             onClick={() => updateFlashcardHandler(true, true)}
             className="flex-1 bg-green-100 text-green-600 hover:bg-green-200"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center gap-2">
               <CircleCheckedIcon className="w-5 h-5" />
               <span>یاد گرفتم</span>
             </div>
@@ -120,9 +120,9 @@ const FlashCardDrawerItem = ({
 
           <OutlineButton
             onClick={deleteFlashCard}
-            className="border-pink-200 text-pink-400 hover:border-pink-300 hover:text-pink-500"
+            className="w-36 border-pink-200 text-pink-400 hover:border-pink-300 hover:text-pink-500"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center gap-2">
               <PinkTrashIcon className="w-5 h-5" />
               <span>حذف</span>
             </div>
