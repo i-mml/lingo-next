@@ -14,6 +14,11 @@ import React, { useEffect, useState } from "react";
 import BackIconComponent from "@/components/shared/BackIconComponent";
 import Image from "next/image";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import HomeIcon from "@mui/icons-material/Home";
+import { useTranslation } from "react-i18next";
+import { Typography } from "@mui/material";
+import AbcIcon from "@mui/icons-material/Abc";
 
 const page_size = 20;
 
@@ -30,8 +35,9 @@ const SingleVocabularyView = ({
   const [page, setPage] = useState(1);
   const [allData, setAllData] =
     useState<VocabularyCategoryLesson[]>(lessonsList);
+  const { t } = useTranslation();
 
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryFn: () =>
       getVocabularyLessonsByCategoryId(categoryId, { page_size, page }),
     queryKey: ["get-vocabulary-category-lessons", categoryId, page],
@@ -57,8 +63,27 @@ const SingleVocabularyView = ({
         className="mb-4"
         clickHandler={() => router.push(`/public/vocabulary`)}
       />
+      <Breadcrumbs aria-label="breadcrumb" className="!text-main">
+        <Link className="flex items-center gap-1 " color="inherit" href="/">
+          <HomeIcon className="!text-main !text-2xl" />
+          <span className="text-main">{t("containers.sidebar.Home")}</span>
+        </Link>
+        <Link
+          className="flex items-center gap-1"
+          color="inherit"
+          href={`/public/vocabulary`}
+        >
+          <AbcIcon className="!text-main !text-3xl" />
+          <span className="text-main">یادگیری لغات</span>
+        </Link>
+        <Typography
+          sx={{ color: "text.primary", display: "flex", alignItems: "center" }}
+        >
+          {currentVocabulary?.title}
+        </Typography>
+      </Breadcrumbs>
 
-      <div className="flex flex-col items-center justify-center gap-4 mb-6">
+      <div className="flex flex-col items-center justify-center gap-4 mb-6 mt-4">
         <Image
           width={117}
           height={188.5}

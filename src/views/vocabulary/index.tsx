@@ -2,7 +2,6 @@ import React from "react";
 import { VocabularyListItem } from "@/api/types/education";
 import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import HeroLottie from "./components/HeroLottie";
 
 const VocabularyView = ({ data }: { data: VocabularyListItem[] }) => {
