@@ -93,7 +93,7 @@ const NewSubscriptionItem = ({
                   خرید
                 </PrimaryButton>
                 {item?.duration === 90 && (
-                  <div className="absolute top-[-12px] bg-primary/95 rounded-full py-1 px-2 font-medium text-sm lg:text-[16px]">
+                  <div className="absolute top-[-12px] bg-primary rounded-full py-1 px-2 font-medium text-sm lg:text-[16px]">
                     پرفروش ترین
                   </div>
                 )}

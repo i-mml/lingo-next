@@ -144,7 +144,10 @@ const ConfirmSubscriptionModal = ({
 
         <div className="lg:w-[92%] mx-auto flex items-center gap-4 mt-8">
           <OutlineButton
-            onClick={() => toggleModal()}
+            onClick={() => {
+              toggleModal();
+              resetModalStates();
+            }}
             className="w-[50%]"
             buttonProps={{ disabled: isRedirecting }}
           >
