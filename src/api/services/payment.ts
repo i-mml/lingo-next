@@ -29,3 +29,11 @@ export const postPaymentDiscountValidate = async (body: {
 
   return response;
 };
+
+export const getPaymentPackageStart = async (url: string) => {
+  const response = await axiosInstance.get(
+    process.env.NEXT_PUBLIC_API_BASE_URL + url
+  );
+
+  return response;
+};
