@@ -1,5 +1,4 @@
 import React from "react";
-import { Metadata } from "next";
 import { getPublicRouteMetadata } from "@/utils/seo";
 
 interface PublicRouteSEOProps {
@@ -47,7 +46,7 @@ export const PublicRouteSEO: React.FC<PublicRouteSEOProps> = ({
   catalogs,
 }) => {
   const metadata = getPublicRouteMetadata(route);
-  const fullTitle = `${title} | ${metadata.siteName}`;
+  const fullTitle = `${title || ""} | ${metadata.siteName}`;
   const fullImage = image || metadata.defaultImage;
   const fullCanonicalUrl = canonicalUrl || `${metadata.siteUrl}${route}`;
 

@@ -17,7 +17,7 @@ interface PublicRouteMetadata {
 export const getPublicRouteMetadata = (route: string) => {
   const metadata: PublicRouteMetadata = {
     siteName: "زبانو - یادگیری زبان با فیلم و سریال",
-    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://lingo.com",
+    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://zabano.com",
     defaultImage: "/images/og-image.jpg",
     logo: "/images/logo.png",
     defaultKeywords: [
