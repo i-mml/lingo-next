@@ -20,12 +20,12 @@ const PrimaryButton = ({
         font-medium
         !transition-all
         !duration-500 
-        !text-white
-        ${
-          buttonProps.disabled
-            ? "border-disabled border-b-disabled"
-            : "hover:translate-y-0.5 active:translate-y-1.5"
-        }
+        !text-white 
+        disabled:bg-backgroundDisabled
+        disabled:border-b-backgroundDisabled
+        disabled:cursor-not-allowed
+        active:hover:translate-y-0.5
+        active:translate-y-1.5
         border-b-[5px] border-[#af5800]
         cursor-pointer
         outline-none  ${className}

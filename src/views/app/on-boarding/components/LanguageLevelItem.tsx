@@ -16,8 +16,10 @@ const LanguageLevelItem = (props: IProps) => {
     <div
       className={`language-item py-[14px] rounded-lg border border-borderMain bg-transparent grid place-items-center w-[45%] md:w-[28.9%] mb-6 cursor-pointer hover:border-gray400 ${
         item?.disabled && "disabled-language brightness-50 cursor-not-allowed"
-      } ${selected === item?.id && "selected-language bg-[#3a3a3a]"} ${
-        isInModal ? "!w-[47%] p-[17px] flex items-center justify-start" : ""
+      } ${selected === item?.id && "selected-language !bg-[#3a3a3a]"} ${
+        isInModal
+          ? "!w-[47%] p-[17px] flex items-center justify-start"
+          : "w-full md:w-[28.9%] px-5 md:px-0 !flex md:flex-col"
       }`}
       key={item?.id}
       onClick={!item?.disabled ? () => setSelected(item?.id) : () => {}}

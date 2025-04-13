@@ -10,7 +10,7 @@ const AvailableAccentItem = (props: IProps) => {
   const { item, selected, setSelected } = props;
   return (
     <div
-      className={`language-item py-[19px] rounded-lg border border-borderMain w-[45%] grid place-items-center mb-6 cursor-pointer hover:border-gray400 ${
+      className={`language-item py-[19px] rounded-lg border border-borderMain w-full md:w-[45%] grid place-items-center mb-6 cursor-pointer hover:border-gray400 ${
         item?.disabled &&
         "disabled-language brightness-50 !border-0 !cursor-not-allowed"
       } ${
