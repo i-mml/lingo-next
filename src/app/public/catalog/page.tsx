@@ -1,4 +1,5 @@
 import { GetCmsByBanner, GetCmsByContentType } from "@/api/services/cms";
+import { PublicRouteSEO } from "@/components/seo/PublicRouteSEO";
 import CatalogView from "@/views/catalog";
 import { cookies } from "next/headers";
 import React from "react";
@@ -10,6 +11,14 @@ const CatalogPage = async () => {
 
   return (
     <>
+      <PublicRouteSEO
+        route="/public/catalog"
+        title="یادگیری زبان با فیلم و سریال و انیمیشن"
+        description="مجموعه فیلم و سریال ها برای یادگیری زبان به کمک هوش مصنوعی"
+        type="catalog"
+        banners={banners}
+        catalogs={catalogs}
+      />
       <CatalogView catalogData={catalogs} banners={banners} />
       <script type="application/ld+json">
         {JSON.stringify({

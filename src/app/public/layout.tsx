@@ -1,12 +1,32 @@
 import DashboardLayout from "@/components/layout/dashboard-layout";
+import { PublicRouteSEO } from "@/components/seo/PublicRouteSEO";
+import { getPublicRouteMetadata } from "@/utils/seo";
 import React from "react";
 
-const Layout = ({
-  children,
-}: Readonly<{
+interface PublicLayoutProps {
   children: React.ReactNode;
-}>) => {
-  return <DashboardLayout>{children}</DashboardLayout>;
+  params: {
+    route: string;
+  };
+}
+
+const Layout = ({ children, params }: PublicLayoutProps) => {
+  const route = `/public/${params.route}`;
+  const metadata = getPublicRouteMetadata(route);
+
+  return (
+    <>
+      <PublicRouteSEO
+        route={route}
+        title={metadata.title}
+        description={metadata.description}
+        keywords={metadata.keywords}
+        type={metadata.type}
+        image="/zabano-main-logo.png"
+      />
+      <DashboardLayout>{children}</DashboardLayout>
+    </>
+  );
 };
 
 export default Layout;
