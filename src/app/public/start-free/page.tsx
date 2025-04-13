@@ -1,3 +1,5 @@
+"use client";
+
 import { GetCmsByBanner, GetCmsByContentType } from "@/api/services/cms";
 import CatalogView from "@/views/catalog";
 import React from "react";
