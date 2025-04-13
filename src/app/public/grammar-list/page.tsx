@@ -7,24 +7,44 @@ import { cookies } from "next/headers";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "آموزش گرامر زبان انگلیسی از صفر تا صد (کتاب Grammar in Use)",
+  title: "آموزش گرامر زبان انگلیسی | زبانو",
   description:
-    "بخش گرامر آموزش زبان انگلیسی شامل دروس طبقه بندی شده در سطح های مختلف است. برای یادگیری گرامر زبان انگلیسی کلیک کنید",
+    "یادگیری گرامر زبان انگلیسی به صورت کامل و جامع. دسترسی به درس‌های گرامر با مثال‌های کاربردی و تمرین‌های تعاملی. آموزش قواعد زبان انگلیسی به روشی ساده و موثر.",
   keywords: [
-    "آموزش گرامر",
+    "آموزش گرامر انگلیسی",
+    "گرامر زبان انگلیسی",
+    "قواعد زبان انگلیسی",
+    "یادگیری گرامر انگلیسی",
+    "آموزش زبان انگلیسی",
     "گرامر انگلیسی",
-    "کتاب grammar in use",
-    "آموزش گرامر زبان",
-    "کتاب آموزش گرامر",
+    "آموزش قواعد زبان",
+    "گرامر پیشرفته انگلیسی",
+    "یادگیری زبان رایگان",
   ],
-  openGraph: {
-    title: "زبانو - آموزش گرامر زبان انگلیسی از صفر تا صد",
-    description:
-      "با گرامر های زبانو تقریبا تمام مباحث گرامری برای سطوح مختلف رو میتونی یاد بگیری",
-    images: `${process.env.NEXT_PUBLIC_BASE_URL}/zabano-main-logo.png`,
-  },
   alternates: {
-    canonical: "https://www.zabano.com/public/grammar-list",
+    canonical: "https://zabano.com/public/grammar-list",
+  },
+  openGraph: {
+    title: "آموزش گرامر زبان انگلیسی | زبانو",
+    description:
+      "یادگیری گرامر زبان انگلیسی به صورت کامل و جامع. آموزش قواعد زبان انگلیسی به روشی ساده و موثر.",
+    type: "website",
+    locale: "fa_IR",
+    url: "https://zabano.com/public/grammar-list",
+    images: [
+      {
+        url: "https://zabano.com/zabano-main-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "آموزش گرامر زبان انگلیسی با زبانو",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "آموزش گرامر زبان انگلیسی | زبانو",
+    description: "یادگیری گرامر زبان انگلیسی به روشی ساده و موثر",
+    images: ["https://zabano.com/zabano-main-logo.png"],
   },
 };
 
