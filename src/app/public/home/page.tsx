@@ -1,5 +1,3 @@
-"use client";
-
 import HomeView from "@/views/home";
 import React from "react";
 import { Metadata } from "next";

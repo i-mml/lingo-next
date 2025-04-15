@@ -1,5 +1,3 @@
-"use client";
-
 import DownloadAppView from "@/views/download-app";
 import React from "react";
 
