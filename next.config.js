@@ -1,3 +1,4 @@
+// Using require for next-pwa is needed as Next.config.js doesn't support ES modules
 const withPWA = require("next-pwa")({
   dest: "public",
   register: true,
@@ -47,6 +48,34 @@ const withPWA = require("next-pwa")({
           maxEntries: 50,
           maxAgeSeconds: 5 * 60, // 5 minutes
         },
+      },
+    },
+    // Cache pages
+    {
+      urlPattern: /^https:\/\/.*\/app\/(dictionary|review|bookmarks)$/,
+      handler: "NetworkFirst",
+      options: {
+        cacheName: "pages-cache",
+        expiration: {
+          maxEntries: 20,
+          maxAgeSeconds: 24 * 60 * 60, // 1 day
+        },
+      },
+    },
+    // Offline fallback for navigation requests
+    {
+      urlPattern: ({ request: req }) => req.mode === "navigate",
+      handler: "NetworkOnly",
+      options: {
+        cacheName: "navigations",
+        plugins: [
+          {
+            handlerDidError: async () => {
+              // Return the offline page if navigation fails due to network error
+              return caches.match("/offline");
+            },
+          },
+        ],
       },
     },
   ],
@@ -128,6 +157,14 @@ const nextConfig = {
             value: "origin-when-cross-origin",
           },
         ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/offline",
+        destination: "/offline.html",
       },
     ];
   },
