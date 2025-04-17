@@ -2,15 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/components/providers";
 import { dana, vazirMatnRD } from "./fonts";
-import dynamic from "next/dynamic";
-
-// Dynamically import the PWA install prompt component to avoid SSR issues
-const PWAInstallPrompt = dynamic(
-  () => import("@/components/PWAInstallPrompt"),
-  {
-    ssr: false,
-  }
-);
 
 export const metadata: Metadata = {
   title: "زبانو - یادگیری زبان با هوش مصنوعی و فیلم و سریال و انیمیشن",
@@ -52,10 +43,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
       <body className={`antialiased bg-backgroundMain`}>
-        <Providers>
-          {children}
-          <PWAInstallPrompt />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
