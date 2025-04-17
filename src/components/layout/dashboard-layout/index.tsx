@@ -7,15 +7,6 @@ import { isMobile } from "react-device-detect";
 import { usePathname } from "next/navigation";
 import LoginModal from "@/components/modals/LoginModal";
 import { useLoginModal } from "@/store/use-login-modal";
-import dynamic from "next/dynamic";
-
-// Dynamically import the PWA install prompt component to avoid SSR issues
-const PWAInstallPrompt = dynamic(
-  () => import("@/components/PWAInstallPrompt"),
-  {
-    ssr: false,
-  }
-);
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
@@ -46,7 +37,6 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
         </div>
       </div>
       {isOpen && <LoginModal open={isOpen} onClose={toggleLoginModal} />}
-      <PWAInstallPrompt />
     </div>
   );
 };

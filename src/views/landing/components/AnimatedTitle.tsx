@@ -1,4 +1,4 @@
-import { cn } from "@/utils/cs";
+import { cn } from "@/utils/cn";
 import { motion } from "framer-motion";
 import type { PropsWithChildren } from "react";
 import React from "react";
