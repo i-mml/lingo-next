@@ -2,6 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/components/providers";
 import { dana, vazirMatnRD } from "./fonts";
+import dynamic from "next/dynamic";
+
+// Dynamically import the PWA install prompt component to avoid SSR issues
+const PWAInstallPrompt = dynamic(
+  () => import("@/components/PWAInstallPrompt"),
+  {
+    ssr: false,
+  }
+);
 
 export const metadata: Metadata = {
   title: "زبانو - یادگیری زبان با هوش مصنوعی و فیلم و سریال و انیمیشن",
@@ -24,6 +33,15 @@ export const metadata: Metadata = {
     maximumScale: 1,
     userScalable: false,
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/zabano-main-logo.png", sizes: "192x192", type: "image/png" },
+      { url: "/zabano-main-logo.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/zabano-main-logo.png" }],
+    shortcut: [{ url: "/favicon.ico" }],
+  },
 };
 
 export default function RootLayout({
@@ -39,11 +57,16 @@ export default function RootLayout({
     >
       <head>
         <link rel="apple-touch-icon" href="/zabano-main-logo.png" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
       <body className={`antialiased bg-backgroundMain`}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <PWAInstallPrompt />
+        </Providers>
       </body>
     </html>
   );
