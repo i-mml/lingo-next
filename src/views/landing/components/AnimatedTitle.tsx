@@ -1,4 +1,4 @@
-import { cn } from "@/utils/cn";
+import { classNames } from "@/utils/cn";
 import { motion } from "framer-motion";
 import type { PropsWithChildren } from "react";
 import React from "react";
@@ -20,7 +20,7 @@ export function AnimatedTitle({
       whileInView={{ clipPath: "polygon(100% 0%, 0% 0%, 0% 100%, 100% 100%)" }}
       viewport={{ once: true }}
       transition={{ duration, ease: [0, 0.55, 0.45, 1] }}
-      className={cn(
+      className={classNames(
         "relative left-1/2 inline-block -translate-x-1/2 w-full text-black",
         className
       )}

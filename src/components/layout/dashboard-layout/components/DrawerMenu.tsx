@@ -188,7 +188,7 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
       className="[&_.MuiDrawer-paper]:h-[100vh] md:[&_.MuiDrawer-paper]:w-full [&_.MuiDrawer-paper]:w-[80%] [&_.MuiDrawer-paper]:max-w-[472px] [&_.MuiDrawer-paper]:bg-backgroundMain [&_.MuiDrawer-paper]:rounded-tl-3xl [&_.MuiDrawer-paper]:rounded-bl-3xl [&_.MuiDrawer-paper]:border-l-4 [&_.MuiDrawer-paper]:border-primary"
     >
       <div className="w-64 bg-bgDefault h-full p-4" dir="rtl">
-        <nav className="flex flex-col gap-4 pb-12">
+        <nav className="flex flex-col gap-4 pb-20">
           {sidebarItems?.map((item) => (
             <div key={item.id} className="mb-2">
               <h3 className="text-gray400 text-base font-medium mb-2">
@@ -241,9 +241,13 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
                 دانلود اپ
               </OutlineButton>
             </Link>
-            <Link href="/login" className="!h-11 block w-full">
-              <PrimaryButton className="w-full">ورود | ثبت نام</PrimaryButton>
-            </Link>
+            {isGuest ? (
+              <Link href="/login" className="!h-11 block w-full">
+                <PrimaryButton className="w-full">ورود | ثبت نام</PrimaryButton>
+              </Link>
+            ) : (
+              <></>
+            )}
           </div>
         </nav>
 

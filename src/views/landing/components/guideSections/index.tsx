@@ -50,16 +50,14 @@ const HomeGuideSection = ({
         </div>
 
         <div
-          className={`flex-1 ${
+          className={`w-full ${
             imageOrder === 1 ? "order-1" : "order-2"
           } max-[750px]:order-1`}
         >
           <AnimatedHeroDecor className="w-[90%] lg:w-[70%] mt-5 lg:mt-0 mx-auto">
-            <Image
-              width={90}
-              height={70}
+            <img
               src={image}
-              className="rounded-lg w-full"
+              className="rounded-lg w-full object-cover"
               alt="animated decor"
             />
           </AnimatedHeroDecor>
