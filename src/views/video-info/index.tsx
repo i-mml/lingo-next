@@ -365,14 +365,14 @@ const VideoInformationView = ({
                     {item.name || `قسمت ${index + 1}`}
                   </span>
                   <OutlineButton
-                    className="md:w-20"
+                    className="w-12 md:w-20"
                     onClick={() => handleQuizClick(item.id)}
                   >
                     کوئیز
                   </OutlineButton>
                   <PrimaryButton
                     onClick={() => handlePlayClick(item.id)}
-                    className="mr-2 md:w-20"
+                    className="mr-2 w-12 md:w-20"
                   >
                     پخش
                   </PrimaryButton>
