@@ -15,8 +15,6 @@ import useStore from "../store/useStore";
 import useThemeCreator from "@/hooks/use-theme";
 import { useAuth } from "@/hooks/use-auth";
 import { useTextToAudio } from "@/hooks/use-text-to-audio";
-import { getSentenceGrammar } from "@/api/services/cms";
-import { useMutation } from "@tanstack/react-query";
 import screenfull from "screenfull";
 import WaveLoading from "@/components/shared/WaveLoading";
 import { StyledPlayer } from "./playerStyels";
@@ -117,6 +115,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
     handleDuration,
     handleFetchGrammar,
   } = usePlayerState();
+  const { whoAmI } = useAuth();
 
   const { handleTextToSpeech, textToSpeachMutation } = useTextToAudio();
 
@@ -205,17 +204,10 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
 
         <div style={{ zIndex: 9999999 }}>
           <PlayerControls
-            started={started}
-            currentSubtitle={currentSubtitle}
-            activeTab={activeTab}
-            movie={movie}
-            handlePause={handlePause}
-            toggleRecordModal={toggleRecordModal}
-            setActiveTab={setActiveTab}
-            handleAction={handleAction}
-            handleFetchGrammar={() =>
-              handleFetchGrammar(currentSubtitle?.sentence?.subtitle)
-            }
+            playerRef={playerRef}
+            wrapperRef={wrapperRef}
+            togglePlayerSettingModal={togglePlayerSettingModal}
+            settingModal={settingModal}
           />
         </div>
       </StyledPlayer>
@@ -235,19 +227,268 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
           }}
           className="bottom-0 lg:top-[58vh] lg:bottom-[none] lg:mt-5 w-full"
         >
-          <PlayerControls
-            started={started}
-            currentSubtitle={currentSubtitle}
-            activeTab={activeTab}
-            movie={movie}
-            handlePause={handlePause}
-            toggleRecordModal={toggleRecordModal}
-            setActiveTab={setActiveTab}
-            handleAction={handleAction}
-            handleFetchGrammar={() =>
-              handleFetchGrammar(currentSubtitle?.sentence?.subtitle)
-            }
-          />
+          {!(isTablet || isMobile) ? (
+            <>
+              <TooltipBox
+                item={
+                  <KeyboardVoiceIcon
+                    sx={{
+                      color:
+                        !started || currentSubtitle === ""
+                          ? "gray"
+                          : isMobile
+                          ? theme.palette.text.main
+                          : theme.palette.text.primary,
+                      fontSize: "24px",
+                    }}
+                  />
+                }
+                handleAction={() => {
+                  handlePause();
+                  toggleRecordModal();
+                }}
+                disabled={!started || currentSubtitle === ""}
+                tooltipText="بازگویی جمله"
+              />
+              <TooltipBox
+                item={
+                  textToSpeachMutation?.isLoading ? (
+                    <WaveLoading />
+                  ) : (
+                    <HeadsetIcon
+                      sx={{
+                        color:
+                          !started || currentSubtitle === ""
+                            ? "gray"
+                            : isMobile
+                            ? theme.palette.text.main
+                            : theme.palette.text.primary,
+                        fontSize: "24px",
+                      }}
+                    />
+                  )
+                }
+                disabled={
+                  !started ||
+                  currentSubtitle === "" ||
+                  textToSpeachMutation?.isLoading
+                }
+                handleAction={() => {
+                  handlePause();
+                  handleTextToSpeech({
+                    text: currentSubtitle?.sentence?.subtitle,
+                    language:
+                      whoAmI?.userpreference?.preferred_language === 2
+                        ? "en-US"
+                        : "de-DE",
+                  });
+                }}
+                tooltipText="تکرار جمله"
+              />
+              {movie?.language === 2 && (
+                <TooltipBox
+                  tooltipText="گرامر جمله"
+                  handleAction={() => {
+                    handleAction && handleAction?.(currentSubtitle);
+                    handlePause();
+                    handleFetchGrammar(currentSubtitle);
+                    setActiveTab(3);
+                  }}
+                  disabled={!started || currentSubtitle === ""}
+                  item={
+                    <EmojiObjectsIcon
+                      sx={{
+                        color:
+                          !started || currentSubtitle === ""
+                            ? "gray"
+                            : isMobile && activeTab === 2
+                            ? theme.palette.text.main
+                            : theme.palette.text.primary,
+                        fontSize: "24px",
+                      }}
+                    />
+                  }
+                />
+              )}
+            </>
+          ) : (
+            <>
+              <button
+                id="seventh-step"
+                disabled={!started || currentSubtitle === ""}
+                onClick={() => {
+                  handlePause();
+                  toggleRecordModal();
+                }}
+                className="text-white bg-layout p-1 rounded-lg"
+              >
+                <KeyboardVoiceIcon
+                  sx={{
+                    color:
+                      !started || currentSubtitle === ""
+                        ? "gray"
+                        : isMobile
+                        ? theme.palette.text.main
+                        : theme.palette.text.primary,
+                    fontSize: "24px",
+                  }}
+                />
+                <p className="text-[10px] text-main">بازگویی جمله</p>
+              </button>
+              <button
+                disabled={
+                  !started ||
+                  currentSubtitle === "" ||
+                  textToSpeachMutation?.isLoading
+                }
+                onClick={() => {
+                  handlePause();
+                  handleTextToSpeech({
+                    text: currentSubtitle?.sentence?.subtitle,
+                    language:
+                      whoAmI?.userpreference?.preferred_language === 2
+                        ? "en-US"
+                        : "de-DE",
+                  });
+                }}
+                className="text-white bg-layout p-1 rounded-lg"
+                id="sixth-step"
+              >
+                {textToSpeachMutation?.isLoading ? (
+                  <WaveLoading />
+                ) : (
+                  <HeadsetIcon
+                    sx={{
+                      color:
+                        !started || currentSubtitle === ""
+                          ? "gray"
+                          : isMobile
+                          ? theme.palette.text.main
+                          : theme.palette.text.primary,
+                      fontSize: "24px",
+                    }}
+                  />
+                )}
+                <p className="text-[10px] text-main">تکرار جمله</p>
+              </button>
+              {movie?.language === 2 && (
+                <button
+                  disabled={!started || currentSubtitle === ""}
+                  onClick={() => {
+                    handleAction && handleAction?.(currentSubtitle);
+                    handlePause();
+                    handleFetchGrammar(currentSubtitle);
+                    setActiveTab(3);
+                  }}
+                  className="text-white bg-layout p-1 rounded-lg"
+                  id="fifth-step"
+                >
+                  <EmojiObjectsIcon
+                    sx={{
+                      color:
+                        !started || currentSubtitle === ""
+                          ? "gray"
+                          : isMobile && activeTab === 3
+                          ? theme.palette.background.primary
+                          : theme.palette.text.main,
+                      fontSize: "24px",
+                    }}
+                  />
+                  <p
+                    className={`text-[10px] text-main ${
+                      activeTab === 3 && "text-primary"
+                    }`}
+                  >
+                    گرامر جمله
+                  </p>
+                </button>
+              )}
+            </>
+          )}
+          {(isTablet || isMobile) && (
+            <>
+              <button
+                id="fourth-step"
+                disabled={!started}
+                onClick={() => {
+                  setActiveTab(0);
+                }}
+                className="text-white bg-layout p-1 rounded-lg"
+              >
+                <ViewCarouselIcon
+                  sx={{
+                    color: !started
+                      ? "gray"
+                      : activeTab === 0
+                      ? theme.palette.background.primary
+                      : theme.palette.text.main,
+                    fontSize: "24px",
+                  }}
+                />
+                <p
+                  className={`text-[10px] text-main ${
+                    activeTab === 0 && "text-primary"
+                  }`}
+                >
+                  فلش‌کارت‌ها
+                </p>
+              </button>
+
+              <button
+                id="third-step"
+                disabled={!started}
+                onClick={() => {
+                  setActiveTab(2);
+                }}
+                className="text-white bg-layout p-1 rounded-lg"
+              >
+                <FormatQuoteIcon
+                  sx={{
+                    color: !started
+                      ? "gray"
+                      : activeTab === 2
+                      ? theme.palette.background.primary
+                      : theme.palette.text.main,
+                    fontSize: "24px",
+                  }}
+                />
+                <p
+                  className={`text-[10px] text-main ${
+                    activeTab === 2 && "text-primary"
+                  }`}
+                >
+                  اجزای‌جمله
+                </p>
+              </button>
+
+              <button
+                id="second-step"
+                disabled={!started}
+                onClick={() => {
+                  setActiveTab(1);
+                }}
+                className="text-white bg-layout p-1 rounded-lg"
+              >
+                <WysiwygIcon
+                  sx={{
+                    color: !started
+                      ? "gray"
+                      : activeTab === 1
+                      ? theme.palette.background.primary
+                      : theme.palette.text.main,
+                    fontSize: "24px",
+                  }}
+                />
+                <p
+                  className={`text-[10px] text-main ${
+                    activeTab === 1 && "text-primary"
+                  }`}
+                >
+                  زیرنویس‌ها
+                </p>
+              </button>
+            </>
+          )}
         </div>
       )}
 
