@@ -94,13 +94,14 @@ const SpeachCompareModal = (props: Iprops) => {
             />
           </>
         ) : (
-          <div className="flex items-center gap-4 p-2">
+          <div className="flex flex-col justify-center items-center gap-4 p-2">
             <div className="text-main text-center mb-3">
               {translate("errors.YOU_SHOULD_GIVE_ACCESS")}
             </div>
             <OutlineButton
               onClick={checkMicrophonePermission}
               buttonProps={{ type: "button" }}
+              className="w-full max-w-md"
             >
               {translate("errors.GIVE_MIC_ACCESS")}
             </OutlineButton>
