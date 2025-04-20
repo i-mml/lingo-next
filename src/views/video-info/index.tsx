@@ -289,8 +289,8 @@ const VideoInformationView = ({
               <button
                 className={
                   data?.is_locked
-                    ? "absolute top-0 left-8"
-                    : "absolute top-0 left-4"
+                    ? "absolute -top-1 left-[75px]"
+                    : "absolute -top-1 left-4"
                 }
                 onClick={(e) => {
                   e.stopPropagation();
