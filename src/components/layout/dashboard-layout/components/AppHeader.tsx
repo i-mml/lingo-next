@@ -146,7 +146,7 @@ const AppHeader: React.FC = () => {
               ورود | ثبت نام
             </OutlineButton>
           ) : (
-            <Link href="public/download-app" className="w-[30%] block">
+            <Link href="/public/download-app" className="w-[30%] block">
               <OutlineButton className="w-full h-11 p-0">
                 دانلود اپ
               </OutlineButton>
