@@ -45,9 +45,9 @@ const VocabularyWordListItem = ({
         >
           <div
             dir="ltr"
-            className="flex items-center justify-between w-full rounded-md px-4 py-3 text-main"
+            className="flex items-center justify-between w-full rounded-md px-2 py-3 text-main"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 min-w-fit">
               <span className="text-main font-medium text-lg lg:text-xl">
                 {index + 1}. {item?.text}
               </span>

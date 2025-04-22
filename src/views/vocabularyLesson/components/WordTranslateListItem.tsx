@@ -14,7 +14,7 @@ const WordTranslateListItem = (props: { text: string; isBlurred: boolean }) => {
   return (
     <div
       className={clsx(
-        `p-1 rounded-lg cursor-pointer transition-all duration-300`,
+        `p-1 rounded-lg cursor-pointer transition-all duration-300 text-right`,
         blurred ? "filter blur-[8px]" : "filter blur-none"
       )}
       onClick={(e) => {
