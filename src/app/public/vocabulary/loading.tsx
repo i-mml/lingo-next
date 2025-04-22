@@ -1,43 +1,42 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import { isMobile } from "react-device-detect";
 
 export default function VocabularyPageLoading() {
   return (
-    <div className="pb-10 px-4">
-      {/* Page Title */}
-      <Skeleton className="h-8 w-52 mb-6 mt-4" />
+    <div className="min-h-[80vh] md:min-h-[60vh] pt-[5vh] gap-6 px-[5%]">
+      {/* Header Section */}
+      <header className="mb-12">
+        <Skeleton className="h-8 w-3/4 max-w-[600px] mb-4" />
+        <div className="space-y-3">
+          <Skeleton className="h-5 w-full max-w-[800px]" />
+          <Skeleton className="h-5 w-full max-w-[700px]" />
+          <Skeleton className="h-5 w-full max-w-[700px]" />
+          {isMobile ? (
+            <>
+              <Skeleton className="h-5 w-full max-w-[700px]" />
+              <Skeleton className="h-5 w-full max-w-[700px]" />
+              <Skeleton className="h-5 w-full max-w-[700px]" />
+              <Skeleton className="h-5 w-full max-w-[700px]" />
+              <Skeleton className="h-5 w-full max-w-[700px]" />
+              <Skeleton className="h-5 w-full max-w-[700px]" />
+              <Skeleton className="h-5 w-full max-w-[700px]" />
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
+      </header>
 
-      {/* Book Grid */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {/* Grid Items */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
         {Array.from({ length: 8 }, (_, i) => (
           <div key={i} className="flex flex-col items-center">
-            {/* Book Cover */}
-            <Skeleton className="h-[220px] w-[160px] rounded-lg mb-4" />
-            <Skeleton className="h-6 w-40 mb-2" />
-            <Skeleton className="h-4 w-32 mb-1" />
-            <Skeleton className="h-4 w-24" />
+            <Skeleton className="aspect-[179/290] w-full max-w-[179px] md:max-w-[212px] rounded-xl mb-3" />
+            <Skeleton className="h-5 w-3/4 max-w-[150px]" />
           </div>
         ))}
-      </div>
-
-      {/* More Content */}
-      <div className="mt-12">
-        <Skeleton className="h-8 w-44 mb-6" />
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 3 }, (_, i) => (
-            <div
-              key={i}
-              className="p-4 border border-gray-200 rounded-lg dark:border-gray-700"
-            >
-              <Skeleton className="h-6 w-32 mb-3" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-3/4" />
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );
