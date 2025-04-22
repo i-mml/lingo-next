@@ -238,7 +238,7 @@ const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
                     src={data.image}
                     className="w-12 h-12 rounded-full md:w-16 md:h-16"
                   />
-                  <span className="flex-1 truncate text-main">
+                  <span className="flex-1 line-clamp-2 text-main">
                     {item.name || `قسمت ${index + 1}`}
                   </span>
                 </div>
