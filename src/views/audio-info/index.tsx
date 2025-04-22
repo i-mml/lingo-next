@@ -96,7 +96,16 @@ const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
         ? data?.slug?.split("-")?.[0]
         : data?.slug;
 
-    if (audioId && audioId?.split("-")?.length < 2 && data?.slug) {
+    // Check if current URL already contains the slug
+    const currentPath = window.location.pathname;
+    const expectedPath = `/public/video-info/${data?.id}-${data?.slug}`;
+
+    if (
+      audioId &&
+      audioId?.split("-")?.length < 2 &&
+      data?.slug &&
+      currentPath !== expectedPath
+    ) {
       redirectWithReplace();
     }
     if (
