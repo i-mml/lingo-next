@@ -19,9 +19,12 @@ const CatalogBannersRowSlider = dynamic(
   () => import("./components/CatalogBannersRowSlider"),
   { ssr: false, loading: () => <p>Loading...</p> }
 );
+const FaqSection = dynamic(() => import("./components/FaqSection"), {
+  ssr: false,
+});
 
 const CatalogView: FC<CatalogPageTypes> = (props) => {
-  const { isFreeOnly, banners, catalogData } = props;
+  const { isFreeOnly, banners, catalogData, faqData, isAnimation } = props;
   const router = useRouter();
 
   return (
@@ -43,6 +46,9 @@ const CatalogView: FC<CatalogPageTypes> = (props) => {
 
       <CatalogBannersRowSlider banners={banners} isFreeOnly={isFreeOnly} />
       <CatalogRowSliders catalogData={catalogData} isFreeOnly={isFreeOnly} />
+
+      {/* FAQ Section */}
+      {faqData && faqData.length > 0 && <FaqSection faqData={faqData} />}
     </main>
   );
 };
