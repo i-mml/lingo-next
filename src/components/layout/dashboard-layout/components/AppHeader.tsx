@@ -49,7 +49,7 @@ const AppHeader: React.FC = () => {
   const toggleSearchModal = () => setSearchModal((prev) => !prev);
 
   return (
-    <header className="fixed right-0 left-0 w-full md:w-[calc(100%-200px)] bg-backgroundLayout md:h-24 border-b-0 md:border-b-2 border-borderMain transition-transform duration-300 ease-in-out z-[200] flex items-center">
+    <header className="fixed right-0 left-0 w-full md:w-full lg:w-[calc(100%-200px)] bg-backgroundLayout md:h-24 border-b-0 md:border-b-2 border-borderMain transition-transform duration-300 ease-in-out z-[200] flex items-center">
       <div className="hidden w-full items-center justify-between px-5 md:flex">
         {isLoading ? (
           <CircularProgress />
