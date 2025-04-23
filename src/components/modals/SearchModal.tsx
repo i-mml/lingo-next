@@ -101,11 +101,11 @@ const SearchModal = ({ open, toggleModal }: IProps) => {
                     />
                     {movie?.is_locked && <NeedSubscriptionMovieBadge />}
                     <div className="w-full rounded-b-xl absolute bottom-0 py-2 px-2 bg-[rgba(0,0,0,0.4)]">
-                      <h4 className="text-lg lg:text-xl font-semibold text-main line-clamp-1">
+                      <h4 className="text-lg lg:text-xl font-semibold text-[white] line-clamp-1">
                         {contentTypeRoute?.[movie?.content_type]?.title}{" "}
                         {movie?.title}
                       </h4>
-                      <p className="text-main text-[16px] lg:text-lg font-medium mt-2">
+                      <p className="text-[white] text-[16px] lg:text-lg font-medium mt-2">
                         سطح{" "}
                         {
                           languageLevels?.[data?.difficulty || 1]
