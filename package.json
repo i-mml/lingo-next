@@ -25,7 +25,7 @@
     "echarts": "^5.6.0",
     "echarts-for-react": "^3.0.2",
     "firebase": "^11.6.0",
-    "framer-motion": "^12.4.10",
+    "framer-motion": "^12.8.0",
     "html-to-react": "^1.7.0",
     "i18next": "^24.2.2",
     "lottie-react": "^2.4.1",

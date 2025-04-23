@@ -291,133 +291,183 @@ const SamplePage = () => {
               </motion.p>
             </motion.div>
 
-            {/* Right Side - Value Proposition */}
-            <div className="relative">
-              <div className="max-w-xl">
-                {/* Core Benefits */}
-                <div className="space-y-8">
-                  {/* Benefit 1: Comprehensive Learning */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
-                  >
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 rounded-full bg-[var(--primary)]/10 flex items-center justify-center">
-                        <span className="text-2xl">🎯</span>
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-semibold text-white">
-                          یادگیری هدفمند
-                        </h3>
-                        <p className="text-gray-400 text-sm">
-                          با محتوای مورد علاقه‌تان
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-3 mt-4">
-                      <div className="flex-1 bg-black/20 rounded-xl p-3 text-center">
-                        <div className="text-[var(--primary)] text-sm mb-1">
-                          فیلم و سریال
-                        </div>
-                        <div className="text-white/70 text-xs">+1000</div>
-                      </div>
-                      <div className="flex-1 bg-black/20 rounded-xl p-3 text-center">
-                        <div className="text-[var(--primary)] text-sm mb-1">
-                          پادکست
-                        </div>
-                        <div className="text-white/70 text-xs">+500</div>
-                      </div>
-                      <div className="flex-1 bg-black/20 rounded-xl p-3 text-center">
-                        <div className="text-[var(--primary)] text-sm mb-1">
-                          کتاب صوتی
-                        </div>
-                        <div className="text-white/70 text-xs">+200</div>
-                      </div>
-                    </div>
-                  </motion.div>
+            {/* Left Side - Feature Preview */}
+            <div className="lg:pl-8">
+              <div className="space-y-6 max-w-xl">
+                {/* 3D Language Showcase */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                  className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10"
+                >
+                  <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <span className="text-3xl">🌍</span>
+                    زبان‌های موجود
+                  </h3>
 
-                  {/* Benefit 2: Smart Tools */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
-                  >
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 rounded-full bg-[var(--primary)]/10 flex items-center justify-center">
-                        <span className="text-2xl">⚡️</span>
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-semibold text-white">
-                          ابزارهای هوشمند
-                        </h3>
-                        <p className="text-gray-400 text-sm">
-                          یادگیری سریع و موثر
-                        </p>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3 mt-4">
-                      <div className="bg-black/20 rounded-xl p-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[var(--primary)]">📝</span>
-                          <span className="text-white/90 text-sm">
-                            فلش‌کارت هوشمند
-                          </span>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {[
+                      { flag: "🇬🇧", name: "انگلیسی", content: "1000+" },
+                      { flag: "🇩🇪", name: "آلمانی", content: "500+" },
+                      { flag: "🇫🇷", name: "فرانسوی", content: "400+" },
+                      { flag: "🇪🇸", name: "اسپانیایی", content: "300+" },
+                      { flag: "🇨🇳", name: "چینی", content: "200+" },
+                      { flag: "🇸🇦", name: "عربی", content: "600+" },
+                    ].map((lang, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{
+                          duration: 0.5,
+                          delay: index * 0.1,
+                          type: "spring",
+                          stiffness: 100,
+                        }}
+                        whileHover={{
+                          scale: 1.05,
+                          rotateY: 10,
+                          z: 50,
+                          transition: { duration: 0.2 },
+                        }}
+                        className="group relative perspective"
+                      >
+                        <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-white/5 hover:border-[var(--primary)]/30 transition-all duration-300 transform-gpu hover:shadow-[0_0_20px_rgba(255,168,0,0.1)]">
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className="text-2xl transform group-hover:scale-110 transition-transform duration-300">
+                              {lang.flag}
+                            </span>
+                            <span className="text-white font-medium">
+                              {lang.name}
+                            </span>
+                          </div>
+                          <div className="text-sm text-[var(--primary)]">
+                            {lang.content} محتوا
+                          </div>
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-[var(--primary)]/0 to-[var(--primary)]/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            initial={false}
+                            animate={{ rotateY: [0, 15, 0] }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              ease: "linear",
+                            }}
+                          />
                         </div>
-                      </div>
-                      <div className="bg-black/20 rounded-xl p-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[var(--primary)]">🎯</span>
-                          <span className="text-white/90 text-sm">
-                            آزمون نامحدود
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
+                      </motion.div>
+                    ))}
+                  </div>
 
-                  {/* Benefit 3: Progress Tracking */}
                   <motion.div
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                    className="mt-6 text-center"
                   >
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 rounded-full bg-[var(--primary)]/10 flex items-center justify-center">
-                        <span className="text-2xl">📈</span>
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-semibold text-white">
-                          پیشرفت تضمینی
-                        </h3>
-                        <p className="text-gray-400 text-sm">
-                          با روش‌های نوین یادگیری
-                        </p>
-                      </div>
+                    <p className="text-gray-400 text-sm">
+                      و بیش از <span className="text-[var(--primary)]">15</span>{" "}
+                      زبان دیگر...
+                    </p>
+                  </motion.div>
+                </motion.div>
+
+                {/* Smart Tools Box */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-[var(--primary)]/10 flex items-center justify-center">
+                      <span className="text-2xl">⚡️</span>
                     </div>
-                    <div className="bg-black/20 rounded-xl p-4 mt-4">
-                      <div className="flex justify-between items-center mb-2">
+                    <div>
+                      <h3 className="text-xl font-semibold text-white">
+                        ابزارهای هوشمند
+                      </h3>
+                      <p className="text-gray-400 text-sm">
+                        یادگیری سریع و موثر
+                      </p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-black/20 rounded-xl p-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[var(--primary)]">📝</span>
                         <span className="text-white/90 text-sm">
-                          پیشرفت هفتگی
+                          فلش‌کارت هوشمند
                         </span>
-                        <span className="text-[var(--primary)] text-sm">
-                          +15%
-                        </span>
-                      </div>
-                      <div className="w-full bg-black/30 rounded-full h-2">
-                        <motion.div
-                          className="bg-[var(--primary)] h-2 rounded-full"
-                          initial={{ width: 0 }}
-                          animate={{ width: "85%" }}
-                          transition={{ duration: 1, delay: 0.6 }}
-                        />
                       </div>
                     </div>
-                  </motion.div>
-                </div>
+                    <div className="bg-black/20 rounded-xl p-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[var(--primary)]">🎯</span>
+                        <span className="text-white/90 text-sm">
+                          آزمون نامحدود
+                        </span>
+                      </div>
+                    </div>
+                    <div className="bg-black/20 rounded-xl p-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[var(--primary)]">🖼️</span>
+                        <span className="text-white/90 text-sm">
+                          دیکشنری تصویری
+                        </span>
+                      </div>
+                    </div>
+                    <div className="bg-black/20 rounded-xl p-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[var(--primary)]">🗣️</span>
+                        <span className="text-white/90 text-sm">
+                          بازگویی و سنجش تشابه
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Progress Box */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-[var(--primary)]/10 flex items-center justify-center">
+                      <span className="text-2xl">📈</span>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold text-white">
+                        پیشرفت تضمینی
+                      </h3>
+                      <p className="text-gray-400 text-sm">
+                        با روش‌های نوین یادگیری
+                      </p>
+                    </div>
+                  </div>
+                  <div className="bg-black/20 rounded-xl p-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-white/90 text-sm">
+                        پیشرفت هفتگی
+                      </span>
+                      <span className="text-[var(--primary)] text-sm">
+                        +15%
+                      </span>
+                    </div>
+                    <div className="w-full bg-black/30 rounded-full h-2">
+                      <motion.div
+                        className="bg-[var(--primary)] h-2 rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: "85%" }}
+                        transition={{ duration: 1, delay: 0.6 }}
+                      />
+                    </div>
+                  </div>
+                </motion.div>
               </div>
             </div>
           </div>
