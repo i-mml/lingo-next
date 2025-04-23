@@ -78,7 +78,7 @@ const SearchModal = ({ open, toggleModal }: IProps) => {
         {!!debouncedSearchValue && (
           <>
             {isLoading ? (
-              <div className="h-[20vh] grid place-content-center">
+              <div className="h-[25vh] grid place-content-center justify-items-center">
                 <WaveLoading />
               </div>
             ) : data?.results?.length > 0 ? (

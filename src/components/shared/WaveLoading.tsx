@@ -9,13 +9,13 @@ const WaveLoading = ({ isBlack = false }) => {
         }`}
       >
         <span
-          className={`h-[15px] w-[4px] animate-pulse duration-[1500ms] ease-in-out infinite delay-[750ms] bg-backgroundMain`}
+          className={`h-[15px] w-[4px] animate-pulse duration-[1500ms] ease-in-out infinite delay-[750ms] bg-main`}
         />
         <span
-          className={`h-[15px] w-[4px] animate-grow duration-[1500ms] ease-in-out infinite delay-0 bg-backgroundMain`}
+          className={`h-[15px] w-[4px] animate-grow duration-[1500ms] ease-in-out infinite delay-0 bg-main`}
         />
         <span
-          className={`h-[15px] w-[4px] animate-pulse duration-[1500ms] ease-in-out infinite delay-[750ms] bg-backgroundMain`}
+          className={`h-[15px] w-[4px] animate-pulse duration-[1500ms] ease-in-out infinite delay-[750ms] bg-main`}
         />
       </div>
     </div>
