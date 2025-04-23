@@ -464,426 +464,195 @@ const SamplePage = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { number: "۱۰۰۰+", label: "فیلم و سریال" },
-              { number: "۵۰۰+", label: "پادکست" },
-              { number: "۲۰۰+", label: "کتاب صوتی" },
-              { number: "۵۰,۰۰۰+", label: "کاربر فعال" },
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                className="text-center"
-              >
-                <div className="text-4xl font-bold text-[var(--primary)] mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-[var(--gray400)]">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Main Features Section */}
-      <section ref={ref} className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
+      {/* Features Section */}
+      <section className="py-24 bg-gradient-to-b from-[#1a1a1a] to-[#2a2a2a]">
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-5xl font-bold text-[var(--black)] text-center mb-16"
+            className="text-center mb-16"
           >
-            ویژگی‌های منحصر به فرد زبانو
-          </motion.h2>
-
-          {/* Video Player Features */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20"
-          >
-            <div className="bg-white p-8 rounded-2xl border border-[var(--border-main)] shadow-lg">
-              <h3 className="text-2xl font-bold text-[var(--black)] mb-4">
-                پخش‌کننده هوشمند
-              </h3>
-              <ul className="space-y-4 text-[var(--gray400)]">
-                <li className="flex items-center">
-                  <span className="text-[var(--primary)] mr-2">✓</span>
-                  زیرنویس دو زبانه (انگلیسی و فارسی)
-                </li>
-                <li className="flex items-center">
-                  <span className="text-[var(--primary)] mr-2">✓</span>
-                  کلیک روی کلمات برای مشاهده جزئیات
-                </li>
-                <li className="flex items-center">
-                  <span className="text-[var(--primary)] mr-2">✓</span>
-                  ساخت فلش‌کارت از کلمات
-                </li>
-                <li className="flex items-center">
-                  <span className="text-[var(--primary)] mr-2">✓</span>
-                  تمرین تلفظ و امتیازدهی
-                </li>
-                <li className="flex items-center">
-                  <span className="text-[var(--primary)] mr-2">✓</span>
-                  تحلیل گرامری جملات
-                </li>
-              </ul>
-            </div>
-            <div className="relative">
-              <motion.div
-                animate={{
-                  scale: [1, 1.05, 1],
-                  rotate: [0, 2, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="w-full h-64 bg-[var(--primary)]/10 rounded-2xl border border-[var(--border-main)] shadow-lg"
-              />
-            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              ویژگی‌های منحصر به فرد
+            </h2>
+            <p className="text-gray-400 text-lg">
+              تجربه یادگیری زبان با تکنولوژی پیشرفته
+            </p>
           </motion.div>
 
-          {/* Content Types */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-20"
-          >
-            {[
-              {
-                title: "فیلم و سریال",
-                icon: "🎬",
-                description: "یادگیری با فیلم‌ها و سریال‌های محبوب",
-              },
-              {
-                title: "پادکست",
-                icon: "🎧",
-                description: "گوش دادن به پادکست‌های آموزشی",
-              },
-              {
-                title: "کتاب صوتی",
-                icon: "📚",
-                description: "مطالعه کتاب‌های صوتی",
-              },
-              {
-                title: "انیمیشن",
-                icon: "🎨",
-                description: "یادگیری با انیمیشن‌های جذاب",
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05, y: -10 }}
-                className="bg-white p-6 rounded-2xl border border-[var(--border-main)] shadow-lg text-center"
-              >
-                <div className="text-4xl mb-4">{item.icon}</div>
-                <h3 className="text-xl font-bold text-[var(--black)] mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-[var(--gray400)]">{item.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Learning Resources */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20"
-          >
-            {[
-              {
-                title: "کتاب‌های معروف",
-                description: "یادگیری با کتاب‌های معروف مانند 504 و 4000 واژه",
-                icon: "📖",
-              },
-              {
-                title: "دستور زبان",
-                description:
-                  "آموزش دستور زبان بر اساس سری کتاب‌های English in Use",
-                icon: "📝",
-              },
-              {
-                title: "فلش‌کارت‌ها",
-                description: "مدیریت و مرور فلش‌کارت‌های شخصی",
-                icon: "🎴",
-              },
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05, y: -10 }}
-                className="bg-white p-8 rounded-2xl border border-[var(--border-main)] shadow-lg"
-              >
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-2xl font-bold text-[var(--black)] mb-4">
-                  {feature.title}
-                </h3>
-                <p className="text-[var(--gray400)]">{feature.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Dictionary and Quiz */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
-          >
-            <div className="bg-white p-8 rounded-2xl border border-[var(--border-main)] shadow-lg">
-              <h3 className="text-2xl font-bold text-[var(--black)] mb-4">
-                دیکشنری هوشمند
-              </h3>
-              <p className="text-[var(--gray400)] mb-4">
-                جستجوی کلمات و مشاهده جزئیات در محتوای مختلف
-              </p>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 bg-[var(--primary)] text-white rounded-full text-sm font-semibold"
-              >
-                جستجو در دیکشنری
-              </motion.button>
-            </div>
-            <div className="bg-white p-8 rounded-2xl border border-[var(--border-main)] shadow-lg">
-              <h3 className="text-2xl font-bold text-[var(--black)] mb-4">
-                آزمون‌های نامحدود
-              </h3>
-              <p className="text-[var(--gray400)] mb-4">
-                آزمون‌های متنوع برای کلمات، دستور زبان و کتاب‌های معروف
-              </p>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 bg-[var(--primary)] text-white rounded-full text-sm font-semibold"
-              >
-                شروع آزمون
-              </motion.button>
-            </div>
-          </motion.div>
-
-          {/* Feature Boxes */}
-          <div className="relative mt-24">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
-              {/* Interactive Learning Box */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-[var(--primary)]/30 transition-colors group"
-              >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Interactive Learning */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="group relative"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/20 to-transparent rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+              <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-[var(--primary)]/30 transition-all duration-300">
                 <div className="flex items-start justify-between mb-6">
-                  <div className="text-2xl">🎬</div>
-                  <motion.div
-                    initial={{ scale: 0.5 }}
-                    whileInView={{ scale: 1 }}
-                    transition={{ delay: 0.2 }}
-                    className="bg-[var(--primary)]/10 text-[var(--primary)] text-sm px-3 py-1 rounded-full"
-                  >
-                    Interactive Learning
-                  </motion.div>
+                  <div className="text-3xl">🎬</div>
+                  <div className="bg-[var(--primary)]/10 text-[var(--primary)] text-sm px-3 py-1 rounded-full">
+                    Interactive
+                  </div>
                 </div>
-
                 <h3 className="text-xl font-semibold text-white mb-4">
-                  یادگیری تعاملی با محتوا
+                  یادگیری تعاملی
                 </h3>
-
                 <div className="space-y-3 text-gray-300 text-sm">
                   <p className="flex items-center gap-2">
                     <span className="text-[var(--primary)]">•</span>
-                    زیرنویس دوزبانه در فیلم‌ها و سریال‌ها
+                    زیرنویس دوزبانه در فیلم‌ها
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="text-[var(--primary)]">•</span>
-                    ترجمه و تلفظ کلمات با یک کلیک
+                    ترجمه و تلفظ کلمات
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="text-[var(--primary)]">•</span>
                     تحلیل گرامری جملات
                   </p>
-                  <p className="flex items-center gap-2">
-                    <span className="text-[var(--primary)]">•</span>
-                    تمرین تلفظ و دریافت امتیاز
-                  </p>
                 </div>
+              </div>
+            </motion.div>
 
-                <div className="mt-6 pt-6 border-t border-white/5">
-                  <div className="bg-black/30 rounded-xl p-4">
-                    <div className="text-sm text-white/70">Friends S01E01</div>
-                    <div className="text-[var(--primary)]">How you doing?</div>
-                    <div className="text-sm text-white/90">حالت چطوره؟</div>
+            {/* Diverse Content */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="group relative"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/20 to-transparent rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+              <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-[var(--primary)]/30 transition-all duration-300">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="text-3xl">📚</div>
+                  <div className="bg-[var(--primary)]/10 text-[var(--primary)] text-sm px-3 py-1 rounded-full">
+                    Rich Content
                   </div>
                 </div>
-              </motion.div>
-
-              {/* Diverse Content Box */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-[var(--primary)]/30 transition-colors"
-              >
-                <div className="flex items-start justify-between mb-6">
-                  <div className="text-2xl">📚</div>
-                  <motion.div
-                    initial={{ scale: 0.5 }}
-                    whileInView={{ scale: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="bg-[var(--primary)]/10 text-[var(--primary)] text-sm px-3 py-1 rounded-full"
-                  >
-                    Rich Content
-                  </motion.div>
-                </div>
-
                 <h3 className="text-xl font-semibold text-white mb-4">
-                  محتوای متنوع آموزشی
+                  محتوای متنوع
                 </h3>
-
                 <div className="space-y-3 text-gray-300 text-sm">
                   <p className="flex items-center gap-2">
                     <span className="text-[var(--primary)]">•</span>
-                    فیلم و سریال‌های محبوب دنیا
+                    فیلم و سریال‌های محبوب
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="text-[var(--primary)]">•</span>
-                    پادکست‌های آموزشی جذاب
+                    پادکست‌های آموزشی
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="text-[var(--primary)]">•</span>
                     کتاب‌های صوتی و انیمیشن
                   </p>
-                  <p className="flex items-center gap-2">
-                    <span className="text-[var(--primary)]">•</span>
-                    کتاب‌های معروف مثل 504 و 4000
-                  </p>
                 </div>
+              </div>
+            </motion.div>
 
-                <div className="mt-6 pt-6 border-t border-white/5">
-                  <div className="grid grid-cols-4 gap-2">
-                    <div className="bg-black/30 aspect-square rounded-lg flex items-center justify-center">
-                      🎬
-                    </div>
-                    <div className="bg-black/30 aspect-square rounded-lg flex items-center justify-center">
-                      🎧
-                    </div>
-                    <div className="bg-black/30 aspect-square rounded-lg flex items-center justify-center">
-                      📖
-                    </div>
-                    <div className="bg-black/30 aspect-square rounded-lg flex items-center justify-center">
-                      🎨
-                    </div>
+            {/* Smart Tools */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="group relative"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/20 to-transparent rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+              <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-[var(--primary)]/30 transition-all duration-300">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="text-3xl">🎯</div>
+                  <div className="bg-[var(--primary)]/10 text-[var(--primary)] text-sm px-3 py-1 rounded-full">
+                    Smart Tools
                   </div>
                 </div>
-              </motion.div>
-
-              {/* Smart Tools Box */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-[var(--primary)]/30 transition-colors"
-              >
-                <div className="flex items-start justify-between mb-6">
-                  <div className="text-2xl">🎯</div>
-                  <motion.div
-                    initial={{ scale: 0.5 }}
-                    whileInView={{ scale: 1 }}
-                    transition={{ delay: 0.6 }}
-                    className="bg-[var(--primary)]/10 text-[var(--primary)] text-sm px-3 py-1 rounded-full"
-                  >
-                    Smart Tools
-                  </motion.div>
-                </div>
-
                 <h3 className="text-xl font-semibold text-white mb-4">
-                  ابزارهای هوشمند یادگیری
+                  ابزارهای هوشمند
                 </h3>
-
                 <div className="space-y-3 text-gray-300 text-sm">
                   <p className="flex items-center gap-2">
                     <span className="text-[var(--primary)]">•</span>
-                    فلش‌کارت‌های شخصی‌سازی شده
+                    فلش‌کارت‌های هوشمند
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="text-[var(--primary)]">•</span>
-                    دیکشنری هوشمند با جستجو در محتوا
+                    دیکشنری هوشمند
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="text-[var(--primary)]">•</span>
-                    آزمون‌های نامحدود از همه مباحث
-                  </p>
-                  <p className="flex items-center gap-2">
-                    <span className="text-[var(--primary)]">•</span>
-                    تمرین گرامر با English in Use
+                    آزمون‌های نامحدود
                   </p>
                 </div>
-
-                <div className="mt-6 pt-6 border-t border-white/5">
-                  <div className="flex justify-between items-center">
-                    <div className="text-sm">
-                      <div className="text-[var(--primary)]">Flashcards</div>
-                      <div className="text-white/70">+2,000 words</div>
-                    </div>
-                    <div className="bg-[var(--primary)]/20 text-[var(--primary)] px-3 py-1 rounded-lg text-sm">
-                      95% mastered
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-[var(--black)] text-center mb-16">
-            نظرات کاربران
-          </h2>
+      <section className="py-24 bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a]">
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              نظرات کاربران
+            </h2>
+            <p className="text-gray-400 text-lg">
+              تجربه‌های واقعی از زبان‌آموزان زبانیو
+            </p>
+          </motion.div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
                 name: "سارا محمدی",
                 role: "دانشجوی زبان انگلیسی",
                 text: "زبانیو بهترین پلتفرم یادگیری زبان است. من با تماشای فیلم‌ها و سریال‌ها خیلی پیشرفت کردم.",
+                avatar: "👩‍🎓",
               },
               {
                 name: "علی رضایی",
                 role: "مهندس نرم‌افزار",
                 text: "امکانات پخش‌کننده هوشمند و دیکشنری آنلاین واقعاً عالی است. به همه توصیه می‌کنم.",
+                avatar: "👨‍💻",
               },
               {
                 name: "مریم حسینی",
                 role: "معلم زبان",
                 text: "به عنوان معلم زبان، زبانیو را به همه دانش‌آموزانم توصیه می‌کنم. روش یادگیری بسیار موثری دارد.",
+                avatar: "👩‍🏫",
               },
             ].map((testimonial, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                className="bg-[var(--background-layout)] p-6 rounded-2xl border border-[var(--border-main)]"
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                className="group relative"
               >
-                <p className="text-[var(--gray400)] mb-4">{testimonial.text}</p>
-                <div className="text-[var(--black)] font-semibold">
-                  {testimonial.name}
-                </div>
-                <div className="text-[var(--gray400)] text-sm">
-                  {testimonial.role}
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/10 to-transparent rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-[var(--primary)]/30 transition-all duration-300">
+                  {/* Avatar */}
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--primary)] to-[var(--primary)]/80 flex items-center justify-center text-3xl shadow-lg border-4 border-white/10 backdrop-blur-sm">
+                      {testimonial.avatar}
+                    </div>
+                  </div>
+
+                  <div className="pt-8">
+                    <div className="text-gray-300 mb-6">{testimonial.text}</div>
+                    <div className="text-white font-semibold">
+                      {testimonial.name}
+                    </div>
+                    <div className="text-[var(--primary)] text-sm">
+                      {testimonial.role}
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -892,11 +661,22 @@ const SamplePage = () => {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-[var(--black)] text-center mb-16">
-            پلن‌های اشتراک
-          </h2>
+      <section className="py-24 bg-gradient-to-b from-[#1a1a1a] to-[#2a2a2a]">
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              پلن‌های اشتراک
+            </h2>
+            <p className="text-gray-400 text-lg">
+              انتخاب پلن مناسب برای یادگیری زبان
+            </p>
+          </motion.div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
@@ -937,47 +717,47 @@ const SamplePage = () => {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                className={`bg-white p-8 rounded-2xl border ${
-                  plan.popular
-                    ? "border-[var(--primary)] shadow-lg"
-                    : "border-[var(--border-main)]"
-                }`}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                className="group relative"
               >
-                {plan.popular && (
-                  <div className="bg-[var(--primary)] text-white text-sm font-semibold px-4 py-1 rounded-full inline-block mb-4">
-                    محبوب
-                  </div>
-                )}
-                <h3 className="text-2xl font-bold text-[var(--black)] mb-2">
-                  {plan.name}
-                </h3>
-                <div className="text-4xl font-bold text-[var(--primary)] mb-1">
-                  {plan.price}
-                </div>
-                <div className="text-[var(--gray400)] mb-6">{plan.period}</div>
-                <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, i) => (
-                    <li
-                      key={i}
-                      className="flex items-center text-[var(--gray400)]"
-                    >
-                      <span className="text-[var(--primary)] mr-2">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`w-full py-3 rounded-full font-semibold ${
-                    plan.popular
-                      ? "bg-[var(--primary)] text-white"
-                      : "bg-white text-[var(--primary)] border-2 border-[var(--primary)]"
-                  }`}
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/20 to-transparent rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                <div
+                  className={`relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border ${
+                    plan.popular ? "border-[var(--primary)]" : "border-white/10"
+                  } hover:border-[var(--primary)]/30 transition-all duration-300`}
                 >
-                  انتخاب پلن
-                </motion.button>
+                  {plan.popular && (
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[var(--primary)] text-white text-sm font-semibold px-4 py-1 rounded-full">
+                      محبوب
+                    </div>
+                  )}
+                  <h3 className="text-2xl font-bold text-white mb-2">
+                    {plan.name}
+                  </h3>
+                  <div className="text-4xl font-bold text-[var(--primary)] mb-1">
+                    {plan.price}
+                  </div>
+                  <div className="text-gray-400 mb-6">{plan.period}</div>
+                  <ul className="space-y-3 mb-8">
+                    {plan.features.map((feature, i) => (
+                      <li key={i} className="flex items-center text-gray-300">
+                        <span className="text-[var(--primary)] mr-2">✓</span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`w-full py-3 rounded-full font-semibold ${
+                      plan.popular
+                        ? "bg-[var(--primary)] text-white"
+                        : "bg-white/10 text-white border border-white/20"
+                    }`}
+                  >
+                    انتخاب پلن
+                  </motion.button>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -985,20 +765,20 @@ const SamplePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a]">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto text-center px-4"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--black)] mb-8">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
             آماده شروع یادگیری هستید؟
           </h2>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 bg-[var(--primary)] text-white rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+            className="px-8 py-4 bg-[var(--primary)] text-white rounded-full text-lg font-semibold shadow-[0_0_20px_rgba(255,168,0,0.3)] hover:shadow-[0_0_30px_rgba(255,168,0,0.5)] transition-all duration-300"
           >
             ثبت‌نام و شروع یادگیری
           </motion.button>
