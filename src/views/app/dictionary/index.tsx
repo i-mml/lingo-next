@@ -189,7 +189,7 @@ const VictionaryView = () => {
                   }, 200);
                 }}
                 key={index}
-                className="!border-b-[3px] font-medium !text-[16px] lg:!text-xl"
+                className="!border-b-[3px] font-medium !text-[16px] lg:!text-xl p-2"
               >
                 {item || ""}
               </OutlineButton>
