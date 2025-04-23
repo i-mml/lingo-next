@@ -186,7 +186,7 @@ const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
 
           <div className="mt-6">
             <p
-              className={`text-main text-lg ${showMore ? "" : "line-clamp-4"}`}
+              className={`text-main text-lg ${showMore ? "" : "line-clamp-2"}`}
             >
               {data?.description}
             </p>

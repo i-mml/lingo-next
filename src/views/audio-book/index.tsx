@@ -8,10 +8,14 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import dynamic from "next/dynamic";
+import AudioBookSkeletonLoader from "./components/AudioBookSkeletonLoader";
 
 const AudioBookRowSliders = dynamic(
   () => import("./components/AudioBookRowSliders"),
-  { ssr: false, loading: () => <p>Loading...</p> }
+  {
+    ssr: false,
+    loading: () => <AudioBookSkeletonLoader />,
+  }
 );
 
 const AudioBookView: FC<AudioBookProps> = (props) => {
