@@ -106,30 +106,36 @@ const QuizBox = ({
                     ? () => handleSelectAnswer(node?.id)
                     : () => {}
                 }
-                className={`question-options-item w-full md:w-[calc(50%-12px)] rounded-xl border border-borderMain text-main bg-transparent p-2 flex items-center gap-4 cursor-pointer  ${
-                  selectedAnswer !== null &&
-                  "is-selected-option cursor-not-allowed"
-                } ${
-                  selectedAnswer !== null &&
-                  node?.is_answer &&
-                  "is-right-option"
-                } ${
-                  selectedAnswer === node?.id
-                    ? node?.is_answer
-                      ? "is-right-option bg-[#0a2a09] border-none text-[#97e590]"
-                      : "is-false-option bg-[#500111] border-none text-[#ff9fa4]"
-                    : null
-                }`}
+                className={`question-options-item w-full md:w-[calc(50%-12px)] rounded-xl border p-2 flex items-center gap-4 cursor-pointer transition-colors duration-200
+                  ${
+                    selectedAnswer === null
+                      ? "border-borderMain text-main bg-transparent hover:bg-backgroundMain/50"
+                      : selectedAnswer === node?.id
+                      ? node?.is_answer
+                        ? "border-green-500 bg-[#0a2a09] text-[#97e590]"
+                        : "border-red-500 bg-[#500111] text-[#ff9fa4]"
+                      : node?.is_answer
+                      ? "border-green-500 text-[#97e590]"
+                      : "border-borderMain text-main opacity-50"
+                  }
+                  ${selectedAnswer !== null && "cursor-not-allowed"}
+                `}
                 key={node?.text}
               >
                 <span
-                  className={`question-option-number text-main border border-borderMain p-0 md:p-[14px] rounded-lg text-center ${
-                    selectedAnswer === node?.id
-                      ? node?.is_answer
-                        ? "border-[#225d1e] text-[#97e590]"
-                        : "border-[#a80929] text-[#ff9fa4]"
-                      : ""
-                  }`}
+                  className={`question-option-number p-2 md:p-[14px] rounded-lg text-center transition-colors duration-200
+                    ${
+                      selectedAnswer === null
+                        ? "border border-borderMain text-main"
+                        : selectedAnswer === node?.id
+                        ? node?.is_answer
+                          ? "border border-green-500 text-[#97e590]"
+                          : "border border-red-500 text-[#ff9fa4]"
+                        : node?.is_answer
+                        ? "border border-green-500 text-[#97e590]"
+                        : "border border-borderMain text-main opacity-50"
+                    }
+                  `}
                 >
                   {index + 1}
                 </span>
