@@ -19,8 +19,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import SearchMovieItem from "@/components/shared/SearchMovieItem";
-import { mockWords } from "@/mock/victionary";
+import { mockEnglishWords, mockGermanWords } from "@/mock/victionary";
 import OutlineButton from "@/components/shared/OutlineButton";
+import { useAuth } from "@/hooks/use-auth";
 
 const breakPoints = {
   760: {
@@ -36,12 +37,18 @@ const VictionaryView = () => {
   const { theme }: any = useThemeCreator();
   const { t: translate } = useTranslation();
   const formRef = useRef(null);
+  const { whoAmI } = useAuth();
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [search, setSearch] = useState<any>(null);
   const [searchedVal, setSerachedVal] = useState(null);
 
   // const debouncedSearchValue = useDebounce(search, 750);
+
+  const mockWords =
+    whoAmI?.userpreference?.preferred_language === 5
+      ? mockGermanWords
+      : mockEnglishWords;
 
   const cmsSearchMutation = useMutation({
     mutationFn: () => getCmsSearch(search),
