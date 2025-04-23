@@ -9,9 +9,9 @@ const ApplicationContactUsPage = () => {
 export default ApplicationContactUsPage;
 
 export const metadata: Metadata = {
-  title: "تماس با پشتیبانی زبانو | آموزش زبان با فیلم و سریال",
+  title: "تماس با پشتیبانی - زبانو",
   description:
-    "تماس با تیم پشتیبانی زبانو برای راهنمایی و پاسخ به سوالات شما در زمینه یادگیری زبان انگلیسی با فیلم و سریال. پشتیبانی 24 ساعته برای کاربران زبانو.",
+    "تیم پشتیبانی قوی زبانو همیشه در کنار شماست. با زبانو همراه باشید.",
   keywords: [
     "پشتیبانی زبانو",
     "تماس با زبانو",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     canonical: "https://zabano.com/public/application-contact-us",
   },
   openGraph: {
-    title: "تماس با پشتیبانی زبانو | آموزش زبان با فیلم و سریال",
+    title: "تماس با پشتیبانی - زبانو",
     description:
       "تماس با تیم پشتیبانی زبانو برای راهنمایی و پاسخ به سوالات شما در زمینه یادگیری زبان انگلیسی.",
     type: "website",
