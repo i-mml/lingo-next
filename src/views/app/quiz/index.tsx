@@ -55,7 +55,7 @@ const QuizView = () => {
     ? `?episode_id=${selectedMovieId}`
     : "";
 
-  const { data, isLoading, refetch } = useQuery({
+  const { data, isLoading, isRefetching, refetch } = useQuery({
     queryKey: ["get-quiz-list", selectedMovieId],
     queryFn: () =>
       GetEducationQuiz(queryParams).then((res) => {
@@ -304,6 +304,7 @@ const QuizView = () => {
                     }
                     quizResult={postQuizResultMutation.data?.data}
                     handleReStartQuiz={restartQuiz}
+                    isPending={isLoading || isRefetching}
                   />
                 ))}
             </div>

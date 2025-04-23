@@ -10,10 +10,12 @@ const QuizFinishedBox = ({
   answeredQuiz,
   handleReStartQuiz,
   quizResult,
+  isPending,
 }: {
   answeredQuiz: any;
   handleReStartQuiz: () => void;
   quizResult: any;
+  isPending: boolean;
 }) => {
   const { t: translate } = useTranslation();
 
@@ -57,8 +59,13 @@ const QuizFinishedBox = ({
         <PrimaryButton
           onClick={handleReStartQuiz}
           className="hidden md:block resstart-quiz-button w-full md:mt-6"
+          buttonProps={{
+            disabled: isPending,
+          }}
         >
-          {translate("pages.quiz.Restart_quiz")}
+          {isPending
+            ? translate("pages.quiz.Preparing_new_quiz")
+            : translate("pages.quiz.Restart_quiz")}
         </PrimaryButton>
       </div>
       <div className="question-content flex-1 flex items-center gap-4 md:gap-6 md:max-h-[350px] md:overflow-y-auto flex-wrap">
@@ -87,8 +94,13 @@ const QuizFinishedBox = ({
       <PrimaryButton
         onClick={handleReStartQuiz}
         className="md:hidden resstart-quiz-button w-full md:mt-6"
+        buttonProps={{
+          disabled: isPending,
+        }}
       >
-        {translate("pages.quiz.Restart_quiz")}
+        {isPending
+          ? translate("pages.quiz.Preparing_new_quiz")
+          : translate("pages.quiz.Restart_quiz")}
       </PrimaryButton>
     </section>
   );
