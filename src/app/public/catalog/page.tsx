@@ -16,7 +16,7 @@ const CatalogPage = async () => {
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: "یادگیری زبان با فیلم و سریال | زبانو",
+          name: "یادگیری زبان انگلیسی با فیلم و سریال | زبانو",
           description:
             "مجموعه فیلم و سریال ها برای یادگیری زبان به کمک هوش مصنوعی با زبانو",
           mainEntity: [
@@ -44,7 +44,7 @@ const CatalogPage = async () => {
 export default CatalogPage;
 
 export const metadata: Metadata = {
-  title: "یادگیری زبان با فیلم و سریال | زبانو",
+  title: "یادگیری زبان انگلیسی با فیلم و سریال | زبانو",
   description:
     "مجموعه فیلم و سریال ها برای یادگیری زبان به کمک هوش مصنوعی با زبانو",
   keywords: [
