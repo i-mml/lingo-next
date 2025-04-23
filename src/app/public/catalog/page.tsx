@@ -16,9 +16,9 @@ const CatalogPage = async () => {
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: "یادگیری زبان با فیلم و سریال",
+          name: "یادگیری زبان با فیلم و سریال | زبانو",
           description:
-            "مجموعه فیلم و سریال ها برای یادگیری زبان به کمک هوش مصنوعی",
+            "مجموعه فیلم و سریال ها برای یادگیری زبان به کمک هوش مصنوعی با زبانو",
           mainEntity: [
             ...banners.map((banner) => ({
               "@type": "CreativeWork",
@@ -44,9 +44,9 @@ const CatalogPage = async () => {
 export default CatalogPage;
 
 export const metadata: Metadata = {
-  title: "فیلم و سریال آموزش زبان انگلیسی | زبانو",
+  title: "یادگیری زبان با فیلم و سریال | زبانو",
   description:
-    "دسترسی به مجموعه کامل فیلم‌ها و سریال‌های آموزشی زبان انگلیسی با زیرنویس فارسی و انگلیسی. یادگیری زبان با بهترین فیلم‌ها و سریال‌های روز دنیا.",
+    "مجموعه فیلم و سریال ها برای یادگیری زبان به کمک هوش مصنوعی با زبانو",
   keywords: [
     "فیلم آموزش زبان انگلیسی",
     "سریال آموزش زبان",
@@ -62,9 +62,9 @@ export const metadata: Metadata = {
     canonical: "https://zabano.com/public/catalog",
   },
   openGraph: {
-    title: "فیلم و سریال آموزش زبان انگلیسی | زبانو",
+    title: "یادگیری زبان با فیلم و سریال | زبانو",
     description:
-      "یادگیری زبان انگلیسی با بهترین فیلم‌ها و سریال‌های روز دنیا. دسترسی به مجموعه کامل با زیرنویس فارسی و انگلیسی.",
+      "مجموعه فیلم و سریال ها برای یادگیری زبان به کمک هوش مصنوعی با زبانو",
     type: "website",
     locale: "fa_IR",
     url: "https://zabano.com/public/catalog",
@@ -73,13 +73,13 @@ export const metadata: Metadata = {
         url: "https://zabano.com/zabano-main-logo.png",
         width: 1200,
         height: 630,
-        alt: "فیلم و سریال آموزش زبان انگلیسی با زبانو",
+        alt: "یادگیری زبان با فیلم و سریال | زبانو",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "فیلم و سریال آموزش زبان انگلیسی | زبانو",
+    title: "یادگیری زبان با فیلم و سریال | زبانو",
     description: "یادگیری زبان انگلیسی با بهترین فیلم‌ها و سریال‌های روز دنیا",
     images: ["https://zabano.com/zabano-main-logo.png"],
   },
