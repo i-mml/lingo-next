@@ -428,46 +428,6 @@ const SamplePage = () => {
                     </div>
                   </div>
                 </motion.div>
-
-                {/* Progress Box */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                  className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
-                >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-[var(--primary)]/10 flex items-center justify-center">
-                      <span className="text-2xl">📈</span>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-white">
-                        پیشرفت تضمینی
-                      </h3>
-                      <p className="text-gray-400 text-sm">
-                        با روش‌های نوین یادگیری
-                      </p>
-                    </div>
-                  </div>
-                  <div className="bg-black/20 rounded-xl p-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-white/90 text-sm">
-                        پیشرفت هفتگی
-                      </span>
-                      <span className="text-[var(--primary)] text-sm">
-                        +15%
-                      </span>
-                    </div>
-                    <div className="w-full bg-black/30 rounded-full h-2">
-                      <motion.div
-                        className="bg-[var(--primary)] h-2 rounded-full"
-                        initial={{ width: 0 }}
-                        animate={{ width: "85%" }}
-                        transition={{ duration: 1, delay: 0.6 }}
-                      />
-                    </div>
-                  </div>
-                </motion.div>
               </div>
             </div>
           </div>
