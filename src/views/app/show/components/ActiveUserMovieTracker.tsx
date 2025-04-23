@@ -30,7 +30,7 @@ const ActiveUserMovieTracker = memo(
     const updateTracker = useCallback(() => {
       if (isPlaying) {
         axiosInstance.post("/auth/update-watch-progress/", {
-          increment_time: 60,
+          increment_time: 5 * 60,
           episode_id,
           new_position: Number(currentPlayedSecond?.toFixed()),
         });
@@ -47,7 +47,7 @@ const ActiveUserMovieTracker = memo(
             if (!isGuest) {
               updateTracker();
             }
-          }, ONE_MINUTE);
+          }, 5 * ONE_MINUTE);
         }
       };
 
