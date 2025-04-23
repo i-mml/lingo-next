@@ -1,5 +1,3 @@
-"use client";
-
 import InitialLayoutDesktop from "@/components/layout/initil-layout";
 import LandingView from "@/views/landing";
 
