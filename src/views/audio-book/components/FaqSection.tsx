@@ -16,6 +16,7 @@ interface FaqSectionProps {
   audioBookFaqs: FaqItem[];
   musicFaqs: FaqItem[];
   podcastFaqs: FaqItem[];
+  preferredLanguage?: number;
 }
 
 const FaqSection: FC<FaqSectionProps> = ({
@@ -23,6 +24,7 @@ const FaqSection: FC<FaqSectionProps> = ({
   audioBookFaqs,
   musicFaqs,
   podcastFaqs,
+  preferredLanguage = 2,
 }) => {
   const [expanded, setExpanded] = useState<string | false>(false);
 
@@ -31,15 +33,22 @@ const FaqSection: FC<FaqSectionProps> = ({
       setExpanded(isExpanded ? panel : false);
     };
 
+  const language =
+    preferredLanguage === 2
+      ? "انگلیسی"
+      : preferredLanguage === 5
+      ? "آلمانی"
+      : "انگلیسی";
+
   let faqs = audioBookFaqs;
-  let title = "سوالات متداول درباره کتاب‌های صوتی";
+  let title = `سوالات متداول درباره کتاب‌های صوتی ${language}`;
 
   if (contentType === 2) {
     faqs = musicFaqs;
-    title = "سوالات متداول درباره یادگیری زبان با موسیقی";
+    title = `سوالات متداول درباره یادگیری زبان با موسیقی ${language}`;
   } else if (contentType === 4) {
     faqs = podcastFaqs;
-    title = "سوالات متداول درباره پادکست‌های انگلیسی";
+    title = `سوالات متداول درباره پادکست‌های ${language}`;
   }
 
   return (

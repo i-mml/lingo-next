@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import AudioBookSkeletonLoader from "./components/AudioBookSkeletonLoader";
 import SeoDescription from "./components/SeoDescription";
 import FaqSection from "./components/FaqSection";
+import { useAuth } from "@/hooks/use-auth";
 
 const AudioBookRowSliders = dynamic(
   () => import("./components/AudioBookRowSliders"),
@@ -26,11 +27,6 @@ const audioBookFaqs = [
     question: "چگونه کتاب‌های صوتی به یادگیری زبان انگلیسی کمک می‌کنند؟",
     answer:
       "کتاب‌های صوتی با تقویت مهارت شنیداری، آشنایی با تلفظ صحیح کلمات، افزایش دایره لغات و درک مفاهیم به صورت کاربردی به یادگیری زبان انگلیسی کمک می‌کنند. همچنین، شنیدن داستان‌ها و متون مختلف انگلیسی در قالب صوتی باعث می‌شود گوش شما به ریتم و آهنگ زبان انگلیسی عادت کند.",
-  },
-  {
-    question: "آیا می‌توانم کتاب‌های صوتی را دانلود کنم؟",
-    answer:
-      "بله، امکان دانلود کتاب‌های صوتی برای اعضای زبانو فراهم است. پس از دانلود، می‌توانید بدون نیاز به اینترنت به آن‌ها گوش دهید. برای اینکار باید روی کتاب صوتی موردنظر کلیک کرده و در صفحه جزئیات، گزینه دانلود را انتخاب کنید.",
   },
   {
     question: "آیا کتاب‌های صوتی برای همه سطوح زبان‌آموزی مناسب هستند؟",
@@ -68,11 +64,6 @@ const musicFaqs = [
       "بله، تمام موسیقی‌های ارائه شده در زبانو دارای زیرنویس انگلیسی و ترجمه فارسی هستند. این ویژگی به شما کمک می‌کند معنای دقیق اشعار را درک کنید و با کلمات و اصطلاحات جدید آشنا شوید.",
   },
   {
-    question: "آیا می‌توانم موسیقی‌ها را دانلود کنم؟",
-    answer:
-      "بله، کاربران زبانو می‌توانند موسیقی‌ها را برای استفاده آفلاین دانلود کنند. برای این کار کافی است روی موسیقی موردنظر کلیک کرده و در صفحه پخش، گزینه دانلود را انتخاب کنید.",
-  },
-  {
     question: "موسیقی‌های با سطح ابتدایی و فوق ابتدایی چه تفاوتی دارند؟",
     answer:
       "موسیقی‌های سطح ابتدایی دارای کلمات ساده‌تر، تلفظ واضح‌تر و ریتم آرام‌تری هستند که برای زبان‌آموزان تازه‌کار مناسب‌تر است. موسیقی‌های سطح فوق ابتدایی شامل اصطلاحات پیچیده‌تر، سرعت بیشتر و گاهی اسلنگ و اصطلاحات عامیانه هستند که برای تقویت مهارت‌های پیشرفته‌تر مناسب است.",
@@ -107,11 +98,6 @@ const podcastFaqs = [
       "شما می‌توانید از طریق منوی اصلی به بخش «پادکست‌ها» دسترسی پیدا کنید. همچنین می‌توانید با استفاده از فیلترهای موجود، پادکست‌ها را بر اساس سطح زبانی، موضوع، محبوبیت یا جدیدترین‌ها مرتب کنید.",
   },
   {
-    question: "آیا امکان دانلود پادکست‌ها وجود دارد؟",
-    answer:
-      "بله، تمامی پادکست‌های موجود در زبانو قابل دانلود هستند. برای دانلود، کافی است وارد صفحه پادکست شده و روی گزینه دانلود کلیک کنید. پس از دانلود، می‌توانید بدون نیاز به اینترنت به پادکست گوش دهید.",
-  },
-  {
     question: "چگونه می‌توانم با پادکست‌ها تمرین کنم؟",
     answer:
       "برای تمرین مؤثر با پادکست‌ها، ابتدا بدون زیرنویس گوش دهید و نکات اصلی را یادداشت کنید. سپس با استفاده از زیرنویس، درک خود را بررسی کنید. می‌توانید بخش‌های مهم را چندبار گوش داده و تکرار کنید. همچنین، لغات و اصطلاحات جدید را یادداشت کرده و در مکالمات خود استفاده کنید.",
@@ -120,9 +106,13 @@ const podcastFaqs = [
 
 const AudioBookView: FC<AudioBookProps> = (props) => {
   const { audioBooks, contentType } = props;
+  const { whoAmI } = useAuth();
 
   // Ensure contentType is a number with a default value
   const safeContentType = contentType || 3; // Default to audio book (3) if undefined
+
+  // Get user's preferred language (default to English - 2)
+  const preferredLanguage = whoAmI?.userpreference?.preferred_language || 2;
 
   return (
     <div>
@@ -146,6 +136,7 @@ const AudioBookView: FC<AudioBookProps> = (props) => {
         audioBookFaqs={audioBookFaqs}
         musicFaqs={musicFaqs}
         podcastFaqs={podcastFaqs}
+        preferredLanguage={preferredLanguage}
       />
 
       {/* Content Sliders */}
@@ -157,6 +148,7 @@ const AudioBookView: FC<AudioBookProps> = (props) => {
         audioBookFaqs={audioBookFaqs}
         musicFaqs={musicFaqs}
         podcastFaqs={podcastFaqs}
+        preferredLanguage={preferredLanguage}
       />
     </div>
   );
