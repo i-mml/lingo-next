@@ -38,7 +38,7 @@ const breakPoints = {
   },
 
   0: {
-    slidesPerView: 1.5,
+    slidesPerView: 1.3,
   },
 };
 
@@ -86,7 +86,7 @@ const DictionaryModal = (props: Props) => {
 
   return (
     <CustomModal open={open} toggle={toggleModal}>
-      <div className="py-10 md:py-5 md:min-w-[50%]">
+      <div className="py-10 md:py-5 md:min-w-[50%] min-h-[80vh]">
         {cmsSearchMutation?.isPending ? (
           <WaveLoading />
         ) : cmsSearchMutation?.data?.data?.data?.length > 0 ? (
