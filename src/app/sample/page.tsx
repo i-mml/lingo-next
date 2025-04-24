@@ -5,6 +5,12 @@ import { motion } from "framer-motion";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { isMobile } from "react-device-detect";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, A11y, Pagination } from "swiper/modules";
 
 const SamplePage = () => {
   const ref = useRef(null);
@@ -83,7 +89,7 @@ const SamplePage = () => {
     "🎧",
     "✏️",
     "🌍",
-    "💭",
+    "��",
     "🗣️",
     "📱",
     "🎯",
@@ -225,7 +231,7 @@ const SamplePage = () => {
 
                 <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6">
                   <span className="text-[var(--primary)] inline-block transform hover:scale-105 transition-transform duration-300">
-                    زبانیو
+                    زبانو
                   </span>
                 </h1>
 
@@ -244,15 +250,15 @@ const SamplePage = () => {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
                 >
-                  <p className="flex items-center justify-center lg:justify-end gap-2">
+                  <p className="flex items-center justify-center gap-2">
                     <span className="text-[var(--primary)]">✓</span>
                     یادگیری با فیلم‌ها و سریال‌های محبوب دنیا
                   </p>
-                  <p className="flex items-center justify-center lg:justify-end gap-2">
+                  <p className="flex items-center justify-center gap-2">
                     <span className="text-[var(--primary)]">✓</span>
                     تقویت مهارت‌های شنیداری با پادکست‌های جذاب
                   </p>
-                  <p className="flex items-center justify-center lg:justify-end gap-2">
+                  <p className="flex items-center justify-center  gap-2">
                     <span className="text-[var(--primary)]">✓</span>
                     پیشرفت سریع با روش‌های نوین یادگیری
                   </p>
@@ -287,7 +293,7 @@ const SamplePage = () => {
                 transition={{ duration: 0.8, delay: 0.8 }}
                 className="mt-6 text-gray-400 text-sm"
               >
-                به بیش از ۵۰,۰۰۰ کاربر فعال زبانیو بپیوندید
+                به بیش از ۵۰,۰۰۰ کاربر فعال زبانو بپیوندید
               </motion.p>
             </motion.div>
 
@@ -603,59 +609,138 @@ const SamplePage = () => {
               نظرات کاربران
             </h2>
             <p className="text-gray-400 text-lg">
-              تجربه‌های واقعی از زبان‌آموزان زبانیو
+              تجربه‌های واقعی از زبان‌آموزان زبانو
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "سارا محمدی",
-                role: "دانشجوی زبان انگلیسی",
-                text: "زبانیو بهترین پلتفرم یادگیری زبان است. من با تماشای فیلم‌ها و سریال‌ها خیلی پیشرفت کردم.",
-                avatar: "👩‍🎓",
-              },
-              {
-                name: "علی رضایی",
-                role: "مهندس نرم‌افزار",
-                text: "امکانات پخش‌کننده هوشمند و دیکشنری آنلاین واقعاً عالی است. به همه توصیه می‌کنم.",
-                avatar: "👨‍💻",
-              },
-              {
-                name: "مریم حسینی",
-                role: "معلم زبان",
-                text: "به عنوان معلم زبان، زبانیو را به همه دانش‌آموزانم توصیه می‌کنم. روش یادگیری بسیار موثری دارد.",
-                avatar: "👩‍🏫",
-              },
-            ].map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="group relative"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/10 to-transparent rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
-                <div className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-[var(--primary)]/30 transition-all duration-300">
-                  {/* Avatar */}
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--primary)] to-[var(--primary)]/80 flex items-center justify-center text-3xl shadow-lg border-4 border-white/10 backdrop-blur-sm">
-                      {testimonial.avatar}
-                    </div>
-                  </div>
+          <div className="relative">
+            <Swiper
+              modules={[Autoplay, A11y, Pagination]}
+              className="testimonials-swiper px-[5%] pb-16"
+              breakpoints={{
+                320: {
+                  slidesPerView: 1.2,
+                  spaceBetween: 20,
+                },
+                640: {
+                  slidesPerView: 2.2,
+                  spaceBetween: 24,
+                },
+                1024: {
+                  slidesPerView: 3.2,
+                  spaceBetween: 30,
+                },
+                1280: {
+                  slidesPerView: 4,
+                  spaceBetween: 32,
+                },
+              }}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              pagination={{
+                clickable: true,
+                bulletActiveClass: "swiper-pagination-bullet-active",
+                bulletClass: "swiper-pagination-bullet",
+                horizontalClass: "swiper-pagination-horizontal",
+              }}
+              loop
+              style={
+                {
+                  "--swiper-pagination-color": "var(--primary)",
+                  "--swiper-pagination-bullet-inactive-color": "#666",
+                  "--swiper-pagination-bullet-inactive-opacity": "0.3",
+                  "--swiper-pagination-bullet-size": "10px",
+                  "--swiper-pagination-bullet-horizontal-gap": "6px",
+                } as React.CSSProperties
+              }
+            >
+              {[
+                {
+                  name: "سارا محمدی",
+                  role: "دانشجوی زبان انگلیسی",
+                  text: "زبانو بهترین پلتفرم یادگیری زبان است. من با تماشای فیلم‌ها و سریال‌ها خیلی پیشرفت کردم.",
+                  avatar: "👩‍🎓",
+                },
+                {
+                  name: "علی رضایی",
+                  role: "مهندس نرم‌افزار",
+                  text: "امکانات پخش‌کننده هوشمند و دیکشنری آنلاین واقعاً عالی است. به همه توصیه می‌کنم.",
+                  avatar: "👨‍💻",
+                },
+                {
+                  name: "مریم حسینی",
+                  role: "معلم زبان",
+                  text: "به عنوان معلم زبان، زبانو را به همه دانش‌آموزانم توصیه می‌کنم. روش یادگیری بسیار موثری دارد.",
+                  avatar: "👩‍🏫",
+                },
+                {
+                  name: "محمد رضایی",
+                  role: "دانشجوی زبان آلمانی",
+                  text: "با زبانو یادگیری زبان آلمانی برای من بسیار آسان شد. محتوای متنوع و ابزارهای هوشمند واقعاً کمک‌کننده هستند.",
+                  avatar: "👨‍🎓",
+                },
+                {
+                  name: "نازنین کریمی",
+                  role: "مترجم",
+                  text: "به عنوان مترجم، زبانو را به همه کسانی که می‌خواهند زبان یاد بگیرند توصیه می‌کنم. روش‌های نوین یادگیری واقعاً موثر هستند.",
+                  avatar: "👩‍💼",
+                },
+              ].map((testimonial, index) => (
+                <SwiperSlide key={index}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="group relative h-full pt-8"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/5 to-transparent rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                    <div className="relative bg-[#1E1E1E] backdrop-blur-sm rounded-2xl p-8 border border-[#333] hover:border-[var(--primary)]/30 transition-all duration-300 h-full shadow-lg">
+                      {/* Avatar Circle with Gold Border */}
+                      <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
+                        <div className="w-16 h-16 rounded-full bg-[#1E1E1E] flex items-center justify-center text-3xl shadow-lg border-4 border-[var(--primary)] backdrop-blur-sm">
+                          {testimonial.avatar}
+                        </div>
+                      </div>
 
-                  <div className="pt-8">
-                    <div className="text-gray-300 mb-6">{testimonial.text}</div>
-                    <div className="text-white font-semibold">
-                      {testimonial.name}
+                      <div className="pt-10 text-center">
+                        <div className="text-white font-semibold text-lg mb-2">
+                          {testimonial.name}
+                        </div>
+                        <div className="text-[var(--primary)] text-sm mb-6">
+                          {testimonial.role}
+                        </div>
+                        <div className="text-gray-400 text-sm leading-relaxed line-clamp-3">
+                          {testimonial.text}
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-[var(--primary)] text-sm">
-                      {testimonial.role}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                  </motion.div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            <style jsx global>{`
+              .testimonials-swiper .swiper-pagination {
+                position: relative;
+                margin-top: 2rem;
+              }
+              .testimonials-swiper .swiper-pagination-bullet {
+                width: 10px;
+                height: 10px;
+                background: #666;
+                opacity: 0.3;
+                transition: all 0.3s ease;
+              }
+              .testimonials-swiper .swiper-pagination-bullet-active {
+                background: var(--primary);
+                opacity: 1;
+                width: 24px;
+                border-radius: 4px;
+              }
+            `}</style>
           </div>
         </div>
       </section>
@@ -784,6 +869,170 @@ const SamplePage = () => {
           </motion.button>
         </motion.div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto px-4 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+            {/* Brand Section */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <span className="text-3xl">🌍</span>
+                <span className="text-2xl font-bold text-white">زبانو</span>
+              </div>
+              <p className="text-gray-400 text-sm">
+                یادگیری زبان با تکنولوژی پیشرفته و محتوای جذاب
+              </p>
+              <div className="flex gap-4">
+                <a
+                  href="#"
+                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[var(--primary)]/20 transition-all duration-300"
+                >
+                  <span className="text-xl">📱</span>
+                </a>
+                <a
+                  href="#"
+                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[var(--primary)]/20 transition-all duration-300"
+                >
+                  <span className="text-xl">📧</span>
+                </a>
+                <a
+                  href="#"
+                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[var(--primary)]/20 transition-all duration-300"
+                >
+                  <span className="text-xl">📞</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-white font-semibold mb-6">دسترسی سریع</h3>
+              <ul className="space-y-3">
+                <li>
+                  <a
+                    href="#"
+                    className="text-gray-400 hover:text-white transition-colors duration-300"
+                  >
+                    صفحه اصلی
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="text-gray-400 hover:text-white transition-colors duration-300"
+                  >
+                    دوره‌های آموزشی
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="text-gray-400 hover:text-white transition-colors duration-300"
+                  >
+                    پشتیبانی
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="text-gray-400 hover:text-white transition-colors duration-300"
+                  >
+                    درباره ما
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Features */}
+            <div>
+              <h3 className="text-white font-semibold mb-6">ویژگی‌ها</h3>
+              <ul className="space-y-3">
+                <li>
+                  <a
+                    href="#"
+                    className="text-gray-400 hover:text-white transition-colors duration-300"
+                  >
+                    یادگیری با فیلم
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="text-gray-400 hover:text-white transition-colors duration-300"
+                  >
+                    پادکست آموزشی
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="text-gray-400 hover:text-white transition-colors duration-300"
+                  >
+                    فلش‌کارت هوشمند
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="text-gray-400 hover:text-white transition-colors duration-300"
+                  >
+                    آزمون‌های نامحدود
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Contact Info */}
+            <div>
+              <h3 className="text-white font-semibold mb-6">تماس با ما</h3>
+              <ul className="space-y-3">
+                <li className="flex items-center gap-2 text-gray-400">
+                  <span className="text-[var(--primary)]">📍</span>
+                  تهران، خیابان ولیعصر
+                </li>
+                <li className="flex items-center gap-2 text-gray-400">
+                  <span className="text-[var(--primary)]">📧</span>
+                  info@zabano.com
+                </li>
+                <li className="flex items-center gap-2 text-gray-400">
+                  <span className="text-[var(--primary)]">📞</span>
+                  ۰۲۱-۱۲۳۴۵۶۷۸
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="mt-16 pt-8 border-t border-white/10">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-gray-400 text-sm">
+                © ۲۰۲۴ زبانو. تمامی حقوق محفوظ است.
+              </p>
+              <div className="flex gap-6">
+                <a
+                  href="#"
+                  className="text-gray-400 hover:text-white text-sm transition-colors duration-300"
+                >
+                  شرایط استفاده
+                </a>
+                <a
+                  href="#"
+                  className="text-gray-400 hover:text-white text-sm transition-colors duration-300"
+                >
+                  حریم خصوصی
+                </a>
+                <a
+                  href="#"
+                  className="text-gray-400 hover:text-white text-sm transition-colors duration-300"
+                >
+                  قوانین
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
