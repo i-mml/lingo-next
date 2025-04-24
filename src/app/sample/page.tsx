@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
-import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { isMobile } from "react-device-detect";
 import "swiper/css";
@@ -14,21 +13,96 @@ import { Autoplay, A11y, Pagination } from "swiper/modules";
 
 const SamplePage = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const isInView = useRef(false);
   const [pathWidth, setPathWidth] = useState(1000);
+  const [mounted, setMounted] = useState(false);
+
+  // Optimize animations based on device
+  const isReducedMotion = isMobile;
+
+  // Counter animation control with performance optimization
+  const statsRef = useRef(null);
+  const statsInView = useInView(statsRef, {
+    once: true,
+    margin: "100px 0px",
+  });
 
   useEffect(() => {
-    // Initial set
-    setPathWidth(window.innerWidth);
+    setMounted(true);
 
-    // Update on resize
-    const handleResize = () => {
+    // Optimize resize listener
+    const handleResize = debounce(() => {
       setPathWidth(window.innerWidth);
-    };
+    }, 100);
 
+    setPathWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // Debounce function for performance
+  function debounce(func: (...args: any[]) => void, wait: number) {
+    let timeout: NodeJS.Timeout | undefined;
+    return function executedFunction(...args: any[]) {
+      const later = () => {
+        if (timeout) clearTimeout(timeout);
+        func(...args);
+      };
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  const Counter = ({
+    end,
+    suffix = "",
+    duration = 2,
+  }: {
+    end: number;
+    suffix?: string;
+    duration?: number;
+  }) => {
+    const [count, setCount] = useState(0);
+    const frameRef = useRef<number | null>(null);
+    const startTimeRef = useRef<number | null>(null);
+
+    useEffect(() => {
+      if (statsInView) {
+        startTimeRef.current = Date.now();
+
+        const animate = () => {
+          const elapsed = Date.now() - (startTimeRef.current || 0);
+          const progress = Math.min(elapsed / (duration * 1000), 1);
+
+          const newCount = Math.floor(end * progress);
+          setCount(newCount);
+
+          if (progress < 1) {
+            frameRef.current = requestAnimationFrame(animate);
+          }
+        };
+
+        frameRef.current = requestAnimationFrame(animate);
+
+        return () => {
+          if (frameRef.current) {
+            cancelAnimationFrame(frameRef.current);
+          }
+        };
+      }
+    }, [statsInView, end, duration]);
+
+    return (
+      <div className="flex items-baseline justify-center">
+        <span className="text-[var(--primary)] text-3xl md:text-4xl font-bold">
+          {count.toLocaleString()}
+        </span>
+        <span className="text-[var(--primary)] text-xl md:text-2xl font-bold">
+          {suffix}
+        </span>
+      </div>
+    );
+  };
 
   // Calculate path points based on screen width
   const getPath = (width: number) => {
@@ -89,7 +163,6 @@ const SamplePage = () => {
     "🎧",
     "✏️",
     "🌍",
-    "��",
     "🗣️",
     "📱",
     "🎯",
@@ -98,111 +171,133 @@ const SamplePage = () => {
     "🎮",
   ];
 
+  // Memoize static content
+  const renderAnimatedBackground = useMemo(
+    () => (
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Floating Subtitle Cards - Optimized for mobile */}
+        {mounted && (
+          <>
+            {subtitleElements
+              .slice(0, isReducedMotion ? 4 : 8)
+              .map((subtitle, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute"
+                  initial={{ opacity: 0, y: 100 }}
+                  animate={{
+                    opacity: [0.1, 0.2, 0.1],
+                    y: ["100%", "0%", "-100%"],
+                    x: Math.sin(i) * (isReducedMotion ? 20 : 30),
+                  }}
+                  transition={{
+                    duration: isReducedMotion ? 25 : 20,
+                    repeat: Infinity,
+                    ease: "linear",
+                    delay: i * (isReducedMotion ? -3 : -2),
+                  }}
+                  style={{
+                    left: `${15 + i * (isReducedMotion ? 25 : 20)}%`,
+                    willChange: "transform",
+                  }}
+                >
+                  <div className="bg-white/5 backdrop-blur-sm p-3 rounded-lg shadow-lg border border-white/10">
+                    <div className="text-white/60 text-sm">{subtitle.en}</div>
+                    <div className="text-[var(--primary)] text-sm">
+                      {subtitle.fa}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+
+            {/* Learning Method Icons - Optimized for mobile */}
+            {learningIcons.slice(0, isReducedMotion ? 4 : 6).map((icon, i) => (
+              <motion.div
+                key={`icon-${i}`}
+                className="absolute text-2xl"
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: [0.2, 0.3, 0.2],
+                  scale: [1, 1.05, 1],
+                }}
+                transition={{
+                  duration: isReducedMotion ? 12 : 10,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: i * (isReducedMotion ? 1 : 0.8),
+                }}
+                style={{
+                  left: `${10 + i * (isReducedMotion ? 20 : 15)}%`,
+                  top: `${75 + Math.sin(i) * (isReducedMotion ? 2 : 3)}%`,
+                  willChange: "transform",
+                }}
+              >
+                {icon}
+              </motion.div>
+            ))}
+
+            {/* Floating Word Bubbles - Optimized for mobile */}
+            {[...Array(isReducedMotion ? 1 : 2)].map((_, i) => (
+              <motion.div
+                key={`bubble-${i}`}
+                className="absolute"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{
+                  opacity: [0.1, 0.15, 0.1],
+                  scale: [1, 1.05, 1],
+                  y: [0, -15, 0],
+                }}
+                transition={{
+                  duration: isReducedMotion ? 15 : 12,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: i * 3,
+                }}
+                style={{
+                  right: `${20 + i * 30}%`,
+                  top: `${30 + i * 20}%`,
+                  willChange: "transform",
+                }}
+              >
+                <div
+                  className={`${
+                    isReducedMotion ? "w-16 h-16" : "w-20 h-20"
+                  } rounded-full bg-gradient-to-br from-[var(--primary)]/20 to-transparent backdrop-blur-sm border border-white/10`}
+                />
+              </motion.div>
+            ))}
+          </>
+        )}
+
+        {/* Connection Lines - Optimized SVG animation */}
+        <svg
+          className="absolute inset-0 w-full h-full opacity-10"
+          style={{ willChange: "transform" }}
+        >
+          <motion.path
+            d={getPath(pathWidth)}
+            stroke="var(--primary)"
+            strokeWidth="1"
+            fill="none"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{
+              duration: isReducedMotion ? 10 : 8,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+        </svg>
+      </div>
+    ),
+    [mounted, isReducedMotion, pathWidth]
+  );
+
   return (
     <div className="min-h-screen bg-[var(--background-layout)]">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#1a1a1a] to-[#2a2a2a]">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Floating Subtitle Cards */}
-          {subtitleElements.map((subtitle, i) => (
-            <motion.div
-              key={i}
-              className="absolute"
-              initial={{ opacity: 0, y: 100 }}
-              animate={{
-                opacity: [0.1, 0.3, 0.1],
-                y: ["100%", "0%", "-100%"],
-                x: Math.sin(i) * 50,
-              }}
-              transition={{
-                duration: 15,
-                repeat: Infinity,
-                ease: "linear",
-                delay: i * -3,
-              }}
-              style={{
-                left: `${15 + i * 20}%`,
-              }}
-            >
-              <div className="bg-white/5 backdrop-blur-sm p-3 rounded-lg shadow-lg border border-white/10 transform-gpu">
-                <div className="text-white/60 text-sm mb-1">{subtitle.en}</div>
-                <div className="text-[var(--primary)] text-sm">
-                  {subtitle.fa}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-
-          {/* Learning Method Icons */}
-          {learningIcons.map((icon, i) => (
-            <motion.div
-              key={`icon-${i}`}
-              className="absolute text-2xl"
-              initial={{ opacity: 0 }}
-              animate={{
-                opacity: [0.2, 0.4, 0.2],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 0.5,
-              }}
-              style={{
-                left: `${10 + i * 12}%`,
-                top: `${75 + Math.sin(i) * 5}%`,
-                filter: "blur(1px)",
-              }}
-            >
-              {icon}
-            </motion.div>
-          ))}
-
-          {/* Floating Word Bubbles */}
-          {[...Array(3)].map((_, i) => (
-            <motion.div
-              key={`bubble-${i}`}
-              className="absolute"
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{
-                opacity: [0.1, 0.2, 0.1],
-                scale: [1, 1.2, 1],
-                y: [0, -30, 0],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 2,
-              }}
-              style={{
-                right: `${20 + i * 25}%`,
-                top: `${30 + i * 15}%`,
-              }}
-            >
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[var(--primary)]/20 to-transparent backdrop-blur-sm border border-white/10 transform-gpu" />
-            </motion.div>
-          ))}
-
-          {/* Connection Lines */}
-          <svg className="absolute inset-0 w-full h-full opacity-10">
-            <motion.path
-              d={getPath(pathWidth)}
-              stroke="var(--primary)"
-              strokeWidth="1"
-              fill="none"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{
-                duration: isMobile ? 4 : 6,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          </svg>
-        </div>
+        {renderAnimatedBackground}
 
         {/* Main Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 py-20">
@@ -440,29 +535,34 @@ const SamplePage = () => {
 
           {/* Stats Preview */}
           <motion.div
+            ref={statsRef}
             initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8"
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8"
           >
             {[
-              { number: "۹۸٪", label: "رضایت کاربران" },
-              { number: "+۲۰", label: "زبان مختلف" },
-              { number: "+۵۰۰۰", label: "کاربر فعال" },
-              { number: "+۱۰۰۰", label: "محتوای آموزشی" },
+              { label: "کاربر فعال", value: 5000, suffix: "+" },
+              { label: "محتوای آموزشی", value: 1000, suffix: "+" },
+              { label: "رضایت کاربران", value: 98, suffix: "%" },
+              { label: "زبان مختلف", value: 20, suffix: "+" },
             ].map((stat, index) => (
               <motion.div
                 key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="text-center p-0"
+                className="relative group"
               >
-                <div className="bg-[var(--primary)]/5 backdrop-blur-sm rounded-xl p-4 border border-[var(--primary)]/10">
-                  <div className="text-[var(--primary)] text-sm mb-1">
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/10 to-transparent rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                <div className="relative bg-[#1E1E1E] backdrop-blur-sm rounded-2xl p-6 border border-[#333] group-hover:border-[var(--primary)]/30 transition-all duration-300">
+                  <div className="text-[var(--primary)] text-sm mb-4 text-center">
                     {stat.label}
                   </div>
-                  <div className="text-2xl font-bold text-white">
-                    {stat.number}
-                  </div>
+                  <Counter end={stat.value} suffix={stat.suffix} duration={2} />
                 </div>
               </motion.div>
             ))}
@@ -471,7 +571,7 @@ const SamplePage = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-gradient-to-b from-[#1a1a1a] to-[#2a2a2a]">
+      <section className="py-10 md:py-24 bg-gradient-to-b from-[#1a1a1a] to-[#2a2a2a]">
         <div className="max-w-7xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -597,7 +697,7 @@ const SamplePage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a]">
+      <section className="py-10 md:py-24 bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a]">
         <div className="max-w-7xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -746,7 +846,7 @@ const SamplePage = () => {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-24 bg-gradient-to-b from-[#1a1a1a] to-[#2a2a2a]">
+      <section className="py-10 md:py-24 bg-gradient-to-b from-[#1a1a1a] to-[#2a2a2a]">
         <div className="max-w-7xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -900,7 +1000,7 @@ const SamplePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a]">
+      <section className="py-10 md:py-24 bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a]">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
