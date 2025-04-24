@@ -409,12 +409,42 @@ const SamplePage = () => {
 
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                     {[
-                      { flag: "🇬🇧", name: "انگلیسی", content: "1000+" },
-                      { flag: "🇩🇪", name: "آلمانی", content: "500+" },
-                      { flag: "🇫🇷", name: "فرانسوی", content: "400+" },
-                      { flag: "🇪🇸", name: "اسپانیایی", content: "300+" },
-                      { flag: "🇨🇳", name: "چینی", content: "200+" },
-                      { flag: "🇸🇦", name: "عربی", content: "600+" },
+                      {
+                        flag: "/images/flags/england.png",
+                        name: "انگلیسی",
+                        content: "1000+",
+                        code: "GB",
+                      },
+                      {
+                        flag: "/images/flags/Germany.webp",
+                        name: "آلمانی",
+                        content: "500+",
+                        code: "DE",
+                      },
+                      {
+                        flag: "/images/flags/France.webp",
+                        name: "فرانسوی",
+                        content: "400+",
+                        code: "FR",
+                      },
+                      {
+                        flag: "/images/flags/Spain.webp",
+                        name: "اسپانیایی",
+                        content: "300+",
+                        code: "ES",
+                      },
+                      {
+                        flag: "/images/flags/China.png",
+                        name: "چینی",
+                        content: "200+",
+                        code: "CN",
+                      },
+                      {
+                        flag: "/images/flags/Italy.webp",
+                        name: "ایتالیایی",
+                        content: "600+",
+                        code: "IT",
+                      },
                     ].map((lang, index) => (
                       <motion.div
                         key={index}
@@ -436,9 +466,13 @@ const SamplePage = () => {
                       >
                         <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-white/5 hover:border-[var(--primary)]/30 transition-all duration-300 transform-gpu hover:shadow-[0_0_20px_rgba(255,168,0,0.1)]">
                           <div className="flex items-center gap-3 mb-2">
-                            <span className="text-2xl transform group-hover:scale-110 transition-transform duration-300">
-                              {lang.flag}
-                            </span>
+                            <div className="w-8 h-8 relative overflow-hidden rounded-lg transform group-hover:scale-110 transition-transform duration-300">
+                              <img
+                                src={lang.flag}
+                                alt={`${lang.name} flag`}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
                             <span className="text-white font-medium">
                               {lang.name}
                             </span>
