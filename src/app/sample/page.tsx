@@ -345,15 +345,15 @@ const SamplePage = () => {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
                 >
-                  <p className="flex items-center justify-center gap-2">
+                  <p className="flex items-center justify-center md:justify-start gap-2">
                     <span className="text-[var(--primary)]">✓</span>
                     یادگیری با فیلم‌ها و سریال‌های محبوب دنیا
                   </p>
-                  <p className="flex items-center justify-center gap-2">
+                  <p className="flex items-center justify-center md:justify-start gap-2">
                     <span className="text-[var(--primary)]">✓</span>
                     تقویت مهارت‌های شنیداری با پادکست‌های جذاب
                   </p>
-                  <p className="flex items-center justify-center  gap-2">
+                  <p className="flex items-center justify-center md:justify-start gap-2">
                     <span className="text-[var(--primary)]">✓</span>
                     پیشرفت سریع با روش‌های نوین یادگیری
                   </p>
@@ -364,7 +364,7 @@ const SamplePage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-end items-center"
+                className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start items-center"
               >
                 <motion.button
                   whileHover={{ scale: 1.05 }}
