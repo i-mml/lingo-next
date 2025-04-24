@@ -124,3 +124,34 @@ body {
     rotate: 180deg;
   }
 }
+/* Add these styles to your global CSS or as a style tag in your layout */
+.swiper-pagination-bullet {
+  background: var(--primary) !important;
+  opacity: 0.3 !important;
+  transition: all 0.3s ease !important;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+  transform: scale(1.2) !important;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  display: none !important;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  display: none !important;
+}
+
+.group:hover .swiper-button-prev,
+.group:hover .swiper-button-next {
+  display: flex !important;
+}
+
+.swiper-button-disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}

@@ -1,9 +1,8 @@
-import HomeView from "@/views/home";
-import React from "react";
 import { Metadata } from "next";
+import NewHomeView from "@/views/home/NewHome";
 
 const HomePage = () => {
-  return <HomeView />;
+  return <NewHomeView />;
 };
 
 export default HomePage;
