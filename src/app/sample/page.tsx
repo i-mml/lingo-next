@@ -517,7 +517,15 @@ const SamplePage = () => {
                   <div className="grid grid-cols-2 gap-2 md:gap-3">
                     <div className="bg-black/20 rounded-lg md:rounded-xl p-2 md:p-3">
                       <div className="flex items-center gap-2">
-                        <span className="text-[var(--primary)]">📝</span>
+                        <span className="text-[var(--primary)]">🖼️</span>
+                        <span className="text-white/90 text-xs md:text-sm">
+                          دیکشنری تصویری
+                        </span>
+                      </div>
+                    </div>
+                    <div className="bg-black/20 rounded-lg md:rounded-xl p-2 md:p-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[var(--primary)]">📝 </span>
                         <span className="text-white/90 text-xs md:text-sm">
                           فلش‌کارت هوشمند
                         </span>
@@ -528,6 +536,14 @@ const SamplePage = () => {
                         <span className="text-[var(--primary)]">🎯</span>
                         <span className="text-white/90 text-xs md:text-sm">
                           آزمون نامحدود
+                        </span>
+                      </div>
+                    </div>
+                    <div className="bg-black/20 rounded-lg md:rounded-xl p-2 md:p-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[var(--primary)]">🗣️</span>
+                        <span className="text-white/90 text-xs md:text-sm">
+                          بازگویی و سنجش تشابه
                         </span>
                       </div>
                     </div>
@@ -878,34 +894,63 @@ const SamplePage = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          {/* Features List */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="bg-black/20 backdrop-blur-sm rounded-3xl p-6 md:p-8 border border-white/10 mb-12"
+          >
+            <ul className="space-y-3 text-right">
+              <li className="text-gray-300 flex items-center justify-end flex-row-reverse gap-2">
+                <span>کوییز ماهانه نامحدود از فلش‌کارت‌ها</span>
+                <span className="text-[var(--primary)]">✓</span>
+              </li>
+              <li className="text-gray-300 flex items-center justify-end flex-row-reverse gap-2">
+                <span>
+                  می‌توانید با یک اشتراک به صورت همزمان در چند دستگاه مختلف
+                  زبانو رو تماشا کنید.
+                </span>
+                <span className="text-[var(--primary)]">✓</span>
+              </li>
+              <li className="text-gray-300 flex items-center justify-end flex-row-reverse gap-2">
+                <span>ذخیره نامحدود کلمات در فلش‌کارت‌ها</span>
+                <span className="text-[var(--primary)]">✓</span>
+              </li>
+              <li className="text-gray-300 flex items-center justify-end flex-row-reverse gap-2">
+                <span>امکان استفاده از زیرنویس دوگانه</span>
+                <span className="text-[var(--primary)]">✓</span>
+              </li>
+              <li className="text-gray-300 flex items-center justify-end flex-row-reverse gap-2">
+                <span>
+                  دسترسی به بیش از 3000 ساعت محتوای آموزشی (انیمیشن ، فیلم ،
+                  موزیک ، کتاب)
+                </span>
+                <span className="text-[var(--primary)]">✓</span>
+              </li>
+            </ul>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
             {[
               {
-                name: "پایه",
-                price: "۹۹,۰۰۰",
-                period: "ماهانه",
-                features: [
-                  "دسترسی به فیلم‌ها و سریال‌ها",
-                  "دیکشنری هوشمند",
-                  "فلش‌کارت‌های پایه",
-                ],
-                icon: "🎬",
+                name: "ماهانه",
+                price: "99,000",
+                period: "تومان",
+                features: [],
+                discount: "",
+                popular: false,
                 color: "from-blue-500/10 to-purple-500/10",
                 borderColor: "border-blue-500/20",
                 buttonClass:
                   "bg-white/10 hover:bg-white/20 text-white border border-white/20",
               },
               {
-                name: "پیشرفته",
-                price: "۱۹۹,۰۰۰",
-                period: "ماهانه",
-                features: [
-                  "همه امکانات پلن پایه",
-                  "دسترسی به پادکست‌ها",
-                  "فلش‌کارت‌های نامحدود",
-                  "آزمون‌های پیشرفته",
-                ],
-                icon: "⭐️",
+                name: "سه ماهه",
+                price: "199,000",
+                period: "تومان",
+                features: [],
+                discount: "30%",
                 popular: true,
                 color: "from-[var(--primary)]/20 to-orange-600/20",
                 borderColor: "border-[var(--primary)]",
@@ -913,18 +958,26 @@ const SamplePage = () => {
                   "bg-[var(--primary)] hover:bg-[var(--primary)]/90 text-white",
               },
               {
-                name: "حرفه‌ای",
-                price: "۳۹۹,۰۰۰",
-                period: "ماهانه",
-                features: [
-                  "همه امکانات پلن پیشرفته",
-                  "دسترسی به کتاب‌های صوتی",
-                  "پشتیبانی VIP",
-                  "آزمون‌های نامحدود",
-                ],
-                icon: "👑",
+                name: "شش ماهه",
+                price: "449,000",
+                period: "تومان",
+                features: [],
+                discount: "35%",
+                popular: false,
                 color: "from-purple-500/10 to-pink-500/10",
                 borderColor: "border-purple-500/20",
+                buttonClass:
+                  "bg-white/10 hover:bg-white/20 text-white border border-white/20",
+              },
+              {
+                name: "سالانه",
+                price: "699,000",
+                period: "تومان",
+                features: [],
+                discount: "40%",
+                popular: false,
+                color: "from-green-500/10 to-blue-500/10",
+                borderColor: "border-green-500/20",
                 buttonClass:
                   "bg-white/10 hover:bg-white/20 text-white border border-white/20",
               },
@@ -950,41 +1003,30 @@ const SamplePage = () => {
                   {plan.popular && (
                     <div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
                       <div className="bg-[var(--primary)] text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg">
-                        محبوب‌ترین
+                        پرفروش‌ترین
                       </div>
                     </div>
                   )}
 
-                  {/* Plan Icon */}
-                  <div className="text-4xl mb-6">{plan.icon}</div>
-
                   {/* Plan Name & Price */}
-                  <div className="mb-8">
+                  <div className="mb-8 text-center">
                     <h3 className="text-2xl font-bold text-white mb-2">
                       {plan.name}
                     </h3>
+                    {plan.discount && (
+                      <span className="inline-block bg-pink-500/20 text-pink-300 text-sm px-3 py-1 rounded-full mb-2">
+                        {plan.discount}
+                      </span>
+                    )}
                     <div className="flex items-baseline justify-center gap-1">
                       <span className="text-4xl font-bold text-[var(--primary)]">
                         {plan.price}
                       </span>
                       <span className="text-gray-400 text-sm">
-                        تومان / {plan.period}
+                        {plan.period}
                       </span>
                     </div>
                   </div>
-
-                  {/* Features List */}
-                  <ul className="space-y-4 mb-8">
-                    {plan.features.map((feature, i) => (
-                      <li
-                        key={i}
-                        className="flex items-center text-gray-300 gap-2"
-                      >
-                        <span className="text-[var(--primary)]">✓</span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
 
                   {/* Action Button */}
                   <motion.button
@@ -996,22 +1038,12 @@ const SamplePage = () => {
                       plan.popular ? "shadow-lg shadow-[var(--primary)]/20" : ""
                     }`}
                   >
-                    انتخاب پلن
+                    خرید
                   </motion.button>
                 </div>
               </motion.div>
             ))}
           </div>
-
-          {/* Additional Info */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-center mt-12 text-gray-400 text-sm"
-          >
-            تمامی پلن‌ها شامل ۷ روز ضمانت بازگشت وجه می‌باشند
-          </motion.div>
         </div>
       </section>
 
