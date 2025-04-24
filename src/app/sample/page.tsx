@@ -762,7 +762,7 @@ const SamplePage = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
             {[
               {
                 name: "پایه",
@@ -773,6 +773,11 @@ const SamplePage = () => {
                   "دیکشنری هوشمند",
                   "فلش‌کارت‌های پایه",
                 ],
+                icon: "🎬",
+                color: "from-blue-500/10 to-purple-500/10",
+                borderColor: "border-blue-500/20",
+                buttonClass:
+                  "bg-white/10 hover:bg-white/20 text-white border border-white/20",
               },
               {
                 name: "پیشرفته",
@@ -784,7 +789,12 @@ const SamplePage = () => {
                   "فلش‌کارت‌های نامحدود",
                   "آزمون‌های پیشرفته",
                 ],
+                icon: "⭐️",
                 popular: true,
+                color: "from-[var(--primary)]/20 to-orange-600/20",
+                borderColor: "border-[var(--primary)]",
+                buttonClass:
+                  "bg-[var(--primary)] hover:bg-[var(--primary)]/90 text-white",
               },
               {
                 name: "حرفه‌ای",
@@ -796,6 +806,11 @@ const SamplePage = () => {
                   "پشتیبانی VIP",
                   "آزمون‌های نامحدود",
                 ],
+                icon: "👑",
+                color: "from-purple-500/10 to-pink-500/10",
+                borderColor: "border-purple-500/20",
+                buttonClass:
+                  "bg-white/10 hover:bg-white/20 text-white border border-white/20",
               },
             ].map((plan, index) => (
               <motion.div
@@ -803,41 +818,66 @@ const SamplePage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="group relative"
+                className={`group relative ${
+                  plan.popular ? "md:-mt-4 md:mb-4" : ""
+                }`}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/20 to-transparent rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                {/* Background Glow Effect */}
                 <div
-                  className={`relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border ${
-                    plan.popular ? "border-[var(--primary)]" : "border-white/10"
-                  } hover:border-[var(--primary)]/30 transition-all duration-300`}
+                  className={`absolute inset-0 bg-gradient-to-br ${plan.color} rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-60 group-hover:opacity-100`}
+                />
+
+                {/* Card Content */}
+                <div
+                  className={`relative h-full bg-[#1E1E1E] backdrop-blur-xl rounded-3xl p-8 border ${plan.borderColor} transition-all duration-300 group-hover:border-opacity-100 group-hover:transform group-hover:-translate-y-2 group-hover:shadow-2xl`}
                 >
                   {plan.popular && (
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[var(--primary)] text-white text-sm font-semibold px-4 py-1 rounded-full">
-                      محبوب
+                    <div className="absolute -top-5 left-1/2 transform -translate-x-1/2">
+                      <div className="bg-[var(--primary)] text-white text-sm font-bold px-6 py-2 rounded-full shadow-lg">
+                        محبوب‌ترین
+                      </div>
                     </div>
                   )}
-                  <h3 className="text-2xl font-bold text-white mb-2">
-                    {plan.name}
-                  </h3>
-                  <div className="text-4xl font-bold text-[var(--primary)] mb-1">
-                    {plan.price}
+
+                  {/* Plan Icon */}
+                  <div className="text-4xl mb-6">{plan.icon}</div>
+
+                  {/* Plan Name & Price */}
+                  <div className="mb-8">
+                    <h3 className="text-2xl font-bold text-white mb-2">
+                      {plan.name}
+                    </h3>
+                    <div className="flex items-baseline justify-center gap-1">
+                      <span className="text-4xl font-bold text-[var(--primary)]">
+                        {plan.price}
+                      </span>
+                      <span className="text-gray-400 text-sm">
+                        تومان / {plan.period}
+                      </span>
+                    </div>
                   </div>
-                  <div className="text-gray-400 mb-6">{plan.period}</div>
-                  <ul className="space-y-3 mb-8">
+
+                  {/* Features List */}
+                  <ul className="space-y-4 mb-8">
                     {plan.features.map((feature, i) => (
-                      <li key={i} className="flex items-center text-gray-300">
-                        <span className="text-[var(--primary)] mr-2">✓</span>
+                      <li
+                        key={i}
+                        className="flex items-center text-gray-300 gap-2"
+                      >
+                        <span className="text-[var(--primary)]">✓</span>
                         {feature}
                       </li>
                     ))}
                   </ul>
+
+                  {/* Action Button */}
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`w-full py-3 rounded-full font-semibold ${
-                      plan.popular
-                        ? "bg-[var(--primary)] text-white"
-                        : "bg-white/10 text-white border border-white/20"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`w-full py-4 rounded-2xl font-semibold transition-all duration-300 ${
+                      plan.buttonClass
+                    } ${
+                      plan.popular ? "shadow-lg shadow-[var(--primary)]/20" : ""
                     }`}
                   >
                     انتخاب پلن
@@ -846,6 +886,16 @@ const SamplePage = () => {
               </motion.div>
             ))}
           </div>
+
+          {/* Additional Info */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="text-center mt-12 text-gray-400 text-sm"
+          >
+            تمامی پلن‌ها شامل ۷ روز ضمانت بازگشت وجه می‌باشند
+          </motion.div>
         </div>
       </section>
 
