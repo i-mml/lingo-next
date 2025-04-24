@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { useInView } from "framer-motion";
 import { isMobile } from "react-device-detect";
 import "swiper/css";
@@ -16,15 +16,16 @@ const SamplePage = () => {
   const isInView = useRef(false);
   const [pathWidth, setPathWidth] = useState(1000);
   const [mounted, setMounted] = useState(false);
+  const controls = useAnimation();
 
   // Optimize animations based on device
   const isReducedMotion = isMobile;
 
-  // Counter animation control with performance optimization
+  // Stats section refs and animation
   const statsRef = useRef(null);
   const statsInView = useInView(statsRef, {
     once: true,
-    margin: "100px 0px",
+    amount: 0.3,
   });
 
   useEffect(() => {
@@ -39,6 +40,12 @@ const SamplePage = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (statsInView) {
+      controls.start("visible");
+    }
+  }, [statsInView, controls]);
 
   // Debounce function for performance
   function debounce(func: (...args: any[]) => void, wait: number) {
@@ -63,43 +70,33 @@ const SamplePage = () => {
     duration?: number;
   }) => {
     const [count, setCount] = useState(0);
-    const frameRef = useRef<number | null>(null);
-    const startTimeRef = useRef<number | null>(null);
+    const nodeRef = useRef(null);
 
     useEffect(() => {
       if (statsInView) {
-        startTimeRef.current = Date.now();
+        let startTimestamp: number | null = null;
+        const step = (timestamp: number) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min(
+            (timestamp - startTimestamp) / (duration * 1000),
+            1
+          );
 
-        const animate = () => {
-          const elapsed = Date.now() - (startTimeRef.current || 0);
-          const progress = Math.min(elapsed / (duration * 1000), 1);
-
-          const newCount = Math.floor(end * progress);
-          setCount(newCount);
+          setCount(Math.floor(progress * end));
 
           if (progress < 1) {
-            frameRef.current = requestAnimationFrame(animate);
+            window.requestAnimationFrame(step);
           }
         };
 
-        frameRef.current = requestAnimationFrame(animate);
-
-        return () => {
-          if (frameRef.current) {
-            cancelAnimationFrame(frameRef.current);
-          }
-        };
+        window.requestAnimationFrame(step);
       }
     }, [statsInView, end, duration]);
 
     return (
-      <div className="flex items-baseline justify-center">
-        <span className="text-[var(--primary)] text-3xl md:text-4xl font-bold">
-          {count.toLocaleString()}
-        </span>
-        <span className="text-[var(--primary)] text-xl md:text-2xl font-bold">
-          {suffix}
-        </span>
+      <div ref={nodeRef} className="text-2xl md:text-3xl font-bold text-white">
+        {count.toLocaleString()}
+        {suffix}
       </div>
     );
   };
@@ -300,8 +297,8 @@ const SamplePage = () => {
         {renderAnimatedBackground}
 
         {/* Main Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 py-12 md:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Text Content */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -319,19 +316,19 @@ const SamplePage = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.1 }}
-                  className="inline-block text-[var(--primary)] text-xl md:text-2xl mb-4"
+                  className="inline-block text-[var(--primary)] text-lg md:text-2xl mb-4"
                 >
                   زبان را متفاوت یاد بگیرید
                 </motion.span>
 
-                <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-6">
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-4 md:mb-6">
                   <span className="text-[var(--primary)] inline-block transform hover:scale-105 transition-transform duration-300">
                     زبانو
                   </span>
                 </h1>
 
                 <motion.p
-                  className="text-xl md:text-2xl text-gray-300 mb-6"
+                  className="text-lg md:text-2xl text-gray-300 mb-4 md:mb-6"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.3 }}
@@ -340,7 +337,7 @@ const SamplePage = () => {
                 </motion.p>
 
                 <motion.div
-                  className="flex flex-col gap-4 text-lg text-gray-400 mb-8"
+                  className="flex flex-col gap-3 md:gap-4 text-base md:text-lg text-gray-400 mb-6 md:mb-8"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
@@ -364,19 +361,19 @@ const SamplePage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start items-center"
+                className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start items-center"
               >
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 bg-[var(--primary)] text-white rounded-full text-lg font-semibold shadow-[0_0_20px_rgba(255,168,0,0.3)] hover:shadow-[0_0_30px_rgba(255,168,0,0.5)] transition-all duration-300 w-full sm:w-auto"
+                  className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-[var(--primary)] text-white rounded-full text-base md:text-lg font-semibold shadow-[0_0_20px_rgba(255,168,0,0.3)] hover:shadow-[0_0_30px_rgba(255,168,0,0.5)] transition-all duration-300"
                 >
                   رایگان شروع کنید
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 bg-transparent text-white border-2 border-white rounded-full text-lg font-semibold hover:bg-white/10 transition-all duration-300 w-full sm:w-auto backdrop-blur-sm"
+                  className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-transparent text-white border-2 border-white rounded-full text-base md:text-lg font-semibold hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
                 >
                   ویدیو معرفی
                 </motion.button>
@@ -386,28 +383,27 @@ const SamplePage = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
-                className="mt-6 text-gray-400 text-sm"
+                className="mt-4 md:mt-6 text-gray-400 text-sm"
               >
                 به بیش از ۵۰,۰۰۰ کاربر فعال زبانو بپیوندید
               </motion.p>
             </motion.div>
 
-            {/* Left Side - Feature Preview */}
-            <div className="lg:pl-8">
-              <div className="space-y-6 max-w-xl">
-                {/* 3D Language Showcase */}
+            {/* Languages Section */}
+            <div className="lg:pl-8 w-full overflow-hidden">
+              <div className="space-y-6 max-w-xl mx-auto lg:mx-0">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}
-                  className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10"
+                  className="bg-white/5 backdrop-blur-md rounded-2xl md:rounded-3xl p-6 md:p-8 border border-white/10"
                 >
-                  <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                    <span className="text-3xl">🌍</span>
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6 flex items-center gap-3">
+                    <span className="text-2xl md:text-3xl">🌍</span>
                     زبان‌های موجود
                   </h3>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4">
                     {[
                       {
                         flag: "/images/flags/england.png",
@@ -464,32 +460,22 @@ const SamplePage = () => {
                         }}
                         className="group relative perspective"
                       >
-                        <div className="bg-black/20 backdrop-blur-sm rounded-xl p-4 border border-white/5 hover:border-[var(--primary)]/30 transition-all duration-300 transform-gpu hover:shadow-[0_0_20px_rgba(255,168,0,0.1)]">
-                          <div className="flex items-center gap-3 mb-2">
-                            <div className="w-8 h-8 relative overflow-hidden rounded-lg transform group-hover:scale-110 transition-transform duration-300">
+                        <div className="bg-black/20 backdrop-blur-sm rounded-xl p-3 md:p-4 border border-white/5 hover:border-[var(--primary)]/30 transition-all duration-300 transform-gpu hover:shadow-[0_0_20px_rgba(255,168,0,0.1)]">
+                          <div className="flex items-center gap-2 md:gap-3 mb-2">
+                            <div className="w-6 h-6 md:w-8 md:h-8 relative overflow-hidden rounded-lg transform group-hover:scale-110 transition-transform duration-300">
                               <img
                                 src={lang.flag}
                                 alt={`${lang.name} flag`}
                                 className="w-full h-full object-cover"
                               />
                             </div>
-                            <span className="text-white font-medium">
+                            <span className="text-white font-medium text-sm md:text-base">
                               {lang.name}
                             </span>
                           </div>
-                          <div className="text-sm text-[var(--primary)]">
+                          <div className="text-xs md:text-sm text-[var(--primary)]">
                             {lang.content} محتوا
                           </div>
-                          <motion.div
-                            className="absolute inset-0 bg-gradient-to-r from-[var(--primary)]/0 to-[var(--primary)]/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            initial={false}
-                            animate={{ rotateY: [0, 15, 0] }}
-                            transition={{
-                              duration: 2,
-                              repeat: Infinity,
-                              ease: "linear",
-                            }}
-                          />
                         </div>
                       </motion.div>
                     ))}
@@ -499,9 +485,9 @@ const SamplePage = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.8 }}
-                    className="mt-6 text-center"
+                    className="mt-4 md:mt-6 text-center"
                   >
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-gray-400 text-xs md:text-sm">
                       و بیش از <span className="text-[var(--primary)]">15</span>{" "}
                       زبان دیگر...
                     </p>
@@ -513,51 +499,35 @@ const SamplePage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
+                  className="bg-white/5 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/10"
                 >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-[var(--primary)]/10 flex items-center justify-center">
-                      <span className="text-2xl">⚡️</span>
+                  <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[var(--primary)]/10 flex items-center justify-center">
+                      <span className="text-xl md:text-2xl">⚡️</span>
                     </div>
                     <div>
-                      <h3 className="text-xl font-semibold text-white">
+                      <h3 className="text-lg md:text-xl font-semibold text-white">
                         ابزارهای هوشمند
                       </h3>
-                      <p className="text-gray-400 text-sm">
+                      <p className="text-gray-400 text-xs md:text-sm">
                         یادگیری سریع و موثر
                       </p>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-black/20 rounded-xl p-3">
+                  <div className="grid grid-cols-2 gap-2 md:gap-3">
+                    <div className="bg-black/20 rounded-lg md:rounded-xl p-2 md:p-3">
                       <div className="flex items-center gap-2">
                         <span className="text-[var(--primary)]">📝</span>
-                        <span className="text-white/90 text-sm">
+                        <span className="text-white/90 text-xs md:text-sm">
                           فلش‌کارت هوشمند
                         </span>
                       </div>
                     </div>
-                    <div className="bg-black/20 rounded-xl p-3">
+                    <div className="bg-black/20 rounded-lg md:rounded-xl p-2 md:p-3">
                       <div className="flex items-center gap-2">
                         <span className="text-[var(--primary)]">🎯</span>
-                        <span className="text-white/90 text-sm">
+                        <span className="text-white/90 text-xs md:text-sm">
                           آزمون نامحدود
-                        </span>
-                      </div>
-                    </div>
-                    <div className="bg-black/20 rounded-xl p-3">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[var(--primary)]">🖼️</span>
-                        <span className="text-white/90 text-sm">
-                          دیکشنری تصویری
-                        </span>
-                      </div>
-                    </div>
-                    <div className="bg-black/20 rounded-xl p-3">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[var(--primary)]">🗣️</span>
-                        <span className="text-white/90 text-sm">
-                          بازگویی و سنجش تشابه
                         </span>
                       </div>
                     </div>
@@ -567,33 +537,45 @@ const SamplePage = () => {
             </div>
           </div>
 
-          {/* Stats Preview */}
+          {/* Stats Preview - Mobile Optimized */}
           <motion.div
             ref={statsRef}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8"
+            initial="hidden"
+            animate={controls}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.6,
+                  staggerChildren: 0.1,
+                },
+              },
+            }}
+            className="mt-12 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8"
           >
             {[
-              { label: "کاربر فعال", value: 5000, suffix: "+" },
+              { label: "کاربر فعال", value: 50000, suffix: "+" },
               { label: "محتوای آموزشی", value: 1000, suffix: "+" },
               { label: "رضایت کاربران", value: 98, suffix: "%" },
               { label: "زبان مختلف", value: 20, suffix: "+" },
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.6 },
+                  },
+                }}
                 className="relative group"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/10 to-transparent rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
                 <div className="relative bg-[#1E1E1E] backdrop-blur-sm rounded-2xl p-6 border border-[#333] group-hover:border-[var(--primary)]/30 transition-all duration-300">
-                  <div className="text-[var(--primary)] text-sm mb-4 text-center">
+                  <div className="text-[var(--primary)] text-sm mb-2">
                     {stat.label}
                   </div>
                   <Counter end={stat.value} suffix={stat.suffix} duration={2} />
