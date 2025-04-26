@@ -1,4 +1,5 @@
 import { GetMovieDetailData } from "@/api/services/cms";
+import FaqSection from "@/components/shared/FaqSection";
 import VideoInformationView from "@/views/video-info";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
@@ -151,6 +152,15 @@ const VideoInformationPage = async ({
         }}
       />
       <VideoInformationView params={{ videoId, data: videoInfo }} />
+      {/* FAQ Section */}
+      {!!videoInfo?.faq && videoInfo?.faq.length > 0 && (
+        <FaqSection
+          faqs={videoInfo?.faq}
+          includeSchema
+          title="سوالات متداول"
+          className="relative bg-backgroundLayout w-full rounded-lg"
+        />
+      )}
     </>
   );
 };

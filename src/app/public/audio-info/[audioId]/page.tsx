@@ -1,10 +1,11 @@
-import { GetMovieData } from "@/api/services/cms";
+import { GetMovieData, GetMovieDetailData } from "@/api/services/cms";
 import AudioInfoView from "@/views/audio-info";
 import { cookies } from "next/headers";
 import React from "react";
 import { Metadata } from "next";
 import { contentTypeInfos } from "@/constants/content-types-infos";
 import { ContentType } from "@/views/catalog/types";
+import FaqSection from "@/components/shared/FaqSection";
 
 export async function generateMetadata({
   params,
@@ -119,12 +120,28 @@ export async function generateMetadata({
 
 const AudioInfoPage = async ({ params }: { params: { audioId: string } }) => {
   const accessToken = (await cookies()).get("zabano-access-token")?.value;
-  const audioInfo = await GetMovieData(
+  const audioInfo = await GetMovieDetailData(
     params.audioId?.split("-")?.[0],
     accessToken
   );
 
-  return <AudioInfoView audioId={params.audioId} data={audioInfo} />;
+  console.log(audioInfo);
+
+  return (
+    <>
+      <AudioInfoView audioId={params.audioId} data={audioInfo} />
+
+      {/* FAQ Section */}
+      {!!audioInfo?.faq && (
+        <FaqSection
+          faqs={audioInfo?.faq}
+          includeSchema
+          title="سوالات متداول"
+          // className="relative bg-backgroundLayout w-full rounded-lg"
+        />
+      )}
+    </>
+  );
 };
 
 export default AudioInfoPage;

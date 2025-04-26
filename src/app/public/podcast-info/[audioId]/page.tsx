@@ -5,6 +5,7 @@ import React from "react";
 import { Metadata } from "next";
 import { contentTypeInfos } from "@/constants/content-types-infos";
 import { ContentType } from "@/views/catalog/types";
+import FaqSection from "@/components/shared/FaqSection";
 
 export async function generateMetadata({
   params,
@@ -131,7 +132,20 @@ const PodcastInfoPage = async ({ params }: { params: { audioId: string } }) => {
     accessToken
   );
 
-  return <AudioInfoView audioId={params.audioId} data={audioInfo} />;
+  return (
+    <>
+      <AudioInfoView audioId={params.audioId} data={audioInfo} />;
+      {/* FAQ Section */}
+      {!!audioInfo?.faq && audioInfo?.faq.length > 0 && (
+        <FaqSection
+          faqs={audioInfo?.faq}
+          includeSchema
+          title="سوالات متداول"
+          // className="relative bg-backgroundLayout w-full rounded-lg"
+        />
+      )}
+    </>
+  );
 };
 
 export default PodcastInfoPage;
