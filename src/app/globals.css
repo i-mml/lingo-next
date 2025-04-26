@@ -155,3 +155,39 @@ body {
   opacity: 0.5 !important;
   cursor: not-allowed !important;
 }
+
+/* toastify */
+
+.Toastify__toast--error {
+  background-color: #500111;
+  color: #ff9fa4;
+}
+.Toastify__toast--success {
+  background-color: #0a2a09;
+  color: white;
+  .Toastify__close-button {
+    opacity: 1;
+  }
+  .Toastify__close-button > svg {
+    fill: white;
+  }
+}
+
+.Toastify__toast--warning {
+  background-color: #482000;
+  color: #ffba00;
+  .Toastify__close-button {
+    opacity: 1;
+  }
+  .Toastify__close-button > svg {
+    fill: #ffba00;
+  }
+}
+.Toastify__toast--info {
+  background-color: #11205a;
+  color: #88c1ff;
+}
+.Toastify__toast-body {
+  border-radius: 8px;
+  font-family: var(--font-vazirmatn), var(--font-dana) !important;
+}
