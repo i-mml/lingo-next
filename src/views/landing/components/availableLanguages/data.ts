@@ -4,12 +4,21 @@ export const availableLanguagesList = [
     name: "English",
     image: "/images/flags/england.png",
     available: true,
+    language: "en",
   },
   {
     id: 5,
     name: "German",
     image: "/images/flags/Germany.webp",
     available: true,
+    language: "de",
+  },
+  {
+    id: 9,
+    name: "Spanish",
+    image: "/images/flags/Spain.webp",
+    available: true,
+    language: "es",
   },
   {
     id: 1,
@@ -28,24 +37,28 @@ export const availableLanguagesList = [
     name: "Japanese",
     image: "/images/flags/Japan.webp",
     available: false,
+    language: "ja",
   },
   {
     id: 4,
     name: "Potuguese",
     image: "/images/flags/Brasil.webp",
     available: false,
+    language: "pt",
   },
   {
     id: 11,
     name: "Russian",
     image: "/images/flags/Russia.webp",
     available: false,
+    language: "ru",
   },
   {
     id: 10,
     name: "Italian",
     image: "/images/flags/Italy.webp",
     available: false,
+    language: "it",
   },
 
   {
@@ -53,11 +66,6 @@ export const availableLanguagesList = [
     name: "French",
     image: "/images/flags/France.webp",
     available: false,
-  },
-  {
-    id: 9,
-    name: "Spanish",
-    image: "/images/flags/Spain.webp",
-    available: false,
+    language: "fr",
   },
 ];

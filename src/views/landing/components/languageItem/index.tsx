@@ -11,7 +11,15 @@ const LanguageItem = ({ item }: any) => {
 
   return (
     <Link
-      href={fromInstagram ? "/public/home?from_instagram=true" : "/public/home"}
+      href={
+        fromInstagram
+          ? `${
+              item.language === "en" ? "" : `/${item.language}`
+            }/public/catalog?from_instagram=true`
+          : `${
+              item.language === "en" ? "" : `/${item.language}`
+            }/public/catalog`
+      }
       className={`relative flex flex-col items-center justify-center w-[110px] h-[125px] p-[23px] rounded-[10px] bg-[#f8f8f8] shadow-md transition-opacity duration-200 ${
         item.available ? "opacity-100" : "opacity-30"
       } hover:h-[110px]`}
