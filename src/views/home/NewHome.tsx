@@ -7,8 +7,20 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import Link from "next/link";
+import { useAuth } from "@/hooks/use-auth";
+import GuestView from "./components/GuestView";
 
 const NewHomeView = () => {
+  const { isGuest } = useAuth();
+
+  if (isGuest) {
+    return <GuestView />;
+  }
+
+  return <AuthenticatedView />;
+};
+
+const AuthenticatedView = () => {
   return (
     <div className="min-h-screen bg-backgroundLayout">
       <main className="py-6">
