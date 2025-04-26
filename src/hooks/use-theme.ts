@@ -92,8 +92,16 @@ const useThemeCreator = () => {
   const { theme } = useTheme();
   const isDark = theme === "light" ? "dark" : "light";
   const directionTheme = getDirection(language);
-  darkTheme.direction = directionTheme;
-  lightTheme.direction = directionTheme;
+
+  const directionGenerator = () => {
+    if (typeof window !== "undefined") {
+      return window.location.pathname.includes("show") ? "ltr" : directionTheme;
+    }
+    return directionTheme;
+  };
+
+  darkTheme.direction = directionGenerator();
+  lightTheme.direction = directionGenerator();
 
   let themeResult = null;
 
