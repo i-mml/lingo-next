@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import { contentTypeInfos } from "@/constants/content-types-infos";
 import { ContentType } from "@/views/catalog/types";
 import FaqSection from "@/components/shared/FaqSection";
+import { languageDictionaryByCode } from "@/constants/locales";
 
 export async function generateMetadata({
   params,
@@ -27,14 +28,22 @@ export async function generateMetadata({
 
   const contentType = contentTypeInfos[audioInfo.content_type as ContentType];
   const breadcrumbItems = [
-    { name: "خانه", url: "https://zabano.com" },
+    { name: "خانه", url: "/" },
     {
       name: `${contentType.title} ها`,
-      url: `https://zabano.com/public/${contentType.listRoute}`,
+      url: `${
+        !!accessToken
+          ? ""
+          : `/${
+              languageDictionaryByCode?.[
+                audioInfo.language as keyof typeof languageDictionaryByCode
+              ]?.language
+            }`
+      }/public/${contentType.listRoute}`,
     },
     {
       name: audioInfo.title,
-      url: `https://zabano.com/public/audio-info/${params.audioId}`,
+      url: `/public/audio-info/${params.audioId}`,
     },
   ];
 

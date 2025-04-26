@@ -8,9 +8,16 @@ import { useTranslation } from "react-i18next";
 import { contentTypeInfos } from "@/constants/content-types-infos";
 import { ContentType } from "@/views/catalog/types";
 import MovieCreationIcon from "@mui/icons-material/MovieCreation";
+import { languageDictionaryByCode } from "@/constants/locales";
+import { useAuth } from "@/hooks/use-auth";
 
 const AudioInfoBreadcrumbs = ({ data }: { data: any }) => {
   const { t } = useTranslation();
+  const { isGuest } = useAuth();
+  const language =
+    languageDictionaryByCode?.[
+      data?.language as keyof typeof languageDictionaryByCode
+    ]?.language;
 
   function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     event.preventDefault();
@@ -35,13 +42,20 @@ const AudioInfoBreadcrumbs = ({ data }: { data: any }) => {
           underline="hover"
           className="flex items-center gap-1"
           color="inherit"
-          href={`/public/${
+          href={`${isGuest ? `/${language}` : ""}//public/${
             contentTypeInfos[data?.content_type as ContentType]?.listRoute
           }`}
         >
           <MovieCreationIcon className="!text-main !text-2xl" />
+
           <span className="text-main text-sm">
             {`${contentTypeInfos[data?.content_type as ContentType]?.title}`} ها
+            {`ی ${
+              languageDictionaryByCode?.[
+                data?.language as keyof typeof languageDictionaryByCode
+              ]?.persian
+            }
+            `}
           </span>
         </Link>
         <Typography
