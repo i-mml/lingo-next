@@ -436,7 +436,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
 
               <button
                 id="third-step"
-                disabled={!started}
+                disabled={!started || !currentSubtitle}
                 onClick={() => {
                   setActiveTab(2);
                 }}
