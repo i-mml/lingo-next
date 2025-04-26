@@ -67,7 +67,6 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
           title: t("containers.sidebar.Home"),
           link: `/public/home`,
           icon: <HomeOutlinedIcon className="!text-3xl" />,
-
           hide: false,
         },
         {
@@ -189,34 +188,41 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
     >
       <div className="w-64 bg-bgDefault h-full p-4" dir="rtl">
         <nav className="flex flex-col gap-4 pb-20">
-          {sidebarItems?.map((item) => (
-            <div key={item.id} className="mb-2">
-              <h3 className="text-gray400 text-base font-medium mb-2">
-                {item.title}
-              </h3>
-              <ul className="">
-                {item.items?.map((node) => (
-                  <li
-                    key={node.id}
-                    className={`py-2.5 rounded-lg transition-colors ${
-                      pathname === node.link
-                        ? "bg-primary/10 text-primary"
-                        : "hover:bg-gray-100"
-                    }`}
-                    onClick={toggleDrawerMenu}
-                  >
-                    <Link
-                      href={node.link}
-                      className="flex items-center gap-2 text-main hover:text-primary"
-                    >
-                      {node.icon}
-                      <span className="text-lg font-medium">{node.title}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {sidebarItems
+            ?.filter((node) => !node.hide)
+            ?.map((item) => (
+              <div key={item.id} className="mb-2">
+                <h3 className="text-gray400 text-base font-medium mb-2">
+                  {item.title}
+                </h3>
+                <ul className="">
+                  {item.items?.map(
+                    (node) =>
+                      !node.hide && (
+                        <li
+                          key={node.id}
+                          className={`py-2.5 rounded-lg transition-colors ${
+                            pathname === node.link
+                              ? "bg-primary/10 text-primary"
+                              : "hover:bg-gray-100"
+                          }`}
+                          onClick={toggleDrawerMenu}
+                        >
+                          <Link
+                            href={node.link}
+                            className="flex items-center gap-2 text-main hover:text-primary"
+                          >
+                            {node.icon}
+                            <span className="text-lg font-medium">
+                              {node.title}
+                            </span>
+                          </Link>
+                        </li>
+                      )
+                  )}
+                </ul>
+              </div>
+            ))}
 
           <li className="list-none flex items-center gap-2">
             <IconButton
