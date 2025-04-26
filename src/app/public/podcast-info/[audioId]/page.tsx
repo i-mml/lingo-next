@@ -1,4 +1,4 @@
-import { GetMovieData } from "@/api/services/cms";
+import { GetMovieData, GetMovieDetailData } from "@/api/services/cms";
 import AudioInfoView from "@/views/audio-info";
 import { cookies } from "next/headers";
 import React from "react";
@@ -13,7 +13,7 @@ export async function generateMetadata({
   params: { audioId: string };
 }): Promise<Metadata> {
   const accessToken = (await cookies()).get("zabano-access-token")?.value;
-  const audioInfo = await GetMovieData(
+  const audioInfo = await GetMovieDetailData(
     params.audioId?.split("-")?.[0],
     accessToken
   );
@@ -41,16 +41,9 @@ export async function generateMetadata({
   const contentTypeTitle = contentType.title;
   const defaultDescription = `${contentTypeTitle} آموزشی زبان انگلیسی با متن و ترجمه فارسی. مناسب برای تقویت مهارت شنیداری و یادگیری زبان انگلیسی. شامل توضیحات و نکات آموزشی.`;
 
-  // Extract English title from the URL if available
-  const englishTitle = params.audioId
-    ?.split("-")
-    .slice(1)
-    .join(" ")
-    .replace(/-/g, " ");
-
   return {
-    title: `${contentTypeTitle} ${audioInfo.title} (${englishTitle}) | آموزش زبان انگلیسی با ${contentTypeTitle}`,
-    description: `${audioInfo.description || defaultDescription}`,
+    title: `${audioInfo.meta_title} | زبانو`,
+    description: `${audioInfo.meta_description || defaultDescription}`,
     keywords: [
       `${contentTypeTitle} آموزش زبان`,
       audioInfo.title,
@@ -67,8 +60,8 @@ export async function generateMetadata({
       canonical: `https://zabano.com/public/podcast-info/${params.audioId}`,
     },
     openGraph: {
-      title: `${contentTypeTitle} ${audioInfo.title} (${englishTitle}) | آموزش زبان انگلیسی با ${contentTypeTitle}`,
-      description: audioInfo.description || defaultDescription,
+      title: `${audioInfo.meta_title} | زبانو`,
+      description: `${audioInfo.meta_description || defaultDescription}`,
       type: "article",
       locale: "fa_IR",
       url: `https://zabano.com/public/podcast-info/${params.audioId}`,
@@ -85,8 +78,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${contentTypeTitle} ${audioInfo.title} (${englishTitle}) | آموزش زبان انگلیسی با ${contentTypeTitle}`,
-      description: audioInfo.description || defaultDescription,
+      title: `${audioInfo.meta_title} | زبانو`,
+      description: `${audioInfo.meta_description || defaultDescription}`,
       images: [
         audioInfo.thumbnail || "https://zabano.com/zabano-main-logo.png",
       ],
@@ -127,7 +120,7 @@ export async function generateMetadata({
 
 const PodcastInfoPage = async ({ params }: { params: { audioId: string } }) => {
   const accessToken = (await cookies()).get("zabano-access-token")?.value;
-  const audioInfo = await GetMovieData(
+  const audioInfo = await GetMovieDetailData(
     params.audioId?.split("-")?.[0],
     accessToken
   );

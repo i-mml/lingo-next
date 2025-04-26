@@ -13,7 +13,7 @@ export async function generateMetadata({
   params: { audioId: string };
 }): Promise<Metadata> {
   const accessToken = (await cookies()).get("zabano-access-token")?.value;
-  const audioInfo = await GetMovieData(
+  const audioInfo = await GetMovieDetailData(
     params.audioId?.split("-")?.[0],
     accessToken
   );
@@ -42,8 +42,8 @@ export async function generateMetadata({
   const defaultDescription = `${contentTypeTitle} انگلیسی با ترجمه و متن کامل. مناسب برای تقویت مهارت شنیداری و یادگیری زبان انگلیسی.`;
 
   return {
-    title: `${contentTypeTitle} ${audioInfo.title} | زبانو`,
-    description: `${audioInfo.description || defaultDescription}`,
+    title: `${audioInfo.meta_title} | زبانو`,
+    description: `${audioInfo.meta_description || defaultDescription}`,
     keywords: [
       contentTypeTitle,
       audioInfo.title,
@@ -59,8 +59,8 @@ export async function generateMetadata({
       canonical: `https://zabano.com/public/audio-info/${params.audioId}`,
     },
     openGraph: {
-      title: `${contentTypeTitle} ${audioInfo.title} | زبانو`,
-      description: audioInfo.description || defaultDescription,
+      title: `${audioInfo.meta_title} | زبانو`,
+      description: `${audioInfo.meta_description || defaultDescription}`,
       type: "article",
       locale: "fa_IR",
       url: `https://zabano.com/public/audio-info/${params.audioId}`,
@@ -77,8 +77,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${contentTypeTitle} ${audioInfo.title} | زبانو`,
-      description: audioInfo.description || defaultDescription,
+      title: `${audioInfo.meta_title} | زبانو`,
+      description: `${audioInfo.meta_description || defaultDescription}`,
       images: [
         audioInfo.thumbnail || "https://zabano.com/zabano-main-logo.png",
       ],
@@ -124,8 +124,6 @@ const AudioInfoPage = async ({ params }: { params: { audioId: string } }) => {
     params.audioId?.split("-")?.[0],
     accessToken
   );
-
-  console.log(audioInfo);
 
   return (
     <>

@@ -113,11 +113,11 @@ const VideoInformationPage = async ({
             "@context": "https://schema.org",
             "@type": "VideoObject",
             name: `${
-              videoInfo?.title ||
+              videoInfo?.meta_title ||
               "ویدیو آموزشی زبان انگلیسی | یادگیری با تماشای ویدیو"
             } | زبانو`,
             description: `${
-              videoInfo?.description ||
+              videoInfo?.meta_description ||
               "ویدیو آموزشی زبان انگلیسی با ترجمه فارسی برای یادگیری بهتر و سریع‌تر"
             } | زبانو`,
             thumbnailUrl: videoInfo?.cover
