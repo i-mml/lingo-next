@@ -20,13 +20,13 @@ const ShowMore = ({
     <div className={className}>
       <p
         className={`text-main text-lg ${
-          showMore ? "" : "line-clamp-4"
+          showMore ? "" : text?.length >= maxLength ? "line-clamp-3" : ""
         } ${textClassName}`}
       >
         {text}
       </p>
 
-      {!showMore && text?.length > maxLength && (
+      {!showMore && text?.length >= maxLength && (
         <button
           onClick={toggleShowMore}
           className="w-full mt-2 text-sm text-gray400 md:text-base"

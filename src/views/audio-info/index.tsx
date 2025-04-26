@@ -24,6 +24,7 @@ import { contentTypeInfos } from "@/constants/content-types-infos";
 import { useLoginModal } from "@/store/use-login-modal";
 import { toast } from "react-toastify";
 import AudioInfoBreadcrumbs from "./components/AudioInfoBreadcrumbs";
+import ShowMore from "@/components/shared/ShowMore";
 
 const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
   const { whoAmI, isGuest } = useAuth();
@@ -184,21 +185,12 @@ const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
 
           <p className="mt-2 text-gray400 md:text-lg">{data?.content_owner}</p>
 
-          <div className="mt-6">
-            <p
-              className={`text-main text-lg ${showMore ? "" : "line-clamp-2"}`}
-            >
-              {data?.description}
-            </p>
-            {!showMore && data?.description?.length > 200 && (
-              <button
-                onClick={toggleShowMore}
-                className="w-full mt-2 text-sm text-gray400 md:text-base"
-              >
-                مشاهده بیشتر
-              </button>
-            )}
-          </div>
+          <ShowMore
+            maxLength={200}
+            text={data?.description}
+            textClassName={`text-main text-lg`}
+            className="mt-6"
+          />
 
           {/* Info Cards */}
           <div className="flex gap-2 md:gap-6 justify-between md:justify-normal py-4 mt-6 border-t border-b border-borderMain">
