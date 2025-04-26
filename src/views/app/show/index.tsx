@@ -7,9 +7,45 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
 import React, { useMemo, useState } from "react";
 import Player from "./components/Player";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import useThemeCreator from "@/hooks/use-theme";
 
 const PlayerView = () => {
   const { videoId, episodeId } = useParams();
+  const { theme } = useThemeCreator();
+
+  // Create a custom theme for the show page that extends the global theme
+  const showPageTheme = useMemo(
+    () =>
+      createTheme({
+        ...theme,
+        direction: "ltr", // Force LTR for MUI components in player
+        components: {
+          MuiSlider: {
+            styleOverrides: {
+              root: {
+                direction: "ltr",
+              },
+              track: {
+                direction: "ltr",
+                left: 0,
+                right: "auto",
+              },
+              thumb: {
+                direction: "ltr",
+                right: "auto",
+                width: 12,
+                height: 12,
+              },
+              rail: {
+                direction: "ltr",
+              },
+            },
+          },
+        },
+      }),
+    [theme]
+  );
 
   const [openSubsModal, setOpenSubsModal] = useState(false);
   const router = useRouter();
@@ -58,23 +94,25 @@ const PlayerView = () => {
       </div>
     );
   return (
-    <div dir="rtl">
-      <Player
-        title={data?.title}
-        difficulty={data?.difficulty}
-        subtitle={episodeData}
-        movie={episodeData}
-        image={data?.banner_image}
-        data={data}
-      />
-
-      {openSubsModal && (
-        <SubscriptionModal
-          open={openSubsModal}
-          toggleModal={toggleSubscriptionModal}
+    <ThemeProvider theme={showPageTheme}>
+      <div dir="rtl">
+        <Player
+          title={data?.title}
+          difficulty={data?.difficulty}
+          subtitle={episodeData}
+          movie={episodeData}
+          image={data?.banner_image}
+          data={data}
         />
-      )}
-    </div>
+
+        {openSubsModal && (
+          <SubscriptionModal
+            open={openSubsModal}
+            toggleModal={toggleSubscriptionModal}
+          />
+        )}
+      </div>
+    </ThemeProvider>
   );
 };
 

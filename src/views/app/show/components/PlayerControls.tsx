@@ -106,7 +106,6 @@ const SeekSlider = React.memo(
         size={isMobile ? "small" : "medium"}
         style={{
           display: isMobile && tag === "seek" ? "none" : "block",
-          direction: "ltr",
         }}
       />
     );
@@ -143,7 +142,6 @@ const SoundSlider = React.memo(({ volume, handleSound }: any) => {
           '& input[type="range"]': {
             WebkitAppearance: "slider-vertical",
           },
-          direction: "ltr",
         }}
         value={volume}
         onChange={handleSound}
