@@ -234,7 +234,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
                   <KeyboardVoiceIcon
                     sx={{
                       color:
-                        !started || currentSubtitle === ""
+                        !started || !currentSubtitle
                           ? "gray"
                           : isMobile
                           ? theme.palette.text.main
@@ -247,7 +247,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
                   handlePause();
                   toggleRecordModal();
                 }}
-                disabled={!started || currentSubtitle === ""}
+                disabled={!started || !currentSubtitle}
                 tooltipText="بازگویی جمله"
               />
               <TooltipBox
@@ -258,7 +258,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
                     <HeadsetIcon
                       sx={{
                         color:
-                          !started || currentSubtitle === ""
+                          !started || !currentSubtitle
                             ? "gray"
                             : isMobile
                             ? theme.palette.text.main
@@ -270,7 +270,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
                 }
                 disabled={
                   !started ||
-                  currentSubtitle === "" ||
+                  !currentSubtitle ||
                   textToSpeachMutation?.isLoading
                 }
                 handleAction={() => {
@@ -294,12 +294,12 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
                     handleFetchGrammar(currentSubtitle);
                     setActiveTab(3);
                   }}
-                  disabled={!started || currentSubtitle === ""}
+                  disabled={!started || !currentSubtitle}
                   item={
                     <EmojiObjectsIcon
                       sx={{
                         color:
-                          !started || currentSubtitle === ""
+                          !started || !currentSubtitle
                             ? "gray"
                             : isMobile && activeTab === 2
                             ? theme.palette.text.main
@@ -315,7 +315,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
             <>
               <button
                 id="seventh-step"
-                disabled={!started || currentSubtitle === ""}
+                disabled={!started || !currentSubtitle}
                 onClick={() => {
                   handlePause();
                   toggleRecordModal();
@@ -325,7 +325,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
                 <KeyboardVoiceIcon
                   sx={{
                     color:
-                      !started || currentSubtitle === ""
+                      !started || !currentSubtitle
                         ? "gray"
                         : isMobile
                         ? theme.palette.text.main
@@ -338,7 +338,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
               <button
                 disabled={
                   !started ||
-                  currentSubtitle === "" ||
+                  !currentSubtitle ||
                   textToSpeachMutation?.isLoading
                 }
                 onClick={() => {
@@ -360,7 +360,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
                   <HeadsetIcon
                     sx={{
                       color:
-                        !started || currentSubtitle === ""
+                        !started || !currentSubtitle
                           ? "gray"
                           : isMobile
                           ? theme.palette.text.main
@@ -373,7 +373,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
               </button>
               {movie?.language === 2 && (
                 <button
-                  disabled={!started || currentSubtitle === ""}
+                  disabled={!started || !currentSubtitle}
                   onClick={() => {
                     handleAction && handleAction?.(currentSubtitle);
                     handlePause();
@@ -386,7 +386,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
                   <EmojiObjectsIcon
                     sx={{
                       color:
-                        !started || currentSubtitle === ""
+                        !started || !currentSubtitle
                           ? "gray"
                           : isMobile && activeTab === 3
                           ? theme.palette.background.primary
