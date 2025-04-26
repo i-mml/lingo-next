@@ -1,8 +1,9 @@
 import { Metadata } from "next";
-import NewHomeView from "@/views/home/NewHome";
+// import NewHomeView from "@/views/home/NewHome";
+import HomeView from "@/views/home";
 
 const HomePage = () => {
-  return <NewHomeView />;
+  return <HomeView />;
 };
 
 export default HomePage;
