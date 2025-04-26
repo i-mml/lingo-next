@@ -9,7 +9,7 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { CatalogPageTypes } from "../types";
 import { CmsCatalogItem } from "@/api/types/cms";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname, useParams } from "next/navigation";
 import { contentTypeInfos } from "@/constants/content-types-infos";
 import NeedSubscriptionMovieBadge from "@/components/shared/NeedSubscriptionMovieBadge";
 import { isMobile } from "react-device-detect";
@@ -28,12 +28,40 @@ const CatalogBannersRowSlider = (
   props: Pick<CatalogPageTypes, "isFreeOnly" | "banners">
 ) => {
   const { banners, isFreeOnly } = props;
-
+  const { locale } = useParams();
   const router = useRouter();
+  const pathname = usePathname();
   const { isGuest, whoAmI } = useAuth();
 
   const [isSwiping] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  // Check for locale in the path
+  const hasLocale = !!locale;
+  const isEnglishLocale = locale === "en";
+
+  const getImageWidth = () => {
+    if (isGuest) {
+      if (hasLocale) {
+        return isEnglishLocale ? 127 : 212;
+      } else {
+        return 127;
+      }
+    } else {
+      return whoAmI?.userpreference?.preferred_language === 2 ? 127 : 212;
+    }
+  };
+  const getImageHeight = () => {
+    if (isGuest) {
+      if (hasLocale) {
+        return isEnglishLocale ? 190.5 : 120;
+      } else {
+        return 190.5;
+      }
+    } else {
+      return whoAmI?.userpreference?.preferred_language === 2 ? 190.5 : 120;
+    }
+  };
 
   const handleClickMovie = (movie: CmsCatalogItem) => {
     if (!isSwiping) {
@@ -149,22 +177,11 @@ const CatalogBannersRowSlider = (
                     className="relative w-fit"
                   >
                     <Image
-                      width={
-                        isGuest ||
-                        whoAmI?.userpreference?.preferred_language === 2
-                          ? 127
-                          : 212
-                      }
-                      height={
-                        isGuest ||
-                        whoAmI?.userpreference?.preferred_language === 2
-                          ? 190.5
-                          : 120
-                      }
+                      width={getImageWidth()}
+                      height={getImageHeight()}
                       className={clsx(
                         `mx-auto !block rounded-lg`,
-                        isGuest ||
-                          whoAmI?.userpreference?.preferred_language === 2
+                        getImageWidth() === 127
                           ? "w-[112px] h-[168px] md:w-[127px] md:h-[190.5px]"
                           : "w-[212px] h-[120px] "
                       )}

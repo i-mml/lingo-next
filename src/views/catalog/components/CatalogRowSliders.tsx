@@ -13,7 +13,7 @@ import useThemeCreator from "@/hooks/use-theme";
 import useBookMarkMutation from "@/hooks/use-bookmark-mutation";
 import { CatalogPageTypes } from "../types";
 import { CmsCatalogItem } from "@/api/types/cms";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { contentTypeInfos } from "@/constants/content-types-infos";
@@ -23,7 +23,7 @@ const CatalogRowSliders = (
   props: Pick<CatalogPageTypes, "catalogData" | "isFreeOnly">
 ) => {
   const { catalogData, isFreeOnly } = props;
-
+  const { locale } = useParams();
   const router = useRouter();
   const { isGuest, whoAmI } = useAuth();
 
@@ -45,24 +45,42 @@ const CatalogRowSliders = (
       );
     }
   };
+  const hasLocale = !!locale;
+  const isEnglishLocale = locale === "en";
+
+  const getImageWidth = () => {
+    if (isGuest) {
+      if (hasLocale) {
+        return isEnglishLocale ? 212 : 262;
+      } else {
+        return 212;
+      }
+    } else {
+      return whoAmI?.userpreference?.preferred_language === 2 ? 212 : 262;
+    }
+  };
+  const getImageHeight = () => {
+    if (isGuest) {
+      if (hasLocale) {
+        return isEnglishLocale ? 318 : 147;
+      } else {
+        return 318;
+      }
+    } else {
+      return whoAmI?.userpreference?.preferred_language === 2 ? 318 : 147;
+    }
+  };
 
   const breakPoints = {
     1550: {
-      slidesPerView:
-        !isGuest && whoAmI?.userpreference?.preferred_language !== 2 ? 5 : 6.4,
+      slidesPerView: getImageWidth() === 212 ? 5 : 6.4,
     },
     1450: {
-      slidesPerView:
-        !isGuest && whoAmI?.userpreference?.preferred_language !== 2
-          ? 4.2
-          : 5.2,
+      slidesPerView: getImageWidth() === 212 ? 4.2 : 5.2,
     },
 
     1390: {
-      slidesPerView:
-        !isGuest && whoAmI?.userpreference?.preferred_language !== 2
-          ? 3.7
-          : 4.3,
+      slidesPerView: getImageWidth() === 212 ? 3.7 : 4.3,
     },
 
     1024: {
@@ -73,16 +91,10 @@ const CatalogRowSliders = (
       slidesPerView: 4,
     },
     550: {
-      slidesPerView:
-        !isGuest && whoAmI?.userpreference?.preferred_language !== 2
-          ? 1.6
-          : 2.3,
+      slidesPerView: getImageWidth() === 212 ? 1.6 : 2.3,
     },
     0: {
-      slidesPerView:
-        !isGuest && whoAmI?.userpreference?.preferred_language === 2
-          ? 2.3
-          : 1.4,
+      slidesPerView: getImageWidth() === 212 ? 2.3 : 1.4,
     },
   };
 
@@ -109,22 +121,11 @@ const CatalogRowSliders = (
                 >
                   <article className="relative w-fit">
                     <Image
-                      width={
-                        isGuest ||
-                        whoAmI?.userpreference?.preferred_language === 2
-                          ? 212
-                          : 262
-                      }
-                      height={
-                        isGuest ||
-                        whoAmI?.userpreference?.preferred_language === 2
-                          ? 318
-                          : 147
-                      }
+                      width={getImageWidth()}
+                      height={getImageHeight()}
                       className={clsx(
                         "rounded-lg object-cover cursor-pointer",
-                        isGuest ||
-                          whoAmI?.userpreference?.preferred_language === 2
+                        getImageWidth() === 212
                           ? "w-[156px] h-[230px] md:w-[212px] md:h-[318px]"
                           : "w-[262px] h-[147px] md:w-[274px] md:h-[155px]"
                       )}
@@ -139,20 +140,12 @@ const CatalogRowSliders = (
                     <div
                       className={clsx(
                         "absolute bottom-0 right-0 left-0 bg-[black]/60 rounded-b-lg flex items-center z-50",
-                        !isGuest &&
-                          whoAmI?.userpreference?.preferred_language !== 2
-                          ? "py-0.5 px-0.5"
-                          : "py-2 px-2"
+                        getImageWidth() === 212 ? "py-0.5 px-0.5" : "py-2 px-2"
                       )}
                     >
                       <h2
                         className="flex-1 line-clamp-1 text-white"
-                        dir={
-                          !isGuest &&
-                          whoAmI?.userpreference?.preferred_language !== 2
-                            ? "ltr"
-                            : "rtl"
-                        }
+                        dir={getImageWidth() === 212 ? "ltr" : "rtl"}
                       >
                         {movie?.title || ""}
                       </h2>
