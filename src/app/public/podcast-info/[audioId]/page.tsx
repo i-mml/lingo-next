@@ -6,6 +6,7 @@ import { Metadata } from "next";
 import { contentTypeInfos } from "@/constants/content-types-infos";
 import { ContentType } from "@/views/catalog/types";
 import FaqSection from "@/components/shared/FaqSection";
+import { localesDictionary } from "@/constants/locales";
 
 export async function generateMetadata({
   params,
@@ -30,7 +31,15 @@ export async function generateMetadata({
     { name: "خانه", url: "https://zabano.com" },
     {
       name: `${contentType.title} ها`,
-      url: `https://zabano.com/public/${contentType.listRoute}`,
+      url: `https://zabano.com${
+        !!accessToken
+          ? ""
+          : `/${
+              localesDictionary[
+                audioInfo.language as keyof typeof localesDictionary
+              ]?.language_code
+            }`
+      }/public/${contentType.listRoute}`,
     },
     {
       name: audioInfo.title,

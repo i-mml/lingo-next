@@ -24,7 +24,6 @@ import SubscriptionModal from "@/components/modals/SubscriptionModal";
 import AnouncementIcon from "@/assets/anouncement.svg";
 import LeadingIcon from "@/assets/leading.svg";
 import VideoInfoBreadcrumbs from "./components/VideoInfoBreadcrumbs";
-import clsx from "clsx";
 import ShowMore from "@/components/shared/ShowMore";
 
 const VideoInformationView = ({

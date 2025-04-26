@@ -1,5 +1,11 @@
 import { GetMovieDetailData } from "@/api/services/cms";
 import FaqSection from "@/components/shared/FaqSection";
+import { contentTypeInfos } from "@/constants/content-types-infos";
+import {
+  languageDictionaryByCode,
+  localesDictionary,
+} from "@/constants/locales";
+import { ContentType } from "@/views/catalog/types";
 import VideoInformationView from "@/views/video-info";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
@@ -103,6 +109,27 @@ const VideoInformationPage = async ({
     videoId?.split("-")?.[0],
     accessToken
   );
+  const contentType = contentTypeInfos[videoInfo.content_type as ContentType];
+
+  const breadcrumbItems = [
+    { name: "خانه", url: "/" },
+    {
+      name: `${contentType.title} ها`,
+      url: `${
+        !!accessToken
+          ? ""
+          : `/${
+              languageDictionaryByCode?.[
+                videoInfo.language as keyof typeof languageDictionaryByCode
+              ]?.language
+            }`
+      }/public/${contentType.listRoute}`,
+    },
+    {
+      name: videoInfo.title,
+      url: `/public/podcast-info/${videoId}`,
+    },
+  ];
 
   return (
     <>
@@ -147,6 +174,15 @@ const VideoInformationPage = async ({
               "@type": "AlignmentObject",
               alignmentType: "educationalSubject",
               targetName: "یادگیری زبان انگلیسی با محتوای تصویری",
+            },
+            breadcrumb: {
+              "@type": "BreadcrumbList",
+              itemListElement: breadcrumbItems.map((item, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                name: item.name,
+                item: item.url,
+              })),
             },
           }),
         }}

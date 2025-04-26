@@ -4,9 +4,12 @@ import axiosInstance from "../configs";
 
 export const GetCmsByContentType = async (
   contentType: number,
-  token?: string
+  token?: string,
+  lang_id?: number
 ) => {
-  let url = `/cms/catalog?content_type=${contentType}`;
+  let url = `/cms/catalog?content_type=${contentType}${
+    lang_id ? `&lang_id=${lang_id}` : ""
+  }`;
 
   const response = await axiosAuth.get(
     url,
@@ -21,8 +24,14 @@ export const GetCmsByContentType = async (
   return response.data as CmsCatalogList[];
 };
 
-export const GetCmsByBanner = async (contentType: number, token?: string) => {
-  let url = `/cms/banner?content_type=${contentType}`;
+export const GetCmsByBanner = async (
+  contentType: number,
+  token?: string,
+  lang_id?: number
+) => {
+  let url = `/cms/banner?content_type=${contentType}${
+    lang_id ? `&lang_id=${lang_id}` : ""
+  }`;
 
   const response = await axiosAuth.get(
     url,
