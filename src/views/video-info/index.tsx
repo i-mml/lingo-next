@@ -25,6 +25,7 @@ import AnouncementIcon from "@/assets/anouncement.svg";
 import LeadingIcon from "@/assets/leading.svg";
 import VideoInfoBreadcrumbs from "./components/VideoInfoBreadcrumbs";
 import clsx from "clsx";
+import ShowMore from "@/components/shared/ShowMore";
 
 const VideoInformationView = ({
   params,
@@ -306,9 +307,12 @@ const VideoInformationView = ({
               </button>
             )}
 
-            <p className="text-gray-400 text-base md:text-lg mb-6 line-clamp-3">
-              {data?.description}
-            </p>
+            <ShowMore
+              textClassName="!text-gray300 text-base md:text-lg"
+              text={data?.description}
+              maxLength={250}
+              className="mb-6"
+            />
 
             <div className="flex items-center justify-evenly w-full mt-6 gap-2 md:gap-[5%]">
               <div className="short-info-card rounded-xl bg-borderMain text-main text-sm w-1/3 h-[88px] flex items-center justify-center flex-col gap-3">
