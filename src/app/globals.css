@@ -45,6 +45,64 @@ body {
   font-family: var(--font-vazirmatn), var(--font-dana) !important;
 }
 
+.flashcard-actions-wrapper-container:hover {
+  .flashcard-actions-wrapper {
+    transform: translateY(0);
+  }
+}
+
+.flashcard-actions-wrapper {
+  transform: translateY(200px);
+  position: absolute;
+  bottom: 0px;
+  top: 0;
+  left: 10px;
+  width: 100%;
+  transition: 0.2s ease-in;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 16px;
+  z-index: 999;
+}
+
+.flashcard-actions-button {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+}
+.red-action,
+.green-action,
+.blue-action {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+.green-action {
+  background-color: #1d4d1a;
+  path {
+    fill: #97e590;
+  }
+}
+.learned-green-action {
+  background-color: #e9eef4;
+  path {
+    fill: #262626;
+  }
+}
+.red-action {
+  background-color: #8f0c2a;
+  path {
+    fill: #ffe2e3;
+  }
+}
+.blue-action {
+  background-color: #133295;
+  path {
+    stroke: #88c1ff;
+  }
+}
+
 .custom-modal .MuiPaper-root {
   max-width: 80%;
   color: var(--main);

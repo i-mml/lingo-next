@@ -142,6 +142,7 @@ const Subtitle = React.memo(
       >
         {learningSubtitle && (
           <Box
+            id="subtitles-section-step"
             key="subtitleLearning1234"
             sx={{
               direction: "ltr",

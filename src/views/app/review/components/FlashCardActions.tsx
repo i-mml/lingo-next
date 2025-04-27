@@ -63,29 +63,31 @@ export const FlashCardActions = ({
   };
 
   return (
-    <Box
-      className="absolute bottom-0 w-full flex items-center justify-end gap-4 translate-y-[200px] group-hover:translate-y-0 transition-all"
-      sx={{ ...sx }}
-    >
+    <Box className="flashcard-actions-wrapper" sx={{ ...sx }}>
       <Button
         disabled={loading}
-        className={`w-10 h-10 min-w-10 rounded-full grid place-items-center ${
-          item?.is_learned ? "bg-[#e9eef4]" : "bg-[#1D4D1A]"
+        className={`flashcard-actions-button ${
+          item?.is_learned ? "learned-green-action" : "green-action"
         }`}
+        // className={`w-10 h-10 min-w-10 rounded-full grid place-items-center ${
+        //   item?.is_learned ? "bg-[#e9eef4]" : "bg-[#1D4D1A]"
+        // }`}
         onClick={() => handleLearned(true)}
       >
         <CircleCheckedIcon fill={item?.is_learned ? "#262626" : "#97E590"} />
       </Button>
       <Button
         disabled={loading}
-        className="w-10 h-10 min-w-10 rounded-full bg-[#133295] grid place-items-center"
+        // className="w-10 h-10 min-w-10 rounded-full bg-[#133295] grid place-items-center"
+        className="flashcard-actions-button blue-action"
         onClick={handleSpeakerClick}
       >
         <SpeakerIcon fill="#88C1FF" />
       </Button>
       <Button
         disabled={loading}
-        className="w-10 h-10 min-w-10 rounded-full bg-[#8F0C2A] grid place-items-center"
+        // className="w-10 h-10 min-w-10 rounded-full bg-[#8F0C2A] grid place-items-center"
+        className="flashcard-actions-button red-action"
         onClick={handleDeleteFlashcard}
       >
         <PinkTrashIcon fill="#FFE2E3" />

@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "@mui/system";
 import { FlashCardActions } from "../../review/components/FlashCardActions";
+import { isMobile } from "react-device-detect";
 
 const Container = styled("div")`
   width: 100%;
@@ -15,6 +16,13 @@ const Container = styled("div")`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  overflow: hidden;
+
+  :hover {
+    .flashcard-actions-wrapper {
+      transform: translateY(0);
+    }
+  }
 `;
 const InfoContainer = styled("div")`
   flex-direction: column;
@@ -45,12 +53,14 @@ export function WordsBox({ item, refetchFlashCards, onClickHandler }: any) {
       <InfoContainer onClick={onClickHandler} className="flex-1">
         <Title>{item?.word}</Title>
         <Description>{item?.word_translation}</Description>
+        {!isMobile && (
+          <FlashCardActions
+            item={item}
+            refetch={refetchFlashCards}
+            sx={{ "& > button": { minWidth: "45px" } }}
+          />
+        )}
       </InfoContainer>
-      <FlashCardActions
-        item={item}
-        refetch={refetchFlashCards}
-        sx={{ "& > button": { minWidth: "45px" } }}
-      />
     </Container>
   );
 }

@@ -34,7 +34,7 @@ const FlashCardItem = ({
       : "";
 
   return (
-    <div className="cards-sm-box-shadow bg-backgroundMain py-[18px] px-4 mb-4 md:mb-6 w-full md:w-[calc(50%-12px)] rounded-2xl flex flex-col overflow-hidden">
+    <div className="cards-sm-box-shadow bg-backgroundMain py-[18px] px-4 mb-4 md:mb-6 w-full md:w-[calc(50%-12px)] rounded-2xl flex flex-col overflow-hidden flashcard-actions-wrapper-container">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-main font-semibold text-base md:text-lg">
