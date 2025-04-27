@@ -17,6 +17,8 @@ import Image from "next/image";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, A11y, Pagination } from "swiper/modules";
+import { link } from "fs";
+import Link from "next/link";
 
 const SamplePage = () => {
   const ref = useRef(null);
@@ -397,7 +399,7 @@ const SamplePage = () => {
                 >
                   <p className="flex items-center justify-center md:justify-start gap-2">
                     <span className="text-[var(--primary)] text-xl">🎬</span>
-                    فیلم و سریال ببین، زبان یاد بگیر! (چقدر خفن!)
+                    فیلم و سریال ببین، زبان یاد بگیر!
                   </p>
                   <p className="flex items-center justify-center md:justify-start gap-2">
                     <span className="text-[var(--primary)] text-xl">🎧</span>
@@ -466,40 +468,53 @@ const SamplePage = () => {
                         name: "انگلیسی",
                         content: "1000+",
                         code: "GB",
+                        disabled: false,
+                        link: "/en/public/catalog",
                       },
                       {
                         flag: "/images/flags/Germany.webp",
                         name: "آلمانی",
                         content: "500+",
                         code: "DE",
+                        disabled: false,
+                        link: "/de/public/catalog",
                       },
                       {
                         flag: "/images/flags/France.webp",
                         name: "فرانسوی",
                         content: "400+",
                         code: "FR",
+                        disabled: true,
+                        link: "/fr/public/catalog",
                       },
                       {
                         flag: "/images/flags/Spain.webp",
                         name: "اسپانیایی",
                         content: "300+",
                         code: "ES",
+                        disabled: false,
+                        link: "/es/public/catalog",
                       },
                       {
                         flag: "/images/flags/China.png",
                         name: "چینی",
                         content: "200+",
                         code: "CN",
+                        disabled: true,
+                        link: "/cn/public/catalog",
                       },
                       {
                         flag: "/images/flags/Italy.webp",
                         name: "ایتالیایی",
                         content: "600+",
                         code: "IT",
+                        disabled: true,
+                        link: "/it/public/catalog",
                       },
                     ].map((lang, index) => (
-                      <motion.div
+                      <motion.a
                         key={index}
+                        href={lang.link}
                         initial={{ opacity: 0, scale: 0.8, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         transition={{
@@ -514,7 +529,7 @@ const SamplePage = () => {
                           z: 50,
                           transition: { duration: 0.2 },
                         }}
-                        className="group relative perspective"
+                        className="group relative perspective !block"
                       >
                         <div className="bg-black/20 backdrop-blur-sm rounded-xl p-3 md:p-4 border border-white/5 hover:border-[var(--primary)]/30 transition-all duration-300 transform-gpu hover:shadow-[0_0_20px_rgba(255,168,0,0.1)]">
                           <div className="flex items-center gap-2 md:gap-3 mb-2">
@@ -529,11 +544,17 @@ const SamplePage = () => {
                               {lang.name}
                             </span>
                           </div>
-                          <div className="text-xs md:text-sm text-[var(--primary)]">
-                            {lang.content} محتوا
-                          </div>
+                          {lang?.disabled ? (
+                            <div className="text-xs md:text-sm text-center !text-[var(--gray400)]">
+                              به زودی
+                            </div>
+                          ) : (
+                            <div className="text-xs md:text-sm text-center text-[var(--primary)]">
+                              {lang.content} محتوا
+                            </div>
+                          )}
                         </div>
-                      </motion.div>
+                      </motion.a>
                     ))}
                   </div>
 
@@ -659,7 +680,7 @@ const SamplePage = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-[var(--primary)]/5 to-transparent">
+      <section className="py-16 md:py-24 bg-gradient-to-b from-[#1a1a1a] via-[#232323] to-[#2a2a2a]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <motion.h2
@@ -1339,7 +1360,7 @@ const SamplePage = () => {
               },
               {
                 name: "شش ماهه",
-                price: "449,000",
+                price: "299,000",
                 period: "تومان",
                 features: [],
                 discount: "35%",
@@ -1351,7 +1372,7 @@ const SamplePage = () => {
               },
               {
                 name: "سالانه",
-                price: "699,000",
+                price: "499,000",
                 period: "تومان",
                 features: [],
                 discount: "40%",
@@ -1418,7 +1439,7 @@ const SamplePage = () => {
                       plan.popular ? "shadow-lg shadow-[var(--primary)]/20" : ""
                     }`}
                   >
-                    خرید
+                    <Link href={"/app/subscriptions"}>خرید</Link>
                   </motion.button>
                 </div>
               </motion.div>
