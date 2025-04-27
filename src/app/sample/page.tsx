@@ -423,14 +423,14 @@ const SamplePage = () => {
                   whileTap={{ scale: 0.95 }}
                   className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-[var(--primary)] to-amber-500 text-white rounded-full text-base md:text-lg font-semibold shadow-[0_0_20px_rgba(255,168,0,0.3)] hover:shadow-[0_0_30px_rgba(255,168,0,0.5)] transition-all duration-300"
                 >
-                  همین الان شروع کن! 🤟
+                  <Link href={"/login"}>همین الان شروع کن! 🤟</Link>
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.05, rotateZ: -1 }}
                   whileTap={{ scale: 0.95 }}
                   className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-white/5 backdrop-blur-lg text-white border-2 border-white/20 rounded-full text-base md:text-lg font-semibold hover:bg-white/10 transition-all duration-300"
                 >
-                  یه نگاهی بنداز 👀
+                  <Link href={"/public/catalog"}>یه نگاهی بنداز 👀</Link>
                 </motion.button>
               </motion.div>
 
