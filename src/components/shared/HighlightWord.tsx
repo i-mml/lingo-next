@@ -9,7 +9,7 @@ const HighlightWord = ({
   targetWord: string;
 }) => {
   const removePunctuation = (word: string) => {
-    return word.replace(/[.,!?]/g, "");
+    return word?.replace(/[.,!?]/g, "");
   };
 
   const isExactMatch = (word: string) => {
