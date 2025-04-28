@@ -99,16 +99,11 @@ const LoginView = ({ inModal = false, inModalCallback = () => {} }) => {
     redirectLink: string,
     isOnBoarded: boolean
   ) => {
-    let expires = new Date();
-    expires.setDate(expires.getDate() + 60);
-
     setCookie("zabano-access-token", token?.access, {
       path: "/",
-      expires,
     });
     setCookie("zabano-refresh-token", token?.refresh, {
       path: "/",
-      expires,
     });
     queryClient.invalidateQueries();
     queryClient.removeQueries();
