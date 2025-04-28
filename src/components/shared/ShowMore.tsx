@@ -5,11 +5,13 @@ const ShowMore = ({
   maxLength,
   className,
   textClassName,
+  lineClampClassName = "line-clamp-3",
 }: {
   text: string;
   maxLength: number;
   className: string;
   textClassName?: string;
+  lineClampClassName?: string;
 }) => {
   const [showMore, setShowMore] = useState(false);
   const toggleShowMore = () => {
@@ -20,7 +22,7 @@ const ShowMore = ({
     <div className={className}>
       <p
         className={`text-main text-lg ${
-          showMore ? "" : text?.length >= maxLength ? "line-clamp-3" : ""
+          showMore ? "" : text?.length >= maxLength ? lineClampClassName : ""
         } ${textClassName}`}
       >
         {text}

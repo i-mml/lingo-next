@@ -43,6 +43,10 @@ interface WhoAmIResponse {
   name: string;
   email: string;
   birthday: string;
+  channel_info: {
+    public_user_channel: string;
+    token: string;
+  };
   userpreference?: UserPreference;
   total_score: number;
   has_subscription: boolean;
