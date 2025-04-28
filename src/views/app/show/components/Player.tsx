@@ -20,6 +20,7 @@ import ActiveUserMovieTracker from "./ActiveUserMovieTracker";
 import PlayerContainer from "./PlayerContainer";
 import { Grid, Grid2 } from "@mui/material";
 import { FlashCardBox } from "./FlashcardBox";
+// import PlayerOnboardingTour from "./PlayerTour";
 
 const Player = ({
   movie,
@@ -241,7 +242,7 @@ const Player = ({
   }, [window?.innerHeight]);
 
   return (
-    <div className="app relative" dir="rtl">
+    <div className="app relative" id="first-step" dir="rtl">
       {!landscapeWarning ? (
         <Grid
           container
@@ -348,6 +349,7 @@ const Player = ({
         currentPlayedSecond={playedSeconds}
         isPlaying={playing}
       />
+      {/* {isMobile ? <PlayerOnboardingTour /> : <></>} */}
     </div>
   );
 };
