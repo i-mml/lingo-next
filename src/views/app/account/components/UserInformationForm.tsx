@@ -1,9 +1,8 @@
 "use client";
 
-import { Datepicker } from "@ijavad805/react-datepicker";
 import GoogleIcon from "@mui/icons-material/Google";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import moment from "moment";
+import moment from "moment-jalaali";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import CalenderIcon from "@/assets/calender.svg";
@@ -13,6 +12,9 @@ import { useMutation } from "@tanstack/react-query";
 import { PutAuthUpdateDetail } from "@/api/services/auth";
 import OutlineButton from "@/components/shared/OutlineButton";
 import InputWithIcon from "@/components/shared/InputWithIcon";
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 
 const UserInformationForm = ({ userData }: any) => {
   const { t: translate } = useTranslation();
@@ -24,7 +26,7 @@ const UserInformationForm = ({ userData }: any) => {
   const handleChangeBirtDate = (date: any) => {
     setUserInfo((prev: any) => ({
       ...prev,
-      birthday: moment(date).format("YYYY-MM-DD"),
+      birthday: moment(date).format("jYYYY-jMM-jDD"),
     }));
   };
 
@@ -108,19 +110,19 @@ const UserInformationForm = ({ userData }: any) => {
           <div className="icon w-6 h-6">
             <CalenderIcon className="w-6 h-6" />
           </div>
-          <Datepicker
-            modeTheme="dark"
+          <DatePicker
+            calendar={persian}
+            locale={persian_fa}
             value={userInfo?.birthday || userData?.birthday}
             onChange={handleChangeBirtDate}
-            closeWhenSelectADay
-            adjustPosition="modal"
-            format="YYYY-M-D"
-            input={
-              <input
-                className="input h-full !bg-transparent border-none outline-none text-main !cursor-pointer"
-                placeholder={translate("pages.profile.Select Birthdate")}
-              />
-            }
+            style={{
+              background: "#222",
+              color: "#fff",
+              borderRadius: "12px",
+              width: "100%",
+            }}
+            inputClass="input h-full !bg-transparent border-none outline-none text-main !cursor-pointer"
+            placeholder={translate("pages.profile.Select Birthdate")}
           />
         </div>
       </div>
