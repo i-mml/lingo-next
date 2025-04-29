@@ -11,7 +11,6 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import StockLottie from "@/assets/lotties/stock_lineal.json";
 import NewSubscriptionItem from "./components/NewSubscriptionItem";
-import LoginModal from "@/components/modals/LoginModal";
 import { useAuth } from "@/hooks/use-auth";
 
 const SubscriptionsView = () => {
@@ -47,7 +46,7 @@ const SubscriptionsView = () => {
     return (
       <div className="h-[74vh] w-full flex items-center justify-center">
         <WaveLoading />
-        {isGuest && <LoginModal open={true} onClose={() => {}} />}
+        {/* {isGuest && <LoginModal open={true} onClose={() => {}} />} */}
       </div>
     );
   }
