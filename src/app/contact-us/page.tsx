@@ -35,7 +35,7 @@ const ContactUsPage = () => {
                   id="phoneNumber"
                   name="phoneNumber"
                   required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-white text-main"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-backgroundMain text-main"
                   placeholder="۰۹۱۲۳۴۵۶۷۸۹"
                 />
               </div>
@@ -51,7 +51,7 @@ const ContactUsPage = () => {
                   type="email"
                   id="email"
                   name="email"
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-white text-main"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-backgroundMain text-main"
                   placeholder="example@email.com"
                 />
               </div>
@@ -68,7 +68,7 @@ const ContactUsPage = () => {
                   name="description"
                   required
                   rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-white text-main resize-none"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 bg-backgroundMain text-main resize-none"
                   placeholder="پیام خود را اینجا بنویسید..."
                 ></textarea>
               </div>

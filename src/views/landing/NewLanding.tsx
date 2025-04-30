@@ -815,13 +815,8 @@ const NewLanding = () => {
                 </motion.div>
 
                 {mounted && (
-                  <motion.div
-                    className="relative p-6 rounded-xl bg-white/5 backdrop-blur-sm"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                  >
-                    <p className="text-lg text-gray-200 leading-relaxed">
+                  <div className="relative p-6 rounded-xl bg-white/5 backdrop-blur-sm">
+                    <div className="text-lg text-gray-200 leading-relaxed">
                       {"من عاشق تماشای ".split(" ").map((word, i) => (
                         <span key={i} className="text-white">
                           {word}{" "}
@@ -907,12 +902,12 @@ const NewLanding = () => {
                           {word}{" "}
                         </span>
                       ))}
-                    </p>
+                    </div>
                     <div className="mt-4 text-sm text-gray-400">
                       کلمات رنگی رو لمس کن تا معنی‌شون رو ببینی! همینقدر ساده
                       است! 😎
                     </div>
-                  </motion.div>
+                  </div>
                 )}
               </div>
 
@@ -1540,14 +1535,14 @@ const NewLanding = () => {
               </Link>
             </motion.button>
 
-            <motion.a
-              href="#plans"
+            <motion.div
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="text-gray-300 hover:text-white transition-colors duration-300 font-medium underline decoration-dashed underline-offset-4 decoration-[var(--primary)]/50"
+              className="text-gray-300 hover:text-white transition-colors duration-300 font-medium underline decoration-dashed underline-offset-4 decoration-[var(--primary)]/50 cursor-pointer"
+              onClick={() => (window.location.href = "#plans")}
             >
               <Link href={"/public/home"}>اول یه نگاهی بندازم! 👀</Link>
-            </motion.a>
+            </motion.div>
           </div>
 
           <motion.div
