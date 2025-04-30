@@ -25,6 +25,8 @@ import AnouncementIcon from "@/assets/anouncement.svg";
 import LeadingIcon from "@/assets/leading.svg";
 import VideoInfoBreadcrumbs from "./components/VideoInfoBreadcrumbs";
 import ShowMore from "@/components/shared/ShowMore";
+import { Info } from "lucide-react";
+import Link from "next/link";
 
 const VideoInformationView = ({
   params,
@@ -357,16 +359,21 @@ const VideoInformationView = ({
                   key={item.id}
                   className="bg-backgroundMain text-main rounded-lg flex items-center py-2 px-[3%] shadow-md shadow-gray-500 mb-2 lg:mb-0"
                 >
-                  <Image
-                    src={data.image}
-                    className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover"
-                    width={36}
-                    height={36}
-                    alt={data?.title}
-                  />
-                  <span className="text-sm mx-3 truncate flex-1">
-                    {item.name || `قسمت ${index + 1}`}
-                  </span>
+                  <Link
+                    href={`/public/episode-info/${item.id}`}
+                    className="flex items-center gap-0.5"
+                  >
+                    <Image
+                      src={data.image}
+                      className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover"
+                      width={36}
+                      height={36}
+                      alt={data?.title}
+                    />
+                    <span className="text-sm mx-3 truncate flex-1">
+                      {item.name || `قسمت ${index + 1}`}
+                    </span>
+                  </Link>
                   <OutlineButton
                     className="w-12 md:w-20"
                     onClick={() => handleQuizClick(item.id)}
