@@ -1,6 +1,4 @@
 import { useTextToAudio } from "@/hooks/use-text-to-audio";
-import useThemeCreator from "@/hooks/use-theme";
-import { useTheme } from "next-themes";
 import React from "react";
 import CustomModal from "../shared/CustomModal";
 import WaveLoading from "../shared/WaveLoading";

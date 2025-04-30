@@ -112,6 +112,23 @@ export const GetMovieDetailData = async (id: string, token?: string) => {
   return response.data;
 };
 
+export const GetEpisodeDetailData = async (id: string, token?: string) => {
+  let url = `/cms/episode-preview/${id}`;
+
+  const response = await axiosAuth.get(
+    url,
+    !!token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : {}
+  );
+
+  return response.data;
+};
+
 export const GetMovieData = async (id: string, token?: string) => {
   let url = `/cms/movie/${id}`;
 
