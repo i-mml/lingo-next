@@ -25,6 +25,7 @@ import { useLoginModal } from "@/store/use-login-modal";
 import { toast } from "react-toastify";
 import AudioInfoBreadcrumbs from "./components/AudioInfoBreadcrumbs";
 import ShowMore from "@/components/shared/ShowMore";
+import Link from "next/link";
 
 const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
   const { whoAmI, isGuest } = useAuth();
@@ -231,7 +232,10 @@ const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
                 key={item.id}
                 className="bg-backgroundMain text-main rounded-lg flex flex-col items-center py-2 px-[3%] shadow-md shadow-gray-500 mb-2 md:mb-0"
               >
-                <div className="flex items-center w-full gap-3">
+                <Link
+                  href={`/public/episode-info/${item.id}`}
+                  className="flex items-center gap-3 w-full"
+                >
                   <Image
                     width={36}
                     height={36}
@@ -242,7 +246,7 @@ const AudioInfoView = ({ audioId, data }: { audioId: string; data: any }) => {
                   <span className="flex-1 line-clamp-2 text-main">
                     {item.name || `قسمت ${index + 1}`}
                   </span>
-                </div>
+                </Link>
 
                 <div className="flex justify-end gap-3 mt-3 mr-auto">
                   <OutlineButton
