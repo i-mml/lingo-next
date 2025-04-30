@@ -112,10 +112,10 @@ const VideoInformationPage = async ({
   const contentType = contentTypeInfos[videoInfo.content_type as ContentType];
 
   const breadcrumbItems = [
-    { name: "خانه", url: "/" },
+    { name: "خانه", url: "https://zabano.com" },
     {
       name: `${contentType.title} ها`,
-      url: `${
+      url: `https://zabano.com${
         !!accessToken
           ? ""
           : `/${

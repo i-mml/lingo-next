@@ -28,13 +28,13 @@ export async function generateMetadata({
 
   const contentType = contentTypeInfos[audioInfo.content_type as ContentType];
   const breadcrumbItems = [
-    { name: "خانه", url: "/" },
+    { name: "خانه", url: "https://zabano.com" },
     {
       name: `${contentType.title} ها`,
       url: `${
         !!accessToken
           ? ""
-          : `/${
+          : `https://zabano.com/${
               languageDictionaryByCode?.[
                 audioInfo.language as keyof typeof languageDictionaryByCode
               ]?.language
@@ -43,7 +43,7 @@ export async function generateMetadata({
     },
     {
       name: audioInfo.title,
-      url: `/public/audio-info/${params.audioId}`,
+      url: `https://zabano.com/public/audio-info/${params.audioId}`,
     },
   ];
 
