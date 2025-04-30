@@ -11,10 +11,8 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import StockLottie from "@/assets/lotties/stock_lineal.json";
 import NewSubscriptionItem from "./components/NewSubscriptionItem";
-import { useAuth } from "@/hooks/use-auth";
 
 const SubscriptionsView = () => {
-  const { isGuest } = useAuth();
   const { data, isLoading } = useQuery({
     queryKey: ["get-movie-data"],
     queryFn: getPaymentPackageList,
@@ -42,7 +40,7 @@ const SubscriptionsView = () => {
     }
   };
 
-  if (isLoading || isGuest) {
+  if (isLoading) {
     return (
       <div className="h-[74vh] w-full flex items-center justify-center">
         <WaveLoading />

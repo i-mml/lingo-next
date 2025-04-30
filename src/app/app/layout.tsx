@@ -5,6 +5,7 @@ import LoginModal from "@/components/modals/LoginModal";
 import WaveLoading from "@/components/shared/WaveLoading";
 import { useAuth } from "@/hooks/use-auth";
 import { useLoginModal } from "@/store/use-login-modal";
+import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -14,19 +15,19 @@ const Layout = ({
   children: React.ReactNode;
 }>) => {
   const { isGuest } = useAuth();
+  const pathname = usePathname();
 
   useEffect(() => {
-    if (isGuest) {
-      // router.push("/public/catalog");
+    if (isGuest && pathname !== "/app/subscriptions") {
       toast.info("برای دسترسی به این صفحه باید وارد حساب کاربری خود شوید");
     }
-  }, [isGuest]);
+  }, [isGuest, pathname]);
 
-  if (isGuest) {
+  if (isGuest && pathname !== "/app/subscriptions") {
     return (
       <>
         <WaveLoading />
-        {isGuest && <LoginModal open={true} onClose={() => {}} />}
+        <LoginModal open={true} onClose={() => {}} />
       </>
     );
   }

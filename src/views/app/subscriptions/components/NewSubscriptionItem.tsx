@@ -4,6 +4,8 @@ import PrimaryButton from "@/components/shared/PrimaryButton";
 import Image from "next/image";
 import React, { useState } from "react";
 import ConfirmSubscriptionModal from "./ConfirmSubscriptionModal";
+import { useLoginModal } from "@/store/use-login-modal";
+import { useAuth } from "@/hooks/use-auth";
 
 const NewSubscriptionItem = ({
   rules,
@@ -32,7 +34,8 @@ const NewSubscriptionItem = ({
 }) => {
   const [discountModal, setDiscountModal] = useState(false);
   const [modalData, setModalData] = useState<any>();
-
+  const { isGuest } = useAuth();
+  const { isOpen, toggleLoginModal } = useLoginModal();
   const toggleModal = () => setDiscountModal((prev) => !prev);
 
   return (
@@ -86,13 +89,17 @@ const NewSubscriptionItem = ({
                 <PrimaryButton
                   className="lg:mt-4 w-[40%] lg:w-[60%]"
                   onClick={() => {
-                    setModalData(item);
-                    toggleModal();
+                    if (isGuest) {
+                      toggleLoginModal();
+                    } else {
+                      setModalData(item);
+                      toggleModal();
+                    }
                   }}
                 >
                   خرید
                 </PrimaryButton>
-                {item?.duration === 90 && (
+                {item?.duration === 180 && (
                   <div className="absolute top-[-12px] bg-primary rounded-full py-1 px-2 font-medium text-sm lg:text-[16px]">
                     پرفروش ترین
                   </div>

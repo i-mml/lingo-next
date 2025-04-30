@@ -13,12 +13,9 @@ import { Autoplay, A11y, Pagination } from "swiper/modules";
 import Link from "next/link";
 
 const NewLanding = () => {
-  const ref = useRef(null);
-  const isInView = useRef(false);
   const [pathWidth, setPathWidth] = useState(1000);
   const [mounted, setMounted] = useState(false);
   const controls = useAnimation();
-  const [activeTab, setActiveTab] = useState(0);
 
   // Optimize animations based on device
   const isReducedMotion = isMobile;
@@ -1337,7 +1334,7 @@ const NewLanding = () => {
                 period: "تومان",
                 features: [],
                 discount: "30%",
-                popular: true,
+                popular: false,
                 color: "from-[var(--primary)]/20 to-orange-600/20",
                 borderColor: "border-[var(--primary)]",
                 buttonClass:
@@ -1349,7 +1346,7 @@ const NewLanding = () => {
                 period: "تومان",
                 features: [],
                 discount: "35%",
-                popular: false,
+                popular: true,
                 color: "from-purple-500/10 to-pink-500/10",
                 borderColor: "border-purple-500/20",
                 buttonClass:
