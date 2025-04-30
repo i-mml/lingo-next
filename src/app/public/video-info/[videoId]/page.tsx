@@ -55,10 +55,10 @@ export async function generateMetadata({
       type: "video.other",
       locale: "fa_IR",
       url: `https://zabano.com/public/video-info/${videoId}`,
-      images: videoInfo?.cover
+      images: videoInfo?.image
         ? [
             {
-              url: `${process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL}${videoInfo.cover}`,
+              url: videoInfo.image,
               width: 1200,
               height: 630,
               alt: videoInfo?.title || "ویدیو آموزشی زبان انگلیسی",
@@ -84,14 +84,15 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: `${
-        videoInfo?.title || "ویدیو آموزشی زبان انگلیسی"
-      } | یادگیری با تماشای ویدیو | زبانو`,
-      description:
-        videoInfo?.description?.slice(0, 200) ||
-        "یادگیری زبان انگلیسی با تماشای ویدیوهای آموزشی با کیفیت و ترجمه فارسی." +
-          " | زبانو",
-      images: videoInfo?.cover
-        ? [`${process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL}${videoInfo.cover}`]
+        videoInfo?.meta_title ||
+        "ویدیو آموزشی زبان انگلیسی | یادگیری با تماشای ویدیو"
+      } | زبانو`,
+      description: `${
+        videoInfo?.meta_description ||
+        "ویدیو آموزشی زبان انگلیسی با ترجمه فارسی برای یادگیری بهتر و سریع‌تر"
+      } | زبانو`,
+      images: videoInfo?.image
+        ? [videoInfo.image]
         : ["https://zabano.com/zabano-main-logo.png"],
     },
   };
@@ -148,7 +149,7 @@ const VideoInformationPage = async ({
               "ویدیو آموزشی زبان انگلیسی با ترجمه فارسی برای یادگیری بهتر و سریع‌تر"
             } | زبانو`,
             thumbnailUrl: videoInfo?.image
-              ? `${process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL}${videoInfo.cover}`
+              ? videoInfo.image
               : "https://zabano.com/zabano-main-logo.png",
             uploadDate: videoInfo?.released_at || new Date().toISOString(),
             embedUrl: `https://zabano.com/public/video-info/${videoId}`,
