@@ -23,6 +23,58 @@ export async function generateMetadata({
     accessToken
   );
 
+  const generateVideoSchema = () => {
+    const schemas = [];
+
+    // Add preview movie schema if exists
+    if (videoInfo?.preview_movie) {
+      schemas.push({
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        name: videoInfo.title,
+        description: videoInfo.description,
+        thumbnailUrl: videoInfo.image,
+        uploadDate: new Date().toISOString(),
+        duration: videoInfo.duration ?? null,
+        contentUrl: videoInfo.preview_movie,
+        embedUrl: videoInfo.preview_movie,
+        publisher: {
+          "@type": "Organization",
+          name: "زبانو",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://zabano.com/zabano-main-logo.png",
+          },
+        },
+      });
+    }
+
+    // Add episodes schemas
+    if (videoInfo?.episodes) {
+      videoInfo.episodes.forEach((episode: any) => {
+        schemas.push({
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          name: episode.name,
+          description: videoInfo.description,
+          thumbnailUrl: videoInfo.image,
+          uploadDate: new Date().toISOString(),
+          duration: episode.duration,
+          publisher: {
+            "@type": "Organization",
+            name: "زبانو",
+            logo: {
+              "@type": "ImageObject",
+              url: "https://zabano.com/zabano-main-logo.png",
+            },
+          },
+        });
+      });
+    }
+
+    return schemas;
+  };
+
   return {
     title: `${videoInfo?.title || "ویدیو آموزشی زبان انگلیسی"} | زبانو`,
     description:
@@ -45,41 +97,12 @@ export async function generateMetadata({
       canonical: `https://zabano.com/public/video-info/${videoId}`,
     },
     openGraph: {
-      title: `${
-        videoInfo?.title || "ویدیو آموزشی زبان انگلیسی"
-      } | یادگیری با تماشای ویدیو | زبانو`,
-      description:
-        videoInfo?.description ||
-        "یادگیری زبان انگلیسی با تماشای ویدیوهای آموزشی با کیفیت و ترجمه فارسی. تقویت مهارت شنیداری و گفتاری با محتوای تصویری." +
-          " | زبانو",
-      type: "video.other",
-      locale: "fa_IR",
-      url: `https://zabano.com/public/video-info/${videoId}`,
-      images: videoInfo?.image
-        ? [
-            {
-              url: videoInfo.image,
-              width: 1200,
-              height: 630,
-              alt: videoInfo?.title || "ویدیو آموزشی زبان انگلیسی",
-            },
-          ]
-        : [
-            {
-              url: "https://zabano.com/zabano-main-logo.png",
-              width: 1200,
-              height: 630,
-              alt: "زبانو - آموزش زبان انگلیسی با ویدیو",
-            },
-          ],
-      videos: videoInfo?.video_url
-        ? [
-            {
-              url: videoInfo.video_url,
-              type: "video/mp4",
-            },
-          ]
-        : undefined,
+      title: `${videoInfo?.title || "ویدیو آموزشی زبان انگلیسی"} | زبانو`,
+      description: videoInfo?.description,
+      images: [videoInfo?.image],
+    },
+    other: {
+      "script:ld+json": JSON.stringify(generateVideoSchema()),
     },
     twitter: {
       card: "summary_large_image",
