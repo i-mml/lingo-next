@@ -13,10 +13,23 @@ import { Autoplay, A11y, Pagination } from "swiper/modules";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth";
+import StaticWordDetail from "@/components/modals/StaticWordDetail";
+import {
+  AmazingWordStaticContent,
+  LearnWordStaticContent,
+  MoviesWordStaticContent,
+} from "@/mock/word-detail-modal-static-content";
 
 const NewLanding = () => {
   const [pathWidth, setPathWidth] = useState(1000);
   const [mounted, setMounted] = useState(false);
+  const [wordDetailModalData, setWordDetailModalData] = useState<{
+    isOpen: boolean;
+    wordData: any;
+  }>({
+    isOpen: false,
+    wordData: null,
+  });
   const controls = useAnimation();
   const router = useRouter();
   const { isGuest } = useAuth();
@@ -835,9 +848,10 @@ const NewLanding = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => {
-                          if (typeof window !== "undefined") {
-                            alert("Movies = فیلم‌ها");
-                          }
+                          setWordDetailModalData({
+                            isOpen: true,
+                            wordData: MoviesWordStaticContent,
+                          });
                         }}
                       >
                         movies
@@ -859,9 +873,10 @@ const NewLanding = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => {
-                          if (typeof window !== "undefined") {
-                            alert("Learn = یاد می‌گیرم");
-                          }
+                          setWordDetailModalData({
+                            isOpen: true,
+                            wordData: LearnWordStaticContent,
+                          });
                         }}
                       >
                         learn
@@ -887,9 +902,10 @@ const NewLanding = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => {
-                          if (typeof window !== "undefined") {
-                            alert("Amazing = فوق‌العاده");
-                          }
+                          setWordDetailModalData({
+                            isOpen: true,
+                            wordData: AmazingWordStaticContent,
+                          });
                         }}
                       >
                         amazing
@@ -1571,6 +1587,15 @@ const NewLanding = () => {
           </motion.div>
         </motion.div>
       </section>
+      {wordDetailModalData.isOpen && (
+        <StaticWordDetail
+          open={wordDetailModalData.isOpen}
+          toggleModal={() =>
+            setWordDetailModalData({ isOpen: false, wordData: null })
+          }
+          wordData={wordDetailModalData.wordData}
+        />
+      )}
     </div>
   );
 };

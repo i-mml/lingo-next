@@ -37,8 +37,6 @@ interface IProps {
 
 const StaticWordDetail = (props: IProps) => {
   const { open, toggleModal, wordData } = props;
-  const { theme: themeType } = useTheme();
-  const { theme }: any = useThemeCreator();
   const [currentTab, setCurrentTab] = React.useState(1);
   const { handleTextToSpeech, textToSpeachMutation } = useTextToAudio();
 
