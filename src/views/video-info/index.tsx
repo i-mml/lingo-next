@@ -368,7 +368,7 @@ const VideoInformationView = ({
                       className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover"
                       width={36}
                       height={36}
-                      alt={data?.title}
+                      alt={item?.name}
                     />
                     <span className="text-sm mx-3 truncate flex-1">
                       {item.name || `قسمت ${index + 1}`}
