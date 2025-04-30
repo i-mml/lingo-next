@@ -11,11 +11,15 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, A11y, Pagination } from "swiper/modules";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/use-auth";
 
 const NewLanding = () => {
   const [pathWidth, setPathWidth] = useState(1000);
   const [mounted, setMounted] = useState(false);
   const controls = useAnimation();
+  const router = useRouter();
+  const { isGuest } = useAuth();
 
   // Optimize animations based on device
   const isReducedMotion = isMobile;
@@ -313,6 +317,12 @@ const NewLanding = () => {
       icon: "🎯",
     },
   ];
+
+  useEffect(() => {
+    if (!isGuest) {
+      router.push("/public/home");
+    }
+  }, [isGuest]);
 
   return (
     <div className="min-h-screen bg-[var(--background-layout)]">
