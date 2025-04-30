@@ -48,7 +48,7 @@ const Sidebar = () => {
           title: t("containers.sidebar.Subscriptions"),
           link: "/app/subscriptions",
           icon: <AutoAwesomeIcon />,
-          hide: isGuest || !!whoAmI?.has_subscription,
+          hide: false,
         },
         {
           id: 2,

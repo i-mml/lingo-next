@@ -60,7 +60,7 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
           title: t("containers.sidebar.Subscriptions"),
           link: "/app/subscriptions",
           icon: <AutoAwesomeIcon className="!text-3xl" />,
-          hide: !!whoAmI?.has_subscription,
+          hide: false,
         },
         {
           id: 2,
