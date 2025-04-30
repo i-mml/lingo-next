@@ -90,7 +90,7 @@ const InitialLayoutDesktop = ({ children }: { children: ReactNode }) => {
 
                 <li>
                   <Link
-                    href="/public/contact-us"
+                    href="/contact-us"
                     className="text-gray-400 hover:text-white transition-colors duration-300"
                   >
                     تماس با ما
