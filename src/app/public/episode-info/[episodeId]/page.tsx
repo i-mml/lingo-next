@@ -4,7 +4,10 @@ import { cookies } from "next/headers";
 import React from "react";
 import Link from "next/link";
 import ShowMore from "@/components/shared/ShowMore";
-import PrimaryButton from "@/components/shared/PrimaryButton";
+import { ContentType } from "@/views/catalog/types";
+import { contentTypeInfos } from "@/constants/content-types-infos";
+import { languageDictionaryByCode } from "@/constants/locales";
+import EpisodeInfoBreadCrumbs from "@/views/video-info/components/EpisodeInfoBreadCrumbs";
 
 export async function generateMetadata({
   params,
@@ -21,6 +24,42 @@ export async function generateMetadata({
       (line: any) => `${line.sentence.subtitle}\n${line.sentence.translate}`
     )
     .join("\n\n");
+
+  // Get content type info
+  const contentTypeInfo =
+    contentTypeInfos[episodeInfo?.movie?.content_type as ContentType];
+
+  // Breadcrumb schema
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "خانه",
+        item: "https://zabano.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: `${contentTypeInfo?.title} ها`,
+        item: `https://zabano.com/public/${contentTypeInfo?.listRoute}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: episodeInfo?.movie?.title || "محتوای آموزشی",
+        item: `https://zabano.com/public/${contentTypeInfo?.route}/${episodeInfo?.movie?.id}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: episodeInfo?.name || "قسمت",
+        item: `https://zabano.com/public/episode-info/${episodeId}`,
+      },
+    ],
+  };
 
   // VideoObject schema for SEO
   const videoSchema = {
@@ -61,13 +100,17 @@ export async function generateMetadata({
   return {
     title: `${episodeInfo?.name || episodeInfo?.movie?.title} | زبانو`,
     description: episodeInfo?.movie?.description,
+    alternates: {
+      canonical: `https://zabano.com/public/episode-info/${episodeId}`,
+    },
     openGraph: {
       title: `${episodeInfo?.name || episodeInfo?.movie?.title} | زبانو`,
       description: episodeInfo?.movie?.description,
       images: [episodeInfo?.movie?.preview_image],
+      url: `https://zabano.com/public/episode-info/${episodeId}`,
     },
     other: {
-      "script:ld+json": JSON.stringify(videoSchema),
+      "script:ld+json": JSON.stringify([videoSchema, breadcrumbSchema]),
     },
   };
 }
@@ -81,6 +124,11 @@ const EpisodeSeoPage = async ({
   const accessToken = (await cookies()).get("zabano-access-token")?.value;
   const episodeInfo = await GetEpisodeDetailData(episodeId, accessToken);
 
+  const language =
+    languageDictionaryByCode?.[
+      episodeInfo?.movie?.language as keyof typeof languageDictionaryByCode
+    ]?.language;
+
   // Format time to minutes:seconds
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -90,6 +138,11 @@ const EpisodeSeoPage = async ({
 
   return (
     <div className="max-w-4xl mx-auto py-10 px-4">
+      {/* Breadcrumbs */}
+      <div className="mb-6">
+        <EpisodeInfoBreadCrumbs episodeInfo={episodeInfo} />
+      </div>
+
       {/* Banner */}
       {episodeInfo?.movie?.banner_image && (
         <img
@@ -161,6 +214,13 @@ const EpisodeSeoPage = async ({
           lineClampClassName="line-clamp-2"
         />
       </div>
+
+      <Link
+        href={`/app/show/${episodeInfo?.movie?.id}/${episodeId}`}
+        className="h-12 px-2 font-dana text-[14px] text-center !rounded-xl bg-primary font-medium !transition-all !duration-500  !text-white  disabled:bg-backgroundDisabled disabled:border-b-backgroundDisabled disabled:cursor-not-allowed active:hover:translate-y-0.5 active:translate-y-1.5 border-b-[5px] border-[#af5800] cursor-pointer outline-none w-[60%] mx-auto hidden place-items-center text-base md:text-lg md:!grid print:!hidden"
+      >
+        ورود و تماشا
+      </Link>
 
       <Link
         href={`/app/show/${episodeInfo?.movie?.id}/${episodeId}`}
