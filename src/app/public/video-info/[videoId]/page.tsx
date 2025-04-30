@@ -151,7 +151,7 @@ const VideoInformationPage = async ({
               ? `${process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL}${videoInfo.cover}`
               : "https://zabano.com/zabano-main-logo.png",
             uploadDate: videoInfo?.released_at || new Date().toISOString(),
-            contentUrl: videoInfo?.video_url || "",
+            contentUrl: videoInfo?.preview_video || "",
             embedUrl: `https://zabano.com/public/video-info/${videoId}`,
             duration: videoInfo?.duration_sec
               ? `PT${Math.floor(videoInfo.duration_sec / 60)}M${
