@@ -3,6 +3,7 @@
 import CustomModal from "@/components/shared/CustomModal";
 import OutlineButton from "@/components/shared/OutlineButton";
 import PrimaryButton from "@/components/shared/PrimaryButton";
+import { contentTypeInfos } from "@/constants/content-types-infos";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -50,8 +51,9 @@ const WannaQuizModal = (props: IProps) => {
         <div className="flex items-center gap-3 justify-center mt-8">
           <Link
             href={`/public/${
-              // @ts-ignore
-              contentTypeInfos?.[movieData?.content_type]?.route
+              contentTypeInfos?.[
+                movieData?.content_type as keyof typeof contentTypeInfos
+              ]?.route
             }/${movieData?.id}-${movieData?.slug}`}
           >
             <button className="h-12 w-20 text-primary text-sm lg:text-[16px] font-medium">

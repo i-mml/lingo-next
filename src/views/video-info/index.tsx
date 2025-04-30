@@ -361,7 +361,7 @@ const VideoInformationView = ({
                 >
                   <Link
                     href={`/public/episode-info/${item.id}`}
-                    className="flex items-center gap-0.5"
+                    className="flex items-center gap-0.5 w-full"
                   >
                     <Image
                       src={data.image}
