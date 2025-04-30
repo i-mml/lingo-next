@@ -7,27 +7,23 @@ const TermsAndPrivacyPage = () => {
     <InitialLayoutDesktop>
       <div className="min-h-screen py-10">
         <div className="py-8 px-[5%] mt-4 max-w-[1000px] mx-auto">
-          <h1 className="text-2xl md:text-4xl font-bold text-[black] mb-8 text-center">
-            قوانین و شرایط استفاده و حریم خصوصی زبانو
+          <h1 className="text-2xl md:text-4xl font-bold text-main mb-8 text-center">
+            شرایط استفاده و حریم خصوصی زبانو
           </h1>
 
-          <p className="text-base text-gray-600 leading-7 mb-10 text-justify">
+          <p className="text-base text-gray400 leading-7 mb-10 text-justify">
             به زبانو خوش آمدید. لطفاً قبل از استفاده از اپلیکیشن و وبسایت ما،
             شرایط استفاده و سیاست‌های حریم خصوصی زیر را با دقت مطالعه کنید.
             استفاده شما از خدمات زبانو به معنای پذیرش این شرایط و قوانین است.
           </p>
 
           <div className="mb-16">
-            <h2 className="text-xl md:text-2xl font-bold text-primary mb-6 pt-4">
-              قوانین و شرایط استفاده
-            </h2>
-
             <div className="space-y-8">
               <div>
                 <h3 className="text-lg font-bold mb-3">
                   ۱. ثبت نام و حساب کاربری
                 </h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   • برای استفاده از برخی از خدمات زبانو، باید حساب کاربری ایجاد
                   کنید.
                   <br />
@@ -45,7 +41,7 @@ const TermsAndPrivacyPage = () => {
                 <h3 className="text-lg font-bold mb-3">
                   ۲. محتوا و مالکیت معنوی
                 </h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   • تمامی محتوای موجود در زبانو شامل فیلم‌ها، سریال‌ها،
                   پادکست‌ها، کتاب‌های صوتی، انیمیشن‌ها، موسیقی‌ها، متون،
                   گرافیک‌ها، لوگوها، نرم‌افزار و سایر مطالب تحت مالکیت معنوی
@@ -66,7 +62,7 @@ const TermsAndPrivacyPage = () => {
                 <h3 className="text-lg font-bold mb-3">
                   ۳. استفاده مجاز از خدمات
                 </h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   • شما موافقت می‌کنید که از خدمات زبانو فقط برای اهداف قانونی و
                   طبق این شرایط استفاده کنید.
                   <br />
@@ -82,7 +78,7 @@ const TermsAndPrivacyPage = () => {
 
               <div>
                 <h3 className="text-lg font-bold mb-3">۴. اشتراک و پرداخت</h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   • زبانو خدمات رایگان و خدمات اشتراکی ارائه می‌دهد.
                   <br />
                   • هزینه‌های اشتراک و جزئیات خدمات پولی در وبسایت/اپلیکیشن
@@ -97,7 +93,7 @@ const TermsAndPrivacyPage = () => {
 
               <div>
                 <h3 className="text-lg font-bold mb-3">۵. فعالیت‌های ممنوع</h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   • هک کردن، مهندسی معکوس یا تلاش برای دور زدن محدودیت‌های
                   امنیتی زبانو
                   <br />
@@ -116,7 +112,7 @@ const TermsAndPrivacyPage = () => {
                 <h3 className="text-lg font-bold mb-3">
                   ۶. تغییرات در خدمات و شرایط
                 </h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   • زبانو حق تغییر، تعلیق یا قطع هر بخش از خدمات را در هر زمان و
                   بدون اطلاع قبلی حفظ می‌کند.
                   <br />• زبانو می‌تواند این شرایط را در هر زمان اصلاح کند.
@@ -127,7 +123,7 @@ const TermsAndPrivacyPage = () => {
 
               <div>
                 <h3 className="text-lg font-bold mb-3">۷. محدودیت مسئولیت</h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   • خدمات زبانو «همانطور که هست» و «در صورت دسترس بودن» ارائه
                   می‌شود، بدون هیچ تضمینی.
                   <br />
@@ -151,7 +147,7 @@ const TermsAndPrivacyPage = () => {
                 <h3 className="text-lg font-bold mb-3">
                   ۱. اطلاعات جمع‌آوری شده
                 </h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   <strong>اطلاعات شخصی</strong>: نام، آدرس ایمیل، شماره تلفن،
                   اطلاعات پرداخت (در صورت خرید اشتراک)
                   <br />
@@ -170,7 +166,7 @@ const TermsAndPrivacyPage = () => {
                 <h3 className="text-lg font-bold mb-3">
                   ۲. نحوه استفاده از اطلاعات
                 </h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   • <strong>ارائه و بهبود خدمات</strong>: برای ارائه خدمات
                   یادگیری زبان، شخصی‌سازی تجربه کاربری و بهبود الگوریتم‌های
                   آموزشی
@@ -189,7 +185,7 @@ const TermsAndPrivacyPage = () => {
                 <h3 className="text-lg font-bold mb-3">
                   ۳. اشتراک‌گذاری اطلاعات
                 </h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   • <strong>ارائه‌دهندگان خدمات</strong>: ما ممکن است اطلاعات را
                   با شرکای خدماتی خود که در ارائه خدمات به ما کمک می‌کنند (مانند
                   پردازش پرداخت، میزبانی وب، تحلیل داده) به اشتراک بگذاریم.
@@ -204,7 +200,7 @@ const TermsAndPrivacyPage = () => {
 
               <div>
                 <h3 className="text-lg font-bold mb-3">۴. امنیت داده‌ها</h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   • ما اقدامات فنی و سازمانی مناسب را برای محافظت از اطلاعات شما
                   در برابر دسترسی، افشا، تغییر یا تخریب غیرمجاز اتخاذ می‌کنیم.
                   <br />
@@ -219,7 +215,7 @@ const TermsAndPrivacyPage = () => {
                 <h3 className="text-lg font-bold mb-3">
                   ۵. کوکی‌ها و فناوری‌های مشابه
                 </h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   • زبانو از کوکی‌ها و فناوری‌های مشابه برای جمع‌آوری اطلاعات و
                   بهبود تجربه کاربری استفاده می‌کند.
                   <br />
@@ -236,7 +232,7 @@ const TermsAndPrivacyPage = () => {
                 <h3 className="text-lg font-bold mb-3">
                   ۶. حقوق حریم خصوصی کاربران
                 </h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   بسته به قوانین محلی حاکم، ممکن است حقوق زیر را داشته باشید:
                   <br />• <strong>دسترسی</strong>: درخواست کپی از اطلاعات شخصی
                   که در مورد شما در اختیار داریم
@@ -256,7 +252,7 @@ const TermsAndPrivacyPage = () => {
                 <h3 className="text-lg font-bold mb-3">
                   ۷. تغییرات در سیاست حریم خصوصی
                 </h3>
-                <p className="text-gray-600 text-justify leading-7">
+                <p className="text-gray400 text-justify leading-7">
                   • ما ممکن است این سیاست حریم خصوصی را به طور دوره‌ای
                   به‌روزرسانی کنیم تا تغییرات در شیوه‌های حریم خصوصی ما را منعکس
                   کند.
@@ -274,18 +270,18 @@ const TermsAndPrivacyPage = () => {
             <h2 className="text-xl md:text-2xl font-bold text-primary mb-6 pt-4">
               تماس با ما
             </h2>
-            <p className="text-gray-600 text-justify leading-7">
+            <p className="text-gray400 text-justify leading-7">
               اگر در مورد قوانین و شرایط استفاده یا سیاست حریم خصوصی سؤالی
               دارید، لطفاً از طریق اطلاعات زیر با ما تماس بگیرید:
             </p>
-            <div className="mt-4 text-gray-600">
-              <p>آدرس ایمیل: support@zabano.com</p>
+            <div className="mt-4 text-gray400">
+              <p>آدرس ایمیل: info@zabano.com</p>
               <p>فرم تماس: بخش «تماس با ما» در وبسایت</p>
             </div>
           </div>
 
           <div className="border-t border-gray-300 pt-6 text-center">
-            <p className="text-gray-500 text-sm">آخرین به‌روزرسانی: مهر ۱۴۰۳</p>
+            <p className="text-gray-500 text-sm">آخرین به‌روزرسانی: دی ۱۴۰۳</p>
           </div>
         </div>
 

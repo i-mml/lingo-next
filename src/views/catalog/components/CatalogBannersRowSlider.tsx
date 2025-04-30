@@ -14,9 +14,6 @@ import { contentTypeInfos } from "@/constants/content-types-infos";
 import NeedSubscriptionMovieBadge from "@/components/shared/NeedSubscriptionMovieBadge";
 import { isMobile } from "react-device-detect";
 import { motion } from "framer-motion";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import useBookMarkMutation from "@/hooks/use-bookmark-mutation";
 
 const slideVariants = {
   hidden: { opacity: 0 },

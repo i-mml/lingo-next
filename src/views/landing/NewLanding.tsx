@@ -1,26 +1,18 @@
 "use client";
 
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useMemo,
-  useCallback,
-} from "react";
-import { motion, useAnimation, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { motion, useAnimation } from "framer-motion";
 import { useInView } from "framer-motion";
 import { isMobile } from "react-device-detect";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import Image from "next/image";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, A11y, Pagination } from "swiper/modules";
-import { link } from "fs";
 import Link from "next/link";
 
-const SamplePage = () => {
+const NewLanding = () => {
   const ref = useRef(null);
   const isInView = useRef(false);
   const [pathWidth, setPathWidth] = useState(1000);
@@ -304,25 +296,23 @@ const SamplePage = () => {
     {
       title: "یادگیری با فیلم",
       description:
-        "زیرنویس دوزبانه که ذهنت رو منفجر می‌کنه! ترجمه و تلفظ آنی کلمات (خیلی خفنه!)",
+        "زیرنویس دوزبانه که ذهنت رو منفجر می‌کنه! ترجمه و تلفظ آنی کلمات!)",
       icon: "🎬",
     },
     {
       title: "پادکست آموزشی",
-      description:
-        "فیلم و سریال‌هایی که عاشقشونی! می‌ترکونه! سریع‌ترین راه برای تقویت لغاته!",
+      description: "موضوعاتی که عاشقشونی! سریع‌ترین راه برای تقویت لغاته!",
       icon: "🌍",
     },
     {
       title: "فلش‌کارت هوشمند",
       description:
-        "آزمون نامحدود! همه چیز رو می‌دونه! آزمون‌هایی که شبیه بازی می‌مونن!",
+        "فلش‌کارت ساختن از سکانس های مختلف! مرور با روش مدرن و تقویت سریع دایره لغات",
       icon: "✨",
     },
     {
       title: "آزمون‌های نامحدود",
-      description:
-        "بازگویی و سنجش تشابه! همه چیز رو می‌دونه! آزمون‌هایی که شبیه بازی می‌مونن!",
+      description: "بازگویی و سنجش تشابه! آزمون‌هایی که شبیه بازی می‌مونن!",
       icon: "🎯",
     },
   ];
@@ -650,9 +640,9 @@ const SamplePage = () => {
           >
             {[
               { label: "کاربر فعال", value: 50000, suffix: "+" },
-              { label: "محتوای آموزشی", value: 1000, suffix: "+" },
+              { label: "محتوای آموزشی", value: 2700, suffix: "+" },
               { label: "رضایت کاربران", value: 98, suffix: "%" },
-              { label: "زبان مختلف", value: 20, suffix: "+" },
+              { label: "زبان مختلف", value: 3, suffix: "+" },
             ].map((stat, index) => (
               <motion.div
                 key={index}
@@ -1094,7 +1084,7 @@ const SamplePage = () => {
               نظرات <span className="text-[var(--primary)]">دوستای خفنمون</span>
             </h2>
             <p className="text-gray-400 text-lg">
-              ببین بقیه درموردمون چی میگن (هیچکدوم فیک نیست، قسم می‌خوریم! 😉)
+              ببین بقیه درموردمون چی میگن 😉
             </p>
           </motion.div>
 
@@ -1304,7 +1294,7 @@ const SamplePage = () => {
           >
             <ul className="space-y-3 text-right">
               <li className="text-gray-300 flex items-center justify-end flex-row-reverse gap-2">
-                <span>کوییز ماهانه نامحدود از فلش‌کارت‌ها</span>
+                <span>کوییز نامحدود از همه محتوا‌ها</span>
                 <span className="text-[var(--primary)]">✓</span>
               </li>
               <li className="text-gray-300 flex items-center justify-end flex-row-reverse gap-2">
@@ -1319,7 +1309,7 @@ const SamplePage = () => {
                 <span className="text-[var(--primary)]">✓</span>
               </li>
               <li className="text-gray-300 flex items-center justify-end flex-row-reverse gap-2">
-                <span>امکان استفاده از زیرنویس دوگانه</span>
+                <span>امکان استفاده از زیرنویس چند زبانه</span>
                 <span className="text-[var(--primary)]">✓</span>
               </li>
               <li className="text-gray-300 flex items-center justify-end flex-row-reverse gap-2">
@@ -1526,7 +1516,7 @@ const SamplePage = () => {
           </h2>
 
           <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
-            همین الان به جمع آدم‌های باحال زبانو بپیوند و زبان رو به سبک
+            همین الان به جمع آدم‌های باحال زبانو بپیوند و زبان رو به سبک{" "}
             <span className="font-bold text-white mx-1">خودت</span> یاد بگیر!
           </p>
 
@@ -1536,7 +1526,10 @@ const SamplePage = () => {
               whileTap={{ scale: 0.98 }}
               className="px-8 py-5 bg-gradient-to-r from-[var(--primary)] to-amber-500 text-white rounded-full text-lg font-bold shadow-[0_0_20px_rgba(255,168,0,0.3)] hover:shadow-[0_0_30px_rgba(255,168,0,0.5)] transition-all duration-300 w-full sm:w-auto"
             >
-              <span className="flex items-center justify-center gap-2">
+              <Link
+                href="/login"
+                className="flex items-center justify-center gap-2"
+              >
                 <span>همین الان شروع کن</span>
                 <motion.span
                   animate={{ x: [0, 5, 0] }}
@@ -1544,7 +1537,7 @@ const SamplePage = () => {
                 >
                   🚀
                 </motion.span>
-              </span>
+              </Link>
             </motion.button>
 
             <motion.a
@@ -1553,7 +1546,7 @@ const SamplePage = () => {
               whileTap={{ scale: 0.98 }}
               className="text-gray-300 hover:text-white transition-colors duration-300 font-medium underline decoration-dashed underline-offset-4 decoration-[var(--primary)]/50"
             >
-              اول پلن‌ها رو ببینم! 👀
+              <Link href={"/public/home"}>اول یه نگاهی بندازم! 👀</Link>
             </motion.a>
           </div>
 
@@ -1580,4 +1573,4 @@ const SamplePage = () => {
   );
 };
 
-export default SamplePage;
+export default NewLanding;

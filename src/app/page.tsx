@@ -1,10 +1,10 @@
 import InitialLayoutDesktop from "@/components/layout/initil-layout";
-import LandingView from "@/views/landing";
+import NewLanding from "@/views/landing/NewLanding";
 
 export default function Home() {
   return (
     <InitialLayoutDesktop>
-      <LandingView />
+      <NewLanding />
     </InitialLayoutDesktop>
   );
 }
