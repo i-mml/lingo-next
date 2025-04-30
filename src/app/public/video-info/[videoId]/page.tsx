@@ -127,7 +127,7 @@ const VideoInformationPage = async ({
     },
     {
       name: videoInfo.title,
-      url: `/public/podcast-info/${videoId}`,
+      url: `https://zabano.com/public/podcast-info/${videoId}`,
     },
   ];
 
@@ -147,7 +147,7 @@ const VideoInformationPage = async ({
               videoInfo?.meta_description ||
               "ویدیو آموزشی زبان انگلیسی با ترجمه فارسی برای یادگیری بهتر و سریع‌تر"
             } | زبانو`,
-            thumbnailUrl: videoInfo?.cover
+            thumbnailUrl: videoInfo?.image
               ? `${process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL}${videoInfo.cover}`
               : "https://zabano.com/zabano-main-logo.png",
             uploadDate: videoInfo?.released_at || new Date().toISOString(),

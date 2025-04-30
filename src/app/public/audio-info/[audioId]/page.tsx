@@ -31,10 +31,10 @@ export async function generateMetadata({
     { name: "خانه", url: "https://zabano.com" },
     {
       name: `${contentType.title} ها`,
-      url: `${
+      url: `https://zabano.com${
         !!accessToken
           ? ""
-          : `https://zabano.com/${
+          : `/${
               languageDictionaryByCode?.[
                 audioInfo.language as keyof typeof languageDictionaryByCode
               ]?.language
@@ -75,7 +75,7 @@ export async function generateMetadata({
       url: `https://zabano.com/public/audio-info/${params.audioId}`,
       images: [
         {
-          url: audioInfo.thumbnail || "https://zabano.com/zabano-main-logo.png",
+          url: audioInfo.image || "https://zabano.com/zabano-main-logo.png",
           width: 1200,
           height: 630,
           alt: `${contentTypeTitle} ${audioInfo.title}`,
@@ -88,9 +88,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: `${audioInfo.meta_title} | زبانو`,
       description: `${audioInfo.meta_description || defaultDescription}`,
-      images: [
-        audioInfo.thumbnail || "https://zabano.com/zabano-main-logo.png",
-      ],
+      images: [audioInfo.image || "https://zabano.com/zabano-main-logo.png"],
     },
     other: {
       "application/ld+json": JSON.stringify({
@@ -112,7 +110,7 @@ export async function generateMetadata({
         },
         datePublished: audioInfo.created_at,
         dateModified: audioInfo.updated_at,
-        image: audioInfo.thumbnail || "https://zabano.com/zabano-main-logo.png",
+        image: audioInfo.image || "https://zabano.com/zabano-main-logo.png",
         breadcrumb: {
           "@type": "BreadcrumbList",
           itemListElement: breadcrumbItems.map((item, index) => ({
