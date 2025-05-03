@@ -107,25 +107,27 @@ const UnitView = () => {
             {grouped?.map((group) => (
               <React.Fragment key={group.level_id}>
                 {/* Level Header Box */}
-                <div className="mb-2 px-2 py-3 rounded-lg bg-gray-100 border-2 border-borderMain cards-sm-box-shadow flex flex-col gap-1">
+                <div className="mb-2 px-2 py-3 rounded-lg bg-backgroundLayout border-2 border-borderMain cards-sm-box-shadow flex flex-col gap-1">
                   <div className="flex items-center gap-3">
                     <CircularProgressBox
                       completed={unitsCompleted}
                       total={totalUnits}
                     />
-                    <span className="font-bold text-main text-base">
-                      سطح {group.level_text}
-                    </span>
-                  </div>
-                  <div className="px-4 pt-4 pb-2">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-medium text-main">
-                        تعداد درس های کامل شده
-                      </span>
-                      <span className="text-xs font-medium text-main">
-                        {unitsCompleted}/{totalUnits}
-                      </span>
+                    <div className="flex flex-col gap-2 flex-1">
+                      <div className="font-bold text-main text-lg">
+                        سطح {group.level_text}
+                      </div>
+                      <div className="flex items-center justify-between mb-1 w-full">
+                        <span className="text-xs font-medium text-gray400">
+                          تعداد درس های کامل شده
+                        </span>
+                        <span className="text-xs font-medium text-gray400">
+                          {unitsCompleted}/{totalUnits}
+                        </span>
+                      </div>
                     </div>
+                  </div>
+                  <div className="px-4 pt-1 pb-2">
                     <div className="flex items-center gap-[2px] mb-2">
                       {[...Array(24)].map((_, i) => (
                         <div
@@ -246,7 +248,7 @@ const UnitView = () => {
             {grouped.map((group, groupIdx) => (
               <React.Fragment key={group.level_id}>
                 {/* Level Header Box */}
-                <div className="mb-2 px-2 py-3 rounded-lg bg-gray-100 border border-gray-200 flex flex-col gap-1">
+                <div className="mb-2 px-2 py-3 rounded-lg bg-backgroundLayout border border-gray-200 flex flex-col gap-1">
                   <div className="flex items-center gap-3">
                     <CircularProgressBox
                       completed={unitsCompleted}

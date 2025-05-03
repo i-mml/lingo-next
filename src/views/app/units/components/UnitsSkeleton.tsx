@@ -7,7 +7,7 @@ const UnitsSkeleton = () => {
     return (
       <div className="flex flex-col gap-4">
         {/* Group header skeleton */}
-        <div className="mb-2 px-2 py-3 rounded-lg bg-gray-100 border-2 border-borderMain cards-sm-box-shadow flex flex-col gap-1 animate-pulse">
+        <div className="mb-2 px-2 py-3 rounded-lg bg-backgroundLayout border-2 border-borderMain cards-sm-box-shadow flex flex-col gap-1 animate-pulse">
           <div className="flex items-center gap-3">
             {/* Circular skeleton */}
             <div className="relative w-20 h-20 flex items-center justify-center">
@@ -39,7 +39,10 @@ const UnitsSkeleton = () => {
               <div className="relative w-24 min-w-[96px] h-[150px] flex-shrink-0">
                 <div className="w-full h-full bg-gray-200 rounded" />
               </div>
-              <div className="flex flex-col justify-between flex-1 p-3 max-w-[70%]">
+              <div
+                className="flex flex-col justify-between flex-1 p-3 max-w-[70%]"
+                dir="ltr"
+              >
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs font-bold text-gray-300 w-16 h-4 rounded bg-gray-200" />
@@ -63,7 +66,7 @@ const UnitsSkeleton = () => {
   return (
     <div className="flex flex-col gap-8">
       {/* Group header skeleton */}
-      <div className="mb-2 px-6 py-6 rounded-lg bg-gray-100 border-2 border-borderMain cards-sm-box-shadow flex flex-col items-start gap-6 animate-pulse">
+      <div className="mb-2 px-6 py-6 rounded-lg bg-backgroundLayout border-2 border-borderMain cards-sm-box-shadow flex flex-col items-start gap-6 animate-pulse">
         <div className="flex items-center gap-4 flex-1">
           <div className="flex items-center justify-center">
             <div className="w-16 h-16 rounded-full bg-gray-200" />
