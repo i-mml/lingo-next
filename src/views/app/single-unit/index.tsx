@@ -103,7 +103,7 @@ const SingleUnitView = () => {
               const isActive = idx === activeIdx;
               return (
                 <Link
-                  href={`/units/${unitId}/activities/${activity.id}`}
+                  href={`/app/units/${unitId}/activities/${activity.id}`}
                   key={activity.id}
                   className={`relative flex items-center gap-2 rounded-xl px-4 py-4 bg-backgroundMain border transition-all
                   ${

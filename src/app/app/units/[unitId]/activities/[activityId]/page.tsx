@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import SingleActivityView from "@/views/app/single-activity";
 

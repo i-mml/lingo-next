@@ -19,3 +19,10 @@ export async function getActivitiesByUniId(unit: string | number) {
   });
   return data;
 }
+
+export async function getActivityPatternsByActivityId(activityId: string) {
+  const { data } = await axiosInstance.get(`/learning/patterns/`, {
+    params: { activity: activityId },
+  });
+  return data;
+}
