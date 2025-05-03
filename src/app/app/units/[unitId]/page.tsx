@@ -1,7 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { getUnitById } from "@/api/services/units";
+import { getUnitById } from "@/api/services/learning";
 import Image from "next/image";
 import { LockIcon } from "lucide-react";
 import Link from "next/link";

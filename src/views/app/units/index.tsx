@@ -6,7 +6,7 @@ import { isMobile } from "react-device-detect";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
-import { GetUnits } from "@/api/services/units";
+import { GetUnits } from "@/api/services/learning";
 import { LockIcon } from "lucide-react";
 import PrimaryLink from "@/components/shared/PrimaryLink";
 import { Autorenew, Check } from "@mui/icons-material";
