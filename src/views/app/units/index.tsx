@@ -13,6 +13,7 @@ import { Autorenew, Check } from "@mui/icons-material";
 import { Unit } from "./types";
 import Link from "next/link";
 import React from "react";
+import UnitsSkeleton from "./components/UnitsSkeleton";
 
 function groupUnitsByLevel(units: Unit[]) {
   const groups: { [level_id: number]: { level_text: string; units: Unit[] } } =
@@ -79,7 +80,11 @@ const UnitView = () => {
   const totalUnits = 24;
   const reviewClasses = 12;
 
-  const { data: units } = useQuery<Unit[]>({
+  const {
+    data: units,
+    isLoading,
+    isFetching,
+  } = useQuery<Unit[]>({
     queryKey: ["units"],
     queryFn: () => GetUnits(),
   });
@@ -95,7 +100,9 @@ const UnitView = () => {
   return (
     <div className="min-h-screen w-full bg-backgroundLayout pt-6" dir="rtl">
       <div className="px-2 pt-2 pb-8">
-        {isMobile ? (
+        {isLoading || isFetching ? (
+          <UnitsSkeleton />
+        ) : isMobile ? (
           <div className="flex flex-col gap-4">
             {grouped?.map((group) => (
               <React.Fragment key={group.level_id}>
