@@ -1,0 +1,6 @@
+<svg width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg"  data-testid="activity-icon">
+  <rect width="48" height="48" rx="11.2" fill="#ffaa0056"></rect>
+  <path d="M16.917 11.25v25.5M31.083 36.75v-25.5" stroke="#ffa800" stroke-width="2.184" stroke-linecap="round" stroke-linejoin="round"></path>
+  <path clip-rule="evenodd" d="M33.918 36.75H14.084a2.833 2.833 0 0 1-2.833-2.833V14.084a2.833 2.833 0 0 1 2.833-2.833h19.834a2.833 2.833 0 0 1 2.833 2.833v19.833a2.833 2.833 0 0 1-2.833 2.834z" stroke="#ffa800" stroke-width="2.184" stroke-linecap="round" stroke-linejoin="round"></path>
+  <path d="M16.918 16.918H11.25M16.918 31.084H11.25M31.084 31.084h5.667M31.084 16.918h5.667M36.751 24h-25.5" stroke="#ffa800" stroke-width="2.184" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg> 

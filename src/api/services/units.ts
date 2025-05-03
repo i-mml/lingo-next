@@ -1,4 +1,5 @@
 import axiosInstance from "../configs";
+import axios from "axios";
 
 export const GetUnits = async () => {
   let url = `/learning/units/`;
@@ -7,3 +8,8 @@ export const GetUnits = async () => {
 
   return response.data;
 };
+
+export async function getUnitById(id: string | number) {
+  const { data } = await axiosInstance.get(`/learning/units/${id}/`);
+  return data;
+}
