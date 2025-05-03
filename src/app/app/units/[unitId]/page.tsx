@@ -115,14 +115,13 @@ export default function UnitPage() {
   const isLocked = unit.is_locked;
   // For demo, make the 5th activity active
   const activeIdx = 4;
-  console.log(unit?.covers?.[0]);
   return (
     <div
       className="min-h-screen w-full bg-backgroundLayout bg-no-repeat h-full absolute"
       style={{
         backgroundImage: `url(${unit.covers?.[0]})`,
-        backgroundPosition: !isMobile ? "0 120%" : "inherit",
-        backgroundSize: !isMobile ? "60% auto" : "inherit",
+        backgroundPosition: !isMobile ? "0 120%" : "",
+        backgroundSize: !isMobile ? "60% auto" : "100%",
       }}
     >
       {/* GradientOverlay */}
@@ -131,8 +130,12 @@ export default function UnitPage() {
         style={{
           backgroundImage:
             appTheme === "dark"
-              ? "linear-gradient(90deg,#c8c8c880,#000 50%,#000)"
-              : "linear-gradient(90deg,#c8c8c880,#fff 50%,#fff)",
+              ? !isMobile
+                ? "linear-gradient(90deg,#c8c8c880,#000 50%,#000)"
+                : "linear-gradient(180deg,#c8c8c880,#000 50%,#000)"
+              : !isMobile
+              ? "linear-gradient(90deg,#c8c8c880,#fff 50%,#fff)"
+              : "linear-gradient(180deg,#c8c8c880,#fff 50%,#fff)",
           height: "100%",
           left: 0,
           overflow: "auto",
@@ -143,7 +146,7 @@ export default function UnitPage() {
         }}
       ></div>
       <div
-        className="px-2 pt-8 pb-16"
+        className="px-2 pt-8 pb-[200px] backdrop-grayscale-[70%] md:backdrop-grayscale-0 backdrop-blur-sm"
         style={{
           height: "100%",
           left: 0,
@@ -158,20 +161,19 @@ export default function UnitPage() {
         <div className="max-w-md mx-auto">
           {/* Header */}
           <div className="flex flex-col items-center text-center mb-8">
-            <div className="text-xs text-gray400 font-bold mb-2">
+            <div className="text-xs text-main font-bold mb-2">
               UNIT {unit.unit_id}
             </div>
             <h1 className="text-2xl font-extrabold text-main mb-1">
               {unit.title}
             </h1>
-            <div className="text-base text-gray400 mb-2">
+            <div className="text-base text-main mb-2">
               {unit.grammar_description}
             </div>
-            <div className="text-sm text-gray300 mb-2">
-              <span className="font-bold">داستان:</span>
+            <div className="text-sm text-main mb-2" dir="ltr">
               <div className="text-left">{unit.summary}</div>
             </div>
-            <div className="flex flex-wrap gap-4 justify-center text-xs text-gray400">
+            <div className="flex flex-wrap gap-4 justify-center text-xs text-main">
               <span>
                 <span className="font-bold">کلمات جدید:</span> {unit.words}
               </span>
@@ -182,7 +184,7 @@ export default function UnitPage() {
             </div>
           </div>
           {/* Activities */}
-          <div className="flex flex-col gap-4 mb-8">
+          <div className="flex flex-col gap-4">
             {activities.map((activity, idx) => {
               const isActive = idx === activeIdx;
               return (
