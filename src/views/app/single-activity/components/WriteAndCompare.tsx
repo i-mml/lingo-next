@@ -2,31 +2,28 @@ import React, { useRef, useState } from "react";
 import { WriteAndCompareActivity } from "../types";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
-import { useTextToAudio } from "@/hooks/use-text-to-audio";
-import WaveLoading from "@/components/shared/WaveLoading";
 import { useAudioPlayer } from "@/hooks/use-audio-player";
-import { CloseOutlined } from "@mui/icons-material";
+import { CheckCircleOutlined, CloseOutlined } from "@mui/icons-material";
 
 interface WriteAndCompareProps {
   activity: WriteAndCompareActivity;
-  currentIndex: number;
-  total: number;
+  handleNext: () => void;
 }
 
 const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
   activity,
-  currentIndex,
-  total,
+  handleNext,
 }) => {
   const [audioPlayed, setAudioPlayed] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [checked, setChecked] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [redirecting, setRedirecting] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const { playAudio } = useAudioPlayer(activity.sentence?.audio);
-
-  console.log("here", { activity });
+  const { playAudio: playSuccess } = useAudioPlayer("/assets/correct.mp3");
+  const { playAudio: playWrong } = useAudioPlayer("/assets/wrong.mp3");
 
   const handlePlay = () => {
     playAudio();
@@ -46,28 +43,25 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
     );
     setChecked(true);
     setIsCorrect(correct);
+    if (!correct) {
+      return playWrong();
+    } else {
+      playSuccess();
+    }
+    if (correct) {
+      setRedirecting(true);
+      setTimeout(() => {
+        handleNext();
+        setInputValue("");
+        setChecked(false);
+        setIsCorrect(null);
+        setRedirecting(false);
+      }, 1500);
+    }
   };
 
-  // Progress percent
-  const progress = ((currentIndex + 1) / total) * 100;
-
   return (
-    <div className="w-full max-w-[90%] md:max-w-md mx-auto pt-8 min-h-[80vh]">
-      {/* Progress */}
-      <div className="flex items-center justify-between mb-2">
-        <div className="font-bold text-xl">Write</div>
-        <div className="flex items-center gap-2">
-          <span className="text-gray-500 font-bold text-lg">
-            {currentIndex + 1}/{total}
-          </span>
-        </div>
-      </div>
-      <div className="w-full h-2 bg-gray-100 rounded mb-8">
-        <div
-          className="h-2 bg-primary rounded"
-          style={{ width: `${progress}%`, transition: "width 0.3s" }}
-        />
-      </div>
+    <div className="w-full">
       {/* Audio */}
       <div className="flex flex-col items-center mb-8">
         <button
@@ -108,6 +102,12 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
             اشتباه بود! دوباره تلاش کن
           </div>
         )}
+        {checked && isCorrect === true && (
+          <div className="text-green-500 text-sm text-right w-full mt-1">
+            <CheckCircleOutlined className="!w-6 !h-6" />
+            صحیح بود!
+          </div>
+        )}
       </div>
       {/* Check Answer */}
       <div className="flex flex-col items-center gap-4">
@@ -118,7 +118,7 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
             disabled: !audioPlayed || inputValue.trim() === "",
           }}
         >
-          چک کردن
+          {redirecting ? "رفتن به سوال بعدی..." : "چک کردن"}
         </PrimaryButton>
       </div>
     </div>
