@@ -21,11 +21,8 @@ export const activitiesDictionary = {
   },
   write: {
     key: "write",
-    label: "Write",
     icon: <WriteIcon />,
-    color: "bg-green-100",
     type: "Writing",
-    time: "4 min.",
   },
   roleplay: {
     key: "interpret",
