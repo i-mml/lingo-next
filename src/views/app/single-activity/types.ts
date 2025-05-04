@@ -38,7 +38,23 @@ export type TextQuestionSingleChoiceImageAnswerActivity = {
   }[];
 };
 
+export type FillTheGapsAndListenAudioActivity = {
+  id: string;
+  type: "fillTheGapsAndListenAudio";
+  text: string;
+  audio?: string;
+  answers: {
+    text: string;
+    correct: boolean;
+  }[];
+  required: boolean;
+  statement?: string;
+  gapPosition?: number[];
+  translation?: string;
+};
+
 export type Activity =
   | WriteAndCompareActivity
   | ImageQuestionSingleChoiceTextAnswerActivity
-  | TextQuestionSingleChoiceImageAnswerActivity; // Extend for other types as needed
+  | TextQuestionSingleChoiceImageAnswerActivity
+  | FillTheGapsAndListenAudioActivity;

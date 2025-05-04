@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import WriteAndCompare from "./components/WriteAndCompare";
 import ImageQuestionSingleChoiceTextAnswer from "./components/ImageQuestionSingleChoiceTextAnswer";
 import { patternTypeDictionary } from "@/mock/units";
+import FillTheGapsAndListenAudio from "./components/FillTheGapsAndListenAudio";
 
 const SingleActivity: React.FC = () => {
   const { activityId } = useParams();
@@ -21,7 +22,7 @@ const SingleActivity: React.FC = () => {
       }),
   });
 
-  const [currentIndex, setCurrentIndex] = useState(14);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const patternType = activityData?.[0]?.pattern_type;
   const progress = ((currentIndex + 1) / total) * 100;
 
@@ -43,7 +44,12 @@ const SingleActivity: React.FC = () => {
       />
     ),
     chatBubble: <></>,
-    fillTheGapsAndListenAudio: <></>,
+    fillTheGapsAndListenAudio: (
+      <FillTheGapsAndListenAudio
+        activity={activityData?.[currentIndex]?.content}
+        handleNext={handleNext}
+      />
+    ),
     imageQuestionSingleChoiceTextAnswer: (
       <ImageQuestionSingleChoiceTextAnswer
         activity={activityData?.[currentIndex]?.content}
