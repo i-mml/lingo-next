@@ -16,12 +16,12 @@ const SingleUnitView = () => {
   const { theme: appTheme } = useTheme();
 
   const { data: activities, isLoading } = useQuery({
-    queryKey: ["single-unit", unitId],
+    queryKey: ["get-activities-by-unit-id", unitId],
     queryFn: () => getActivitiesByUniId(Number(unitId)),
   });
 
   const { data: unit, isLoading: unitLoading } = useQuery({
-    queryKey: ["single-unit", unitId],
+    queryKey: ["get-unit-by-id", unitId],
     queryFn: () => getUnitById(Number(unitId)),
   });
 
