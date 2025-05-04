@@ -3,7 +3,11 @@ import { WriteAndCompareActivity } from "../types";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { useAudioPlayer } from "@/hooks/use-audio-player";
-import { CheckCircleOutlined, CloseOutlined } from "@mui/icons-material";
+import {
+  CheckCircleOutlined,
+  CloseOutlined,
+  Lightbulb,
+} from "@mui/icons-material";
 import Lottie from "lottie-react";
 import PlayingSpeaker from "@/assets/lotties/playing-speaker.json";
 
@@ -21,6 +25,7 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
   const [checked, setChecked] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [redirecting, setRedirecting] = useState(false);
+  const [showHint, setShowHint] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const { playAudio, isPlaying } = useAudioPlayer(activity.sentence?.audio);
@@ -32,7 +37,7 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
     setAudioPlayed(true);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
     setChecked(false);
     setIsCorrect(null);
@@ -58,6 +63,7 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
         setChecked(false);
         setIsCorrect(null);
         setRedirecting(false);
+        setShowHint(false);
       }, 1500);
     }
   };
@@ -88,9 +94,8 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
       </div>
       {/* Input */}
       <div className="flex flex-col items-center mb-8">
-        <input
-          type="text"
-          className={`w-full max-w-xl text-main px-4 py-4 rounded-xl text-lg text-right bg-backgroundMain outline-none border transition-colors
+        <textarea
+          className={`w-full max-w-xl resize-none text-main px-4 py-4 rounded-xl text-lg text-right bg-backgroundMain outline-none border transition-colors disabled:opacity-50
             ${
               checked && isCorrect === true
                 ? "border-green-500 !text-green-500"
@@ -105,7 +110,8 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
           placeholder="چیزی که میشنوی را بنویس"
           value={inputValue}
           onChange={handleInputChange}
-          disabled={!audioPlayed}
+          disabled={!audioPlayed || redirecting}
+          rows={2}
         />
         {checked && isCorrect === false && (
           <div className="text-red-500 text-sm text-right w-full mt-1">
@@ -119,6 +125,23 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
             صحیح بود!
           </div>
         )}
+        <button
+          type="button"
+          className="mt-4 flex flex-col items-center"
+          onClick={() => setShowHint(true)}
+          disabled={showHint}
+          aria-label="Show hint"
+        >
+          <span className="rounded-full bg-yellow-100 shadow-lg p-3 hover:bg-yellow-200 transition-all">
+            <Lightbulb className="text-yellow-500 !w-8 !h-8 drop-shadow-lg" />
+          </span>
+        </button>
+        {/* Show the answer if hint is revealed */}
+        {showHint && (
+          <div className="mt-3 text-base text-primary font-semibold bg-yellow-50 rounded-lg px-4 py-2 shadow">
+            {activity.sentence.answers[0]}
+          </div>
+        )}
       </div>
       {/* Check Answer */}
       <div className="flex flex-col items-center gap-4">
@@ -126,7 +149,7 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
           className="w-40"
           onClick={handleCheck}
           buttonProps={{
-            disabled: !audioPlayed || inputValue.trim() === "",
+            disabled: !audioPlayed || inputValue.trim() === "" || redirecting,
           }}
         >
           {redirecting ? "رفتن به سوال بعدی..." : "چک کردن"}
