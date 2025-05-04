@@ -53,8 +53,21 @@ export type FillTheGapsAndListenAudioActivity = {
   translation?: string;
 };
 
+export type FillTheGapsWithTextAndListenAudioActivity = {
+  id: string;
+  type: "fillTheGapsWithTextAndListenAudio";
+  text: string;
+  audio?: string;
+  answers: string[];
+  required: boolean;
+  statement?: string;
+  gapPosition?: number[];
+  translation?: string;
+};
+
 export type Activity =
   | WriteAndCompareActivity
   | ImageQuestionSingleChoiceTextAnswerActivity
   | TextQuestionSingleChoiceImageAnswerActivity
-  | FillTheGapsAndListenAudioActivity;
+  | FillTheGapsAndListenAudioActivity
+  | FillTheGapsWithTextAndListenAudioActivity;

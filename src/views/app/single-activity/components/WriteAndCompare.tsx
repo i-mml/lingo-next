@@ -94,9 +94,9 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
         <audio ref={audioRef} src={activity.sentence.audio} />
       </div>
       {/* Input */}
-      <div className="flex flex-col items-center mb-8">
+      <div className="flex flex-col items-center mb-8 w-full">
         <textarea
-          className={`w-full max-w-xl resize-none text-main px-4 py-4 rounded-xl text-lg text-right bg-backgroundMain outline-none border transition-colors disabled:opacity-50
+          className={`w-full max-w-xl resize-none text-main px-4 py-4 rounded-xl text-lg bg-backgroundMain outline-none border transition-colors disabled:opacity-50
             ${
               checked && isCorrect === true
                 ? "border-green-500 !text-green-500"
@@ -107,12 +107,14 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
                 ? "border-red-500 !text-red-500"
                 : ""
             }
+            ${inputValue.length > 0 ? "text-left" : "text-right"}
           `}
           placeholder="چیزی که میشنوی را بنویس"
           value={inputValue}
           onChange={handleInputChange}
           disabled={!audioPlayed || redirecting}
           rows={2}
+          dir={inputValue.length > 0 ? "ltr" : "rtl"}
         />
         {checked && isCorrect === false && (
           <div className="text-red-500 text-sm text-right w-full mt-1">

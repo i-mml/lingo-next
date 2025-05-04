@@ -1,10 +1,14 @@
 import React, { useState } from "react";
-import { FillTheGapsAndListenAudioActivity } from "../types";
+import {
+  FillTheGapsAndListenAudioActivity,
+  FillTheGapsWithTextAndListenAudioActivity,
+} from "../types";
 import { useAudioPlayer } from "@/hooks/use-audio-player";
 import { useTextToAudio } from "@/hooks/use-text-to-audio";
 
 interface Props {
   activity: FillTheGapsAndListenAudioActivity;
+
   handleNext: () => void;
 }
 
@@ -12,20 +16,29 @@ const FillTheGapsAndListenAudio: React.FC<Props> = ({
   activity,
   handleNext,
 }) => {
+  // For select-answer type
   const [selected, setSelected] = useState<number | null>(null);
   const [disabledIndexes, setDisabledIndexes] = useState<number[]>([]);
   const [correctIndex, setCorrectIndex] = useState<number | null>(null);
+  // For write-answer type
+  const [inputValue, setInputValue] = useState("");
+  const [checked, setChecked] = useState(false);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const { playAudio: playWrong } = useAudioPlayer("/assets/wrong.mp3");
   const { handleTextToSpeech } = useTextToAudio();
 
+  // For select-answer type
   const handleSelect = (idx: number) => {
     if (disabledIndexes.includes(idx) || correctIndex !== null) return;
     setSelected(idx);
 
-    if (activity.answers[idx].correct) {
+    if ((activity as FillTheGapsAndListenAudioActivity).answers[idx].correct) {
       setCorrectIndex(idx);
-      handleTextToSpeech({ text: activity?.answers[idx]?.text });
+      handleTextToSpeech({
+        text: (activity as FillTheGapsAndListenAudioActivity)?.answers[idx]
+          ?.text,
+      });
       setTimeout(() => {
         handleNext();
         setSelected(null);
@@ -38,6 +51,7 @@ const FillTheGapsAndListenAudio: React.FC<Props> = ({
     }
   };
 
+  // Render the sentence with the gap
   const gapIndex = activity.gapPosition?.[0] ?? -1;
   const words = activity.text.split(" ");
   const beforeGap = words.slice(0, gapIndex - 1).join(" ");
@@ -70,44 +84,46 @@ const FillTheGapsAndListenAudio: React.FC<Props> = ({
       </div>
       {/* Answers */}
       <div className="flex flex-col gap-4 w-full items-center">
-        {activity.answers.map((ans, idx) => {
-          const isCorrect = correctIndex === idx;
-          const isDisabled =
-            disabledIndexes.includes(idx) || correctIndex !== null;
-          return (
-            <button
-              key={ans.text}
-              className={`
-                w-80 py-4 rounded-full text-lg font-bold
-                transition-all shadow
-                ${
-                  isCorrect
-                    ? "border-2 border-green-500 bg-green-50 text-green-700 shadow-green-200"
-                    : ""
-                }
-                ${
-                  disabledIndexes.includes(idx)
-                    ? "bg-backgroundLayout text-gray-400 border border-backgroundDisabled cursor-not-allowed"
-                    : "bg-backgroundMain border border-gray-200 text-main"
-                }
-                ${
-                  !isCorrect && !disabledIndexes.includes(idx)
-                    ? "hover:shadow-primary/40"
-                    : ""
-                }
-              `}
-              onClick={() => handleSelect(idx)}
-              disabled={isDisabled}
-              style={{
-                boxShadow: isCorrect
-                  ? "0 0 0 4px #22c55e, 0 4px 24px 0 rgba(34,197,94,0.2)"
-                  : undefined,
-              }}
-            >
-              {ans.text}
-            </button>
-          );
-        })}
+        {(activity as FillTheGapsAndListenAudioActivity).answers.map(
+          (ans, idx) => {
+            const isCorrect = correctIndex === idx;
+            const isDisabled =
+              disabledIndexes.includes(idx) || correctIndex !== null;
+            return (
+              <button
+                key={ans.text}
+                className={`
+                  w-80 py-4 rounded-full text-lg font-bold
+                  transition-all shadow
+                  ${
+                    isCorrect
+                      ? "border-2 border-green-500 bg-green-50 text-green-700 shadow-green-200"
+                      : ""
+                  }
+                  ${
+                    disabledIndexes.includes(idx)
+                      ? "bg-backgroundLayout text-gray-400 border border-backgroundDisabled cursor-not-allowed"
+                      : "bg-backgroundMain border border-gray-200 text-main"
+                  }
+                  ${
+                    !isCorrect && !disabledIndexes.includes(idx)
+                      ? "hover:shadow-primary/40"
+                      : ""
+                  }
+                `}
+                onClick={() => handleSelect(idx)}
+                disabled={isDisabled}
+                style={{
+                  boxShadow: isCorrect
+                    ? "0 0 0 4px #22c55e, 0 4px 24px 0 rgba(34,197,94,0.2)"
+                    : undefined,
+                }}
+              >
+                {ans.text}
+              </button>
+            );
+          }
+        )}
       </div>
     </div>
   );
