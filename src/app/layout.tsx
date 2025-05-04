@@ -53,11 +53,11 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <Head>
-          <script
-            id="ua-script-5WRQkwDn"
-            dangerouslySetInnerHTML={{
-              __html: `!function (t, e, n) {
+
+        <script
+          id="ua-script-5WRQkwDn"
+          dangerouslySetInnerHTML={{
+            __html: `!function (t, e, n) {
                   t.yektanetAnalyticsObject = n, t[n] = t[n] || function () {
                       t[n].q.push(arguments)
                   }, t[n].q = t[n].q || [];
@@ -67,9 +67,8 @@ export default function RootLayout({
                   s.async = 1; s.type = "text/javascript";
                   s.src = "https://cdn.yektanet.com/rg_woebegone/scripts_v3/5WRQkwDn/rg.complete.js?v=" + r, c.parentNode.insertBefore(s, c)
               }(window, document, "yektanet");`,
-            }}
-          />
-        </Head>
+          }}
+        />
       </head>
       <body className={`antialiased bg-backgroundMain`}>
         <Providers>{children}</Providers>
