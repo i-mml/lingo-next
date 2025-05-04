@@ -50,3 +50,13 @@ export const activitiesDictionary = {
     type: "Assessment",
   },
 };
+
+export const patternTypeDictionary = {
+  watchVideo: "Film",
+  repeatAndCompare: "Repeat and Compare",
+  writeAndCompare: "Write and Compare",
+  chatBubble: "Chat Bubble",
+  fillTheGapsAndListenAudio: "Fill the Gaps and Listen Audio",
+  imageQuestionSingleChoiceTextAnswer: "جواب صحیح را انتخاب کنید",
+  fillTheGaps: "Fill the Gaps",
+};

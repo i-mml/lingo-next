@@ -10,4 +10,18 @@ export type WriteAndCompareActivity = {
   sentence: Sentence;
 };
 
+export type ImageQuestionSingleChoiceTextAnswerActivity = {
+  id: string;
+  type: "imageQuestionSingleChoiceTextAnswer";
+  required: boolean;
+  question: {
+    audio: string;
+    image: string;
+  };
+  answers: {
+    text: string;
+    correct: boolean;
+  }[];
+};
+
 export type Activity = WriteAndCompareActivity; // Extend for other types as needed
