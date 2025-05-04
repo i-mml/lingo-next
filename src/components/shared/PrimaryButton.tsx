@@ -22,7 +22,7 @@ const PrimaryButton = ({
         !duration-500 
         !text-white 
         disabled:bg-backgroundDisabled
-        disabled:border-b-backgroundDisabled
+        disabled:border-b-[#535353]
         disabled:cursor-not-allowed
         active:hover:translate-y-0.5
         active:translate-y-1.5
