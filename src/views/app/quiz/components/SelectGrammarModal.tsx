@@ -28,7 +28,7 @@ const SelectGrammarModal = (props: IProps) => {
 
   return (
     <CustomModal open={selectGrammarModal} toggle={toggleSelectGrammar}>
-      <div className="w-full lg:w-[500px] min-h-[60vh]">
+      <div className="w-full min-h-[60vh]">
         <div className="pt-10">
           <div className="text-main font-bold text-[16px] lg:text-2xl text-center mb-6">
             گرامر مورد نظرتون رو انتخاب کنید
@@ -37,11 +37,11 @@ const SelectGrammarModal = (props: IProps) => {
         {isLoading ? (
           <WaveLoading />
         ) : (
-          <div className="gap-4">
-            {data?.data?.results?.map((item: any) => (
+          <div className="w-full">
+            {data?.results?.map((item: any) => (
               <Accordion
                 classes={{
-                  root: "w-full mb-4 lg:mb-6 !rounded-xl border-b border-r-[6px] border-primary !bg-main",
+                  root: "w-full mb-4 lg:mb-6 !rounded-xl border-b border-r-[6px] border-primary !bg-backgroundLayout relative",
                 }}
                 style={{
                   backgroundColor: theme.palette?.background?.main,
@@ -57,7 +57,7 @@ const SelectGrammarModal = (props: IProps) => {
                   aria-controls={item?.name}
                   id={item?.name}
                   className="!py-2"
-                  classes={{ content: "!block !bg-main" }}
+                  classes={{ content: "!block !bg-backgroundLayout" }}
                 >
                   <div className="font-semibold text-[16px] lg:text-xl text-main">
                     {item?.name || ""}

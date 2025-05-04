@@ -103,7 +103,7 @@ body {
   }
 }
 
-.custom-modal .MuiPaper-root {
+.custom-modal .MuiDialog-paper {
   max-width: 80%;
   color: var(--main);
   background-color: var(--background-main);
@@ -113,7 +113,7 @@ body {
   overflow-y: auto;
 }
 @media (max-width: 600px) {
-  .custom-modal .MuiPaper-root {
+  .custom-modal .MuiDialog-paper {
     border-radius: 32px 32px 0px 0px;
     width: 100%;
     max-width: unset;
