@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FillTheGapsAndListenAudioActivity } from "../types";
-import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { useAudioPlayer } from "@/hooks/use-audio-player";
+import { useTextToAudio } from "@/hooks/use-text-to-audio";
 
 interface Props {
   activity: FillTheGapsAndListenAudioActivity;
@@ -15,8 +15,9 @@ const FillTheGapsAndListenAudio: React.FC<Props> = ({
   const [selected, setSelected] = useState<number | null>(null);
   const [disabledIndexes, setDisabledIndexes] = useState<number[]>([]);
   const [correctIndex, setCorrectIndex] = useState<number | null>(null);
-  console.log(activity);
-  const { playAudio } = useAudioPlayer(activity.audio || "");
+
+  const { playAudio: playWrong } = useAudioPlayer("/assets/wrong.mp3");
+  const { handleTextToSpeech } = useTextToAudio();
 
   const handleSelect = (idx: number) => {
     if (disabledIndexes.includes(idx) || correctIndex !== null) return;
@@ -24,7 +25,7 @@ const FillTheGapsAndListenAudio: React.FC<Props> = ({
 
     if (activity.answers[idx].correct) {
       setCorrectIndex(idx);
-      playAudio();
+      handleTextToSpeech({ text: activity?.answers[idx]?.text });
       setTimeout(() => {
         handleNext();
         setSelected(null);
@@ -32,6 +33,7 @@ const FillTheGapsAndListenAudio: React.FC<Props> = ({
         setDisabledIndexes([]);
       }, 1000);
     } else {
+      playWrong();
       setDisabledIndexes((prev) => [...prev, idx]);
     }
   };
@@ -85,8 +87,8 @@ const FillTheGapsAndListenAudio: React.FC<Props> = ({
                 }
                 ${
                   disabledIndexes.includes(idx)
-                    ? "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed"
-                    : "bg-backgroundMain border border-gray-200"
+                    ? "bg-backgroundLayout text-gray-400 border border-backgroundDisabled cursor-not-allowed"
+                    : "bg-backgroundMain border border-gray-200 text-main"
                 }
                 ${
                   !isCorrect && !disabledIndexes.includes(idx)

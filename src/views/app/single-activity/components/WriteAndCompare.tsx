@@ -51,7 +51,8 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
     setChecked(true);
     setIsCorrect(correct);
     if (!correct) {
-      return playWrong();
+      playWrong();
+      return;
     } else {
       playSuccess();
     }
