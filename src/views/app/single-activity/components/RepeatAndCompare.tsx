@@ -77,6 +77,7 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
       setTimeout(() => {
         handleNext();
         playSuccess();
+        setAudioPlayed(false);
         setAccuracyPercentage(null);
         setSpokenWords([]);
       }, 1000);
