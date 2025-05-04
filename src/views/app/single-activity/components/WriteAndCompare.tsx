@@ -4,6 +4,8 @@ import PrimaryButton from "@/components/shared/PrimaryButton";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import { useAudioPlayer } from "@/hooks/use-audio-player";
 import { CheckCircleOutlined, CloseOutlined } from "@mui/icons-material";
+import Lottie from "lottie-react";
+import PlayingSpeaker from "@/assets/lotties/playing-speaker.json";
 
 interface WriteAndCompareProps {
   activity: WriteAndCompareActivity;
@@ -21,7 +23,7 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
   const [redirecting, setRedirecting] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const { playAudio } = useAudioPlayer(activity.sentence?.audio);
+  const { playAudio, isPlaying } = useAudioPlayer(activity.sentence?.audio);
   const { playAudio: playSuccess } = useAudioPlayer("/assets/correct.mp3");
   const { playAudio: playWrong } = useAudioPlayer("/assets/wrong.mp3");
 
@@ -66,13 +68,22 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
       <div className="flex flex-col items-center mb-8">
         <button
           className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white text-4xl shadow-lg mb-4"
-          onClick={handlePlay}
+          onClick={isPlaying ? () => {} : handlePlay}
           aria-label="Play audio"
         >
-          <span className="material-icons text-4xl">
-            <VolumeUpIcon className="!w-10 !h-10 " />
-          </span>
+          {isPlaying ? (
+            <Lottie
+              animationData={PlayingSpeaker}
+              loop={true}
+              className="w-[57px] h-[57px]"
+            />
+          ) : (
+            <span className="material-icons text-4xl">
+              <VolumeUpIcon className="!w-10 !h-10 " />
+            </span>
+          )}
         </button>
+
         <audio ref={audioRef} src={activity.sentence.audio} />
       </div>
       {/* Input */}
