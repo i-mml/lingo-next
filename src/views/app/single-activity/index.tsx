@@ -10,9 +10,12 @@ import ImageQuestionSingleChoiceTextAnswer from "./components/ImageQuestionSingl
 import { patternTypeDictionary } from "@/mock/units";
 import FillTheGapsAndListenAudio from "./components/FillTheGapsAndListenAudio";
 import FillTheGapsWithTextAndListenAudio from "./components/FillTheGapsWithTextAndListenAudio";
+import BackIconComponent from "@/components/shared/BackIconComponent";
+import Link from "next/link";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
 const SingleActivity: React.FC = () => {
-  const { activityId } = useParams();
+  const { activityId, unitId } = useParams();
   const [total, setTotal] = useState(0);
   const { data: activityData, isLoading } = useQuery({
     queryKey: ["activity", activityId],
@@ -23,7 +26,7 @@ const SingleActivity: React.FC = () => {
       }),
   });
 
-  const [currentIndex, setCurrentIndex] = useState(11);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const patternType = activityData?.[currentIndex]?.pattern_type;
   const progress = ((currentIndex + 1) / total) * 100;
 
@@ -77,11 +80,12 @@ const SingleActivity: React.FC = () => {
     <div className="w-full max-w-[90%] md:max-w-md mx-auto pt-8 min-h-[80vh]">
       {/* Progress */}
       <div className="flex items-center justify-between mb-2">
-        <div className="font-bold text-xl text-main">
-          {patternTypeDictionary?.[
-            patternType as keyof typeof patternTypeDictionary
-          ] || ""}
-        </div>
+        <Link
+          href={`/app/units/${unitId}`}
+          className="font-bold text-sm md:text-base text-gray400"
+        >
+          <ArrowForward /> بازگشت
+        </Link>
         <div className="flex items-center gap-2">
           <span className="text-gray-500 font-bold text-lg">
             {currentIndex + 1}/{total}
