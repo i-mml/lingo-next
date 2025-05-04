@@ -24,4 +24,21 @@ export type ImageQuestionSingleChoiceTextAnswerActivity = {
   }[];
 };
 
-export type Activity = WriteAndCompareActivity; // Extend for other types as needed
+export type TextQuestionSingleChoiceImageAnswerActivity = {
+  id: string;
+  type: "textQuestionSingleChoiceImageAnswer";
+  required: boolean;
+  question: {
+    text: string;
+    audio?: string;
+  };
+  answers: {
+    image: string;
+    correct: boolean;
+  }[];
+};
+
+export type Activity =
+  | WriteAndCompareActivity
+  | ImageQuestionSingleChoiceTextAnswerActivity
+  | TextQuestionSingleChoiceImageAnswerActivity; // Extend for other types as needed

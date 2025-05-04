@@ -21,11 +21,15 @@ const SingleActivity: React.FC = () => {
       }),
   });
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(14);
   const patternType = activityData?.[0]?.pattern_type;
   const progress = ((currentIndex + 1) / total) * 100;
 
   const handleNext = () => {
+    if (currentIndex === activityData?.length - 1) {
+      console.log("it's finished");
+      return;
+    }
     setCurrentIndex(currentIndex + 1);
   };
 
