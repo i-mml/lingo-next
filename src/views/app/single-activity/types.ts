@@ -65,9 +65,21 @@ export type FillTheGapsWithTextAndListenAudioActivity = {
   translation?: string;
 };
 
+export type RepeatAndCompareActivity = {
+  id: string;
+  type: "repeatAndCompare";
+  required: boolean;
+  sentences: {
+    text: string;
+    audio: string;
+    translation?: string | null;
+  }[];
+};
+
 export type Activity =
   | WriteAndCompareActivity
   | ImageQuestionSingleChoiceTextAnswerActivity
   | TextQuestionSingleChoiceImageAnswerActivity
   | FillTheGapsAndListenAudioActivity
-  | FillTheGapsWithTextAndListenAudioActivity;
+  | FillTheGapsWithTextAndListenAudioActivity
+  | RepeatAndCompareActivity;

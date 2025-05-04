@@ -13,6 +13,7 @@ import FillTheGapsWithTextAndListenAudio from "./components/FillTheGapsWithTextA
 import BackIconComponent from "@/components/shared/BackIconComponent";
 import Link from "next/link";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import RepeatAndCompare from "./components/RepeatAndCompare";
 
 const SingleActivity: React.FC = () => {
   const { activityId, unitId } = useParams();
@@ -40,7 +41,12 @@ const SingleActivity: React.FC = () => {
 
   const patternTypes: Record<string, React.ReactNode> = {
     watchVideo: <></>,
-    repeatAndCompare: <></>,
+    repeatAndCompare: (
+      <RepeatAndCompare
+        activity={activityData?.[currentIndex]?.content}
+        handleNext={handleNext}
+      />
+    ),
     writeAndCompare: (
       <WriteAndCompare
         activity={activityData?.[currentIndex]?.content}
