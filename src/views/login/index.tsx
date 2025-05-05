@@ -101,9 +101,15 @@ const LoginView = ({ inModal = false, inModalCallback = () => {} }) => {
   ) => {
     setCookie("zabano-access-token", token?.access, {
       path: "/",
+      expires: new Date("2100-12-31"),
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
     });
     setCookie("zabano-refresh-token", token?.refresh, {
       path: "/",
+      expires: new Date("2100-12-31"),
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
     });
     queryClient.invalidateQueries();
     queryClient.removeQueries();
