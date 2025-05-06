@@ -20,6 +20,7 @@ import WatchVideoUnit from "./components/WatchVideoUnit";
 import clsx from "clsx";
 import Roleplay from "./components/Roleplay";
 import FillTheGaps from "./components/FillTheGaps";
+import TextQuestionSingleChoiceImageAnswer from "./components/TextQuestionSingleChoiceImageAnswer";
 
 // TODOS => on first handleNext call this : POST /'user-pattern-progress/ \
 //  '{
@@ -116,6 +117,12 @@ const SingleActivity: React.FC = () => {
     ),
     roleplay: (
       <Roleplay
+        activity={activityData?.[currentIndex]?.content}
+        handleNext={handleNext}
+      />
+    ),
+    textQuestionSingleChoiceImageAnswer: (
+      <TextQuestionSingleChoiceImageAnswer
         activity={activityData?.[currentIndex]?.content}
         handleNext={handleNext}
       />
