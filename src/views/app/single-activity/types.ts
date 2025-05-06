@@ -94,6 +94,18 @@ export type RoleplayActivity = {
   }[];
 };
 
+export type FillTheGapsActivity = {
+  id: string;
+  type: "fillTheGaps";
+  text: string;
+  answers: {
+    text: string;
+    correct: boolean;
+  }[];
+  required: boolean;
+  gapPosition: number;
+};
+
 export type Activity =
   | WriteAndCompareActivity
   | ImageQuestionSingleChoiceTextAnswerActivity
@@ -101,4 +113,5 @@ export type Activity =
   | FillTheGapsAndListenAudioActivity
   | FillTheGapsWithTextAndListenAudioActivity
   | RepeatAndCompareActivity
-  | RoleplayActivity;
+  | RoleplayActivity
+  | FillTheGapsActivity;

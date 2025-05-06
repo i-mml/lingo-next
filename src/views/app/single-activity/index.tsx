@@ -19,6 +19,7 @@ import RepeatAndCompare from "./components/RepeatAndCompare";
 import WatchVideoUnit from "./components/WatchVideoUnit";
 import clsx from "clsx";
 import Roleplay from "./components/Roleplay";
+import FillTheGaps from "./components/FillTheGaps";
 
 // TODOS => on first handleNext call this : POST /'user-pattern-progress/ \
 //  '{
@@ -107,7 +108,12 @@ const SingleActivity: React.FC = () => {
         handleNext={handleNext}
       />
     ),
-    fillTheGaps: <></>,
+    fillTheGaps: (
+      <FillTheGaps
+        activity={activityData?.[currentIndex]?.content}
+        handleNext={handleNext}
+      />
+    ),
     roleplay: (
       <Roleplay
         activity={activityData?.[currentIndex]?.content}
