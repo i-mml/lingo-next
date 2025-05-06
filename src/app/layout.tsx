@@ -66,7 +66,12 @@ export default function RootLayout({
                   s.id = "ua-script-5WRQkwDn"; s.dataset.analyticsobject = n;
                   s.async = 1; s.type = "text/javascript";
                   s.src = "https://cdn.yektanet.com/rg_woebegone/scripts_v3/5WRQkwDn/rg.complete.js?v=" + r, c.parentNode.insertBefore(s, c)
-              }(window, document, "yektanet");`,
+              }(window, document, "yektanet");
+            
+              // Goftino
+              !function(){var i="cuNGrp",a=window,d=document;function g(){var g=d.createElement("script"),s="https://www.goftino.com/widget/"+i,l=localStorage.getItem("goftino_"+i);g.async=!0,g.src=l?s+"?o="+l:s;d.getElementsByTagName("head")[0].appendChild(g);}"complete"===d.readyState?g():a.attachEvent?a.attachEvent("onload",g):a.addEventListener("load",g,!1);}();
+
+              `,
           }}
         />
       </head>
