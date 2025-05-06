@@ -130,18 +130,21 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
         )}
         <button
           type="button"
-          className="mt-4 flex flex-col items-center"
+          className="mt-4 flex flex-col items-start w-full pr-3 cursor-pointer disabled:opacity-50"
           onClick={() => setShowHint(true)}
-          disabled={showHint}
+          disabled={showHint || !audioPlayed}
           aria-label="Show hint"
         >
-          <span className="rounded-full bg-yellow-100 shadow-lg p-3 hover:bg-yellow-200 transition-all">
-            <Lightbulb className="text-yellow-500 !w-8 !h-8 drop-shadow-lg" />
+          <span className="rounded-full bg-yellow-100 shadow-lg p-3 hover:bg-yellow-200  transition-all">
+            <Lightbulb className="text-yellow-500 !w-6 !h-6 drop-shadow-lg" />
           </span>
         </button>
         {/* Show the answer if hint is revealed */}
         {showHint && (
-          <div className="mt-3 text-base text-primary font-semibold bg-yellow-50 rounded-lg px-4 py-2 shadow">
+          <div
+            dir="ltr"
+            className="mt-3 text-left text-base text-primary font-semibold bg-yellow-50 rounded-lg px-4 py-2 shadow"
+          >
             {activity.sentence.answers[0]}
           </div>
         )}
