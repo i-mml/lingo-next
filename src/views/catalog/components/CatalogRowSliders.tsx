@@ -18,6 +18,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { contentTypeInfos } from "@/constants/content-types-infos";
 import NeedSubscriptionMovieBadge from "@/components/shared/NeedSubscriptionMovieBadge";
+import Link from "next/link";
 
 const CatalogRowSliders = (
   props: Pick<CatalogPageTypes, "catalogData" | "isFreeOnly">
@@ -114,70 +115,74 @@ const CatalogRowSliders = (
               spaceBetween="10px"
             >
               {section?.movies?.map((movie, movieIndex) => (
-                <SwiperSlide
-                  key={movieIndex}
-                  onClick={() => handleClickMovie(movie)}
-                  className={clsx("rounded-lg")}
-                >
-                  <article className="relative w-fit">
-                    <Image
-                      width={getImageWidth()}
-                      height={getImageHeight()}
-                      className={clsx(
-                        "rounded-lg object-cover cursor-pointer",
-                        getImageWidth() === 212
-                          ? "w-[156px] h-[230px] md:w-[212px] md:h-[318px]"
-                          : "w-[262px] h-[147px] md:w-[274px] md:h-[155px]"
-                      )}
-                      src={
-                        process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL +
-                        movie.image
-                      }
-                      alt={movie.title}
-                      onClick={() => handleClickMovie(movie)}
-                      loading="lazy"
-                    />
-                    <div
-                      className={clsx(
-                        "absolute bottom-0 right-0 left-0 bg-[black]/60 rounded-b-lg flex items-center z-50",
-                        getImageWidth() === 212 ? "py-0.5 px-0.5" : "py-2 px-2"
-                      )}
-                    >
-                      <h2
-                        className="flex-1 line-clamp-1 text-white"
-                        dir={getImageWidth() === 212 ? "ltr" : "rtl"}
+                <SwiperSlide key={movieIndex} className={clsx("rounded-lg")}>
+                  <Link
+                    href={`/public/${
+                      contentTypeInfos?.[movie?.content_type]?.route
+                    }/${movie.id}-${movie?.slug}`}
+                  >
+                    <article className="relative w-fit">
+                      <Image
+                        width={getImageWidth()}
+                        height={getImageHeight()}
+                        className={clsx(
+                          "rounded-lg object-cover cursor-pointer",
+                          getImageWidth() === 212
+                            ? "w-[156px] h-[230px] md:w-[212px] md:h-[318px]"
+                            : "w-[262px] h-[147px] md:w-[274px] md:h-[155px]"
+                        )}
+                        src={
+                          process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL +
+                          movie.image
+                        }
+                        alt={movie.title}
+                        onClick={() => handleClickMovie(movie)}
+                        loading="lazy"
+                      />
+                      <div
+                        className={clsx(
+                          "absolute bottom-0 right-0 left-0 bg-[black]/60 rounded-b-lg flex items-center z-50",
+                          getImageWidth() === 212
+                            ? "py-0.5 px-0.5"
+                            : "py-2 px-2"
+                        )}
                       >
-                        {movie?.title || ""}
-                      </h2>
-                      {!isGuest && (
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            bookmarkMutation.mutate({ movieId: movie?.id });
-                          }}
+                        <h2
+                          className="flex-1 line-clamp-1 text-white"
+                          dir={getImageWidth() === 212 ? "ltr" : "rtl"}
                         >
-                          {movie?.is_bookmarked ? (
-                            <BookmarkIcon
-                              className="shadow-lg"
-                              style={{
-                                fontSize: 32,
-                                color: theme.palette.text?.primary,
-                              }}
-                            />
-                          ) : (
-                            <BookmarkBorderIcon
-                              className="shadow-lg"
-                              style={{
-                                fontSize: 32,
-                                color: theme.palette.text?.primary,
-                              }}
-                            />
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    {movie?.is_locked && <NeedSubscriptionMovieBadge />}
-                  </article>
+                          {movie?.title || ""}
+                        </h2>
+                        {!isGuest && (
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              bookmarkMutation.mutate({ movieId: movie?.id });
+                            }}
+                          >
+                            {movie?.is_bookmarked ? (
+                              <BookmarkIcon
+                                className="shadow-lg"
+                                style={{
+                                  fontSize: 32,
+                                  color: theme.palette.text?.primary,
+                                }}
+                              />
+                            ) : (
+                              <BookmarkBorderIcon
+                                className="shadow-lg"
+                                style={{
+                                  fontSize: 32,
+                                  color: theme.palette.text?.primary,
+                                }}
+                              />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      {movie?.is_locked && <NeedSubscriptionMovieBadge />}
+                    </article>
+                  </Link>
                 </SwiperSlide>
               ))}
             </Swiper>

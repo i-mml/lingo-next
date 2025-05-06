@@ -14,6 +14,7 @@ import { contentTypeInfos } from "@/constants/content-types-infos";
 import NeedSubscriptionMovieBadge from "@/components/shared/NeedSubscriptionMovieBadge";
 import { isMobile } from "react-device-detect";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const slideVariants = {
   hidden: { opacity: 0 },
@@ -128,12 +129,14 @@ const CatalogBannersRowSlider = (
               variants={slideVariants}
             />
 
-            <div
-              onClick={() => handleClickMovie(banners?.[activeIndex] as any)}
+            <Link
+              href={`/public/${
+                contentTypeInfos?.[banners?.[activeIndex]?.content_type]?.route
+              }/${banners?.[activeIndex]?.id}-${banners?.[activeIndex]?.slug}`}
               className="absolute bottom-[210px] md:bottom-[240px] mx-[5%] border border-primary bg-primary backdrop:opacity-10 text-white py-3 px-5  rounded-lg text-[16px] md:text-xl font-semibold"
             >
               تماشا و یادگیری
-            </div>
+            </Link>
             <Swiper
               modules={[Autoplay, A11y]}
               className={clsx(
@@ -164,32 +167,36 @@ const CatalogBannersRowSlider = (
                 <SwiperSlide
                   className="cursor-pointer relative z-[999999]"
                   key={node?.id}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleClickMovie(node as any);
-                  }}
                 >
-                  <article
-                    aria-labelledby={`item-${node.id}-title`}
-                    className="relative w-fit"
+                  <Link
+                    href={`/public/${
+                      contentTypeInfos?.[node?.content_type]?.route
+                    }/${node.id}-${node?.slug}`}
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    <Image
-                      width={getImageWidth()}
-                      height={getImageHeight()}
-                      className={clsx(
-                        `mx-auto !block rounded-lg`,
-                        getImageWidth() === 127
-                          ? "w-[112px] h-[168px] md:w-[127px] md:h-[190.5px]"
-                          : "w-[212px] h-[120px] "
-                      )}
-                      src={
-                        process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL + node.image
-                      }
-                      alt={node.title}
-                      priority
-                    />
-                    {node?.is_locked && <NeedSubscriptionMovieBadge />}
-                  </article>
+                    <article
+                      aria-labelledby={`item-${node.id}-title`}
+                      className="relative w-fit"
+                    >
+                      <Image
+                        width={getImageWidth()}
+                        height={getImageHeight()}
+                        className={clsx(
+                          `mx-auto !block rounded-lg`,
+                          getImageWidth() === 127
+                            ? "w-[112px] h-[168px] md:w-[127px] md:h-[190.5px]"
+                            : "w-[212px] h-[120px] "
+                        )}
+                        src={
+                          process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL +
+                          node.image
+                        }
+                        alt={node.title}
+                        priority
+                      />
+                      {node?.is_locked && <NeedSubscriptionMovieBadge />}
+                    </article>
+                  </Link>
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -221,52 +228,52 @@ const CatalogBannersRowSlider = (
             className="mt-5"
           >
             {banners?.map((node) => (
-              <SwiperSlide
-                className="!rounded-lg "
-                key={node?.id}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleClickMovie(node as any);
-                }}
-              >
-                <article
-                  className="relative"
-                  key={node.id}
-                  aria-labelledby={`item-${node.id}-title`}
+              <SwiperSlide className="!rounded-lg " key={node?.id}>
+                <Link
+                  href={`/public/${
+                    contentTypeInfos?.[node?.content_type]?.route
+                  }/${node.id}-${node?.slug}`}
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  <Image
-                    width={343}
-                    height={194}
-                    src={
-                      process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL + node.image
-                    }
-                    alt={node.title}
-                    className="!rounded-xl object-cover"
-                    priority
-                  />
-                  <div
-                    className={clsx(
-                      "absolute bottom-0 right-0 left-0 bg-[black]/60 rounded-b-lg flex items-center z-50",
-                      !isGuest &&
-                        whoAmI?.userpreference?.preferred_language !== 2
-                        ? "py-0.5 px-0.5"
-                        : "py-2 px-2"
-                    )}
+                  <article
+                    className="relative"
+                    key={node.id}
+                    aria-labelledby={`item-${node.id}-title`}
                   >
-                    <h2
-                      className="flex-1 line-clamp-1 text-white text-lg lg:text-xl px-2 font-medium"
-                      dir={
-                        !isGuest &&
-                        whoAmI?.userpreference?.preferred_language !== 2
-                          ? "ltr"
-                          : "rtl"
+                    <Image
+                      width={343}
+                      height={194}
+                      src={
+                        process.env.NEXT_PUBLIC_CATALOG_CONTENT_URL + node.image
                       }
+                      alt={node.title}
+                      className="!rounded-xl object-cover"
+                      priority
+                    />
+                    <div
+                      className={clsx(
+                        "absolute bottom-0 right-0 left-0 bg-[black]/60 rounded-b-lg flex items-center z-50",
+                        !isGuest &&
+                          whoAmI?.userpreference?.preferred_language !== 2
+                          ? "py-0.5 px-0.5"
+                          : "py-2 px-2"
+                      )}
                     >
-                      {node?.title || ""}
-                    </h2>
-                  </div>
-                  {node?.is_locked && <NeedSubscriptionMovieBadge />}
-                </article>
+                      <h2
+                        className="flex-1 line-clamp-1 text-white text-lg lg:text-xl px-2 font-medium"
+                        dir={
+                          !isGuest &&
+                          whoAmI?.userpreference?.preferred_language !== 2
+                            ? "ltr"
+                            : "rtl"
+                        }
+                      >
+                        {node?.title || ""}
+                      </h2>
+                    </div>
+                    {node?.is_locked && <NeedSubscriptionMovieBadge />}
+                  </article>
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
