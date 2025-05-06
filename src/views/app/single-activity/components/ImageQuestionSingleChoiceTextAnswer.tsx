@@ -75,12 +75,12 @@ const ImageQuestionSingleChoiceTextAnswer: React.FC<Props> = ({
                   transition-all shadow-lg
                   ${
                     isCorrect
-                      ? "border-4 border-green-500 shadow-green-300 bg-green-50 text-green-700"
+                      ? "border-4 border-green-500 shadow-green-300 bg-green-50 !text-green-700"
                       : ""
                   }
                   ${
                     disabledIndexes.includes(idx)
-                      ? "bg-backgroundDisabled text-gray400 border border-gray-200 cursor-not-allowed"
+                      ? "bg-red-200 !text-red-900 border-2 border-red-600 cursor-not-allowed"
                       : "bg-backgroundMain border border-gray-200"
                   }
                   ${

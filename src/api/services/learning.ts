@@ -26,3 +26,23 @@ export async function getActivityPatternsByActivityId(activityId: string) {
   });
   return data;
 }
+
+export async function postCreateUserPatternProgress(patternId: string) {
+  const { data } = await axiosInstance.post(
+    `/learning/user-pattern-progress/`,
+    {
+      pattern_id: patternId,
+    }
+  );
+  return data;
+}
+
+export async function patchUserPatternProgress(patternId: string) {
+  const { data } = await axiosInstance.patch(
+    `/learning/user-pattern-progress/`,
+    {
+      pattern_id: patternId,
+    }
+  );
+  return data;
+}

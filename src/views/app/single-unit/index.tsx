@@ -11,6 +11,8 @@ import SingleUnitSkeleton from "./components/SingleUnitSkeleton";
 import { activitiesDictionary } from "@/mock/units";
 import IUnitActivity from "@/api/types/learning";
 
+// TODOS =>  /learning/user-activity-progress?activity__unit=5
+
 const SingleUnitView = () => {
   const { unitId } = useParams();
   const { theme: appTheme } = useTheme();
@@ -34,7 +36,7 @@ const SingleUnitView = () => {
       className="min-h-screen w-full bg-backgroundLayout bg-no-repeat h-full absolute"
       style={{
         backgroundImage: `url(${unit.covers?.[0]})`,
-        backgroundPosition: !isMobile ? "0 120%" : "",
+        backgroundPosition: !isMobile ? "0 100%" : "0 -80%",
         backgroundSize: !isMobile ? "60% auto" : "100%",
       }}
     >
@@ -60,7 +62,7 @@ const SingleUnitView = () => {
         }}
       ></div>
       <div
-        className="px-2 pt-8 pb-[200px] backdrop-grayscale-[70%] backdrop-brightness-50 md:backdrop-brightness-0 md:backdrop-grayscale-0 backdrop-blur-sm"
+        className="px-2 pt-8 pb-[200px] backdrop-grayscale-[70%] md:backdrop-grayscale-0 backdrop-blur-sm"
         style={{
           height: "100%",
           left: 0,
@@ -74,7 +76,7 @@ const SingleUnitView = () => {
       >
         <div className="max-w-md mx-auto">
           {/* Header */}
-          <div className="flex flex-col items-center text-center mb-8">
+          <div className="flex flex-col items-center text-center mb-8 ">
             <div className="text-xs text-main font-bold mb-2">
               UNIT {unit.unit_id}
             </div>

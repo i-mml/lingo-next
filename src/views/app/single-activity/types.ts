@@ -76,10 +76,29 @@ export type RepeatAndCompareActivity = {
   }[];
 };
 
+export type RoleplayActivity = {
+  id: string;
+  type: "roleplay";
+  title: string;
+  patterns: {
+    id: string;
+    type: "chatBubble";
+    required: boolean;
+    actor: string;
+    text: string;
+    audio: string;
+  }[];
+  actors: {
+    name: string;
+    image: string;
+  }[];
+};
+
 export type Activity =
   | WriteAndCompareActivity
   | ImageQuestionSingleChoiceTextAnswerActivity
   | TextQuestionSingleChoiceImageAnswerActivity
   | FillTheGapsAndListenAudioActivity
   | FillTheGapsWithTextAndListenAudioActivity
-  | RepeatAndCompareActivity;
+  | RepeatAndCompareActivity
+  | RoleplayActivity;

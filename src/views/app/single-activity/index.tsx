@@ -1,21 +1,32 @@
 "use client";
 
-import { getActivityPatternsByActivityId } from "@/api/services/learning";
+import {
+  getActivityPatternsByActivityId,
+  patchUserPatternProgress,
+  postCreateUserPatternProgress,
+} from "@/api/services/learning";
 import WaveLoading from "@/components/shared/WaveLoading";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import WriteAndCompare from "./components/WriteAndCompare";
 import ImageQuestionSingleChoiceTextAnswer from "./components/ImageQuestionSingleChoiceTextAnswer";
-import { patternTypeDictionary } from "@/mock/units";
 import FillTheGapsAndListenAudio from "./components/FillTheGapsAndListenAudio";
 import FillTheGapsWithTextAndListenAudio from "./components/FillTheGapsWithTextAndListenAudio";
-import BackIconComponent from "@/components/shared/BackIconComponent";
 import Link from "next/link";
-import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { ArrowForward } from "@mui/icons-material";
 import RepeatAndCompare from "./components/RepeatAndCompare";
 import WatchVideoUnit from "./components/WatchVideoUnit";
 import clsx from "clsx";
+import Roleplay from "./components/Roleplay";
+
+// TODOS => on first handleNext call this : POST /'user-pattern-progress/ \
+//  '{
+//       "pattern_id": PATTERN_ID
+//     }'
+
+// TODOS => on last handleNext call this : PATCH /'user-pattern-progress/ \
+
 const SingleActivity: React.FC = () => {
   const { activityId, unitId } = useParams();
   const [total, setTotal] = useState(0);
@@ -28,15 +39,33 @@ const SingleActivity: React.FC = () => {
       }),
   });
 
+  const { mutate: starterUserPatternProgress } = useMutation({
+    mutationFn: (patternId: string) =>
+      postCreateUserPatternProgress(patternId).then((res) => {
+        return res;
+      }),
+  });
+  const { mutate: finisherUserPatternProgress } = useMutation({
+    mutationFn: (patternId: string) =>
+      patchUserPatternProgress(patternId).then((res) => {
+        return res;
+      }),
+  });
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const patternType = activityData?.[currentIndex]?.pattern_type;
   const progress = ((currentIndex + 1) / total) * 100;
 
   const handleNext = () => {
     if (currentIndex === activityData?.length - 1) {
-      console.log("it's finished");
+      console.log("it's finished"); //patch
+      finisherUserPatternProgress(activityData?.[currentIndex]?.id);
       return;
     }
+    if (currentIndex !== activityData?.length - 1) {
+      starterUserPatternProgress(activityData?.[currentIndex]?.id);
+    }
+    // currentIndex ===0 => post
     setCurrentIndex(currentIndex + 1);
   };
 
@@ -79,6 +108,12 @@ const SingleActivity: React.FC = () => {
       />
     ),
     fillTheGaps: <></>,
+    roleplay: (
+      <Roleplay
+        activity={activityData?.[currentIndex]?.content}
+        handleNext={handleNext}
+      />
+    ),
   };
 
   if (isLoading)
