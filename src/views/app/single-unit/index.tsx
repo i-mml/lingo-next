@@ -60,7 +60,7 @@ const SingleUnitView = () => {
         }}
       ></div>
       <div
-        className="px-2 pt-8 pb-[200px] backdrop-grayscale-[70%] md:backdrop-grayscale-0 backdrop-blur-sm"
+        className="px-2 pt-8 pb-[200px] backdrop-grayscale-[70%] backdrop-brightness-50 md:backdrop-brightness-0 md:backdrop-grayscale-0 backdrop-blur-sm"
         style={{
           height: "100%",
           left: 0,

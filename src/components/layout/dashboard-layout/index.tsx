@@ -19,7 +19,13 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const [deviceBrowserModal, setDeviceBrowserModal] = useState(false);
 
   const noHeaderRoutes = ["/quiz", `app/on-boarding`];
-  const noLayoutRotes = [!isMobile && "video-info", "/show/", "/on-boarding"];
+  const noLayoutRotes = [
+    !isMobile && "video-info",
+    "/show/",
+    "/on-boarding",
+    "/app/units/",
+    "/app/activities/",
+  ];
 
   const includesNoHeaderRotes = (pathname: string, strings: string[]) => {
     return strings.some((string) => pathname.includes(string));

@@ -14,7 +14,8 @@ import BackIconComponent from "@/components/shared/BackIconComponent";
 import Link from "next/link";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import RepeatAndCompare from "./components/RepeatAndCompare";
-
+import WatchVideoUnit from "./components/WatchVideoUnit";
+import clsx from "clsx";
 const SingleActivity: React.FC = () => {
   const { activityId, unitId } = useParams();
   const [total, setTotal] = useState(0);
@@ -40,7 +41,12 @@ const SingleActivity: React.FC = () => {
   };
 
   const patternTypes: Record<string, React.ReactNode> = {
-    watchVideo: <></>,
+    watchVideo: (
+      <WatchVideoUnit
+        data={activityData?.[currentIndex]?.movie}
+        handleNext={handleNext}
+      />
+    ),
     repeatAndCompare: (
       <RepeatAndCompare
         activity={activityData?.[currentIndex]?.content}
@@ -83,27 +89,50 @@ const SingleActivity: React.FC = () => {
     );
 
   return (
-    <div className="w-full max-w-[90%] md:max-w-md mx-auto pt-8 min-h-[80vh]">
+    <div
+      className={clsx(
+        patternType === "watchVideo"
+          ? "min-h-[100vh] w-full max-w-none relative"
+          : "w-full max-w-[90%] md:max-w-md mx-auto pt-8 min-h-[80vh]"
+      )}
+    >
       {/* Progress */}
-      <div className="flex items-center justify-between mb-2">
-        <Link
-          href={`/app/units/${unitId}`}
-          className="font-bold text-sm md:text-base text-gray400"
-        >
-          <ArrowForward /> بازگشت
-        </Link>
-        <div className="flex items-center gap-2">
-          <span className="text-gray-500 font-bold text-lg">
-            {currentIndex + 1}/{total}
-          </span>
-        </div>
-      </div>
-      <div className="w-full h-2 bg-borderMain rounded mb-8">
-        <div
-          className="h-2 bg-primary rounded"
-          style={{ width: `${progress}%`, transition: "width 0.3s" }}
-        />
-      </div>
+      {patternType !== "watchVideo" ? (
+        <>
+          <div className="flex items-center justify-between mb-2">
+            <Link
+              href={`/app/units/${unitId}`}
+              className="font-bold text-sm md:text-base text-gray400"
+            >
+              <ArrowForward /> بازگشت
+            </Link>
+            <div className="flex items-center gap-2">
+              <span className="text-gray-500 font-bold text-lg">
+                {currentIndex + 1}/{total}
+              </span>
+            </div>
+          </div>
+          <div className="w-full h-2 bg-borderMain rounded mb-8">
+            <div
+              className="h-2 bg-primary rounded"
+              style={{ width: `${progress}%`, transition: "width 0.3s" }}
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="absolute top-0 left-0 z-50 py-3 w-full px-4">
+            <div className="flex items-center justify-between mb-2 w-full">
+              <Link
+                href={`/app/units/${unitId}`}
+                className="font-bold text-sm md:text-base text-gray400 bg-backgroundMain rounded-lg p-1"
+              >
+                <ArrowForward /> بازگشت
+              </Link>
+            </div>
+          </div>
+        </>
+      )}
       {patternTypes[patternType] || null}
     </div>
   );
