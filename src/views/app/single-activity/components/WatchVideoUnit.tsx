@@ -79,6 +79,8 @@ const WatchVideoUnit = ({
           movie={episodeData}
           image={data?.banner_image}
           data={data}
+          inUnit
+          handleNext={handleNext}
         />
       </div>
     </ThemeProvider>

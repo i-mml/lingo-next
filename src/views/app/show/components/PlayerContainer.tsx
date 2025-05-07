@@ -43,11 +43,6 @@ const WysiwygIcon = React.lazy(() => import("@mui/icons-material/Wysiwyg"));
 
 // Lazy components
 const TooltipBox = React.lazy(() => import("./TooltipBox"));
-const SpeachCompareModal = React.lazy(
-  () => import("@/components/modals/SpeachCompareModal")
-);
-const PlayerSettingsModal = React.lazy(() => import("./PlayerSettingsModal"));
-const WannaQuizModal = React.lazy(() => import("./WannaQuizModal"));
 
 interface PlayerContainerProps extends ReactPlayerProps {
   url: string;
@@ -61,6 +56,8 @@ interface PlayerContainerProps extends ReactPlayerProps {
   refetchFlashCardsList: () => void;
   movie: any;
   episodeData: any;
+  inUnit?: boolean;
+  handleNext?: () => void;
 }
 
 const PlayerContainer: React.FC<PlayerContainerProps> = ({
@@ -75,6 +72,8 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
   refetchFlashCardsList,
   movie,
   episodeData,
+  inUnit = false,
+  handleNext = () => {},
 }) => {
   const hlsConfig = {
     maxBufferLength: 1,
@@ -177,7 +176,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
           playsinline
           onStart={() => setStarted(true)}
           onPlay={handlePlay}
-          onEnded={handleEnded}
+          onEnded={inUnit ? handleNext : handleEnded}
           onPause={handlePause}
           onDuration={handleDuration}
           onProgress={(progress) => {

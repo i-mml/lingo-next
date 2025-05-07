@@ -28,6 +28,8 @@ const Player = ({
   subtitle,
   difficulty,
   data: movieData,
+  inUnit = false,
+  handleNext = () => {},
 }: any) => {
   const { theme }: any = useThemeCreator();
 
@@ -329,6 +331,8 @@ const Player = ({
               activeTab={activeTab}
               movie={movieData}
               episodeData={movie}
+              inUnit={inUnit}
+              handleNext={handleNext}
             />
           </Grid>
         </Grid>
