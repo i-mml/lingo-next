@@ -10,14 +10,15 @@ import { CatalogPageTypes } from "./types";
 import BackIconComponent from "@/components/shared/BackIconComponent";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import CatalogSkeleton from "./components/CatalogSkeleton";
 
 const CatalogRowSliders = dynamic(
   () => import("./components/CatalogRowSliders"),
-  { ssr: false, loading: () => <p>Loading...</p> }
+  { ssr: false, loading: () => <CatalogSkeleton /> }
 );
 const CatalogBannersRowSlider = dynamic(
   () => import("./components/CatalogBannersRowSlider"),
-  { ssr: false, loading: () => <p>Loading...</p> }
+  { ssr: false, loading: () => <CatalogSkeleton /> }
 );
 const FaqSection = dynamic(() => import("./components/FaqSection"), {
   ssr: false,
