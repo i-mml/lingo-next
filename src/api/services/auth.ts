@@ -93,3 +93,15 @@ export const GetAuthActivityHistory = async () => {
   const response = await axiosInstance.get("/auth/activity/history/");
   return response.data;
 };
+
+export const GetAuthTeachers = async () => {
+  let url = "/auth/teachers/";
+
+  const response = await axiosInstance.get(url);
+
+  return response.data;
+};
+export const GetAuthTeachersById = async (teacher_id: string) => {
+  const response = await axiosInstance.get(`/auth/teachers/${teacher_id}/`);
+  return response.data;
+};
