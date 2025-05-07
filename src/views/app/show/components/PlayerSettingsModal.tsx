@@ -10,11 +10,11 @@ import EnglishFlag from "@/assets/english-flag.svg";
 import IranFlag from "@/assets/iran-flag.svg";
 import { useVideoPlayerStore } from "../store/playerStore";
 import useThemeCreator from "@/hooks/use-theme";
-import { useThemeType } from "@/store/use-theme-type";
 import { ISubtitleLanguages } from "@/types/player";
 import CustomModal from "@/components/shared/CustomModal";
 import IosCheckbox from "@/components/shared/IosCheckbox";
 import { translateFieldsItems } from "@/constants/player-fields";
+import { useTheme } from "next-themes";
 
 interface Iprops {
   playerRef: any;
@@ -69,7 +69,7 @@ const PlayerSettingsModal = (props: Iprops) => {
     string[]
   >(subtitleTranslateLanguages);
   const { theme }: any = useThemeCreator();
-  const { isDark } = useThemeType();
+  const { theme: themeType } = useTheme();
 
   const ref = useRef<any>(null);
 
@@ -112,7 +112,8 @@ const PlayerSettingsModal = (props: Iprops) => {
             </div>
             <IconButton onClick={handleFullscreen}>
               <FullscreenRounded
-                sx={{ fontSize: "2rem", color: theme.palette.text.main }}
+                sx={{ fontSize: "2rem" }}
+                className="!text-main"
               />
             </IconButton>
           </div>
@@ -137,7 +138,7 @@ const PlayerSettingsModal = (props: Iprops) => {
               }}
               classes={{
                 root: "!p-0",
-                icon: isDark ? "!fill-[white]" : "!fill-[black]",
+                icon: themeType === "dark" ? "!fill-[white]" : "!fill-[black]",
               }}
             >
               <MenuItem value={0.5}>0.5X</MenuItem>
