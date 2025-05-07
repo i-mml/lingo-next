@@ -79,11 +79,12 @@ const GroupClassListView = () => {
         {groupClasses.map((cls) => (
           <div
             key={cls.id}
-            className="bg-backgroundMain rounded-2xl shadow-lg p-6 flex flex-col md:flex-row md:items-center gap-6 md:gap-10 border border-gray-100 dark:border-gray-800"
+            className="bg-backgroundMain rounded-2xl shadow-lg p-0 flex flex-col md:flex-row md:items-stretch gap-0 md:gap-0 border border-gray-100 dark:border-gray-800 overflow-hidden transition hover:shadow-2xl"
           >
-            <div className="flex-1 flex flex-col gap-2 text-right">
-              <div className="flex flex-wrap gap-2 items-center">
-                <span className="text-lg font-bold text-primary">
+            {/* Details (right) */}
+            <div className="flex-1 flex flex-col gap-2 text-right p-6 md:p-8 justify-center">
+              <div className="flex flex-wrap gap-2 items-center mb-2">
+                <span className="text-xl font-bold text-primary">
                   {cls.course}
                 </span>
                 <span className="text-xs bg-[var(--primary)] text-white px-3 py-1 rounded-full">
@@ -117,9 +118,17 @@ const GroupClassListView = () => {
                 </span>
               </div>
             </div>
-            <PrimaryButton className="w-full text-lg">
-              ثبت‌نام و پرداخت
-            </PrimaryButton>
+            {/* Divider for desktop */}
+            <div className="hidden md:block w-px bg-backgroundMain my-8" />
+            {/* Action (left) */}
+            <div className="flex flex-col justify-center items-center md:w-72 p-6 md:p-8 gap-4">
+              <PrimaryButton className="w-full md:w-56 text-lg">
+                ثبت‌نام و پرداخت
+              </PrimaryButton>
+              <span className="text-xs text-gray400 mt-2">
+                رزرو سریع، ظرفیت محدود
+              </span>
+            </div>
           </div>
         ))}
       </div>
