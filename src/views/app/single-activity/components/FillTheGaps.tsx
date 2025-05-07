@@ -8,7 +8,7 @@ interface Props {
 
 const FillTheGaps: React.FC<Props> = ({ activity, handleNext }) => {
   const [selected, setSelected] = useState<number | null>(null);
-  const [disabled, setDisabled] = useState(false);
+  const [disabledIndexes, setDisabledIndexes] = useState<number[]>([]);
   const [correctIndex, setCorrectIndex] = useState<number | null>(null);
 
   const gapIndex = activity.gapPosition;
@@ -17,17 +17,18 @@ const FillTheGaps: React.FC<Props> = ({ activity, handleNext }) => {
   const afterGap = words.slice(gapIndex - 1).join(" ");
 
   const handleSelect = (idx: number) => {
-    if (disabled) return;
+    if (disabledIndexes.includes(idx) || correctIndex !== null) return;
     setSelected(idx);
-    setDisabled(true);
     if (activity.answers[idx].correct) {
       setCorrectIndex(idx);
       setTimeout(() => {
         setSelected(null);
         setCorrectIndex(null);
-        setDisabled(false);
+        setDisabledIndexes([]);
         handleNext();
       }, 1000);
+    } else {
+      setDisabledIndexes((prev) => [...prev, idx]);
     }
   };
 
@@ -45,6 +46,8 @@ const FillTheGaps: React.FC<Props> = ({ activity, handleNext }) => {
         {activity.answers.map((ans, idx) => {
           const isCorrect = correctIndex === idx;
           const isSelected = selected === idx;
+          const isDisabled =
+            disabledIndexes.includes(idx) || correctIndex !== null;
           return (
             <button
               key={ans.text}
@@ -60,18 +63,18 @@ const FillTheGaps: React.FC<Props> = ({ activity, handleNext }) => {
                     : ""
                 }
                 ${
-                  disabled && !isSelected
+                  isDisabled && !isSelected
                     ? "bg-backgroundLayout text-gray-400 border border-backgroundDisabled cursor-not-allowed"
                     : "bg-backgroundMain border border-gray-200 text-main"
                 }
                 ${
-                  !isCorrect && !isSelected && !disabled
+                  !isCorrect && !isSelected && !isDisabled
                     ? "hover:shadow-primary/40"
                     : ""
                 }
               `}
               onClick={() => handleSelect(idx)}
-              disabled={disabled}
+              disabled={isDisabled}
               style={{
                 boxShadow: isCorrect
                   ? "0 0 0 4px #22c55e, 0 4px 24px 0 rgba(34,197,94,0.2)"
