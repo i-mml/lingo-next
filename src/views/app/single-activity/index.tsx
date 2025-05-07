@@ -207,8 +207,8 @@ const SingleActivity: React.FC = () => {
         </>
       ) : (
         <>
-          <div className="absolute top-0 left-0 z-50 py-3 w-full px-4">
-            <div className="flex items-center justify-between mb-2 w-full">
+          <div className="absolute top-0 right-4 md:right-4 z-50 py-3 px-4 ">
+            <div className="flex items-center justify-start md:justify-end mb-2 ">
               <Link
                 href={`/app/units/${unitId}`}
                 className="font-bold text-sm md:text-base text-gray400 bg-backgroundMain rounded-lg p-1"

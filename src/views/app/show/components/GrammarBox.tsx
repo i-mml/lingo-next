@@ -40,7 +40,9 @@ export function GrammarBox({ item }: any) {
       <AccordionDetails>
         {fields?.map((item) => (
           <div className="flex items-center justify-between">
-            <span className="text-main font-medium">{item?.[1] as any}</span>
+            <span className="text-black dark:text-white font-medium">
+              {item?.[1] as any}
+            </span>
             <span className="text-gray400">
               :{partOfSpeechFields?.[item?.[0]] || item?.[0]}{" "}
             </span>
