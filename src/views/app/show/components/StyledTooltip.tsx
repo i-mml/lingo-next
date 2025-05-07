@@ -8,15 +8,18 @@ import { useVideoPlayerStore } from "../store/playerStore";
 import { PostFlashcards } from "@/api/services/cms";
 import { toast } from "react-toastify";
 import HoveredTooltipBox from "./HoveredTooltipBox";
+import { isDesktop, isMobile } from "react-device-detect";
+import screenfull from "screenfull";
 
-export const StyledTooltip = ({
-  word,
-  handlePause,
-  setSelectedWord,
-  currentSubtitle,
-  refetchFlashCards,
-  toggleWordInfoModal,
-}: any) => {
+export const StyledTooltip = (props: any) => {
+  const {
+    word,
+    handlePause,
+    setSelectedWord,
+    currentSubtitle,
+    refetchFlashCards,
+    toggleWordInfoModal,
+  } = props;
   const { main_fontSize } = useVideoPlayerStore(
     (state) => ({
       main_fontSize: state.main_fontSize,
@@ -49,7 +52,7 @@ export const StyledTooltip = ({
   };
 
   const subtitleClickHandler = () => {
-    if (document.fullscreenElement) {
+    if (isDesktop && screenfull?.isFullscreen) {
       setOpen(true);
     } else {
       handleClickSubtitle();
@@ -60,7 +63,7 @@ export const StyledTooltip = ({
     <Tooltip
       open={open}
       onMouseOver={() => setOpen(true)}
-      onMouseEnter={() => setOpen(true)}
+      onMouseEnter={isMobile ? () => {} : () => setOpen(true)}
       onClick={() => {}}
       onClose={() => setOpen(false)}
       title={
@@ -83,6 +86,11 @@ export const StyledTooltip = ({
           className: "text-white",
         },
       }}
+      sx={{
+        zIndex: 9999,
+      }}
+      placement="top"
+      {...props}
     >
       <span
         onMouseOver={() => handlePause()}

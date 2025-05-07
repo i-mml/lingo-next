@@ -69,7 +69,6 @@ const PlayerView = () => {
             )
           : data?.episode;
       } else {
-        console.log("here");
         toggleSubscriptionModal();
         return;
       }

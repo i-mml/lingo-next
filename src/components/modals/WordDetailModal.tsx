@@ -285,7 +285,10 @@ const WordDetailModal = (props: IProps) => {
                     dir={currentTab === 12 || currentTab === 3 ? "ltr" : "rtl"}
                     key={index}
                   >
-                    <div className="text-main text-lg lg:text-[20px] font-medium">
+                    <div
+                      className="text-main text-lg lg:text-[20px] font-medium"
+                      dir="ltr"
+                    >
                       {definition?.example}
                     </div>
                     <div className="text-gray400 text-[16px] lg:text-lg mt-2">

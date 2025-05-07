@@ -179,9 +179,6 @@ const Subtitle = React.memo(
           >
             {words?.map((word: any, index: number) => (
               <StyledTooltip
-                sx={{
-                  zIndex: 9999,
-                }}
                 key={`${word.meaning} ${index}`}
                 arrow
                 handlePause={handlePause}
