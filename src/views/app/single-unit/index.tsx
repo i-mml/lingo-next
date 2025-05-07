@@ -10,6 +10,7 @@ import { useTheme } from "next-themes";
 import SingleUnitSkeleton from "./components/SingleUnitSkeleton";
 import { activitiesDictionary } from "@/mock/units";
 import IUnitActivity from "@/api/types/learning";
+import { ArrowForward } from "@mui/icons-material";
 
 // TODOS =>  /learning/user-activity-progress?activity__unit=5
 
@@ -77,8 +78,16 @@ const SingleUnitView = () => {
         <div className="max-w-md mx-auto">
           {/* Header */}
           <div className="flex flex-col items-center text-center mb-8 ">
-            <div className="text-xs text-main font-bold mb-2">
-              UNIT {unit.unit_id}
+            <div className="flex items-center justify-center gap-2 w-full relative">
+              <Link
+                href={`/app/units`}
+                className="font-bold text-sm md:text-base text-main absolute right-4 md:right-10 -top-2"
+              >
+                <ArrowForward /> بازگشت
+              </Link>
+              <div className="text-xs text-main font-bold mb-2">
+                UNIT {unit.unit_id}
+              </div>
             </div>
             <h1 className="text-2xl font-extrabold text-main mb-1">
               {unit.title}
