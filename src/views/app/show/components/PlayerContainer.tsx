@@ -122,7 +122,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
   const availableTranslates = React.useMemo(
     () =>
       !!subtitle
-        ? Object.entries(subtitle?.subtitle_lines?.subtitle?.[10]?.sentence)
+        ? Object.entries(subtitle?.subtitle_lines?.subtitle?.[2]?.sentence)
             ?.filter(
               (item) => item?.[0] !== "subtitle" && item?.[0] !== "words"
             )
