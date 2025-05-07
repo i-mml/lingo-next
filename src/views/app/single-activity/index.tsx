@@ -8,7 +8,7 @@ import {
 import WaveLoading from "@/components/shared/WaveLoading";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import WriteAndCompare from "./components/WriteAndCompare";
 import ImageQuestionSingleChoiceTextAnswer from "./components/ImageQuestionSingleChoiceTextAnswer";
 import FillTheGapsAndListenAudio from "./components/FillTheGapsAndListenAudio";
@@ -59,18 +59,25 @@ const SingleActivity: React.FC = () => {
   const patternType = activityData?.[currentIndex]?.pattern_type;
   const progress = ((currentIndex + 1) / total) * 100;
 
+  const handleStart = () => {
+    starterUserPatternProgress(activityData?.[currentIndex]?.id);
+  };
+
   const handleNext = () => {
     if (currentIndex === activityData?.length - 1) {
       console.log("it's finished"); //patch
-      finisherUserPatternProgress(activityData?.[currentIndex]?.id);
       return;
     }
-    if (currentIndex !== activityData?.length - 1) {
-      starterUserPatternProgress(activityData?.[currentIndex]?.id);
-    }
-    // currentIndex ===0 => post
+
+    finisherUserPatternProgress(activityData?.[currentIndex]?.id);
     setCurrentIndex(currentIndex + 1);
   };
+
+  useEffect(() => {
+    if (activityData?.[currentIndex]?.id) {
+      handleStart();
+    }
+  }, [currentIndex, activityData]);
 
   const patternTypes: Record<string, React.ReactNode> = {
     watchVideo: (
