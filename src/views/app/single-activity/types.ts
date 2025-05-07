@@ -78,16 +78,16 @@ export type RepeatAndCompareActivity = {
 
 export type RoleplayActivity = {
   id: string;
-  type: "roleplay";
-  title: string;
-  patterns: {
+  pattern_type: "chatBubble";
+  content: {
     id: string;
-    type: "chatBubble";
-    required: boolean;
-    actor: string;
     text: string;
+    type: "chatBubble";
+    actor: string;
     audio: string;
-  }[];
+    required: boolean;
+  };
+  movie: null;
   actors: {
     name: string;
     image: string;

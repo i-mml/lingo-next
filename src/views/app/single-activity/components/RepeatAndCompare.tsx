@@ -48,7 +48,8 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
   };
 
   function normalizeWord(word: string) {
-    return word.replace(/[.,;!?]/g, "").toLowerCase();
+    // Remove all punctuation for comparison
+    return word.replace(/[.,;!?،؟:؛\-—_"'()\[\]{}]/g, "").toLowerCase();
   }
 
   const getWordColor = (word: string, index: number) => {
@@ -59,7 +60,10 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
   };
 
   const calculateAccuracy = (spoken: string[]) => {
-    const targetWords = sentence.text.replace(/[.,;!?]/g, "").split(" ");
+    // Remove punctuation from both spoken and target
+    const targetWords = sentence.text
+      .replace(/[.,;!?،؟:؛\-—_"'()\[\]{}]/g, "")
+      .split(" ");
     let matchCount = 0;
     targetWords.forEach((word, index) => {
       if (

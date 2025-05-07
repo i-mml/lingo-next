@@ -1,30 +1,40 @@
 import React, { useState } from "react";
 import { RoleplayActivity } from "../types";
 import { useAudioPlayer } from "@/hooks/use-audio-player";
+import { useTextToAudio } from "@/hooks/use-text-to-audio";
 import WaveLoading from "@/components/shared/WaveLoading";
 import { IconButton } from "@mui/material";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
+import Lottie from "lottie-react";
+import conversationLottie from "@/assets/lotties/unit-converstaion.json";
+import PrimaryButton from "@/components/shared/PrimaryButton";
 
 interface Props {
   activity: RoleplayActivity;
   handleNext: () => void;
+  selectedActor: string | null;
+  onActorSelect: (actor: string) => void;
 }
 
-const Roleplay: React.FC<Props> = ({ activity, handleNext }) => {
-  const [selectedActor, setSelectedActor] = useState<string | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [recorded, setRecorded] = useState(false);
+const Roleplay: React.FC<Props> = ({
+  activity,
+  handleNext,
+  selectedActor,
+  onActorSelect,
+}) => {
   const [audioPlayed, setAudioPlayed] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [spokenWords, setSpokenWords] = useState<string[]>([]);
+  const [accuracyPercentage, setAccuracyPercentage] = useState<number | null>(
+    null
+  );
+  const [error, setError] = useState<string | null>(null);
+  const { playAudio, isPlaying } = useAudioPlayer(activity.content.audio);
+  const { handleTextToSpeech, textToSpeachMutation } = useTextToAudio();
+  const isTTSLoading = textToSpeachMutation.isLoading;
 
-  const currentPattern = activity.patterns[currentIndex];
-  const userIsCurrent = selectedActor && currentPattern.actor === selectedActor;
-  const otherActor = activity.actors.find((a) => a.name !== selectedActor);
-  const userActor = activity.actors.find((a) => a.name === selectedActor);
-
-  // Speech recognition setup (simple, as in RepeatAndCompare)
+  // Speech recognition setup
   let recognition: any = null;
   if (
     typeof window !== "undefined" &&
@@ -34,73 +44,130 @@ const Roleplay: React.FC<Props> = ({ activity, handleNext }) => {
     recognition.continuous = false;
     recognition.interimResults = true;
     recognition.lang = "en-US";
-    recognition.onresult = () => {
-      setRecorded(true);
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      const words = transcript.split(" ");
+      setSpokenWords(words);
     };
   }
 
   const startRecording = () => {
-    setRecorded(false);
+    setSpokenWords([]);
+    setAccuracyPercentage(null);
+    setError(null);
     setIsRecording(true);
     recognition && recognition.start();
   };
+
+  function normalizeWord(word: string) {
+    // Remove all punctuation for comparison
+    return word.replace(/[.,;!?،؟:؛\-—_"'()\[\]{}]/g, "").toLowerCase();
+  }
+
+  const calculateAccuracy = (spoken: string[]) => {
+    // Remove punctuation from both spoken and target
+    const targetWords = activity.content.text
+      .replace(/[.,;!?،؟:؛\-—_"'()\[\]{}]/g, "")
+      .split(" ");
+    let matchCount = 0;
+    targetWords.forEach((word, index) => {
+      if (
+        spoken[index] &&
+        normalizeWord(spoken[index]) === normalizeWord(word)
+      ) {
+        matchCount++;
+      }
+    });
+    const accuracy = (matchCount / targetWords.length) * 100;
+    setAccuracyPercentage(accuracy);
+    if (accuracy >= 90) {
+      setTimeout(() => {
+        setAudioPlayed(false);
+        setAccuracyPercentage(null);
+        setSpokenWords([]);
+        setError(null);
+        handleNext();
+      }, 1000);
+    } else {
+      setError("دوباره تلاش کنید ..!");
+    }
+  };
+
   const stopRecording = () => {
     setIsRecording(false);
     recognition && recognition.stop();
-    setRecorded(true);
+    calculateAccuracy(spokenWords);
   };
 
-  const { playAudio, isPlaying: isAudioPlaying } = useAudioPlayer(
-    currentPattern.audio
-  );
-
-  const handlePlayAudio = async () => {
-    setIsPlaying(true);
-    await playAudio();
-    setIsPlaying(false);
+  // Play audio or TTS
+  const handlePlay = async () => {
+    if (activity.content.audio) {
+      playAudio();
+    } else {
+      await handleTextToSpeech({ text: activity.content.text });
+    }
     setAudioPlayed(true);
   };
 
-  const handleContinue = () => {
-    setRecorded(false);
-    setAudioPlayed(false);
-    setIsRecording(false);
-    setCurrentIndex((idx) => idx + 1);
-    if (currentIndex === activity.patterns.length - 1) {
-      handleNext();
+  // Actor logic
+  const userIsCurrent =
+    selectedActor && activity.content.actor === selectedActor;
+  const otherActor = activity.actors.find((a) => a.name !== selectedActor);
+  const userActor = activity.actors.find((a) => a.name === selectedActor);
+
+  // Per-word feedback coloring like RepeatAndCompare
+  const getWordColor = (word: string, index: number) => {
+    if (!spokenWords[index]) return "";
+    return normalizeWord(spokenWords[index]) === normalizeWord(word)
+      ? "#22c55e"
+      : "#ef4444";
+  };
+
+  // Percentage color generator like RepeatAndCompare
+  const percentageColorGenerator = (percentage: number) => {
+    if (percentage < 50) {
+      return "!text-[red]";
     }
+    if (percentage > 50 && percentage < 85) {
+      return "!text-yellow-500";
+    }
+    if (percentage >= 85) {
+      return "!text-green-500";
+    }
+    return "";
   };
 
   // Character selection screen
   if (!selectedActor) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
-        <div className="flex flex-col items-center mb-8 glass-bg p-8 rounded-2xl shadow-xl">
+        <div className="flex flex-col items-center mb-8 p-8 rounded-2xl shadow-xl bg-backgroundMain">
           <div className="bg-primary/10 rounded-full p-6 mb-4">
-            <svg width="64" height="64" fill="none" viewBox="0 0 24 24">
-              <path
-                d="M12 22c4.97 0 9-3.58 9-8 0-2.22-1.06-4.22-2.81-5.67.01-.11.01-.22.01-.33C18.2 4.01 15.19 1 11.6 1c-3.59 0-6.6 3.01-6.6 6.7 0 .11 0 .22.01.33C4.06 9.78 3 11.78 3 14c0 4.42 4.03 8 9 8z"
-                fill="#00B8F4"
-              />
-            </svg>
+            <Lottie
+              animationData={conversationLottie}
+              loop={true}
+              width={64}
+              height={64}
+              className="w-44 h-44 md:w-60 md:h-60"
+            />
           </div>
-          <h2 className="text-2xl font-bold text-center mb-2">
-            Who are you going to interpret?
+          <h2 className="text-xl md:text-2xl font-bold text-center mb-2 text-main">
+            جای چه شخصی میخواهید مکالمه کنید؟
           </h2>
-          <div className="text-gray-500 text-center mb-6">
-            Pick a character and play their role.
+          <div className="text-gray400 text-center mb-6">
+            یک کاراکتر را انتخاب کنید و مکالمه شروع میشه.
           </div>
           <div className="flex gap-8 mt-4">
             {activity.actors.map((actor) => (
               <button
                 key={actor.name}
                 className="flex flex-col items-center focus:outline-none"
-                onClick={() => setSelectedActor(actor.name)}
+                onClick={() => onActorSelect(actor.name)}
               >
                 <img
                   src={actor.image}
                   alt={actor.name}
-                  className="w-32 h-32 rounded-2xl object-cover shadow-lg mb-2"
+                  className="w-28 md:w-40 h-28 md:h-40 rounded-2xl object-cover shadow-lg mb-2 p-4"
                 />
                 <span className="font-bold text-lg text-main mt-2">
                   {actor.name}
@@ -116,134 +183,151 @@ const Roleplay: React.FC<Props> = ({ activity, handleNext }) => {
   // Conversation screen
   return (
     <div className="w-full max-w-2xl mx-auto pt-8 flex flex-col items-center">
-      {/* Progress bar */}
-      <div className="w-full flex justify-end mb-2">
-        <span className="text-main font-bold text-lg">
-          {currentIndex + 1}/{activity.patterns.length}
-        </span>
-      </div>
-      <div className="w-full h-2 bg-borderMain rounded mb-8">
+      <div className="bg-backgroundMain rounded-xl shadow-lg py-4 px-10 mb-8 w-full flex items-center justify-center min-h-[180px]">
         <div
-          className="h-2 bg-primary rounded"
-          style={{
-            width: `${((currentIndex + 1) / activity.patterns.length) * 100}%`,
-            transition: "width 0.3s",
-          }}
-        />
-      </div>
-      {/* Chat bubbles */}
-      <div className="flex flex-col gap-8 w-full items-center mb-12 glass-bg p-8 rounded-2xl shadow-xl">
-        {activity.patterns.slice(0, currentIndex + 1).map((pattern, idx) => {
-          const actor = activity.actors.find((a) => a.name === pattern.actor);
-          const isUser = pattern.actor === selectedActor;
-          return (
-            <div
-              key={pattern.id}
-              className={`flex items-end gap-4 ${
-                isUser ? "justify-end flex-row-reverse" : "justify-start"
-              } w-full`}
+          className={`flex items-end gap-4 ${
+            userIsCurrent ? "justify-end flex-row-reverse" : "justify-start"
+          } w-full`}
+        >
+          <img
+            src={userIsCurrent ? userActor?.image : otherActor?.image}
+            alt={userIsCurrent ? userActor?.name : otherActor?.name}
+            className="w-14 h-14 rounded-full object-cover shadow"
+          />
+          <div
+            className={`rounded-2xl px-6 py-4 shadow text-lg font-medium text-main ${
+              userIsCurrent
+                ? "bg-gray-100 dark:bg-gray-800"
+                : "bg-blue-200 dark:bg-blue-800"
+            }`}
+            style={{
+              borderTopLeftRadius: userIsCurrent ? 24 : 0,
+              borderTopRightRadius: userIsCurrent ? 0 : 24,
+            }}
+          >
+            <span
+              className="font-bold block mb-1 text-gray400 text-left"
+              dir="ltr"
             >
-              <img
-                src={actor?.image}
-                alt={actor?.name}
-                className="w-14 h-14 rounded-full object-cover shadow"
-              />
-              <div
-                className={`rounded-2xl px-6 py-4 shadow text-lg font-medium ${
-                  isUser ? "bg-primary/10 text-primary" : "bg-white text-main"
-                }`}
-                style={{
-                  borderTopLeftRadius: isUser ? 24 : 0,
-                  borderTopRightRadius: isUser ? 0 : 24,
-                }}
-              >
-                <span className="font-bold block mb-1">
-                  {isUser ? "You" : actor?.name}
-                </span>
-                <span>{pattern.text}</span>
-              </div>
-            </div>
-          );
-        })}
+              {userIsCurrent ? "You" : otherActor?.name}
+            </span>
+            <span className="text-main !text-left w-full block" dir="ltr">
+              {activity.content.text}
+            </span>
+          </div>
+        </div>
       </div>
-      {/* Action area */}
       <div className="flex flex-col items-center gap-6 w-full">
         {userIsCurrent ? (
           <>
-            <IconButton
-              onClick={isRecording ? stopRecording : startRecording}
-              className="!w-24 !h-24 !bg-primary/10 shadow-lg border-2 border-primary flex items-center justify-center"
-            >
-              <KeyboardVoiceIcon
-                className={`!w-12 !h-12 !text-primary ${
-                  isRecording ? "animate-ping" : ""
-                }`}
-              />
-            </IconButton>
-            <div className="text-center text-gray-500 mt-2">
-              {isRecording
-                ? "Recording..."
-                : recorded
-                ? "Tap to continue"
-                : "Tap to record your voice"}
+            <div className="flex items-center gap-8">
+              <IconButton
+                onClick={handlePlay}
+                disabled={isPlaying || isTTSLoading}
+                className="!w-20 !h-20 !bg-primary/10 shadow-lg border-2 border-primary flex items-center justify-center"
+              >
+                {isPlaying || isTTSLoading ? (
+                  <WaveLoading />
+                ) : (
+                  <VolumeUpIcon className="!w-10 !h-10 !text-primary" />
+                )}
+              </IconButton>
+              <IconButton
+                onClick={isRecording ? stopRecording : startRecording}
+                className="!w-20 !h-20 !bg-primary/10 shadow-lg border-2 border-primary flex items-center justify-center"
+              >
+                <KeyboardVoiceIcon
+                  className={`!w-10 !h-10 !text-primary ${
+                    isRecording ? "animate-ping" : ""
+                  }`}
+                />
+              </IconButton>
             </div>
-            <button
-              className="mt-4 px-8 py-3 rounded-full bg-primary text-white font-bold text-lg shadow-lg disabled:opacity-50"
-              disabled={!recorded}
-              onClick={handleContinue}
-            >
-              Continue
-            </button>
+            <div className="text-center text-gray400 mt-2">
+              {isRecording ? "درحال ضبط..." : "Tap to record your voice"}
+            </div>
+            {/* Per-word feedback */}
+            {spokenWords.length > 0 && (
+              <div
+                className="text-main font-medium flex items-center flex-wrap justify-center mt-6"
+                dir="ltr"
+              >
+                {activity.content.text.split(" ").map((word, index) => (
+                  <span
+                    className="font-medium text-lg lg:text-xl"
+                    key={index}
+                    style={{
+                      color: getWordColor(word, index),
+                      marginRight: "5px",
+                    }}
+                  >
+                    {word}
+                  </span>
+                ))}
+              </div>
+            )}
+            {/* Accuracy percentage */}
+            {accuracyPercentage !== null && (
+              <div
+                className={`mt-4 text-xl font-bold ${percentageColorGenerator(
+                  accuracyPercentage
+                )}`}
+              >
+                {Math.round(accuracyPercentage)}%
+              </div>
+            )}
+            {/* Error message */}
+            {error && (
+              <div className="mt-2 text-red-500 font-bold">{error}</div>
+            )}
           </>
         ) : (
           <>
             <IconButton
-              onClick={handlePlayAudio}
-              disabled={isAudioPlaying}
-              className="!w-24 !h-24 !bg-primary/10 shadow-lg border-2 border-primary flex items-center justify-center"
+              onClick={handlePlay}
+              disabled={isPlaying || isTTSLoading}
+              className="!w-20 !h-20 !bg-primary/10 shadow-lg border-2 border-primary flex items-center justify-center"
             >
-              {isAudioPlaying ? (
+              {isPlaying || isTTSLoading ? (
                 <WaveLoading />
               ) : (
-                <VolumeUpIcon className="!w-12 !h-12 !text-primary" />
+                <VolumeUpIcon className="!w-10 !h-10 !text-primary" />
               )}
             </IconButton>
-            <div className="text-center text-gray-500 mt-2">
-              {audioPlayed ? "Tap to continue" : "Tap to listen"}
+            <div className="text-center text-gray400 mt-2">
+              {audioPlayed ? "" : "برای شنیدن کلیک کنید"}
             </div>
-            <button
-              className="mt-4 px-8 py-3 rounded-full bg-primary text-white font-bold text-lg shadow-lg disabled:opacity-50"
-              disabled={!audioPlayed}
-              onClick={handleContinue}
-            >
-              Continue
-            </button>
           </>
         )}
+        <PrimaryButton
+          className="mt-4 px-8 py-3 rounded-full bg-primary text-white font-bold text-lg shadow-lg disabled:opacity-50"
+          buttonProps={{
+            disabled: userIsCurrent
+              ? accuracyPercentage === null || accuracyPercentage < 90
+              : !audioPlayed,
+          }}
+          onClick={() => {
+            if (userIsCurrent) {
+              if (accuracyPercentage !== null && accuracyPercentage >= 90) {
+                setAudioPlayed(false);
+                setAccuracyPercentage(null);
+                setSpokenWords([]);
+                setError(null);
+                handleNext();
+              } else {
+                setError("دوباره تلاش کنید");
+              }
+            } else {
+              setAudioPlayed(false);
+              handleNext();
+            }
+          }}
+        >
+          ادامه
+        </PrimaryButton>
       </div>
     </div>
   );
 };
-
-// Add glassmorphism styles
-// You can move this to a global CSS file if you prefer
-if (typeof window !== "undefined") {
-  const styleId = "roleplay-glass-bg-style";
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement("style");
-    style.id = styleId;
-    style.innerHTML = `
-      .glass-bg {
-        background: rgba(255, 255, 255, 0.35);
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-      }
-    `;
-    document.head.appendChild(style);
-  }
-}
 
 export default Roleplay;

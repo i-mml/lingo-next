@@ -32,6 +32,7 @@ import TextQuestionSingleChoiceImageAnswer from "./components/TextQuestionSingle
 const SingleActivity: React.FC = () => {
   const { activityId, unitId } = useParams();
   const [total, setTotal] = useState(0);
+  const [selectedActor, setSelectedActor] = useState<string | null>(null);
   const { data: activityData, isLoading } = useQuery({
     queryKey: ["activity", activityId],
     queryFn: () =>
@@ -90,7 +91,14 @@ const SingleActivity: React.FC = () => {
         handleNext={handleNext}
       />
     ),
-    chatBubble: <></>,
+    chatBubble: (
+      <Roleplay
+        activity={activityData?.[currentIndex]}
+        handleNext={handleNext}
+        selectedActor={selectedActor}
+        onActorSelect={setSelectedActor}
+      />
+    ),
     fillTheGapsAndListenAudio: (
       <FillTheGapsAndListenAudio
         activity={activityData?.[currentIndex]?.content}
@@ -111,12 +119,6 @@ const SingleActivity: React.FC = () => {
     ),
     fillTheGaps: (
       <FillTheGaps
-        activity={activityData?.[currentIndex]?.content}
-        handleNext={handleNext}
-      />
-    ),
-    roleplay: (
-      <Roleplay
         activity={activityData?.[currentIndex]?.content}
         handleNext={handleNext}
       />
