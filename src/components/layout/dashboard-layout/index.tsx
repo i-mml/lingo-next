@@ -12,6 +12,7 @@ import PlatformModal from "@/components/modals/PlatformModal";
 import IosNotificationAccessModal from "@/components/modals/IosNotificationAccessModal";
 import DeviceBrowserModal from "@/components/modals/DeviceBrowserModal";
 import { getCookie, setCookie } from "cookies-next";
+import BottomNavigation from "@/components/shared/BottomNavigation";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
@@ -61,6 +62,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
         >
           {children}
         </div>
+        <BottomNavigation />
       </div>
       {isOpen && <LoginModal open={isOpen} onClose={toggleLoginModal} />}
 
