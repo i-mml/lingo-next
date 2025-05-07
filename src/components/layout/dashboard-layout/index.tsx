@@ -57,12 +57,16 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
         {!includesNoHeaderRotes(pathname, noHeaderRoutes) && <AppHeader />}
         <div
           className={
-            !includesNoHeaderRotes(pathname, noHeaderRoutes) ? "pt-24" : ""
+            !includesNoHeaderRotes(pathname, noHeaderRoutes)
+              ? "pt-24 pb-12"
+              : "pb-12"
           }
         >
           {children}
         </div>
-        <BottomNavigation />
+        {!includesNoHeaderRotes(pathname, noLayoutRotes as string[]) && (
+          <BottomNavigation />
+        )}
       </div>
       {isOpen && <LoginModal open={isOpen} onClose={toggleLoginModal} />}
 
