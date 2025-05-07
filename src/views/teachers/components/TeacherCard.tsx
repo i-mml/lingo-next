@@ -4,75 +4,91 @@ import { TeacherItem } from "@/api/types/auth";
 import Link from "next/link";
 import EnglishFlag from "@/assets/english-flag.svg";
 import PrimaryButton from "@/components/shared/PrimaryButton";
+import { StarIcon } from "lucide-react";
+import Image from "next/image";
 import OutlineButton from "@/components/shared/OutlineButton";
+import { Star } from "@mui/icons-material";
 
 const TeacherCard = (teacher: TeacherItem) => {
   return (
-    <div className="bg-backgroundMain rounded-lg px-4 md:px-6 py-4 md:py-6 cursor-pointer border border-borderMain hover:border-primary">
-      <div className="flex flex-col md:flex-row">
-        <Link
-          href={`/public/teachers/${teacher.id}`}
-          className="flex items-center gap-4"
-        >
-          <img
-            src={teacher.avatar || ""}
-            alt={teacher.name}
-            className="w-14 h-14 md:w-20 md:h-20 rounded-full object-cover"
-          />
-          <div>
-            <div className="text-[16px] md:text-lg font-bold text-main">
-              {teacher?.name}
-            </div>
-            <div className="flex items-center gap-2 mt-3 md:mt-5">
-              {["A1", "A2"]?.map((level: string, index: number) => (
-                <span
-                  key={index}
-                  className="bg-primary text-white font-semibold text-[12px] md:text-sm rounded-lg px-2 py-1"
-                >
-                  {level || ""}
-                </span>
-              ))}
-            </div>
+    <div className="bg-backgroundMain backdrop-blur-md rounded-2xl shadow-xl border border-borderMain p-6 flex flex-col md:flex-row items-center gap-6 max-w-2xl mx-auto my-6 transition hover:shadow-2xl">
+      {/* Avatar */}
+      <div className="flex-shrink-0">
+        <Image
+          src={teacher.avatar}
+          alt={teacher.name}
+          width={90}
+          height={90}
+          className="w-24 h-24 rounded-full border-4 border-primary object-cover"
+        />
+      </div>
+      {/* Info */}
+      <div className="flex-1 flex flex-col gap-2 text-right">
+        <div className="flex flex-row items-start gap-2 md:gap-4 mb-1">
+          <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+            <span className="text-xl font-bold text-main">{teacher.name}</span>
+            <span className="text-sm text-gray300">
+              {/* NEED {teacher.title} */}
+              مدرس ارشد زبان انگلیسی
+            </span>
           </div>
-        </Link>
-        <div className="mr-auto w-fit mt-4 md:mt-0 flex items-center gap-2">
-          <PrimaryButton onClick={() => {}} className="">
+
+          <span className="flex items-center mr-auto gap-1 text-yellow-500 font-bold text-sm">
+            <Star className="w-5 h-5" /> {/* NEED {teacher.rating} */}
+            <span>4.8</span>
+          </span>
+        </div>
+        <div className="flex flex-wrap gap-2 mt-1">
+          {/* NEED {teacher.levels} */}
+          {["A1", "A2", "B1"].map((level) => (
+            <span
+              key={level}
+              className="bg-backgroundLayout text-main px-3 py-1 rounded-full text-xs font-bold shadow shadow-backgroundDisabled"
+            >
+              {level}
+            </span>
+          ))}
+        </div>
+
+        <div className="text-gray300 text-xs mt-2">
+          {/* NEED {teacher.bio} */}
+          با بیش از 7 سال تجربه تدرس و رویکرد تعاملی برای یادگیر بهتر
+        </div>
+        <div className="flex flex-wrap gap-4 mt-2 items-center">
+          <span className="text-xs text-gray400">
+            کلاس برگزار‌شده:{" "}
+            <span className="font-bold text-main">
+              {/* NEED {teacher.classesCount}  */}
+              563 ساعت
+            </span>
+          </span>
+          <span className="text-xs text-gray400">
+            دانش‌آموزان:{" "}
+            <span className="font-bold text-main">
+              {/* NEED {teacher.students} */}
+              198
+            </span>
+          </span>
+          <span className="text-xs text-gray400">
+            قیمت هر جلسه:{" "}
+            <span className="font-semibold text-green-500">
+              {/* NEED {teacher.price} */}
+              100000 تومان
+            </span>
+          </span>
+        </div>
+        <div className="flex gap-3 mt-4">
+          <PrimaryButton
+            className="w-1/2 text-base rounded-xl shadow-md"
+            // disabled={!teacher.available}
+          >
+            {/* NEED {teacher.available ? "رزرو آزمایشی" : "فعلاً ناموجود"} */}
             رزرو آزمایشی
           </PrimaryButton>
-          <OutlineButton onClick={() => {}} className="w-10">
-            <BookmarkBorderIcon />
+          <OutlineButton className=" w-1/2 text-base">
+            مشاهده پروفایل
           </OutlineButton>
         </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 mt-4 gap-2">
-        <div className="bg-backgroundLayout flex items-center justify-center gap-2 rounded-lg py-2">
-          <span className="text-sm md:text-[16px] text-gray400 ">زبان:</span>
-          <div className="flex items-center gap-1 text-main">
-            <EnglishFlag className="w-5 h-5" />
-            <span>انگلیسی</span>
-          </div>
-        </div>
-        {/* <div className="bg-gray-200 dark:bg-gray-400 flex items-center justify-center gap-2 rounded-lg py-2">
-          <span className="text-sm md:text-[16px] text-gray-500 dark:text-gray-300">زبان‌آموز:</span>
-          <div className="flex items-center gap-0.5">
-            <PeopleOutlineIcon />
-            <span>{teacher?.students} نفر</span>
-          </div>
-        </div> */}
-        {/* <div className="bg-gray-200 dark:bg-gray-400 flex items-center justify-center rounded-lg py-2">
-          <div className="flex items-center gap-0.5">
-            <StarIcon className="!text-primary" />
-            <span>{teacher?.rate?.rate_number}</span>
-            <span>{`(${teacher?.rate?.total}) نظر`}</span>
-          </div>
-        </div>
-        <div className="bg-gray-200 dark:bg-gray-400 flex items-center justify-center gap-2 rounded-lg py-2">
-          <span className="text-sm md:text-[16px] text-gray-500 dark:text-gray-300">کلاس برگزار شده:</span>
-          <div className="flex items-center gap-0.5">
-            <MenuBookIcon />
-            <span>{teacher?.sessions}</span>
-          </div>
-        </div> */}
       </div>
     </div>
   );
