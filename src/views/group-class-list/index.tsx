@@ -70,13 +70,13 @@ const GroupClassList: React.FC = () => {
 
   if (isLoading)
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col items-center px-2 py-8">
+      <div className="min-h-screen bg-backgroundMain flex flex-col items-center px-2 py-8">
         <WaveLoading />
       </div>
     );
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center px-2 py-8">
+    <div className="min-h-screen bg-backgroundMain flex flex-col items-center px-2 py-8">
       <div className="flex items-center gap-3 mb-8">
         <h1 className="text-xl md:text-3xl font-bold text-main text-center">
           کلاس‌های گروهی زبان{" "}
@@ -104,14 +104,14 @@ const GroupClassList: React.FC = () => {
 
       <div className="p-4 md:p-8 w-full max-w-5xl">
         {/* Tabs */}
-        <div className="flex flex-wrap gap-2 mb-4 border-b-2 border-gray-300">
+        <div className="flex flex-wrap gap-2 mb-4 border-b-2 border-borderMain">
           {levels.map((level) => (
             <button
               key={level}
               className={`px-4 py-2 rounded-t-lg font-bold text-base border-b-4 transition-all duration-200 ${
                 selectedLevel === level
                   ? "border-primary text-primary bg-backgroundMain"
-                  : "border-transparent text-gray-700 bg-backgroundMain"
+                  : "border-transparent text-gray300 bg-backgroundMain"
               }`}
               onClick={() => setSelectedLevel(level)}
             >
@@ -124,9 +124,9 @@ const GroupClassList: React.FC = () => {
           {filteredClasses.map((cls) => (
             <div
               key={cls.id}
-              className="rounded-xl shadow-lg mb-4 overflow-hidden bg-white"
+              className="rounded-xl shadow-lg mb-4 overflow-hidden bg-backgroundLayout"
             >
-              <div className="flex flex-col divide-y divide-gray-200">
+              <div className="flex flex-col divide-y divide-borderMain">
                 <div className="flex justify-between py-3 px-2 text-main">
                   <span className="font-bold">سطح دوره</span>
                   <span>{cls.course.title}</span>
@@ -199,7 +199,7 @@ const GroupClassList: React.FC = () => {
             </div>
           ))}
           {filteredClasses.length === 0 && (
-            <div className="py-8 text-gray-500 bg-white rounded-xl text-center">
+            <div className="py-8 text-gray-500 bg-backgroundMain rounded-xl text-center">
               هیچ کلاسی برای این سطح موجود نیست.
             </div>
           )}
@@ -208,13 +208,13 @@ const GroupClassList: React.FC = () => {
         <div className="overflow-x-auto rounded-xl shadow-lg hidden md:block">
           <table className="min-w-[900px] w-full text-center border-separate border-spacing-0">
             <thead>
-              <tr className="bg-gray-700 text-white text-base">
+              <tr className="bg-backgroundLayout text-main text-base">
                 <th className="py-3 px-0">سطح دوره</th>
                 <th className="py-3 px-0">شهریه</th>
                 <th className="py-3 px-0">تعداد جلسات</th>
                 <th className="py-3 px-0">ظرفیت</th>
-                <th className="py-3 px-0">تاریخ پایان</th>
                 <th className="py-3 px-0">تاریخ شروع</th>
+                <th className="py-3 px-0">تاریخ پایان</th>
                 <th className="py-3 px-0">ساعت</th>
                 <th className="py-3 px-0">روز</th>
                 <th className="py-3 px-0">نوع دوره</th>
@@ -225,7 +225,7 @@ const GroupClassList: React.FC = () => {
               {filteredClasses.map((cls) => (
                 <tr
                   key={cls.id}
-                  className="text-base font-bold border-b border-gray-200 bg-white"
+                  className="text-base font-bold border-b border-borderMain bg-backgroundLayout"
                 >
                   <td className="py-2 px-2 text-main">{cls.course.title}</td>
                   <td className="py-2 px-2 text-main">
@@ -243,10 +243,10 @@ const GroupClassList: React.FC = () => {
                       : cls.available_capacity}
                   </td>
                   <td className="py-2 px-2 text-main">
-                    {cls.end_date.replace(/-/g, "/")}
+                    {moment(cls.start_date).format("jYYYY/jMM/jDD")}
                   </td>
                   <td className="py-2 px-2 text-main">
-                    {cls.start_date.replace(/-/g, "/")}
+                    {moment(cls.end_date).format("jYYYY/jMM/jDD")}
                   </td>
                   <td className="py-2 px-2 text-main">
                     {cls.start_time.slice(0, 5)}-{cls.end_time.slice(0, 5)}
