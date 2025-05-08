@@ -4,11 +4,13 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import HomeIcon from "@mui/icons-material/Home";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PersonIcon from "@mui/icons-material/Person";
 import CategoryIcon from "@mui/icons-material/Category";
-import BookIcon from "@mui/icons-material/Book";
+// import HomeIcon from "@mui/icons-material/Home";
+// import BookIcon from "@mui/icons-material/Book";
+import WordIcon from "@mui/icons-material/Translate";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import { useAuth } from "@/hooks/use-auth";
 import { isMobile } from "react-device-detect";
 
@@ -20,21 +22,33 @@ const BottomNavigation = () => {
   const navItems = [
     {
       id: 1,
-      label: "خانه",
-      icon: HomeIcon,
-      href: "/public/home",
-    },
-    {
-      id: 2,
       label: "دسته‌بندی‌ها",
       icon: CategoryIcon,
       href: "/public/home",
     },
     {
+      id: 2,
+      label: "گرامرها",
+      icon: AutoStoriesIcon,
+      href: "/public/grammar-list",
+    },
+    // {
+    //   id: 2,
+    //   label: "دسته‌بندی‌ها",
+    //   icon: CategoryIcon,
+    //   href: "/public/home",
+    // },
+    // {
+    //   id: 3,
+    //   label: "یادگیری",
+    //   icon: BookIcon,
+    //   href: "/app/units",
+    // },
+    {
       id: 3,
-      label: "یادگیری",
-      icon: BookIcon,
-      href: "/app/units",
+      label: "واژه‌آموزی",
+      icon: WordIcon,
+      href: `/public/vocabulary`,
     },
     {
       id: 4,
