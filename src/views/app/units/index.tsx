@@ -164,9 +164,11 @@ const UnitView = () => {
                     const progress = unit.finished ? 100 : 0;
                     return (
                       <Link
-                        href={`/app/units/${unit.id}`}
+                        href={unit.is_locked ? "" : `/app/units/${unit.id}`}
                         key={unit.id}
-                        className="flex items-stretch rounded-xl bg-backgroundMain border-2 border-borderMain overflow-hidden min-h-[110px]"
+                        className={`flex items-stretch rounded-xl bg-backgroundMain border-2 border-borderMain overflow-hidden min-h-[110px] ${
+                          unit.is_locked ? "cursor-not-allowed" : ""
+                        }`}
                       >
                         <div className="relative w-24 min-w-[96px] h-[150px] flex-shrink-0">
                           <Image
@@ -174,7 +176,9 @@ const UnitView = () => {
                             height={150}
                             src={image}
                             alt={unit.title}
-                            className="object-cover w-full h-full"
+                            className={`object-cover w-full h-full ${
+                              unit.is_locked ? "brightness-50" : ""
+                            }`}
                             onError={(e: any) => {
                               e.target.src = "/units/placeholder.jpg";
                             }}
@@ -206,10 +210,10 @@ const UnitView = () => {
                           ) : unit?.is_locked ? (
                             <div className="flex items-center justify-between mt-2">
                               <div className="flex items-center gap-2">
-                                <span className="material-icons text-primary text-lg">
+                                <span className="material-icons text-gray300 text-lg">
                                   <LockIcon />
                                 </span>
-                                <span className="text-xs font-medium text-primary">
+                                <span className="text-xs font-medium text-gray300">
                                   {!!whoAmI?.has_subscription
                                     ? "ابتدا درس های قبلی را کامل کنید"
                                     : "محتوای ویژه"}
@@ -236,7 +240,7 @@ const UnitView = () => {
                                   در حال پیشرفت
                                 </span>
                               </div>
-                              <div className="w-full flex items-center gap-2">
+                              {/* <div className="w-full flex items-center gap-2">
                                 <div className="flex-1 h-1 rounded bg-gray-200 ml-2">
                                   <div
                                     className="h-1 rounded"
@@ -251,7 +255,7 @@ const UnitView = () => {
                                 <span className="text-xs text-gray400">
                                   {progress}%
                                 </span>
-                              </div>
+                              </div> */}
                             </div>
                           )}
                         </div>
@@ -309,9 +313,11 @@ const UnitView = () => {
                     const progress = unit.finished ? 100 : 0;
                     return (
                       <Link
-                        href={`/app/units/${unit.id}`}
+                        href={unit.is_locked ? "" : `/app/units/${unit.id}`}
                         key={unit.id}
-                        className="rounded-2xl overflow-hidden flex flex-col bg-backgroundMain w-full"
+                        className={`rounded-2xl overflow-hidden flex flex-col bg-backgroundMain w-full ${
+                          unit.is_locked ? "cursor-not-allowed" : ""
+                        }`}
                         style={{
                           boxShadow: "0 2px 8px 0 rgba(0,0,0,0.04)",
                           border: "none",
@@ -323,7 +329,9 @@ const UnitView = () => {
                             alt={unit.title}
                             width={170}
                             height={252}
-                            className="object-cover w-full"
+                            className={`object-cover w-full ${
+                              unit.is_locked ? "brightness-50" : ""
+                            }`}
                             onError={(e: any) => {
                               e.target.src = "/units/placeholder.jpg";
                             }}
@@ -353,10 +361,10 @@ const UnitView = () => {
                           ) : unit?.is_locked ? (
                             <div className="flex items-center justify-between mt-2 w-full">
                               <div className="flex items-center gap-2">
-                                <span className="material-icons text-primary text-lg">
+                                <span className="material-icons text-gray300 text-lg">
                                   <LockIcon />
                                 </span>
-                                <span className="text-xs font-medium text-primary">
+                                <span className="text-xs font-medium text-gray300">
                                   {!!whoAmI?.has_subscription
                                     ? "ابتدا درس های قبلی را کامل کنید"
                                     : "محتوای ویژه"}
@@ -381,7 +389,7 @@ const UnitView = () => {
                                   در حال پیشرفت
                                 </span>
                               </div>
-                              <div className="w-full flex items-center gap-2">
+                              {/* <div className="w-full flex items-center gap-2">
                                 <div className="flex-1 h-1 rounded bg-gray-200 ml-2">
                                   <div
                                     className="h-1 rounded"
@@ -396,7 +404,7 @@ const UnitView = () => {
                                 <span className="text-xs text-gray400">
                                   {progress}%
                                 </span>
-                              </div>
+                              </div> */}
                             </div>
                           )}
                         </div>
