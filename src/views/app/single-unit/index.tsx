@@ -112,20 +112,35 @@ const SingleUnitView = () => {
           <div className="flex flex-col gap-4">
             {activities.map((activity: IUnitActivity, idx: number) => {
               const isActive = idx === activeIdx;
+              const isFirstUnfinished =
+                !activity.finished &&
+                activities.findIndex((a: IUnitActivity) => !a.finished) === idx;
+              const isLocked =
+                activity.blocked_by?.length > 0 ||
+                (!isFirstUnfinished && !activity.finished);
+
               return (
                 <Link
-                  href={`/app/units/${unitId}/activities/${activity.id}`}
+                  href={
+                    !isFirstUnfinished && !isLocked
+                      ? `/app/units/${unitId}/activities/${activity.id}`
+                      : ""
+                  }
                   key={activity.id}
                   className={`relative flex items-center gap-2 rounded-xl px-4 py-4 bg-backgroundMain border transition-all
                   ${
-                    isActive
+                    isFirstUnfinished && !isLocked
                       ? "border-2 border-primary shadow-lg"
                       : "border border-borderMain shadow-sm"
                   }
                   ${isLocked ? "opacity-60" : "hover:shadow-md"}`}
                 >
                   <div
-                    className={`w-12 h-12 flex items-center justify-center text-2xl rounded-full mr-3`}
+                    className={`w-12 h-12 flex items-center justify-center text-2xl rounded-full mr-3 ${
+                      !activity.finished && !isFirstUnfinished
+                        ? "text-gray400"
+                        : ""
+                    }`}
                   >
                     {
                       activitiesDictionary?.[
@@ -134,14 +149,26 @@ const SingleUnitView = () => {
                     }
                   </div>
                   <div className="flex-1 flex flex-col items-start justify-center">
-                    <div className="font-bold text-main text-base mb-1 flex items-center gap-2">
+                    <div
+                      className={`font-bold text-base mb-1 flex items-center gap-2 ${
+                        !activity.finished && !isFirstUnfinished
+                          ? "text-gray400"
+                          : "text-main"
+                      }`}
+                    >
                       {activity.title}
                       <span className="text-xs text-gray400">
                         ({activity.duration ? `${activity.duration} دقیقه` : ""}
                         )
                       </span>
                     </div>
-                    <div className="text-xs text-primary font-medium">
+                    <div
+                      className={`text-xs font-medium ${
+                        !activity.finished && !isFirstUnfinished
+                          ? "text-gray400"
+                          : "text-primary"
+                      }`}
+                    >
                       {activity.type}
                     </div>
                   </div>
@@ -152,7 +179,7 @@ const SingleUnitView = () => {
                     </span>
                   )}
                   {/* Active: Start button at bottom center */}
-                  {isActive && !isLocked && (
+                  {isFirstUnfinished && !isLocked && (
                     <div className="absolute left-1/2 -bottom-4 -translate-x-1/2 z-10">
                       <button className="bg-primary text-white px-6 py-1.5 rounded-full shadow font-bold text-sm border-2 border-white">
                         شروع
