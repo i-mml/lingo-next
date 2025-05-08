@@ -8,4 +8,5 @@ export default interface IUnitActivity {
   title: string;
   type: string;
   unlock_at: string;
+  is_locked: boolean;
 }

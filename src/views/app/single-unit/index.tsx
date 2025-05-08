@@ -111,13 +111,10 @@ const SingleUnitView = () => {
           {/* Activities */}
           <div className="flex flex-col gap-4">
             {activities.map((activity: IUnitActivity, idx: number) => {
-              const isActive = idx === activeIdx;
               const isFirstUnfinished =
                 !activity.finished &&
                 activities.findIndex((a: IUnitActivity) => !a.finished) === idx;
-              const isLocked =
-                activity.blocked_by?.length > 0 ||
-                (!isFirstUnfinished && !activity.finished);
+              const isLocked = activity?.is_locked;
 
               return (
                 <Link
