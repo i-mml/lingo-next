@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import { GetAuthTeachers } from "@/api/services/auth";
 import WaveLoading from "@/components/shared/WaveLoading";
 import { TeacherItem } from "@/api/types/auth";
-import TeachersList from "../teachers-list";
 
 const TeachersListView = () => {
   const { data, isLoading } = useQuery({

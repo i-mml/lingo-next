@@ -1,13 +1,10 @@
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import React from "react";
 import { TeacherItem } from "@/api/types/auth";
 import Link from "next/link";
-import EnglishFlag from "@/assets/english-flag.svg";
 import PrimaryButton from "@/components/shared/PrimaryButton";
-import { StarIcon } from "lucide-react";
+import { Star } from "@mui/icons-material";
 import Image from "next/image";
 import OutlineButton from "@/components/shared/OutlineButton";
-import { Star } from "@mui/icons-material";
 
 const TeacherCard = (teacher: TeacherItem) => {
   return (
@@ -85,9 +82,11 @@ const TeacherCard = (teacher: TeacherItem) => {
             {/* NEED {teacher.available ? "رزرو آزمایشی" : "فعلاً ناموجود"} */}
             رزرو آزمایشی
           </PrimaryButton>
-          <OutlineButton className=" w-1/2 text-base">
-            مشاهده پروفایل
-          </OutlineButton>
+          <Link href={`/public/teachers/${teacher.id}`} className="w-full">
+            <OutlineButton className=" w-1/2 text-base">
+              مشاهده پروفایل
+            </OutlineButton>
+          </Link>
         </div>
       </div>
     </div>

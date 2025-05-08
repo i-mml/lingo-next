@@ -45,3 +45,9 @@ export interface CmsBannerItem {
   created_at: string;
   updated_at: string;
 }
+export interface IPostsParams {
+  page?: number;
+  page_size?: number;
+  search?: string;
+  user_username: number;
+}
