@@ -38,7 +38,7 @@ export async function postCreateUserPatternProgress(patternId: string) {
 }
 
 export async function patchUserPatternProgress(patternId: string) {
-  const { data } = await axiosInstance.patch(
+  const { data } = await axiosInstance.post(
     `/learning/user-pattern-progress/`,
     {
       pattern_id: patternId,
