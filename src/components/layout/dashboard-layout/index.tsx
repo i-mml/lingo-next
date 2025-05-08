@@ -4,7 +4,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import AppHeader from "./components/AppHeader";
 import { isMobile } from "react-device-detect";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import LoginModal from "@/components/modals/LoginModal";
 import { useLoginModal } from "@/store/use-login-modal";
 import ActiveUserTracker from "@/components/providers/ActivityTracker";
@@ -13,9 +13,12 @@ import IosNotificationAccessModal from "@/components/modals/IosNotificationAcces
 import DeviceBrowserModal from "@/components/modals/DeviceBrowserModal";
 import { getCookie, setCookie } from "cookies-next";
 import BottomNavigation from "@/components/shared/BottomNavigation";
+import { useRouter } from "next/navigation";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const { isOpen, toggleLoginModal } = useLoginModal();
   const [deviceBrowserModal, setDeviceBrowserModal] = useState(false);
 
@@ -45,6 +48,25 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
       toggleDeviceBrowserModal();
     }
   }, []);
+
+  // Handle ZTOKEN URL parameter
+  useEffect(() => {
+    const ztoken = searchParams.get("ZTOKEN");
+    if (ztoken) {
+      // Set the zabano-access-token cookie
+      setCookie("zabano-access-token", ztoken, {
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 60 * 60 * 24 * 365, // 1 year
+      });
+
+      // Remove ZTOKEN from URL and redirect
+      const url = new URL(window.location.href);
+      url.searchParams.delete("ZTOKEN");
+      router.replace(url.pathname + url.search);
+    }
+  }, [searchParams, router]);
 
   if (!!includesNoHeaderRotes(pathname, noLayoutRotes as string[])) {
     return <div className="w-full overflow-hidden">{children}</div>;
