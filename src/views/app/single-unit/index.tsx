@@ -122,7 +122,7 @@ const SingleUnitView = () => {
               return (
                 <Link
                   href={
-                    !isFirstUnfinished && !isLocked
+                    isFirstUnfinished && !isLocked
                       ? `/app/units/${unitId}/activities/${activity.id}`
                       : ""
                   }
