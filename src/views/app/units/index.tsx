@@ -14,6 +14,7 @@ import { Unit } from "./types";
 import Link from "next/link";
 import React from "react";
 import UnitsSkeleton from "./components/UnitsSkeleton";
+import { useAuth } from "@/hooks/use-auth";
 
 function groupUnitsByLevel(units: Unit[]) {
   const groups: { [level_id: number]: { level_text: string; units: Unit[] } } =
@@ -76,9 +77,7 @@ function CircularProgressBox({
 
 const UnitView = () => {
   const { theme }: any = useThemeCreator();
-  const unitsCompleted = 12;
-  const totalUnits = 24;
-  const reviewClasses = 12;
+  const { whoAmI } = useAuth();
 
   const {
     data: units,
@@ -94,7 +93,21 @@ const UnitView = () => {
     const sorted = [...units].sort(
       (a, b) => Number(a.unit_id) - Number(b.unit_id)
     );
-    return groupUnitsByLevel(sorted);
+    const groupedUnits = groupUnitsByLevel(sorted);
+
+    // Add progress statistics to each group
+    return groupedUnits.map((group) => ({
+      ...group,
+      unitsCompleted: group.units.filter((unit) => unit.finished).length,
+      totalUnits: group.units.length,
+      reviewClasses: group.units
+        .filter((unit) => unit.finished)
+        .map((unit) => ({
+          id: unit.id,
+          title: unit.title,
+          unit_id: unit.unit_id,
+        })),
+    }));
   }, [units]);
 
   return (
@@ -110,8 +123,8 @@ const UnitView = () => {
                 <div className="mb-2 px-2 py-3 rounded-lg bg-backgroundLayout border-2 border-borderMain cards-sm-box-shadow flex flex-col gap-1">
                   <div className="flex items-center gap-3">
                     <CircularProgressBox
-                      completed={unitsCompleted}
-                      total={totalUnits}
+                      completed={group.unitsCompleted}
+                      total={group.totalUnits}
                     />
                     <div className="flex flex-col gap-2 flex-1">
                       <div className="font-bold text-main text-lg">
@@ -122,18 +135,18 @@ const UnitView = () => {
                           تعداد درس های کامل شده
                         </span>
                         <span className="text-xs font-medium text-gray400">
-                          {unitsCompleted}/{totalUnits}
+                          {group.unitsCompleted}/{group.totalUnits}
                         </span>
                       </div>
                     </div>
                   </div>
                   <div className="px-4 pt-1 pb-2">
                     <div className="flex items-center gap-[2px] mb-2">
-                      {[...Array(24)].map((_, i) => (
+                      {[...Array(group.totalUnits)].map((_, i) => (
                         <div
                           key={i}
                           className={`w-6 h-2 rounded ${
-                            i < reviewClasses
+                            i < group.unitsCompleted
                               ? "bg-green-400"
                               : "bg-gray-200 dark:bg-gray-800"
                           }`}
@@ -181,7 +194,7 @@ const UnitView = () => {
                               {unit.grammar_description}
                             </div>
                           </div>
-                          {progress === 100 ? (
+                          {!!unit.finished ? (
                             <div className="flex items-center gap-2">
                               <span className="material-icons text-green-500 text-lg">
                                 <Check />
@@ -197,15 +210,21 @@ const UnitView = () => {
                                   <LockIcon />
                                 </span>
                                 <span className="text-xs font-medium text-primary">
-                                  محتوای ویژه
+                                  {!!whoAmI?.has_subscription
+                                    ? "ابتدا درس های قبلی را کامل کنید"
+                                    : "محتوای ویژه"}
                                 </span>
                               </div>
-                              <PrimaryLink
-                                href="/app/subscriptions"
-                                className="!text-xs font-medium text-primary w-fit mx-0"
-                              >
-                                خرید اشتراک
-                              </PrimaryLink>
+                              {!whoAmI?.has_subscription ? (
+                                <PrimaryLink
+                                  href="/app/subscriptions"
+                                  className="!text-xs font-medium text-primary w-fit mx-0"
+                                >
+                                  خرید اشتراک
+                                </PrimaryLink>
+                              ) : (
+                                <></>
+                              )}
                             </div>
                           ) : (
                             <div>
@@ -251,8 +270,8 @@ const UnitView = () => {
                 <div className="mb-2 px-2 py-3 rounded-lg bg-backgroundLayout border border-gray-200 flex flex-col gap-1">
                   <div className="flex items-center gap-3">
                     <CircularProgressBox
-                      completed={unitsCompleted}
-                      total={totalUnits}
+                      completed={group.unitsCompleted}
+                      total={group.totalUnits}
                     />
                     <span className="font-bold text-main text-base">
                       سطح {group.level_text}
@@ -264,11 +283,11 @@ const UnitView = () => {
                         تعداد درس های کامل شده
                       </span>
                       <div className="flex items-center justify-evenly flex-1 w-full">
-                        {[...Array(24)].map((_, i) => (
+                        {[...Array(group.totalUnits)].map((_, i) => (
                           <div
                             key={i}
                             className={`w-6 h-2 rounded ${
-                              i < reviewClasses
+                              i < group.unitsCompleted
                                 ? "bg-green-400"
                                 : "bg-gray-200 dark:bg-gray-800"
                             }`}
@@ -338,15 +357,21 @@ const UnitView = () => {
                                   <LockIcon />
                                 </span>
                                 <span className="text-xs font-medium text-primary">
-                                  محتوای ویژه
+                                  {!!whoAmI?.has_subscription
+                                    ? "ابتدا درس های قبلی را کامل کنید"
+                                    : "محتوای ویژه"}
                                 </span>
                               </div>
-                              <PrimaryLink
-                                href="/app/subscriptions"
-                                className="!text-xs font-medium text-primary w-fit mx-0"
-                              >
-                                خرید اشتراک
-                              </PrimaryLink>
+                              {!whoAmI?.has_subscription ? (
+                                <PrimaryLink
+                                  href="/app/subscriptions"
+                                  className="!text-xs font-medium text-primary w-fit mx-0"
+                                >
+                                  خرید اشتراک
+                                </PrimaryLink>
+                              ) : (
+                                <></>
+                              )}
                             </div>
                           ) : (
                             <div className="flex gap-2 mt-2 flex-col">
