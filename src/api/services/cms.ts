@@ -184,3 +184,23 @@ export const PostCmsWordIssues = async (params: {
 
   return response;
 };
+
+// teachers
+export const GetCmsPosts = async (params: any) => {
+  const response = await axiosInstance.get(`/cms/posts/`, { params });
+
+  return response.data;
+};
+export const GetCmsPostsById = async (id: any) => {
+  const response = await axiosInstance.get(`/cms/posts/${id}/`);
+
+  return response.data;
+};
+export const PostCmsPostByIdLike = async (id: any) => {
+  const response = await axiosInstance.post(`/cms/posts/${id}/likes/`, {});
+  return response.data;
+};
+export const PostCmsPostByIdViews = async (id: any) => {
+  const response = await axiosInstance.post(`/cms/posts/${id}/views/`, {});
+  return response.data;
+};

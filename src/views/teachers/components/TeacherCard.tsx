@@ -8,7 +8,7 @@ import OutlineButton from "@/components/shared/OutlineButton";
 
 const TeacherCard = (teacher: TeacherItem) => {
   return (
-    <div className="bg-backgroundMain backdrop-blur-md rounded-2xl shadow-xl border border-borderMain p-6 flex flex-col md:flex-row items-center gap-6 max-w-2xl mx-auto my-6 transition hover:shadow-2xl">
+    <div className="bg-backgroundMain backdrop-blur-md rounded-2xl shadow-xl border border-borderMain px-4 py-6 flex flex-col md:flex-row items-center gap-6 max-w-2xl mx-auto my-6 transition hover:shadow-2xl">
       {/* Avatar */}
       <div className="flex-shrink-0">
         <Image
@@ -66,15 +66,24 @@ const TeacherCard = (teacher: TeacherItem) => {
               198
             </span>
           </span>
+        </div>
+        <div className="flex flex-row gap-2">
+          <span className="text-xs text-gray400">
+            جلسه آزمایشی:{" "}
+            <span className="font-semibold text-green-500">
+              {/* NEED {teacher.price} */}
+              {40000?.toLocaleString()} ت
+            </span>
+          </span>
           <span className="text-xs text-gray400">
             قیمت هر جلسه:{" "}
             <span className="font-semibold text-green-500">
               {/* NEED {teacher.price} */}
-              100000 تومان
+              {100000?.toLocaleString()} ت
             </span>
           </span>
         </div>
-        <div className="flex gap-3 mt-4">
+        <div className="flex gap-3 mt-4 w-full">
           <PrimaryButton
             className="w-1/2 text-base rounded-xl shadow-md"
             // disabled={!teacher.available}
@@ -82,8 +91,8 @@ const TeacherCard = (teacher: TeacherItem) => {
             {/* NEED {teacher.available ? "رزرو آزمایشی" : "فعلاً ناموجود"} */}
             رزرو آزمایشی
           </PrimaryButton>
-          <Link href={`/public/teachers/${teacher.id}`} className="w-full">
-            <OutlineButton className=" w-1/2 text-base">
+          <Link href={`/public/teachers/${teacher.id}`} className="w-1/2 block">
+            <OutlineButton className="text-base w-full">
               مشاهده پروفایل
             </OutlineButton>
           </Link>
