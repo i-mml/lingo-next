@@ -3,7 +3,6 @@
 import { useAuth } from "@/hooks/use-auth";
 import useThemeCreator from "@/hooks/use-theme";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
@@ -30,6 +29,7 @@ import PrimaryButton from "@/components/shared/PrimaryButton";
 import PodcastsIcon from "@mui/icons-material/Podcasts";
 import { useTheme } from "next-themes";
 import OutlineButton from "@/components/shared/OutlineButton";
+import { Book } from "lucide-react";
 
 interface IProps {
   open: boolean;
@@ -124,6 +124,13 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
       title: t("containers.sidebar.Learning"),
       id: 9,
       items: [
+        {
+          id: 18,
+          title: "یادگیری با درس",
+          link: "/app/units",
+          icon: <Book />,
+          hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
+        },
         {
           id: 10,
           title: t("containers.sidebar.Vocabulary"),

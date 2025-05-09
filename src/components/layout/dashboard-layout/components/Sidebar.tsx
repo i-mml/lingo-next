@@ -24,6 +24,7 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import PodcastsIcon from "@mui/icons-material/Podcasts";
+import { Book, BookKeyIcon } from "lucide-react";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -113,6 +114,13 @@ const Sidebar = () => {
       title: t("containers.sidebar.Learning"),
       id: 9,
       items: [
+        {
+          id: 18,
+          title: "یادگیری با درس",
+          link: "/app/units",
+          icon: <Book />,
+          hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
+        },
         {
           id: 10,
           title: t("containers.sidebar.Vocabulary"),
