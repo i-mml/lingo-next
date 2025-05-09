@@ -14,4 +14,5 @@ export type Unit = {
   covers: string[];
   activities: any[];
   is_locked?: boolean;
+  is_finished?: boolean;
 };

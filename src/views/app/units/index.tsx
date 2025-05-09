@@ -1,13 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import useThemeCreator from "@/hooks/use-theme";
 import { isMobile } from "react-device-detect";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { GetUnits } from "@/api/services/learning";
-import { LockIcon } from "lucide-react";
+import { CheckCircle, LockIcon } from "lucide-react";
 import PrimaryLink from "@/components/shared/PrimaryLink";
 import { Autorenew, Check } from "@mui/icons-material";
 import { Unit } from "./types";
@@ -98,10 +96,10 @@ const UnitView = () => {
     // Add progress statistics to each group
     return groupedUnits.map((group) => ({
       ...group,
-      unitsCompleted: group.units.filter((unit) => unit.finished).length,
+      unitsCompleted: group.units.filter((unit) => unit.is_finished).length,
       totalUnits: group.units.length,
       reviewClasses: group.units
-        .filter((unit) => unit.finished)
+        .filter((unit) => unit.is_finished)
         .map((unit) => ({
           id: unit.id,
           title: unit.title,
@@ -161,7 +159,7 @@ const UnitView = () => {
                       unit.covers?.[0] ||
                       unit.images?.[0] ||
                       "/units/placeholder.jpg";
-                    const progress = unit.finished ? 100 : 0;
+                    const progress = unit.is_finished ? 100 : 0;
                     return (
                       <Link
                         href={unit.is_locked ? "" : `/app/units/${unit.id}`}
@@ -198,10 +196,10 @@ const UnitView = () => {
                               {unit.grammar_description}
                             </div>
                           </div>
-                          {!!unit.finished ? (
+                          {!!unit.is_finished ? (
                             <div className="flex items-center gap-2">
                               <span className="material-icons text-green-500 text-lg">
-                                <Check />
+                                <CheckCircle />
                               </span>
                               <span className="text-xs font-medium text-green-500">
                                 تکمیل شده
@@ -310,7 +308,7 @@ const UnitView = () => {
                       unit.covers?.[0] ||
                       unit.images?.[0] ||
                       "/units/placeholder.jpg";
-                    const progress = unit.finished ? 100 : 0;
+                    const progress = unit.is_finished ? 100 : 0;
                     return (
                       <Link
                         href={unit.is_locked ? "" : `/app/units/${unit.id}`}
@@ -352,7 +350,7 @@ const UnitView = () => {
                           {progress === 100 ? (
                             <div className="flex items-center gap-2 mt-2">
                               <span className="material-icons text-green-500 text-lg">
-                                <Check />
+                                <CheckCircle />
                               </span>
                               <span className="text-xs font-medium text-green-500">
                                 تکمیل شده
