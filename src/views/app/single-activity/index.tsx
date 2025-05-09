@@ -145,7 +145,7 @@ const SingleActivity: React.FC = () => {
     return (
       <div className="relative w-full h-[100vh] flex flex-col justify-center items-center bg-backgroundMain overflow-hidden">
         {/* Soft overlay background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-gray-200/60 z-0" />
+        <div className="absolute inset-0 bg-gradient-to-br from-backgroundLayout to-backgroundMain z-0" />
         <div className="relative z-10 flex flex-col items-center w-full max-w-lg mx-auto">
           {/* Checkmark */}
           <CheckCircleIcon
@@ -153,10 +153,10 @@ const SingleActivity: React.FC = () => {
             style={{ fontSize: 80 }}
           />
           {/* Card */}
-          <div className="flex flex-col md:flex-row items-center bg-white rounded-2xl shadow-lg p-6 mt-6 w-full max-w-md">
+          <div className="flex flex-col md:flex-row items-center bg-backgroundMain rounded-2xl shadow-lg p-6 mt-6 w-full max-w-md">
             <div>
               <div className="font-bold text-xl mb-2 text-main">عالیه!</div>
-              <div className="text-gray-600 text-base">
+              <div className="text-gray400 text-base">
                 شما با موفقیت این درس را پایان رسوندید.
               </div>
             </div>
