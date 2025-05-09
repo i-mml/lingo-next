@@ -48,7 +48,7 @@ const BottomNavigation = () => {
       id: 5,
       label: "پروفایل",
       icon: PersonIcon,
-      href: "/app/profile",
+      href: "/app/account",
     },
   ];
 
