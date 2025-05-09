@@ -9,4 +9,5 @@ export default interface IUnitActivity {
   type: string;
   unlock_at: string;
   is_locked: boolean;
+  is_finished: boolean;
 }

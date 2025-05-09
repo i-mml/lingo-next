@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getActivitiesByUniId, getUnitById } from "@/api/services/learning";
-import { LockIcon } from "lucide-react";
+import { LockIcon, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { isMobile } from "react-device-detect";
 import { useTheme } from "next-themes";
@@ -112,14 +112,15 @@ const SingleUnitView = () => {
           <div className="flex flex-col gap-4">
             {activities.map((activity: IUnitActivity, idx: number) => {
               const isFirstUnfinished =
-                !activity.finished &&
-                activities.findIndex((a: IUnitActivity) => !a.finished) === idx;
-              const isLocked = activity?.is_locked;
+                !activity.is_finished &&
+                activities.findIndex((a: IUnitActivity) => !a.is_finished) ===
+                  idx;
+              const isLocked = activity.is_locked;
 
               return (
                 <Link
                   href={
-                    isFirstUnfinished && !isLocked
+                    !isLocked
                       ? `/app/units/${unitId}/activities/${activity.id}`
                       : ""
                   }
@@ -130,13 +131,15 @@ const SingleUnitView = () => {
                       ? "border-2 border-primary shadow-lg"
                       : "border border-borderMain shadow-sm"
                   }
-                  ${isLocked ? "opacity-60" : "hover:shadow-md"}`}
+                  ${
+                    isLocked
+                      ? "opacity-60 cursor-not-allowed"
+                      : "hover:shadow-md"
+                  }`}
                 >
                   <div
                     className={`w-12 h-12 flex items-center justify-center text-2xl rounded-full mr-3 ${
-                      !activity.finished && !isFirstUnfinished
-                        ? "text-gray400"
-                        : ""
+                      isLocked ? "text-gray400" : ""
                     }`}
                   >
                     {
@@ -148,9 +151,7 @@ const SingleUnitView = () => {
                   <div className="flex-1 flex flex-col items-start justify-center">
                     <div
                       className={`font-bold text-base mb-1 flex items-center gap-2 ${
-                        !activity.finished && !isFirstUnfinished
-                          ? "text-gray400"
-                          : "text-main"
+                        isLocked ? "text-gray400" : "text-main"
                       }`}
                     >
                       {activity.title}
@@ -161,20 +162,22 @@ const SingleUnitView = () => {
                     </div>
                     <div
                       className={`text-xs font-medium ${
-                        !activity.finished && !isFirstUnfinished
-                          ? "text-gray400"
-                          : "text-primary"
+                        isLocked ? "text-gray400" : "text-primary"
                       }`}
                     >
                       {activity.type}
                     </div>
                   </div>
-                  {/* Right: Lock icon if locked */}
-                  {isLocked && (
+                  {/* Right: Lock icon if locked or Check icon if finished */}
+                  {isLocked ? (
                     <span className="ml-2 text-yellow-500">
                       <LockIcon size={22} />
                     </span>
-                  )}
+                  ) : activity.is_finished ? (
+                    <span className="ml-2 text-green-500">
+                      <CheckCircle size={22} />
+                    </span>
+                  ) : null}
                   {/* Active: Start button at bottom center */}
                   {isFirstUnfinished && !isLocked && (
                     <div className="absolute left-1/2 -bottom-4 -translate-x-1/2 z-10">
