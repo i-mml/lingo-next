@@ -11,6 +11,7 @@ import BookIcon from "@mui/icons-material/Book";
 import WordIcon from "@mui/icons-material/Translate";
 import { useAuth } from "@/hooks/use-auth";
 import { isMobile } from "react-device-detect";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 
 const BottomNavigation = () => {
   const pathname = usePathname();
@@ -38,12 +39,18 @@ const BottomNavigation = () => {
     },
     {
       id: 4,
-      label: "کلاس‌آنلاین",
-      icon: CalendarMonthIcon,
-      href: `${
-        preferredLanguage && preferredLanguage === 5 ? "/de" : "/en"
-      }/public/group-classes`,
+      label: "گرامرها",
+      icon: AutoStoriesIcon,
+      href: "/app/grammar",
     },
+    // {
+    //   id: 4,
+    //   label: "کلاس‌آنلاین",
+    //   icon: CalendarMonthIcon,
+    //   href: `${
+    //     preferredLanguage && preferredLanguage === 5 ? "/de" : "/en"
+    //   }/public/group-classes`,
+    // },
     {
       id: 5,
       label: "پروفایل",
