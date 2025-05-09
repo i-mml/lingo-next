@@ -21,6 +21,10 @@ const SingleUnitView = () => {
   const { data: activities, isLoading } = useQuery({
     queryKey: ["get-activities-by-unit-id", unitId],
     queryFn: () => getActivitiesByUniId(Number(unitId)),
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
   });
 
   const { data: unit, isLoading: unitLoading } = useQuery({

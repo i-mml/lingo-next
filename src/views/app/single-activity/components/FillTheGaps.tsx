@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FillTheGapsActivity } from "../types";
+import { useAudioPlayer } from "@/hooks/use-audio-player";
 
 interface Props {
   activity: FillTheGapsActivity;
@@ -11,6 +12,9 @@ const FillTheGaps: React.FC<Props> = ({ activity, handleNext }) => {
   const [disabledIndexes, setDisabledIndexes] = useState<number[]>([]);
   const [correctIndex, setCorrectIndex] = useState<number | null>(null);
 
+  const { playAudio: playSuccess } = useAudioPlayer("/assets/correct.mp3");
+  const { playAudio: playWrong } = useAudioPlayer("/assets/wrong.mp3");
+
   const gapIndex = activity.gapPosition;
   const words = activity.text.split(" ");
   const beforeGap = words.slice(0, gapIndex - 1).join(" ");
@@ -21,6 +25,7 @@ const FillTheGaps: React.FC<Props> = ({ activity, handleNext }) => {
     setSelected(idx);
     if (activity.answers[idx].correct) {
       setCorrectIndex(idx);
+      playSuccess();
       setTimeout(() => {
         setSelected(null);
         setCorrectIndex(null);
@@ -29,6 +34,7 @@ const FillTheGaps: React.FC<Props> = ({ activity, handleNext }) => {
       }, 1000);
     } else {
       setDisabledIndexes((prev) => [...prev, idx]);
+      playWrong();
     }
   };
 
@@ -42,7 +48,7 @@ const FillTheGaps: React.FC<Props> = ({ activity, handleNext }) => {
         ></span>
         <span>{afterGap}</span>
       </div>
-      <div className="flex flex-col gap-6 w-full items-center">
+      <div className="flex flex-col gap-6 w-full items-center px-4">
         {activity.answers.map((ans, idx) => {
           const isCorrect = correctIndex === idx;
           const isSelected = selected === idx;
