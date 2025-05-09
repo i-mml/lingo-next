@@ -50,7 +50,7 @@
     "react-pwa-install": "^1.0.12",
     "react-read-otp": "^1.0.0",
     "react-to-print": "^3.0.5",
-    "react-toastify": "^10.0.4",
+    "react-toastify": "^11.0.5",
     "screenfull": "^6.0.2",
     "swiper": "^11.2.5",
     "tailwind-merge": "^3.2.0",
