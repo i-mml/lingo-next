@@ -6,6 +6,7 @@ import WaveLoading from "@/components/shared/WaveLoading";
 import { IconButton } from "@mui/material";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
+import PrimaryButton from "@/components/shared/PrimaryButton";
 
 interface Props {
   activity: RepeatAndCompareActivity;
@@ -22,6 +23,8 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
   );
   const { playAudio: playSuccess } = useAudioPlayer("/assets/correct.mp3");
   const { playAudio, isPlaying } = useAudioPlayer(sentence.audio);
+  const [attempts, setAttempts] = useState(0);
+  const [showSkipButton, setShowSkipButton] = useState(false);
 
   // Speech recognition setup
   let recognition: any = null;
@@ -58,6 +61,15 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
       ? "#22c55e"
       : "#ef4444";
   };
+  const handleGoNext = () => {
+    handleNext();
+    playSuccess();
+    setAudioPlayed(false);
+    setAccuracyPercentage(null);
+    setSpokenWords([]);
+    setAttempts(0);
+    setShowSkipButton(false);
+  };
 
   const calculateAccuracy = (spoken: string[]) => {
     // Remove punctuation from both spoken and target
@@ -77,14 +89,12 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
 
     setAccuracyPercentage(accuracy);
 
-    if (accuracy > 95) {
+    if (accuracy > 90) {
       setTimeout(() => {
-        handleNext();
-        playSuccess();
-        setAudioPlayed(false);
-        setAccuracyPercentage(null);
-        setSpokenWords([]);
+        handleGoNext();
       }, 1000);
+    } else {
+      handleAttempt(accuracy);
     }
   };
 
@@ -107,6 +117,20 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
     return "";
   };
 
+  const handleAttempt = (score: number) => {
+    if (score < 90) {
+      setAttempts((prev) => {
+        const newAttempts = prev + 1;
+        if (newAttempts >= 3) {
+          setShowSkipButton(true);
+        }
+        return newAttempts;
+      });
+    } else {
+      handleGoNext();
+    }
+  };
+
   return (
     <div className="w-full max-w-2xl mx-auto pt-8 flex flex-col items-center">
       {/* Progress bar and count can be added here if needed */}
@@ -115,7 +139,7 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
           {sentence.text}
         </span>
       </div>
-      <div className="flex flex-col items-center gap-6 w-full">
+      <div className="flex flex-col items-center gap-4 w-full">
         <div className="flex items-center gap-8">
           <IconButton
             disabled={isPlaying}
@@ -178,6 +202,16 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
           >
             {Math.round(accuracyPercentage)}%
           </div>
+        )}
+        {/* Attempts counter */}
+        <div className="text-sm text-gray-500 mt-2">تلاش: {attempts}/3</div>
+        {showSkipButton && (
+          <PrimaryButton
+            onClick={handleGoNext}
+            className="mt-1 px-6 py-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
+          >
+            رد شدن
+          </PrimaryButton>
         )}
       </div>
     </div>
