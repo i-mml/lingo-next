@@ -1,10 +1,12 @@
 import axiosInstance from "../configs";
 import axios from "axios";
 
-export const GetUnits = async () => {
+export const GetUnits = async (knowledgeLevel: string) => {
   let url = `/learning/units/`;
 
-  const response = await axiosInstance.get(url);
+  const response = await axiosInstance.get(url, {
+    params: { level_id: knowledgeLevel },
+  });
 
   return response.data;
 };
