@@ -3,7 +3,7 @@
 import useThemeCreator from "@/hooks/use-theme";
 import { isMobile } from "react-device-detect";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { GetUnits } from "@/api/services/learning";
 import { CheckCircle, LockIcon, ChevronDown, X } from "lucide-react";
 import PrimaryLink from "@/components/shared/PrimaryLink";
@@ -80,6 +80,7 @@ const UnitView = () => {
     whoAmI?.userpreference?.knowledge_level?.toString() || null
   );
   const [showInfoBox, setShowInfoBox] = useState(true);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -87,6 +88,10 @@ const UnitView = () => {
       if (hide === "1") setShowInfoBox(false);
     }
   }, []);
+
+  useEffect(() => {
+    queryClient.refetchQueries({ queryKey: ["get-who-am-i"] });
+  }, [queryClient]);
 
   const handleCloseInfoBox = () => {
     setShowInfoBox(false);

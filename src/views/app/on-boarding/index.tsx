@@ -2,7 +2,6 @@ import { useUserInfo } from "@/store";
 import { useLoginModal } from "@/store/use-login-modal";
 import { IOnboardData } from "@/types/on-boarding";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import StarterPoint from "./components/steps/StarterPoint";
@@ -13,9 +12,8 @@ import SelectLevel from "./components/steps/SelectLevel";
 import SelectDailyGoal from "./components/steps/SelectDailyGoal";
 import EnableNotification from "./components/steps/EnableNotif";
 import WhatsAchieved from "./components/steps/WhatsAchieved";
-const OnBoardingView = () => {
-  const router = useRouter();
 
+const OnBoardingView = () => {
   const [step, setStep] = useState(1);
   const [onBoardData, setOnBoardData] = useState<IOnboardData>({
     language: null,
@@ -26,12 +24,7 @@ const OnBoardingView = () => {
   });
 
   const { updateUser } = useUserInfo();
-  const searchParams = useSearchParams();
   const { closeModal } = useLoginModal();
-
-  const redirectLink = searchParams.get("rdc")
-    ? searchParams.get("rdc")
-    : "public/home";
 
   const userPreferanceMutate = useMutation({
     mutationFn: () =>
@@ -46,17 +39,9 @@ const OnBoardingView = () => {
         .then(() => {
           toast.success("تعیین سطح با موفقیت انجام شد.");
           updateUser({ is_onboard: true });
-          router.push("/" + redirectLink);
         })
         .catch(() => toast.error("تعیین سطح شما با خطا مواجه شد.")),
   });
-  // const userPreferanceMutate = useMutation(() => PostUserpereference(
-  //   {
-  //     "preferred_language": 2,
-  //     "preferred_accent": "british",
-  //     "knowledge_level": 2
-  //   }
-  // ));
 
   const handleGoNextStep = () => {
     setStep((prev) => prev + 1);

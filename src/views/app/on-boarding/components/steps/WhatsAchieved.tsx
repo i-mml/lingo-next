@@ -4,11 +4,14 @@ import ExtensionIcon from "@mui/icons-material/Extension";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import SpellcheckIcon from "@mui/icons-material/Spellcheck";
 import Lottie from "lottie-react";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import OnBoardCard from "../OnBoardCard";
 import BackIconComponent from "@/components/shared/BackIconComponent";
 import Celebrate from "@/assets/lotties/celebrate-linear.json";
 import OnBoardBottomNav from "../OnBoardBottomNav";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Film, BookOpen } from "lucide-react";
+import Link from "next/link";
 
 interface IProps {
   step: number;
@@ -22,7 +25,44 @@ const WhatsAchieved = (props: IProps) => {
   const { step, nextAction, prevAction } = props;
 
   const { theme }: any = useThemeCreator();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [showOptions, setShowOptions] = useState(false);
 
+  const redirectLink = searchParams.get("rdc")
+    ? searchParams.get("rdc")
+    : "public/home";
+
+  if (showOptions) {
+    return (
+      <OnBoardCard>
+        <div className="text-primary font-bold text-xl md:text-2xl">
+          دوست داری با چه روشی شروع کنی؟
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-4 w-full mt-4">
+          <Link
+            href={"/app/units"}
+            className="flex-1 flex items-center gap-3 bg-gradient-to-r from-green-100 to-green-50 shadow-lg h-20 rounded-xl px-6 py-5 hover:scale-105 transition-transform cursor-pointer"
+          >
+            <BookOpen className="w-8 h-8 text-green-500" />
+            <span className="text-black font-bold text-lg">
+              یادگیری درس به درس
+            </span>
+          </Link>
+          <Link
+            href={"/" + redirectLink}
+            className="flex-1 flex items-center gap-3 bg-gradient-to-r from-blue-100 to-blue-50 shadow-lg h-20 rounded-xl px-6 py-5 hover:scale-105 transition-transform cursor-pointer"
+          >
+            <Film className="w-8 h-8 text-blue-500" />
+            <span className="text-black font-bold text-lg">
+              یادگیری با فیلم و سریال
+            </span>
+          </Link>
+        </div>
+      </OnBoardCard>
+    );
+  }
   return (
     <OnBoardCard>
       <BackIconComponent
@@ -84,7 +124,10 @@ const WhatsAchieved = (props: IProps) => {
       <OnBoardBottomNav
         selected={"true"}
         step={step}
-        handleNextAction={nextAction}
+        handleNextAction={() => {
+          nextAction();
+          setShowOptions(true);
+        }}
       />
     </OnBoardCard>
   );
