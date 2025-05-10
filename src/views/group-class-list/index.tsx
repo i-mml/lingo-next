@@ -10,6 +10,9 @@ import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import WaveLoading from "@/components/shared/WaveLoading";
 import moment from "moment-jalaali";
+import OutlineButton from "@/components/shared/OutlineButton";
+import Link from "next/link";
+import { useAuth } from "@/hooks/use-auth";
 
 // TypeScript type for group class
 export type GroupClass = {
@@ -37,6 +40,7 @@ export type GroupClass = {
 
 const GroupClassList: React.FC = () => {
   const { locale } = useParams();
+  const { isGuest } = useAuth();
 
   const { data: groupClasses = [], isLoading } = useQuery<GroupClass[]>({
     queryKey: ["get-group-classes-list"],
@@ -76,8 +80,8 @@ const GroupClassList: React.FC = () => {
     );
 
   return (
-    <div className="min-h-screen bg-backgroundMain flex flex-col items-center px-2 py-8">
-      <div className="flex items-center gap-3 mb-8">
+    <div className="min-h-screen bg-backgroundMain flex flex-col items-center px-2 pt-10 pb-8">
+      <div className="flex items-center gap-3 mb-4">
         <h1 className="text-xl md:text-3xl font-bold text-main text-center">
           کلاس‌های گروهی زبان{" "}
           {
@@ -101,6 +105,13 @@ const GroupClassList: React.FC = () => {
           <></>
         )}
       </div>
+      {!isGuest && (
+        <div className="text-sm text-main w-full max-w-md md:mt-3 mb-6">
+          <Link href="/app/group-classes/my-classes">
+            <OutlineButton className="w-full">کلاس های من</OutlineButton>
+          </Link>
+        </div>
+      )}
 
       <div className="p-4 md:p-8 w-full max-w-5xl">
         {/* Tabs */}
