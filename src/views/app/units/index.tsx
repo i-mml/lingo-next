@@ -5,12 +5,12 @@ import { isMobile } from "react-device-detect";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { GetUnits } from "@/api/services/learning";
-import { CheckCircle, LockIcon, ChevronDown } from "lucide-react";
+import { CheckCircle, LockIcon, ChevronDown, X } from "lucide-react";
 import PrimaryLink from "@/components/shared/PrimaryLink";
 import { Autorenew, Check } from "@mui/icons-material";
 import { Unit } from "./types";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UnitsSkeleton from "./components/UnitsSkeleton";
 import { useAuth } from "@/hooks/use-auth";
 import { MenuItem, Select } from "@mui/material";
@@ -79,6 +79,21 @@ const UnitView = () => {
   const [knowledgeLevel, setKnowledgeLevel] = useState<string | null>(
     whoAmI?.userpreference?.knowledge_level?.toString() || null
   );
+  const [showInfoBox, setShowInfoBox] = useState(true);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hide = localStorage.getItem("hideUnitsInfoBox");
+      if (hide === "1") setShowInfoBox(false);
+    }
+  }, []);
+
+  const handleCloseInfoBox = () => {
+    setShowInfoBox(false);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("hideUnitsInfoBox", "1");
+    }
+  };
 
   const {
     data: units,
@@ -124,8 +139,8 @@ const UnitView = () => {
       className="min-h-screen w-full bg-backgroundLayout pt-6 px-4"
       dir="rtl"
     >
-      <div className="w-full max-w-3xl mx-auto mb-8">
-        <div className="flex items-center justify-between flex-col md:flex-row bg-gradient-to-r from-primary to-blue-500 rounded-xl shadow-lg px-8 py-6">
+      <div className="w-full max-w-3xl mx-auto mb-4 md:mb-8">
+        <div className="flex items-center justify-between flex-col md:flex-row bg-gradient-to-r from-primary to-blue-500 rounded-xl shadow-lg px-4 md:px-8 py-4 md:py-6">
           <div className="mb-4 md:mb-0">
             <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-1 flex items-center gap-2">
               <span>سطح درسی شما</span>
@@ -162,6 +177,35 @@ const UnitView = () => {
           </div>
         </div>
       </div>
+      {showInfoBox && (
+        <div className="w-full max-w-2xl mx-auto mb-6 relative">
+          <button
+            className="absolute left-2 top-2 text-yellow-500 hover:text-yellow-700 transition-colors z-10"
+            onClick={handleCloseInfoBox}
+            aria-label="بستن راهنما"
+          >
+            <X className="w-5 h-5" />
+          </button>
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg px-6 py-4 text-yellow-900 text-sm shadow flex items-start gap-3">
+            <div>
+              🎯 اینجا نقطه شروع مسیر یادگیری شماست!
+              <br />
+              سطح موردنظرت رو انتخاب کن، پیشرفتت رو لحظه‌به‌لحظه ببین و هر درس
+              رو با یک کلیک شروع کن.
+              <br />
+              هرچه بیشتر پیش بری، درس‌های جدیدتر و جذاب‌تری برات باز میشه.
+              <br />
+              آماده‌ای برای یک تجربه یادگیری متفاوت؟{" "}
+              <span
+                className="font-bold text-primary"
+                onClick={handleCloseInfoBox}
+              >
+                شروع کن!
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
       {isLoading || isFetching ? (
         <UnitsSkeleton />
       ) : isMobile ? (
