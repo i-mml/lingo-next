@@ -41,7 +41,7 @@ const BottomNavigation = () => {
       id: 4,
       label: "گرامرها",
       icon: AutoStoriesIcon,
-      href: "/app/grammar",
+      href: `/public/grammar-list`,
     },
     // {
     //   id: 4,
