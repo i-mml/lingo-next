@@ -11,10 +11,11 @@ interface ModalProps {
   open: boolean;
   onClose: () => void;
   eventData: {
-    cta: {
+    cta_data: {
       link: string;
       title: string;
     };
+    cta:string;
     description: string;
     event_type: "public";
     image: string;
@@ -43,11 +44,11 @@ const GlobalActionModal = ({ open, onClose, eventData }: ModalProps) => {
           lineClampClassName="!line-clamp-5"
         />
         <Link
-          href={eventData?.cta?.link}
+          href={eventData?.cta_data?.link}
           className="block mt-5 w-full max-w-md mx-auto"
         >
           <PrimaryButton className="w-full" onClick={() => onClose()}>
-            {eventData?.cta?.title}
+            {eventData?.cta_data?.title}
           </PrimaryButton>
         </Link>
       </div>
