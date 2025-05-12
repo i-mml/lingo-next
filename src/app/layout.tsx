@@ -67,9 +67,24 @@ export default function RootLayout({
                   s.async = 1; s.type = "text/javascript";
                   s.src = "https://cdn.yektanet.com/rg_woebegone/scripts_v3/5WRQkwDn/rg.complete.js?v=" + r, c.parentNode.insertBefore(s, c)
               }(window, document, "yektanet");
-            
-              // Goftino
-              !function(){var i="cuNGrp",a=window,d=document;function g(){var g=d.createElement("script"),s="https://www.goftino.com/widget/"+i,l=localStorage.getItem("goftino_"+i);g.async=!0,g.src=l?s+"?o="+l:s;d.getElementsByTagName("head")[0].appendChild(g);}"complete"===d.readyState?g():a.attachEvent?a.attachEvent("onload",g):a.addEventListener("load",g,!1);}();
+    
+                  // clarity
+                        if (!window.location?.href?.includes("localhost"))
+            (function (c, l, a, r, i, t, y) {
+                 c[a] =
+                   c[a] ||
+                   function () {
+                     (c[a].q = c[a].q || []).push(arguments);
+                           };
+                         t = l.createElement(r);
+                     t.async = 1;
+                     t.src = "https://www.clarity.ms/tag/" + i;
+                     y = l.getElementsByTagName(r)[0];
+                     y.parentNode.insertBefore(t, y);
+                })(window, document, "clarity", "script", "op879p6wdq");
+                    
+                      // Goftino
+                      !function(){var i="cuNGrp",a=window,d=document;function g(){var g=d.createElement("script"),s="https://www.goftino.com/widget/"+i,l=localStorage.getItem("goftino_"+i);g.async=!0,g.src=l?s+"?o="+l:s;d.getElementsByTagName("head")[0].appendChild(g);}"complete"===d.readyState?g():a.attachEvent?a.attachEvent("onload",g):a.addEventListener("load",g,!1);}();
 
               `,
           }}
