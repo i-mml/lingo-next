@@ -55,6 +55,10 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
         <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-N798SLPP40"
+        ></script>
+        <script
           id="ua-script-5WRQkwDn"
           dangerouslySetInnerHTML={{
             __html: `!function (t, e, n) {
