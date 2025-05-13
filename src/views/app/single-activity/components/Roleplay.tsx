@@ -33,6 +33,8 @@ const Roleplay: React.FC<Props> = ({
   const { playAudio, isPlaying } = useAudioPlayer(activity.content.audio);
   const { handleTextToSpeech, textToSpeachMutation } = useTextToAudio();
   const isTTSLoading = textToSpeachMutation.isLoading;
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [showSkipButton, setShowSkipButton] = useState(false);
 
   // Speech recognition setup
   let recognition: any = null;
@@ -86,10 +88,17 @@ const Roleplay: React.FC<Props> = ({
         setAccuracyPercentage(null);
         setSpokenWords([]);
         setError(null);
+        setFailedAttempts(0);
+        setShowSkipButton(false);
         handleNext();
       }, 1000);
     } else {
       setError("دوباره تلاش کنید ..!");
+      setFailedAttempts((prev) => {
+        const newAttempts = prev + 1;
+        if (newAttempts >= 3) setShowSkipButton(true);
+        return newAttempts;
+      });
     }
   };
 
@@ -279,6 +288,22 @@ const Roleplay: React.FC<Props> = ({
             {/* Error message */}
             {error && (
               <div className="mt-2 text-red-500 font-bold">{error}</div>
+            )}
+            {showSkipButton && (
+              <PrimaryButton
+                onClick={() => {
+                  setAudioPlayed(false);
+                  setAccuracyPercentage(null);
+                  setSpokenWords([]);
+                  setError(null);
+                  setFailedAttempts(0);
+                  setShowSkipButton(false);
+                  handleNext();
+                }}
+                className="mt-1 px-6 py-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
+              >
+                رد شدن
+              </PrimaryButton>
             )}
           </>
         ) : (
