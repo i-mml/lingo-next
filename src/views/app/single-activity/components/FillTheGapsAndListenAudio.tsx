@@ -20,10 +20,6 @@ const FillTheGapsAndListenAudio: React.FC<Props> = ({
   const [selected, setSelected] = useState<number | null>(null);
   const [disabledIndexes, setDisabledIndexes] = useState<number[]>([]);
   const [correctIndex, setCorrectIndex] = useState<number | null>(null);
-  // For write-answer type
-  const [inputValue, setInputValue] = useState("");
-  const [checked, setChecked] = useState(false);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const { playAudio: playWrong } = useAudioPlayer("/assets/wrong.mp3");
   const { handleTextToSpeech } = useTextToAudio();
@@ -97,7 +93,7 @@ const FillTheGapsAndListenAudio: React.FC<Props> = ({
                   transition-all shadow
                   ${
                     isCorrect
-                      ? "border-2 border-green-500 bg-green-50 text-green-700 shadow-green-200"
+                      ? "border-2 border-green-500 bg-green-50 !text-green-700 shadow-green-200"
                       : ""
                   }
                   ${

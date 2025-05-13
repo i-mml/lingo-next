@@ -7,6 +7,7 @@ import { useAudioPlayer } from "@/hooks/use-audio-player";
 import { useTextToAudio } from "@/hooks/use-text-to-audio";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import { CheckCircleOutlined, CloseOutlined } from "@mui/icons-material";
+import { Lightbulb } from "lucide-react";
 
 interface Props {
   activity: FillTheGapsWithTextAndListenAudioActivity;
@@ -17,14 +18,11 @@ const FillTheGapsWithTextAndListenAudio: React.FC<Props> = ({
   activity,
   handleNext,
 }) => {
-  // For select-answer type
-  const [selected, setSelected] = useState<number | null>(null);
-  const [disabledIndexes, setDisabledIndexes] = useState<number[]>([]);
-  const [correctIndex, setCorrectIndex] = useState<number | null>(null);
   // For write-answer type
   const [inputValue, setInputValue] = useState("");
   const [checked, setChecked] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [showHint, setShowHint] = useState(false);
 
   const { playAudio: playWrong } = useAudioPlayer("/assets/wrong.mp3");
   const { handleTextToSpeech } = useTextToAudio();
@@ -67,6 +65,7 @@ const FillTheGapsWithTextAndListenAudio: React.FC<Props> = ({
         setInputValue("");
         setChecked(false);
         setIsCorrect(null);
+        setShowHint(false);
       }, 1000);
     }
   };
@@ -139,6 +138,26 @@ const FillTheGapsWithTextAndListenAudio: React.FC<Props> = ({
             </div>
           )}
         </div>
+        <button
+          type="button"
+          className="mt-4 flex flex-col items-start w-full pr-3 cursor-pointer disabled:opacity-50"
+          onClick={() => setShowHint(true)}
+          disabled={showHint}
+          aria-label="Show hint"
+        >
+          <span className="rounded-full bg-yellow-100 shadow-lg p-3 hover:bg-yellow-200  transition-all">
+            <Lightbulb className="text-yellow-500 !w-6 !h-6 drop-shadow-lg" />
+          </span>
+        </button>
+        {/* Show the answer if hint is revealed */}
+        {showHint && (
+          <div
+            dir="ltr"
+            className="mb-4 text-left text-base text-primary font-semibold bg-yellow-50 rounded-lg px-4 py-2 shadow"
+          >
+            {activity.answers?.[0]}
+          </div>
+        )}
 
         <div className="flex flex-col items-center gap-4">
           <PrimaryButton

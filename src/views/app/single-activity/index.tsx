@@ -22,6 +22,7 @@ import Roleplay from "./components/Roleplay";
 import FillTheGaps from "./components/FillTheGaps";
 import TextQuestionSingleChoiceImageAnswer from "./components/TextQuestionSingleChoiceImageAnswer";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import TextQuestionSingleChoiceTextAnswer from "./components/TextQuestionSingleChoiceTextAnswer";
 
 const SingleActivity: React.FC = () => {
   const { activityId, unitId } = useParams();
@@ -116,6 +117,12 @@ const SingleActivity: React.FC = () => {
     ),
     imageQuestionSingleChoiceTextAnswer: (
       <ImageQuestionSingleChoiceTextAnswer
+        activity={activityData?.[currentIndex]?.content}
+        handleNext={handleNext}
+      />
+    ),
+    textQuestionSingleChoiceTextAnswer: (
+      <TextQuestionSingleChoiceTextAnswer
         activity={activityData?.[currentIndex]?.content}
         handleNext={handleNext}
       />
