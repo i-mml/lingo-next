@@ -24,6 +24,7 @@ import TextQuestionSingleChoiceImageAnswer from "./components/TextQuestionSingle
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TextQuestionSingleChoiceTextAnswer from "./components/TextQuestionSingleChoiceTextAnswer";
 import AudioQuestionTextAnswer from "./components/AudioQuestionTextAnswer";
+import TextQuestionTextAnswer from "./components/TextQuestionTextAnswer";
 
 const SingleActivity: React.FC = () => {
   const { activityId, unitId } = useParams();
@@ -142,6 +143,12 @@ const SingleActivity: React.FC = () => {
     ),
     textQuestionSingleChoiceImageAnswer: (
       <TextQuestionSingleChoiceImageAnswer
+        activity={activityData?.[currentIndex]?.content}
+        handleNext={handleNext}
+      />
+    ),
+    textQuestionTextAnswer: (
+      <TextQuestionTextAnswer
         activity={activityData?.[currentIndex]?.content}
         handleNext={handleNext}
       />
