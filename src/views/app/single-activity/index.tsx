@@ -23,6 +23,7 @@ import FillTheGaps from "./components/FillTheGaps";
 import TextQuestionSingleChoiceImageAnswer from "./components/TextQuestionSingleChoiceImageAnswer";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import TextQuestionSingleChoiceTextAnswer from "./components/TextQuestionSingleChoiceTextAnswer";
+import AudioQuestionTextAnswer from "./components/AudioQuestionTextAnswer";
 
 const SingleActivity: React.FC = () => {
   const { activityId, unitId } = useParams();
@@ -91,6 +92,12 @@ const SingleActivity: React.FC = () => {
     ),
     writeAndCompare: (
       <WriteAndCompare
+        activity={activityData?.[currentIndex]?.content}
+        handleNext={handleNext}
+      />
+    ),
+    audioQuestionTextAnswer: (
+      <AudioQuestionTextAnswer
         activity={activityData?.[currentIndex]?.content}
         handleNext={handleNext}
       />
