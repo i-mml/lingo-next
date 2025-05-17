@@ -4,10 +4,10 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
 import SearchIcon from "@mui/icons-material/Search";
-import { CircularProgress, IconButton, styled } from "@mui/material";
+import { CircularProgress, IconButton } from "@mui/material";
 import clsx from "clsx";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import GraduationIcon from "@/assets/graduation.svg";
 import ToLearnIcon from "@/assets/to-learn.svg";
@@ -15,7 +15,6 @@ import { useTranslation } from "react-i18next";
 import { useLoginModal } from "@/store/use-login-modal";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery } from "@tanstack/react-query";
-import { GetEducationStatistics } from "@/api/services/education";
 import AppHeaderItem from "./AppHeaderItem";
 import OutlineButton from "@/components/shared/OutlineButton";
 import HeaderChangeLanguageMenu from "./HeaderChangeLanguageMenu";
@@ -24,6 +23,9 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import DrawerMenu from "./DrawerMenu";
 import SearchModal from "@/components/modals/SearchModal";
+import XpIcon from "@/assets/xp.svg";
+import { GetGamificationStats } from "@/api/services/gamification";
+import CoinsIcon from "@/assets/coins.svg";
 
 const AppHeader: React.FC = () => {
   const { t: translate } = useTranslation();
@@ -34,14 +36,10 @@ const AppHeader: React.FC = () => {
   const pathname = usePathname();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["get-statistic-data"],
-    queryFn: GetEducationStatistics,
-    enabled:
-      !isGuest &&
-      !pathname?.includes("on-boarding") &&
-      !!whoAmI?.userpreference?.preferred_language,
+    queryKey: ["get-gamification-stats"],
+    queryFn: GetGamificationStats,
+    enabled: !isGuest && !!whoAmI?.userpreference?.preferred_language,
   });
-
   const [openDrawerMenu, setOpenDrawerMenu] = useState(false);
   const [searchModal, setSearchModal] = useState(false);
 
@@ -56,23 +54,19 @@ const AppHeader: React.FC = () => {
         ) : (
           !isGuest && (
             <div className="left flex items-center text-main-text">
-              {!!data?.data?.learned_words && (
+              {!!data?.xp && (
                 <div className="flex items-center">
                   <AppHeaderItem
-                    icon={<GraduationIcon className="text-xl" />}
-                    title={translate("containers.header.Words Learned")}
-                    color="#61D058"
-                    value={`${data.data.learned_words} ${translate(
-                      "containers.header.Learned Unit"
-                    )}`}
+                    icon={<XpIcon className="w-8 h-8" />}
+                    title={"امتیاز"}
+                    color="#1aaff9"
+                    value={`${Number(data?.xp / 1000).toFixed(1)}K`}
                   />
                   <AppHeaderItem
-                    icon={<ToLearnIcon className="text-xl" />}
-                    title={translate("containers.header.Words Added")}
+                    icon={<CoinsIcon className="w-8 h-8" />}
+                    title={"سکه"}
                     color="#88C1FF"
-                    value={`${data.data.learning_words} ${translate(
-                      "containers.header.Words Added Unit"
-                    )}`}
+                    value={`${Number(data?.coins / 1000).toFixed(1)}K`}
                   />
                 </div>
               )}
@@ -156,7 +150,7 @@ const AppHeader: React.FC = () => {
 
         {!isLoading && !isGuest && (
           <div className="mobile-header-bottom flex items-center justify-between w-full mt-2">
-            {!!data?.data?.learned_words && (
+            {!!data?.xp && (
               <div
                 className={clsx(
                   "flex items-center gap-3",
@@ -166,18 +160,14 @@ const AppHeader: React.FC = () => {
                 )}
               >
                 <AppHeaderItem
-                  icon={<GraduationIcon className="!w-6 !h-6" />}
-                  color="#61D058"
-                  value={`${data.data.learned_words} ${translate(
-                    "containers.header.Learned Unit"
-                  )} ${translate("containers.header.Words Learned")}`}
+                  icon={<XpIcon className="!w-6 !h-6" />}
+                  color="#1aaff9"
+                  value={`${Number(data?.xp / 1000).toFixed(1)}K امتیاز`}
                 />
                 <AppHeaderItem
-                  icon={<ToLearnIcon className="!w-6 !h-6" />}
+                  icon={<CoinsIcon className="!w-6 !h-6" />}
                   color="#88C1FF"
-                  value={`${data.data.learning_words} ${translate(
-                    "containers.header.Words Added Unit"
-                  )} ${translate("containers.header.Words Added")}`}
+                  value={`${Number(data?.coins / 1000).toFixed(1)}K سکه‌`}
                 />
               </div>
             )}
