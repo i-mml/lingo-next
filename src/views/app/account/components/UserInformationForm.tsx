@@ -15,8 +15,9 @@ import InputWithIcon from "@/components/shared/InputWithIcon";
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import WaveLoading from "@/components/shared/WaveLoading";
 
-const UserInformationForm = ({ userData }: any) => {
+const UserInformationForm = ({ userData, isLoading }: any) => {
   const { t: translate } = useTranslation();
   const [userInfo, setUserInfo] = useState({
     name: userData?.name,
@@ -110,20 +111,26 @@ const UserInformationForm = ({ userData }: any) => {
           <div className="icon w-6 h-6">
             <CalenderIcon className="w-6 h-6" />
           </div>
-          <DatePicker
-            calendar={persian}
-            locale={persian_fa}
-            value={userInfo?.birthday || userData?.birthday}
-            onChange={handleChangeBirtDate}
-            style={{
-              background: "#222",
-              color: "#fff",
-              borderRadius: "12px",
-              width: "100%",
-            }}
-            inputClass="input h-full !bg-transparent border-none outline-none !text-main !cursor-pointer"
-            placeholder={translate("pages.profile.Select Birthdate")}
-          />
+          {isLoading ? (
+            <div className="w-full h-full flex items-center justify-center">
+              <WaveLoading />
+            </div>
+          ) : (
+            <DatePicker
+              calendar={persian}
+              locale={persian_fa}
+              value={userInfo?.birthday || userData?.birthday || ""}
+              onChange={handleChangeBirtDate}
+              style={{
+                background: "#222",
+                color: "#fff",
+                borderRadius: "12px",
+                width: "100%",
+              }}
+              inputClass="input h-full !bg-transparent border-none outline-none !text-main !cursor-pointer"
+              placeholder={translate("pages.profile.Select Birthdate")}
+            />
+          )}
         </div>
       </div>
       <OutlineButton

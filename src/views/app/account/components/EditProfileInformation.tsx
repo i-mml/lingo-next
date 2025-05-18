@@ -8,7 +8,7 @@ import BackIconComponent from "@/components/shared/BackIconComponent";
 
 const EditProfileInformation = () => {
   const router = useRouter();
-  const { whoAmI } = useAuth();
+  const { whoAmI, whoAmILoading } = useAuth();
 
   return (
     <section className="bg-backgroundLayout pt-0 py-6 md:pt-6">
@@ -17,7 +17,10 @@ const EditProfileInformation = () => {
           className="mb-5"
           clickHandler={() => router.push("/app/account")}
         />
-        <UserInformationForm userData={whoAmI} />
+        <UserInformationForm
+          userData={whoAmI}
+          isLoading={whoAmILoading || !whoAmI}
+        />
       </div>
     </section>
   );
