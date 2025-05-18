@@ -84,7 +84,7 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
         <div className="flex items-center gap-2 text-sm mt-1">
           <span className="text-placeholder">Level {level}</span>
           <span>•</span>
-          <span className="text-xp">{xp.toLocaleString()} XP</span>
+          <span className="text-xp font-bold">{xp.toLocaleString()} XP</span>
         </div>
       </div>
     </div>
