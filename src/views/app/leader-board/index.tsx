@@ -3,7 +3,8 @@ import LeaderboardItem from "./components/LeaderboardItem";
 import { Trophy } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { GetGamificationLeaderboard } from "@/api/services/gamification";
-
+import Lottie from "lottie-react";
+import leaderboardAnimation from "@/assets/lotties/leaderboard.json";
 interface LeaderboardUser {
   rank: number;
   name: string;
@@ -47,8 +48,12 @@ const Leaderboard: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4">
-            <Trophy className="w-8 h-8 text-primary" />
+          <div className="inline-flex items-center justify-center rounded-full mb-4">
+            <Lottie
+              animationData={leaderboardAnimation}
+              loop={true}
+              className="w-20 h-20 md:w-32 md:h-32"
+            />
           </div>
           <h1 className="text-3xl font-bold text-main mb-2">جدول برترین‌ها</h1>
           <p className="text-gray300">
