@@ -14,7 +14,7 @@ const SettingsItem = ({
   return (
     <Link
       href={link}
-      className="flex items-center w-full md:w-[50%] max-w-[500%] bg-backgroundMain rounded-2xl py-2 md:py-4 px-3 mb-4 gap-4"
+      className="flex items-center w-full max-w-[500px] bg-backgroundMain rounded-2xl py-2 md:py-4 px-3 mb-4 gap-4"
     >
       <div className="bg-layout rounded-full w-12 h-12 grid place-items-center">
         <Image

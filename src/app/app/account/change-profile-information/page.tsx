@@ -1,6 +1,6 @@
 "use client";
 
-import EditProfileInformation from "@/views/app/settings/components/EditProfileInformation";
+import EditProfileInformation from "@/views/app/account/components/EditProfileInformation";
 import React from "react";
 
 const ChangeProfileInformationPage = () => {

@@ -1,61 +1,80 @@
 "use client";
 
-import { GetAuthActivityHistory } from "@/api/services/auth";
-import { getPaymentCurrentSubscription } from "@/api/services/payment";
 import WaveLoading from "@/components/shared/WaveLoading";
 import { useAuth } from "@/hooks/use-auth";
-import SettingsIcon from "@mui/icons-material/Settings";
-import { useQuery } from "@tanstack/react-query";
 import Lottie from "lottie-react";
-import moment from "moment-jalaali";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import StreakLineal from "@/assets/lotties/streak.json";
 import UserLottie from "@/assets/lotties/user_lineal.json";
-import TabsWithBorder from "@/components/shared/TabsWithBorder";
-import UserActivityCalendar from "./components/UserActivityCalendar";
-import UserActivityBarChart from "./components/UserActivityBarChart";
-import PrimaryButton from "@/components/shared/PrimaryButton";
-import Link from "next/link";
-import OutlineButton from "@/components/shared/OutlineButton";
-import RemainDate from "./components/RemainDate";
-import { getDayDifference } from "@/utils/get-day-difference";
-import UserInformationForm from "./components/UserInformationForm";
+import moment from "moment-jalaali";
+import SettingsItem from "./components/SettingsItem";
+import LogoutModal from "@/components/modals/LogoutModal";
+import { Logout } from "@mui/icons-material";
+import { isMobile } from "react-device-detect";
+import { useTranslation } from "react-i18next";
 
 moment.loadPersian();
 
 const AccountView = () => {
-  const router = useRouter();
-  const { t: translate } = useTranslation();
   const { whoAmI, whoAmILoading } = useAuth();
+  const [open, setOpen] = useState(false);
+  const { t: translate } = useTranslation();
 
-  const [currentTab, setCurrentTab] = useState(1);
-
-  const { data: activityData } = useQuery({
-    queryKey: ["get-activity-history"],
-    queryFn: GetAuthActivityHistory,
-  });
-  const { data: currentSubData, isLoading: currentSubLoading } = useQuery({
-    queryKey: ["get-current-sub", whoAmI?.has_subscription],
-    queryFn: getPaymentCurrentSubscription,
-    enabled: !!whoAmI?.has_subscription && currentTab === 2,
-  });
-
-  const redirectToSettings = () => {
-    router.push("/app/settings");
-  };
-
-  const tabs = [
-    { id: 1, title: "آمار فعالیت من", component: "ACTIVITY", hide: false },
+  const settingsList = [
+    {
+      id: 1,
+      title: "حساب کاربری",
+      link: "/app/account/change-profile-information",
+      icon: "/images/settings/settings-edit-profile.png",
+      hide: false,
+    },
     {
       id: 2,
       title: "اشتراک من",
-      component: "ACTIVITY",
+      link: "/app/account/my-subscription",
+      icon: "/images/settings/settings-money-bag.svg",
       hide: !whoAmI?.has_subscription,
     },
-    { id: 3, title: "اطلاعات حساب", component: "ACTIVITY", hide: false },
+    {
+      id: 3,
+      title: "آمار فعالیت من",
+      link: "/app/account/my-activity",
+      icon: "/images/settings/settings-my-activity.svg",
+      hide: false,
+    },
+    {
+      id: 4,
+      title: "تغییر زبان",
+      link: "/app/account/select-language",
+      icon: "/images/settings/settings-languages.png",
+      hide: false,
+    },
+    {
+      id: 5,
+      title: "مدیریت رمز عبور",
+      link: "/app/account/password-management",
+      icon: "/images/settings/settings-lock.svg",
+      hide: false,
+    },
+
+    {
+      id: 6,
+      title: "دعوت از دوستان",
+      link: "/app/account/add-friends",
+      icon: "/images/settings/settings-add-friends.png",
+      hide: false,
+    },
+    {
+      id: 7,
+      title: "سوالات متداول و نحوه استفاده",
+      link: "/public/how-to-use",
+      icon: "/images/settings/settings-chat.png",
+      hide: false,
+    },
   ];
+
+  const toggle = () => {
+    setOpen((prev) => !prev);
+  };
 
   if (!whoAmI && whoAmILoading) {
     return (
@@ -65,7 +84,7 @@ const AccountView = () => {
     );
   }
   return (
-    <section className="bg-backgroundLayout pt-0 py-6 md:pt-6 min-h-[100vh] ">
+    <section className="bg-backgroundLayout pt-4 py-6 md:pt-6 min-h-[100vh] ">
       <div className="flex items-center justify-between mb-5 md:mb-3 px-[5%] pt-3 md:pt-8">
         <div className="flex items-center gap-4 !justify-start">
           <Lottie
@@ -76,138 +95,29 @@ const AccountView = () => {
             مدیریت حساب
           </h1>
         </div>
-
         <div
           className="flex items-center gap-2 justify-center cursor-pointer"
-          onClick={redirectToSettings}
+          onClick={toggle}
         >
-          <SettingsIcon className="text-primary" />
-          <div className="text-primary font-bold">تنظیمات</div>
-        </div>
-      </div>
-
-      <TabsWithBorder
-        activeTab={currentTab}
-        onTabClick={setCurrentTab}
-        tabList={tabs}
-      />
-      {currentTab === 1 && (
-        <div className="profile-content mt-4 bg-backgroundMain w-[91.11%] md:w-[96%] md:min-w-[684px] mx-auto !mb-5 py-4 px-4 md:px-6 rounded-2xl">
-          <h2 className="page-title text-main text-base md:text-lg font-semibold">
-            فعالیت من
-          </h2>
-          <div className="flex items-start gap-5 md:gap-8 flex-col md:flex-row">
-            <div className="w-full md:w-[20%]">
-              <div className="flex items-center justify-between text-main gap-3 bg-backgroundMain my-3">
-                <div className="text-[16px] md:text-lg text-gray400">
-                  فعالیت پی‌در‌پی:
-                </div>
-                <div className="flex items-center">
-                  <div className="text-xl lg:text-2xl font-medium">
-                    {activityData?.current_streak} روز
-                  </div>
-                  <Lottie
-                    animationData={StreakLineal}
-                    className="w-12 h-12 lg:w-[64px] lg:h-[64px]"
-                  />
-                </div>
-              </div>
-
-              <div className="w-full flex-1">
-                <div className="w-full rounded-lg border border-borderMain bg-backgroundMain py-2 px-3  flex items-center gap-3">
-                  <span className="text-[#e5e7eb] text-[16px] md:text-lg font-semibold">{`${activityData?.current_streak}/${activityData?.max_streak}`}</span>
-
-                  <div
-                    className="bg-[#262626] h-2 rounded-full w-full"
-                    dir="ltr"
-                  >
-                    <span
-                      className="block bg-[#e28f00] h-2 rounded-full"
-                      style={{
-                        width: `${
-                          (activityData?.current_streak /
-                            activityData?.max_streak) *
-                          100
-                        }%`,
-                      }}
-                    ></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <UserActivityCalendar userActivities={activityData} />
-            {activityData?.history?.length > 0 && (
-              <UserActivityBarChart userActivities={activityData?.history} />
+          <Logout className="!text-red-600 text-2xl" />
+          <div className="text-red-600 font-bold">
+            {translate(
+              isMobile
+                ? "containers.sidebar.Logout"
+                : "containers.sidebar.Logout Of Account"
             )}
           </div>
         </div>
-      )}
+      </div>
+      <div className="px-[5%] max-w-md md:max-w-xl mx-auto">
+        {settingsList
+          .filter((item) => !item?.hide)
+          .map((item) => (
+            <SettingsItem {...item} key={item?.id} />
+          ))}
+      </div>
 
-      {!!whoAmI?.has_subscription && currentTab === 2 && (
-        <div className="profile-content mt-4 bg-backgroundMain w-[91.11%] md:w-[96%] md:min-w-[684px] mx-auto !mb-5 py-4 px-4 md:px-6 rounded-2xl flex items-start gap-[10%] flex-col lg:flex-row">
-          {currentSubLoading ? (
-            <WaveLoading />
-          ) : (
-            !!currentSubData?.data?.package && (
-              <>
-                <div className="flex-1 w-full mb-5 lg:mb-0">
-                  <div className="flex items-center justify-between w-full">
-                    <h2 className="page-title text-main text-base md:text-lg font-semibold">
-                      {translate("pages.profile.Subscription Information")}
-                    </h2>
-
-                    <Link href="/app/subscriptions">
-                      <PrimaryButton className="min-w-[35%] lg:min-w-[140px] !mb-0">
-                        خرید اشتراک
-                      </PrimaryButton>
-                    </Link>
-                  </div>
-                  <div className="flex items-center justify-between mt-5">
-                    <div className="text-gray400 text-sm">
-                      {translate("pages.profile.Subscription Type")}:
-                    </div>
-                    <div className="text-main text-[16px] md:text-lg ">
-                      اشتراک {currentSubData?.data?.package?.title}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between mt-5">
-                    <div className="text-gray400 text-sm">
-                      {translate("pages.profile.Subscription Whole Duration")}:
-                    </div>
-                    <div className="text-main text-[16px] md:text-lg ">
-                      {currentSubData?.data?.package?.duration} روز
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between mt-5">
-                    <div className="text-gray400 text-sm">تاریخ شروع:</div>
-                    <div className="text-main text-[16px] md:text-lg ">
-                      {moment(currentSubData?.data?.start_date).format(
-                        "jYYYY/jMM/jDD"
-                      )}
-                    </div>
-                  </div>
-                  <Link
-                    href="/app/account/transactions"
-                    className="block w-full mt-5"
-                  >
-                    <OutlineButton className="block w-full max-w-[500px] md:max-w-[140px] mr-auto lg:min-w-[140px]">
-                      تراکنش‌ها
-                    </OutlineButton>
-                  </Link>
-                </div>
-
-                <RemainDate
-                  remainDay={getDayDifference(currentSubData?.data?.end_date)}
-                  wholePeriod={currentSubData?.data?.package?.duration}
-                />
-              </>
-            )
-          )}
-        </div>
-      )}
-      {currentTab === 3 && <UserInformationForm userData={whoAmI} />}
+      {open && <LogoutModal onClose={toggle} open={open} />}
     </section>
   );
 };

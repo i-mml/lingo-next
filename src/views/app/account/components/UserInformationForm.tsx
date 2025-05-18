@@ -121,7 +121,7 @@ const UserInformationForm = ({ userData }: any) => {
               borderRadius: "12px",
               width: "100%",
             }}
-            inputClass="input h-full !bg-transparent border-none outline-none text-main !cursor-pointer"
+            inputClass="input h-full !bg-transparent border-none outline-none !text-main !cursor-pointer"
             placeholder={translate("pages.profile.Select Birthdate")}
           />
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import SettingsLanguages from "@/views/app/settings/components/Languages";
+import SettingsLanguages from "@/views/app/account/components/Languages";
 import React from "react";
 
 const SelectLanguagePage = () => {

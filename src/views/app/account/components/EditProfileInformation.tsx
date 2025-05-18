@@ -3,7 +3,7 @@
 import { useAuth } from "@/hooks/use-auth";
 import { useRouter } from "next/navigation";
 import React from "react";
-import UserInformationForm from "../../account/components/UserInformationForm";
+import UserInformationForm from "./UserInformationForm";
 import BackIconComponent from "@/components/shared/BackIconComponent";
 
 const EditProfileInformation = () => {
@@ -15,7 +15,7 @@ const EditProfileInformation = () => {
       <div className="pt-10 md:pt-2 px-[5%]">
         <BackIconComponent
           className="mb-5"
-          clickHandler={() => router.push("/app/settings")}
+          clickHandler={() => router.push("/app/account")}
         />
         <UserInformationForm userData={whoAmI} />
       </div>

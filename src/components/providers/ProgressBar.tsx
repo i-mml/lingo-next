@@ -20,9 +20,9 @@ const ProgressBarProvider = ({ children }: Props) => {
       {children}
       <NextTopLoader
         color="var(--primary)" // Progress bar color
-        height={3} // Height in pixels
+        height={5} // Height in pixels
         showSpinner={false} // Disable spinner
-        showAtBottom={showAtBottom}
+        showAtBottom={false}
       />
     </>
   );

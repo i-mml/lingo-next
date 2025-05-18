@@ -1,6 +1,6 @@
 "use client";
 
-import PasswordManagement from "@/views/app/settings/components/PasswordManagement";
+import PasswordManagement from "@/views/app/account/components/PasswordManagement";
 import React from "react";
 
 const PasswordManagementPage = () => {

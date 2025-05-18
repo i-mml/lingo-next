@@ -26,7 +26,7 @@ const InviteFriends = () => {
     <section className="bg-backgroundLayout pt-0 py-6 md:pt-6 min-h-[100vh] ">
       <div className="pt-10 md:pt-2">
         <BackIconComponent
-          clickHandler={() => router.push("/app/settings")}
+          clickHandler={() => router.push("/app/account")}
           className="mb-5 px-[5%]"
         />
 
