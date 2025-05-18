@@ -18,6 +18,7 @@ export default {
         gray200: "var(--gray200)",
         placeholder: "var(--placeholder)",
         black: "var(--black)",
+        xp: "var(--xp)",
 
         backgroundMain: "var(--background-main)",
         backgroundLayout: "var(--background-layout)",

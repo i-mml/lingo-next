@@ -36,7 +36,7 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
 
   return (
     <div
-      className={`flex items-center gap-4 p-4 rounded-xl transition-all ${
+      className={`relative flex items-center gap-4 p-4 rounded-xl transition-all ${
         isCurrentUser
           ? "bg-primary/5 border-2 border-primary"
           : "bg-backgroundMain hover:bg-backgroundMain/50"
@@ -44,9 +44,10 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
     >
       {/* Rank */}
       <div
-        className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
-          rank <= 3 ? getRankColor(rank) : "bg-gray-100"
+        className={`absolute top-4 left-2 z-10 w-10 h-10 rounded-full flex items-center justify-center font-bold shadow-md ${
+          rank <= 3 ? getRankColor(rank) : "bg-backgroundLayout"
         }`}
+        style={{ transform: "translate(25%, -25%)" }}
       >
         {rank <= 3 ? (
           <Trophy className="w-5 h-5" />
@@ -74,23 +75,17 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
 
       {/* User Info */}
       <div className="flex-1">
-        <h3 className="font-semibold text-main">
+        <h3 className="font-semibold text-main line-clamp-1 max-w-[80%]">
           {name || username}
           {isCurrentUser && (
             <span className="ml-2 text-sm text-primary">(You)</span>
           )}
         </h3>
-        <div className="flex items-center gap-2 text-sm text-gray400">
-          <span>Level {level}</span>
+        <div className="flex items-center gap-2 text-sm mt-1">
+          <span className="text-placeholder">Level {level}</span>
           <span>•</span>
-          <span>{xp.toLocaleString()} XP</span>
+          <span className="text-xp">{xp.toLocaleString()} XP</span>
         </div>
-      </div>
-
-      {/* Level Badge */}
-      <div className="flex items-center gap-1 px-3 py-1 bg-primary/10 rounded-full">
-        <Star className="w-4 h-4 text-primary" />
-        <span className="text-sm font-medium text-primary">Level {level}</span>
       </div>
     </div>
   );
