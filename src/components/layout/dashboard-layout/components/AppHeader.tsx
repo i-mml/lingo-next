@@ -159,16 +159,20 @@ const AppHeader: React.FC = () => {
                     : ""
                 )}
               >
-                <AppHeaderItem
-                  icon={<CoinsIcon className="!w-6 !h-6" />}
-                  color="var(--coins)"
-                  value={`${Number(data?.coins / 1000).toFixed(1)}K سکه‌`}
-                />
-                <AppHeaderItem
-                  icon={<XpIcon className="!w-6 !h-6" />}
-                  color="var(--xp)"
-                  value={`${Number(data?.xp / 1000).toFixed(1)}K امتیاز`}
-                />
+                <Link href="/app/leader-board">
+                  <AppHeaderItem
+                    icon={<CoinsIcon className="!w-6 !h-6" />}
+                    color="var(--coins)"
+                    value={`${Number(data?.coins / 1000).toFixed(1)}K سکه‌`}
+                  />
+                </Link>
+                <Link href="/app/leader-board">
+                  <AppHeaderItem
+                    icon={<XpIcon className="!w-6 !h-6" />}
+                    color="var(--xp)"
+                    value={`${Number(data?.xp / 1000).toFixed(1)}K امتیاز`}
+                  />
+                </Link>
               </div>
             )}
             {!!whoAmI?.userpreference?.preferred_language &&
