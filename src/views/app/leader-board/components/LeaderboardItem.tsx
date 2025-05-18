@@ -38,7 +38,7 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
     <div
       className={`relative flex items-center gap-4 p-4 rounded-xl transition-all ${
         isCurrentUser
-          ? "bg-primary/5 border-2 border-primary"
+          ? "bg-primary/40 border-2 border-primary"
           : "bg-backgroundMain hover:bg-backgroundMain/50"
       }`}
     >

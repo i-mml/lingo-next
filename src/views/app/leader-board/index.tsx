@@ -29,38 +29,18 @@ const Leaderboard: React.FC = () => {
   });
   console.log(data);
 
-  const insertCurrentUser = (
-    results: LeaderboardUser[],
-    currentUser: LeaderboardUser
-  ) => {
-    // Remove any existing entry for the current user
-    const filteredResults = results.filter(
-      (user) => user.username !== currentUser.username
-    );
-    const currentUserRank = currentUser.rank;
-    const lastRank = filteredResults[filteredResults.length - 1]?.rank || 0;
+  // Check if current user is in the main results
+  const isCurrentUserInList = data?.results?.some(
+    (user: LeaderboardUser) => user.username === data?.you?.username
+  );
 
-    if (currentUserRank <= lastRank) {
-      // Insert current user at their rank position
-      const index = filteredResults.findIndex(
-        (user) => user.rank === currentUserRank
-      );
-      if (index !== -1) {
-        filteredResults.splice(index, 0, currentUser);
-      } else {
-        filteredResults.push(currentUser);
-      }
-    } else {
-      // Add current user at the end
-      filteredResults.push(currentUser);
-    }
-
-    return filteredResults;
-  };
-
-  const displayResults = data?.results
-    ? insertCurrentUser([...data?.results], data?.you)
+  // Prepare the main list (sorted by rank)
+  const mainList = data?.results
+    ? [...data.results].sort((a, b) => a.rank - b.rank)
     : [];
+
+  // If current user is not in the main list, append them at the end
+  const showCurrentUserSeparately = data?.you && !isCurrentUserInList;
 
   return (
     <div className="min-h-screen bg-backgroundLayout py-8">
@@ -72,7 +52,7 @@ const Leaderboard: React.FC = () => {
           </div>
           <h1 className="text-3xl font-bold text-main mb-2">جدول برترین‌ها</h1>
           <p className="text-gray300">
-            {data?.total_users.toLocaleString()} نفر در حال رقابت هستند
+            {data?.total_users?.toLocaleString()} نفر در حال رقابت هستند
           </p>
         </div>
 
@@ -91,23 +71,33 @@ const Leaderboard: React.FC = () => {
             <div className="text-sm text-gray400">سطح شما</div>
           </div>
           <div className="bg-backgroundMain rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-primary mb-1">
-              {data?.you?.xp.toLocaleString()}
+            <div className="text-2xl font-bold text-xp mb-1">
+              {data?.you?.xp?.toLocaleString()}
             </div>
             <div className="text-sm text-gray400">امتیاز شما</div>
           </div>
         </div>
 
         {/* Leaderboard List */}
-        {!isLoading && displayResults.length > 0 ? (
+        {!isLoading && mainList.length > 0 ? (
           <div className="space-y-3">
-            {displayResults.map((user) => (
+            {mainList.map((user: LeaderboardUser) => (
               <LeaderboardItem
                 key={user.username}
                 {...user}
-                isCurrentUser={user.username === data.you.username}
+                isCurrentUser={user.username === data?.you?.username}
               />
             ))}
+            {showCurrentUserSeparately && (
+              <>
+                <div className="my-2 border-t border-gray-200" />
+                <LeaderboardItem
+                  key={data.you.username}
+                  {...data.you}
+                  isCurrentUser={true}
+                />
+              </>
+            )}
           </div>
         ) : (
           <></>

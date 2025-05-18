@@ -11,7 +11,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "var(--primary)",
+        primary: "#ffa800",
         main: "var(--main)",
         gray400: "var(--gray400)",
         gray300: "var(--gray300)",
