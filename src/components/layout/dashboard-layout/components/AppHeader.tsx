@@ -56,18 +56,22 @@ const AppHeader: React.FC = () => {
             <div className="left flex items-center text-main-text">
               {!!data?.xp && (
                 <div className="flex items-center">
-                  <AppHeaderItem
-                    icon={<XpIcon className="w-8 h-8" />}
-                    title={"امتیاز"}
-                    color="var(--xp)"
-                    value={`${Number(data?.xp / 1000).toFixed(1)}K`}
-                  />
-                  <AppHeaderItem
-                    icon={<CoinsIcon className="w-8 h-8" />}
-                    title={"سکه"}
-                    color="var(--coins)"
-                    value={`${Number(data?.coins / 1000).toFixed(1)}K`}
-                  />
+                  <Link href="/app/leader-board">
+                    <AppHeaderItem
+                      icon={<XpIcon className="w-8 h-8" />}
+                      title={"امتیاز"}
+                      color="var(--xp)"
+                      value={`${Number(data?.xp / 1000).toFixed(1)}K`}
+                    />
+                  </Link>
+                  <Link href="/app/leader-board">
+                    <AppHeaderItem
+                      icon={<CoinsIcon className="w-8 h-8" />}
+                      title={"سکه"}
+                      color="var(--coins)"
+                      value={`${Number(data?.coins / 1000).toFixed(1)}K`}
+                    />
+                  </Link>
                 </div>
               )}
             </div>
