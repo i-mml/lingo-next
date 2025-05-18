@@ -19,6 +19,7 @@ export default {
         placeholder: "var(--placeholder)",
         black: "var(--black)",
         xp: "var(--xp)",
+        coins: "var(--coins)",
 
         backgroundMain: "var(--background-main)",
         backgroundLayout: "var(--background-layout)",

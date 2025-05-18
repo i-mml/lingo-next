@@ -5,6 +5,7 @@
 :root {
   /* light theme colors */
   --primary: #ffa800;
+  --coins: #f2ce01;
   --main: #333;
   --gray400: #7a7a7a;
   --gray300: #a9a9a9;
@@ -24,6 +25,7 @@
 
 [data-theme="dark"] {
   --primary: #ffa800;
+  --coins: #f2ce01;
   --main: #fffff9;
   --gray400: #9ca3af;
   --gray300: #d1d5db;

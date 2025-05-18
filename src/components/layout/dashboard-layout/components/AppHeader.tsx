@@ -59,13 +59,13 @@ const AppHeader: React.FC = () => {
                   <AppHeaderItem
                     icon={<XpIcon className="w-8 h-8" />}
                     title={"امتیاز"}
-                    color="#1aaff9"
+                    color="var(--xp)"
                     value={`${Number(data?.xp / 1000).toFixed(1)}K`}
                   />
                   <AppHeaderItem
                     icon={<CoinsIcon className="w-8 h-8" />}
                     title={"سکه"}
-                    color="#88C1FF"
+                    color="var(--coins)"
                     value={`${Number(data?.coins / 1000).toFixed(1)}K`}
                   />
                 </div>
@@ -160,14 +160,14 @@ const AppHeader: React.FC = () => {
                 )}
               >
                 <AppHeaderItem
-                  icon={<XpIcon className="!w-6 !h-6" />}
-                  color="#1aaff9"
-                  value={`${Number(data?.xp / 1000).toFixed(1)}K امتیاز`}
+                  icon={<CoinsIcon className="!w-6 !h-6" />}
+                  color="var(--coins)"
+                  value={`${Number(data?.coins / 1000).toFixed(1)}K سکه‌`}
                 />
                 <AppHeaderItem
-                  icon={<CoinsIcon className="!w-6 !h-6" />}
-                  color="#88C1FF"
-                  value={`${Number(data?.coins / 1000).toFixed(1)}K سکه‌`}
+                  icon={<XpIcon className="!w-6 !h-6" />}
+                  color="var(--xp)"
+                  value={`${Number(data?.xp / 1000).toFixed(1)}K امتیاز`}
                 />
               </div>
             )}
