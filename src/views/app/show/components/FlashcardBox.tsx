@@ -112,7 +112,6 @@ export const FlashCardBox = React.memo(
             <CustomTab
               label="گرامر"
               index={3}
-              activeTab={activeTab === 3}
               isActive={activeTab === 3}
               handleTabChange={(event: any, index: number) => {
                 handleTabChange(event, index);
@@ -127,7 +126,6 @@ export const FlashCardBox = React.memo(
           <CustomTab
             label="اجزا جمله"
             index={2}
-            activeTab={activeTab === 2}
             isActive={activeTab === 2}
             handleTabChange={(event: any, index: number) => {
               handleTabChange(event, index);
@@ -136,14 +134,12 @@ export const FlashCardBox = React.memo(
           <CustomTab
             label="واژگان متن"
             index={0}
-            activeTab={activeTab === 0}
             isActive={activeTab === 0}
             handleTabChange={handleTabChange}
           />
           <CustomTab
             label="متن فیلم"
             index={1}
-            activeTab={activeTab === 1}
             isActive={activeTab === 1}
             handleTabChange={handleTabChange}
           />

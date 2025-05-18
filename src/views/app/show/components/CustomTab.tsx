@@ -4,19 +4,13 @@ import React from "react";
 import { isMobile } from "react-device-detect";
 
 export function CustomTab(props: any) {
-  const { handleTabChange, isActive, index } = props;
+  const { handleTabChange, isActive, index, ...restProps } = props;
 
   const { theme }: any = useThemeCreator();
 
   return (
     <Tab
       fullWidth
-      indicatorColor="secondary"
-      TabIndicatorProps={{
-        style: {
-          backgroundColor: theme.palette?.text?.placeholder,
-        },
-      }}
       onClick={(event) => handleTabChange(event, index)}
       style={{
         color: isActive
@@ -26,14 +20,13 @@ export function CustomTab(props: any) {
           ? theme.palette?.background?.primary
           : theme.palette?.background?.gray200,
         borderRadius: isActive ? "8px" : "unset",
-
         fontWeight: isActive ? "600" : "400",
         minWidth: "calc(100% / 4)",
         padding: isMobile ? "4px" : "8px",
         minHeight: "unset",
       }}
       className="!text-[12px] !lg:text-sm"
-      {...props}
+      {...restProps}
     />
   );
 }
