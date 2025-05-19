@@ -1,4 +1,8 @@
-import { GetCmsByBanner, GetCmsByContentType } from "@/api/services/cms";
+import {
+  GetCmsByBanner,
+  GetCmsByContentType,
+  GetCmsByContentTypeFree,
+} from "@/api/services/cms";
 import CatalogView from "@/views/catalog";
 import { Metadata } from "next";
 import React from "react";
@@ -47,7 +51,7 @@ export const metadata: Metadata = {
 };
 
 const StartFreePage = async () => {
-  const catalogs = await GetCmsByContentType(1);
+  const catalogs = await GetCmsByContentTypeFree();
   const banners = await GetCmsByBanner(1);
 
   return (
