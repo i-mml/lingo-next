@@ -216,14 +216,14 @@ const EpisodeSeoPage = async ({
       </div>
 
       <Link
-        href={`/app/show/${episodeInfo?.movie?.id}/${episodeId}`}
+        href={`/login`}
         className="h-12 px-2 font-dana text-[14px] text-center !rounded-xl bg-primary font-medium !transition-all !duration-500  !text-white  disabled:bg-backgroundDisabled disabled:border-b-backgroundDisabled disabled:cursor-not-allowed active:hover:translate-y-0.5 active:translate-y-1.5 border-b-[5px] border-[#af5800] cursor-pointer outline-none w-[60%] mx-auto hidden place-items-center text-base md:text-lg md:!grid print:!hidden"
       >
         ورود و تماشا
       </Link>
 
       <Link
-        href={`/app/show/${episodeInfo?.movie?.id}/${episodeId}`}
+        href={`/login`}
         className="h-12 px-2 font-dana text-[14px] text-center !rounded-xl bg-primary font-medium !transition-all !duration-500  !text-white  disabled:bg-backgroundDisabled disabled:border-b-backgroundDisabled disabled:cursor-not-allowed active:hover:translate-y-0.5 active:translate-y-1.5 border-b-[5px] border-[#af5800] cursor-pointer outline-none fixed w-[90%] left-[5%] grid place-items-center bottom-5 text-base md:text-lg md:!hidden print:!hidden"
       >
         ورود و تماشا
