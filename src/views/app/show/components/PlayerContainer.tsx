@@ -139,6 +139,8 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
         refetchFlashCards={() => {
           refetchFlashCardsList();
         }}
+        inUnit={inUnit}
+        movie={movie}
       />
     );
   }, [currentSubtitle, handlePause, handlePlay, refetchFlashCardsList]);

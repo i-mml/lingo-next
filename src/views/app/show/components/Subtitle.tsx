@@ -19,7 +19,14 @@ import WordDetailModal from "@/components/modals/WordDetailModal";
 import { StyledTooltip } from "./StyledTooltip";
 
 const Subtitle = React.memo(
-  ({ currentSubtitle, handlePause, handlePlay, refetchFlashCards }: any) => {
+  ({
+    currentSubtitle,
+    handlePause,
+    handlePlay,
+    refetchFlashCards,
+    inUnit = false,
+    movie,
+  }: any) => {
     const {
       translate_fontSize,
       translateSubtitle,
@@ -97,12 +104,16 @@ const Subtitle = React.memo(
         translation: currentSubtitle?.sentence?.translate,
         time_start: currentSubtitle?.start_time,
         time_end: currentSubtitle?.end_time,
-        movie: videoId,
+        movie: !inUnit ? videoId : movie?.id,
 
-        base_movie_file: episodeData?.file,
-        episode: !!episodeId ? +episodeId : null,
+        base_movie_file: !inUnit ? episodeData?.file : movie?.episode?.file,
+        episode: !inUnit
+          ? !!episodeId
+            ? +episodeId
+            : null
+          : movie?.episode?.id,
       };
-    }, [currentSubtitle, videoId, episodeData?.file, episodeId]);
+    }, [currentSubtitle, videoId, episodeData?.file, episodeId, movie]);
 
     const { isLandscape } = useMobileOrientation();
 

@@ -48,7 +48,7 @@ const ReviewView = () => {
       GetEducationFlashcard({
         page_size,
         page,
-        word: search,
+        word: search || "",
         episode: selectedEpisode ? Number(selectedEpisode) : undefined,
       }),
     staleTime: 0,
