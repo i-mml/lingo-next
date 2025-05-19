@@ -8,6 +8,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 interface PreferredLanguageDisplay {
+  id: number;
   name: string;
   code: string;
   icon: string;
@@ -27,7 +28,7 @@ interface Discount {
   code: string;
   amount: number | null;
   percentage: number;
-  package: number;
+  packages: number[];
   is_active: boolean;
 }
 
@@ -38,20 +39,25 @@ interface ReferralInfo {
   referred_users: any[];
 }
 
+interface ChannelInfo {
+  token: string;
+  public_user_channel: string;
+}
+
 interface WhoAmIResponse {
   phone: string;
-  name: string;
-  email: string;
-  birthday: string;
-  channel_info: {
-    public_user_channel: string;
-    token: string;
-  };
-  userpreference?: UserPreference;
+  name: string | null;
+  email: string | null;
+  birthday: string | null;
+  userpreference: UserPreference;
   total_score: number;
   has_subscription: boolean;
   is_compeleted: boolean;
   referral_info: ReferralInfo;
+  is_teacher: boolean;
+  avatar: string | null;
+  username: string | null;
+  channel_info: ChannelInfo;
 }
 
 export const useAuth = () => {

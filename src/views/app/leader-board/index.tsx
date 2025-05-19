@@ -1,25 +1,22 @@
 import React from "react";
 import LeaderboardItem from "./components/LeaderboardItem";
+import ProfileCompletionBox from "./components/ProfileCompletionBox";
 import { Trophy } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { GetGamificationLeaderboard } from "@/api/services/gamification";
 import Lottie from "lottie-react";
 import leaderboardAnimation from "@/assets/lotties/leaderboard.json";
+
 interface LeaderboardUser {
   rank: number;
-  name: string;
-  username: string;
+  name: string | null;
+  username: string | null;
   xp: number;
   level: number;
   avatar: string | null;
-}
-
-interface LeaderboardData {
-  page: number;
-  pages: number;
-  total_users: number;
-  results: LeaderboardUser[];
-  you: LeaderboardUser;
+  email: string | null;
+  birthday: string | null;
+  is_compeleted: boolean;
 }
 
 const Leaderboard: React.FC = () => {
@@ -61,6 +58,9 @@ const Leaderboard: React.FC = () => {
           </p>
         </div>
 
+        {/* Profile Completion Box */}
+        <ProfileCompletionBox />
+
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-8">
           <div className="bg-backgroundMain rounded-xl p-4 text-center">
@@ -84,7 +84,7 @@ const Leaderboard: React.FC = () => {
         </div>
 
         {/* Leaderboard List */}
-        {!isLoading && mainList.length > 0 ? (
+        {!isLoading && data ? (
           <div className="space-y-3">
             {mainList.map((user: LeaderboardUser) => (
               <LeaderboardItem

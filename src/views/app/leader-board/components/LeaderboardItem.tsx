@@ -4,8 +4,8 @@ import Image from "next/image";
 
 interface LeaderboardItemProps {
   rank: number;
-  name: string;
-  username: string;
+  name: string | null;
+  username: string | null;
   xp: number;
   level: number;
   avatar: string | null;
@@ -34,6 +34,8 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
     }
   };
 
+  const displayName = name || username || "کاربر";
+
   return (
     <div
       className={`relative flex items-center gap-4 p-4 rounded-xl transition-all ${
@@ -61,14 +63,14 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
         {avatar ? (
           <Image
             src={avatar}
-            alt={name || username}
+            alt={displayName}
             width={48}
             height={48}
             className="object-cover"
           />
         ) : (
           <span className="text-xl font-bold text-gray400">
-            {(name || username).charAt(0).toUpperCase()}
+            {displayName.charAt(0).toUpperCase()}
           </span>
         )}
       </div>
@@ -76,7 +78,7 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
       {/* User Info */}
       <div className="flex-1">
         <h3 className="font-semibold text-main line-clamp-1 max-w-[80%]">
-          {name || username}
+          {displayName}
           {isCurrentUser && (
             <span className="ml-2 text-sm text-primary">(You)</span>
           )}
