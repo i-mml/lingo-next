@@ -69,7 +69,7 @@ const ProfileCompletionBox: React.FC = () => {
   if (!whoAmI.email && !whoAmI.phone) {
     missingFields.push("ایمیل یا شماره موبایل");
   } else if (whoAmI.phone && !whoAmI.email) {
-    missingFields.push("ایمیل");
+    // missingFields.push("ایمیل");
   }
 
   // Check if username is in default format
