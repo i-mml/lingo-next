@@ -18,15 +18,26 @@ import moment from "moment-jalaali";
 import DateObject from "react-date-object";
 import CustomDatePicker from "@/components/shared/CustomDatePicker";
 
+interface UserInfo {
+  name: string;
+  email: string;
+  phone: string;
+  username: string;
+  birthday: string;
+  avatar: string | null;
+  avatarFile: File | null;
+}
+
 const UserInformationForm = ({ userData, isLoading }: any) => {
   const { t: translate } = useTranslation();
-  const [userInfo, setUserInfo] = useState({
+  const [userInfo, setUserInfo] = useState<UserInfo>({
     name: userData?.name || "",
     email: userData?.email || "",
     phone: userData?.phone || "",
     username: userData?.username || "",
     birthday: userData?.birthday || "",
     avatar: userData?.avatar || null,
+    avatarFile: null,
   });
 
   const handleChangeBirthDate = (date: DateObject | null) => {
@@ -49,38 +60,24 @@ const UserInformationForm = ({ userData, isLoading }: any) => {
   const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUserInfo((prev) => ({
-          ...prev,
-          avatar: reader.result as string,
-        }));
-      };
-      reader.readAsDataURL(file);
+      // Create a temporary URL for the selected image
+      const imageUrl = URL.createObjectURL(file);
+      setUserInfo((prev) => ({
+        ...prev,
+        avatar: imageUrl,
+        avatarFile: file, // Store the actual file for upload
+      }));
     }
   };
 
   const updateDetailMutation = useMutation({
     mutationFn: async () => {
-      // Update avatar and username with FormData
       const formData = new FormData();
       formData.append("username", userInfo.username);
-      if (userInfo.avatar) {
-        // If avatar is a base64 string, convert to Blob
-        if (userInfo.avatar.startsWith("data:image")) {
-          const arr = userInfo.avatar.split(",");
-          const mime = arr[0].match(/:(.*?);/)[1];
-          const bstr = atob(arr[1]);
-          let n = bstr.length;
-          const u8arr = new Uint8Array(n);
-          while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-          }
-          const blob = new Blob([u8arr], { type: mime });
-          formData.append("avatar", blob, "avatar.png");
-        } else {
-          formData.append("avatar", userInfo.avatar);
-        }
+      formData.append("email", userInfo.email);
+
+      if (userInfo.avatarFile) {
+        formData.append("avatar", userInfo.avatarFile);
       }
       await PatchAuthUpdateProfile(formData);
       // Update other details
