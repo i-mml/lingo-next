@@ -36,6 +36,15 @@ const AudioQuestionTextAnswer: React.FC<AudioQuestionTextAnswerProps> = ({
   const [showHint, setShowHint] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  const normalizeText = (text: string) => {
+    return text
+      .toLowerCase()
+      .replace(/[.,/#!$%^&*;:{}=\-_`~()؟،؟'"\\]/g, "")
+      .replace(/\s{2,}/g, " ")
+      .replace(/^[.!?]+|[.!?]+$/g, "")
+      .trim();
+  };
+
   const { playAudio, isPlaying } = useAudioPlayer(activity.audio);
   const { playAudio: playSuccess } = useAudioPlayer("/assets/correct.mp3");
   const { playAudio: playWrong } = useAudioPlayer("/assets/wrong.mp3");
@@ -52,9 +61,9 @@ const AudioQuestionTextAnswer: React.FC<AudioQuestionTextAnswerProps> = ({
   };
 
   const handleCheck = () => {
-    const normalized = inputValue.trim().toLowerCase();
+    const normalizedInput = normalizeText(inputValue);
     const correct = activity.answers.some(
-      (ans) => ans.trim().toLowerCase() === normalized
+      (ans) => normalizeText(ans) === normalizedInput
     );
     setChecked(true);
     setIsCorrect(correct);

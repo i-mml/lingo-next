@@ -30,6 +30,15 @@ const TextQuestionTextAnswer: React.FC<TextQuestionTextAnswerProps> = ({
   const [redirecting, setRedirecting] = useState(false);
   const [showHint, setShowHint] = useState(false);
 
+  const normalizeText = (text: string) => {
+    return text
+      .toLowerCase()
+      .replace(/[.,/#!$%^&*;:{}=\-_`~()؟،؟'"\\]/g, "")
+      .replace(/\s{2,}/g, " ")
+      .replace(/^[.!?]+|[.!?]+$/g, "")
+      .trim();
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
     setChecked(false);
@@ -37,9 +46,9 @@ const TextQuestionTextAnswer: React.FC<TextQuestionTextAnswerProps> = ({
   };
 
   const handleCheck = () => {
-    const normalized = inputValue.trim().toLowerCase();
+    const normalizedInput = normalizeText(inputValue);
     const correct = activity.answers.some(
-      (ans) => ans.trim().toLowerCase() === normalized
+      (ans) => normalizeText(ans) === normalizedInput
     );
     setChecked(true);
     setIsCorrect(correct);

@@ -38,22 +38,18 @@ const FillTheGapsWithTextAndListenAudio: React.FC<Props> = ({
       .toLowerCase()
       .replace(/[.,/#!$%^&*;:{}=\-_`~()؟،؟'"\\]/g, "")
       .replace(/\s{2,}/g, " ")
+      .replace(/^[.!?]+|[.!?]+$/g, "")
       .trim()
       .split(" ")
-      .filter(Boolean);
+      .filter(Boolean)
+      .join(" ");
   }
 
   const handleCheck = () => {
-    const userWords = normalizeSentence(inputValue);
+    const normalizedInput = normalizeSentence(inputValue);
     const isCorrect = (
       activity as FillTheGapsWithTextAndListenAudioActivity
-    ).answers.some((ans) => {
-      const answerWords = normalizeSentence(ans);
-      return (
-        userWords.length === answerWords.length &&
-        userWords.every((word, idx) => word === answerWords[idx])
-      );
-    });
+    ).answers.some((ans) => normalizeSentence(ans) === normalizedInput);
     setChecked(true);
     setIsCorrect(isCorrect);
     if (!isCorrect) {

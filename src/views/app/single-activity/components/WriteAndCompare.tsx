@@ -28,6 +28,15 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
   const [showHint, setShowHint] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  const normalizeText = (text: string) => {
+    return text
+      .toLowerCase()
+      .replace(/[.,/#!$%^&*;:{}=\-_`~()؟،؟'"\\]/g, "")
+      .replace(/\s{2,}/g, " ")
+      .replace(/^[.!?]+|[.!?]+$/g, "")
+      .trim();
+  };
+
   const { playAudio, isPlaying } = useAudioPlayer(activity.sentence?.audio);
   const { playAudio: playSuccess } = useAudioPlayer("/assets/correct.mp3");
   const { playAudio: playWrong } = useAudioPlayer("/assets/wrong.mp3");
@@ -44,9 +53,9 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
   };
 
   const handleCheck = () => {
-    const normalized = inputValue.trim().toLowerCase();
+    const normalizedInput = normalizeText(inputValue);
     const correct = activity.sentence.answers.some(
-      (ans) => ans.trim().toLowerCase() === normalized
+      (ans) => normalizeText(ans) === normalizedInput
     );
     setChecked(true);
     setIsCorrect(correct);
