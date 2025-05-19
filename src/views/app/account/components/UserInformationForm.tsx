@@ -7,7 +7,10 @@ import { toast } from "react-toastify";
 import MobileIcon from "@/assets/mobile.svg";
 import UserIcon from "@/assets/user.svg";
 import { useMutation } from "@tanstack/react-query";
-import { PutAuthUpdateDetail } from "@/api/services/auth";
+import {
+  PatchAuthUpdateProfile,
+  PutAuthUpdateDetail,
+} from "@/api/services/auth";
 import OutlineButton from "@/components/shared/OutlineButton";
 import InputWithIcon from "@/components/shared/InputWithIcon";
 import WaveLoading from "@/components/shared/WaveLoading";
@@ -58,18 +61,38 @@ const UserInformationForm = ({ userData, isLoading }: any) => {
   };
 
   const updateDetailMutation = useMutation({
-    mutationFn: () =>
-      PutAuthUpdateDetail({
+    mutationFn: async () => {
+      // Update avatar and username with FormData
+      const formData = new FormData();
+      formData.append("username", userInfo.username);
+      if (userInfo.avatar) {
+        // If avatar is a base64 string, convert to Blob
+        if (userInfo.avatar.startsWith("data:image")) {
+          const arr = userInfo.avatar.split(",");
+          const mime = arr[0].match(/:(.*?);/)[1];
+          const bstr = atob(arr[1]);
+          let n = bstr.length;
+          const u8arr = new Uint8Array(n);
+          while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+          }
+          const blob = new Blob([u8arr], { type: mime });
+          formData.append("avatar", blob, "avatar.png");
+        } else {
+          formData.append("avatar", userInfo.avatar);
+        }
+      }
+      await PatchAuthUpdateProfile(formData);
+      // Update other details
+      await PutAuthUpdateDetail({
         name: userInfo.name,
         email: userInfo.email,
-        username: userInfo.username,
         birthday: userInfo.birthday,
-        avatar: userInfo.avatar,
-      }).then((res) => {
-        if (res.status === 204) {
-          toast.success(translate("profile_updated"));
-        }
-      }),
+      });
+    },
+    onSuccess: () => {
+      toast.success(translate("profile_updated"));
+    },
   });
 
   const disabledAction =
@@ -129,7 +152,7 @@ const UserInformationForm = ({ userData, isLoading }: any) => {
       </div>
 
       {/* Username Field */}
-      <div className="input-box w-full mt-6">
+      <div className="input-box w-full mt-3 md:mt-6">
         <div className="input-label text-gray400 text-xs font-medium mb-2">
           {translate("pages.profile.username")}
         </div>
@@ -145,27 +168,40 @@ const UserInformationForm = ({ userData, isLoading }: any) => {
       </div>
 
       {/* Contact Information */}
-      <div className="input-label disabled-label text-gray400 text-xs font-medium mb-2">
+      <div className="input-label disabled-label text-gray400 text-xs font-medium mb-2 mt-3 md:mt-6">
         {translate("pages.profile.contact_information")}
       </div>
-      {userData?.email ? (
+      {userData?.phone ? (
+        <>
+          {/* Show phone as disabled */}
+          <div className="full-width name-input w-full h-12 p-4 flex items-center gap-2 bg-borderMain rounded-lg mb-2">
+            <MobileIcon />
+            <div className="mobile text-sm text-gray400">{userData?.phone}</div>
+          </div>
+          {/* Show email input */}
+          <div className="input-box w-full">
+            <div className="input-label text-gray400 text-xs font-medium mb-2">
+              {translate("pages.profile.Email")}
+            </div>
+            <InputWithIcon
+              icon={<MobileIcon />}
+              inputProps={{
+                name: "email",
+                value: userInfo.email,
+                onChange: handleChange,
+                placeholder: translate("pages.profile.Enter Email"),
+              }}
+            />
+          </div>
+        </>
+      ) : userData?.email ? (
+        // If registered by email, show email as disabled and no phone field
         <div className="full-width name-input w-full h-12 p-4 flex items-center gap-2 bg-borderMain rounded-lg">
           <MobileIcon />
           <div className="mobile text-sm text-gray400">{userData?.email}</div>
         </div>
-      ) : userData?.phone ? (
-        <div className="input-box w-full">
-          <InputWithIcon
-            icon={<MobileIcon />}
-            inputProps={{
-              name: "email",
-              value: userInfo.email,
-              onChange: handleChange,
-              placeholder: translate("pages.profile.Enter Email"),
-            }}
-          />
-        </div>
       ) : (
+        // If neither exists, show phone input
         <div className="input-box w-full">
           <InputWithIcon
             icon={<MobileIcon />}
@@ -180,7 +216,7 @@ const UserInformationForm = ({ userData, isLoading }: any) => {
       )}
 
       {/* Name Field */}
-      <div className="input-box w-full mt-6">
+      <div className="input-box w-full mt-3 md:mt-6">
         <div className="input-label text-gray400 text-xs font-medium mb-2">
           {translate("pages.profile.Fullname")}
         </div>
@@ -196,7 +232,7 @@ const UserInformationForm = ({ userData, isLoading }: any) => {
       </div>
 
       {/* Birthday Field */}
-      <div className="input-box !w-full mt-6">
+      <div className="input-box !w-full mt-3 md:mt-6">
         {isLoading ? (
           <div className="w-full h-full flex items-center justify-center">
             <WaveLoading />

@@ -105,3 +105,16 @@ export const GetAuthTeachersById = async (teacher_id: string) => {
   const response = await axiosInstance.get(`/auth/teachers/${teacher_id}/`);
   return response.data;
 };
+
+export const PatchAuthUpdateProfile = async (formData: FormData) => {
+  const response = await axiosInstance.patch(
+    "/auth/profile/update/",
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return response;
+};
