@@ -25,5 +25,12 @@
   "Subscription Information": "Abonnementinformationen",
   "Subscription Type": "Erworbenes Abonnement",
   "Subscription Whole Duration": "Gesamtdauer des Abonnements",
-  "Subscription Remain Duration": "Verbleibende Dauer des Abonnements"
+  "Subscription Remain Duration": "Verbleibende Dauer des Abonnements",
+
+  "username": "Benutzername",
+  "enter_username": "Benutzername eingeben",
+  "contact_information": "Kontaktinformationen",
+  "click_to_change_avatar": "Klicken Sie, um das Avatar zu ändern",
+  "Enter Email": "E-Mail eingeben",
+  "Enter Phone": "Telefonnummer eingeben"
 }

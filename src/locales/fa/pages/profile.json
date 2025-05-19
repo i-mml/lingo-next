@@ -26,5 +26,13 @@
   "Subscription Information": "اطلاعات اشتراک",
   "Subscription Type": "اشتراک خریداری شده",
   "Subscription Whole Duration": "مدت کل اشتراک",
-  "Subscription Remain Duration": "مدت باقی‌مانده"
+  "Subscription Remain Duration": "مدت باقی‌مانده",
+
+  "username": "نام کاربری",
+  "Email": "ایمیل",
+  "enter_username": "نام کاربری خود را وارد کنید",
+  "contact_information": "اطلاعات تماس",
+  "click_to_change_avatar": "برای تغییر آواتار کلیک کنید",
+  "Enter Email": "ایمیل خود را وارد کنید",
+  "Enter Phone": "شماره موبایل خود را وارد کنید"
 }

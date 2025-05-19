@@ -1,61 +1,88 @@
 "use client";
 
-import GoogleIcon from "@mui/icons-material/Google";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import moment from "moment-jalaali";
+import React, { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import CalenderIcon from "@/assets/calender.svg";
+
 import MobileIcon from "@/assets/mobile.svg";
 import UserIcon from "@/assets/user.svg";
 import { useMutation } from "@tanstack/react-query";
 import { PutAuthUpdateDetail } from "@/api/services/auth";
 import OutlineButton from "@/components/shared/OutlineButton";
 import InputWithIcon from "@/components/shared/InputWithIcon";
-import DatePicker from "react-multi-date-picker";
-import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
 import WaveLoading from "@/components/shared/WaveLoading";
+import moment from "moment-jalaali";
+import DateObject from "react-date-object";
+import CustomDatePicker from "@/components/shared/CustomDatePicker";
 
 const UserInformationForm = ({ userData, isLoading }: any) => {
   const { t: translate } = useTranslation();
   const [userInfo, setUserInfo] = useState({
-    name: userData?.name,
-    birthday: userData?.birthday,
+    name: userData?.name || "",
+    email: userData?.email || "",
+    phone: userData?.phone || "",
+    username: userData?.username || "",
+    birthday: userData?.birthday || "",
+    avatar: userData?.avatar || null,
   });
 
-  const handleChangeBirtDate = (date: any) => {
-    setUserInfo((prev: any) => ({
+  const handleChangeBirthDate = (date: DateObject | null) => {
+    if (date) {
+      setUserInfo((prev) => ({
+        ...prev,
+        birthday: moment(date.toDate()).format("YYYY-MM-DD"),
+      }));
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserInfo((prev) => ({
       ...prev,
-      birthday: moment(date).format("jYYYY-jMM-jDD"),
+      [name]: value,
     }));
   };
 
-  const disabledAction =
-    (userData?.name === userInfo?.name &&
-      userData?.birthday === userInfo?.birthday) ||
-    userInfo?.name === "";
+  const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserInfo((prev) => ({
+          ...prev,
+          avatar: reader.result as string,
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-  const updateDetailMutatoin = useMutation({
+  const updateDetailMutation = useMutation({
     mutationFn: () =>
       PutAuthUpdateDetail({
-        name: userInfo?.name || userData?.name,
-        birthday: userInfo?.birthday || userData?.birthday,
-      })
-        .then((res) => {
-          if (res.status === 204) {
-            toast.success("ویرایش اطلاعات با موفقیت انجام شد.");
-          }
-        })
-        .catch(() => {}),
+        name: userInfo.name,
+        email: userInfo.email,
+        username: userInfo.username,
+        birthday: userInfo.birthday,
+        avatar: userInfo.avatar,
+      }).then((res) => {
+        if (res.status === 204) {
+          toast.success(translate("profile_updated"));
+        }
+      }),
   });
 
-  useEffect(() => {
-    setUserInfo({
-      name: userData?.name,
-      birthday: userData?.birthday,
-    });
-  }, [userData]);
+  const disabledAction =
+    (userData?.name === userInfo.name &&
+      userData?.email === userInfo.email &&
+      userData?.username === userInfo.username &&
+      userData?.birthday === userInfo.birthday &&
+      userData?.avatar === userInfo.avatar) ||
+    userInfo.name === "";
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="profile-content mt-4 bg-backgroundMain w-[91.11%] md:w-[96%] md:min-w-[684px] mx-auto !mb-5 py-4 px-4 md:px-6 rounded-2xl">
@@ -68,26 +95,91 @@ const UserInformationForm = ({ userData, isLoading }: any) => {
           buttonProps={{
             disabled: disabledAction,
           }}
-          onClick={() => updateDetailMutatoin.mutate()}
+          onClick={() => updateDetailMutation.mutate()}
         >
           {translate("pages.profile.Save Changes")}
         </OutlineButton>
       </div>
 
-      <div className="input-label disabled-label text-gray400 text-xs font-medium mb-2">
-        {translate("pages.profile.Mobile Number")}
+      {/* Avatar Upload */}
+      <div className="flex flex-col items-center mb-6">
+        <input
+          accept="image/*"
+          style={{ display: "none" }}
+          id="avatar-upload"
+          type="file"
+          onChange={handleAvatarChange}
+        />
+        <label htmlFor="avatar-upload" className="cursor-pointer">
+          <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-primary bg-backgroundMain flex items-center justify-center">
+            {userInfo.avatar ? (
+              <img
+                src={userInfo.avatar}
+                alt="Avatar"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <UserIcon className="w-12 h-12 text-gray400" />
+            )}
+          </div>
+        </label>
+        <span className="text-sm text-gray400 mt-2">
+          {translate("pages.profile.click_to_change_avatar")}
+        </span>
       </div>
-      {userData?.phone ? (
+
+      {/* Username Field */}
+      <div className="input-box w-full mt-6">
+        <div className="input-label text-gray400 text-xs font-medium mb-2">
+          {translate("pages.profile.username")}
+        </div>
+        <InputWithIcon
+          icon={<UserIcon />}
+          inputProps={{
+            name: "username",
+            value: userInfo.username,
+            onChange: handleChange,
+            placeholder: translate("pages.profile.enter_username"),
+          }}
+        />
+      </div>
+
+      {/* Contact Information */}
+      <div className="input-label disabled-label text-gray400 text-xs font-medium mb-2">
+        {translate("pages.profile.contact_information")}
+      </div>
+      {userData?.email ? (
         <div className="full-width name-input w-full h-12 p-4 flex items-center gap-2 bg-borderMain rounded-lg">
           <MobileIcon />
-          <div className="mobile text-sm text-gray400">{userData?.phone}</div>
-        </div>
-      ) : (
-        <div className="full-width name-input w-full h-12 p-4 flex items-center gap-2 bg-borderMain rounded-lg">
-          <GoogleIcon style={{ color: "#9CA3AF" }} />
           <div className="mobile text-sm text-gray400">{userData?.email}</div>
         </div>
+      ) : userData?.phone ? (
+        <div className="input-box w-full">
+          <InputWithIcon
+            icon={<MobileIcon />}
+            inputProps={{
+              name: "email",
+              value: userInfo.email,
+              onChange: handleChange,
+              placeholder: translate("pages.profile.Enter Email"),
+            }}
+          />
+        </div>
+      ) : (
+        <div className="input-box w-full">
+          <InputWithIcon
+            icon={<MobileIcon />}
+            inputProps={{
+              name: "phone",
+              value: userInfo.phone,
+              onChange: handleChange,
+              placeholder: translate("pages.profile.Enter Phone"),
+            }}
+          />
+        </div>
       )}
+
+      {/* Name Field */}
       <div className="input-box w-full mt-6">
         <div className="input-label text-gray400 text-xs font-medium mb-2">
           {translate("pages.profile.Fullname")}
@@ -95,50 +187,38 @@ const UserInformationForm = ({ userData, isLoading }: any) => {
         <InputWithIcon
           icon={<UserIcon />}
           inputProps={{
-            value: userInfo?.name,
-            onChange: (e: ChangeEvent<HTMLInputElement>) =>
-              setUserInfo((prev: any) => ({ ...prev, name: e.target.value })),
+            name: "name",
+            value: userInfo.name,
+            onChange: handleChange,
+            placeholder: translate("pages.profile.Enter Fullname"),
           }}
         />
       </div>
-      <div className="input-box w-full mt-6">
-        <div className="input-label text-gray400 text-xs font-medium mb-2">
-          {translate("pages.profile.Birthdate")}
-        </div>
-        <div
-          className={`with-icon-content flex items-center w-full gap-2 border border-borderMain rounded-lg h-12 py-3 px-4 hover:border-gray400 focus:border-borderSelected`}
-        >
-          <div className="icon w-6 h-6">
-            <CalenderIcon className="w-6 h-6" />
+
+      {/* Birthday Field */}
+      <div className="input-box !w-full mt-6">
+        {isLoading ? (
+          <div className="w-full h-full flex items-center justify-center">
+            <WaveLoading />
           </div>
-          {isLoading ? (
-            <div className="w-full h-full flex items-center justify-center">
-              <WaveLoading />
-            </div>
-          ) : (
-            <DatePicker
-              calendar={persian}
-              locale={persian_fa}
-              value={userInfo?.birthday || userData?.birthday || ""}
-              onChange={handleChangeBirtDate}
-              style={{
-                background: "#222",
-                color: "#fff",
-                borderRadius: "12px",
-                width: "100%",
-              }}
-              inputClass="input h-full !bg-transparent border-none outline-none !text-main !cursor-pointer"
-              placeholder={translate("pages.profile.Select Birthdate")}
-            />
-          )}
-        </div>
+        ) : (
+          <CustomDatePicker
+            title={translate("pages.profile.Birthdate")}
+            date={userInfo.birthday}
+            handleDateChange={handleChangeBirthDate}
+            placeholder={translate("pages.profile.Select Birthdate")}
+            wrapperClassName="w-full block"
+            childeClassName="w-full"
+          />
+        )}
       </div>
+
       <OutlineButton
         className="mobile-save-change-button md:hidden block mt-8 text-center text-sm font-semibold leading-4 py-3 px-5 disabled:!text-[#525252] !border-[#525252] border-primary w-full md:w-[130px]"
         buttonProps={{
           disabled: disabledAction,
         }}
-        onClick={() => updateDetailMutatoin.mutate()}
+        onClick={() => updateDetailMutation.mutate()}
       >
         {translate("pages.profile.Save Changes")}
       </OutlineButton>

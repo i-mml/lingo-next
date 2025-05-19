@@ -17,10 +17,12 @@ const EditProfileInformation = () => {
           className="mb-5"
           clickHandler={() => router.push("/app/account")}
         />
-        <UserInformationForm
-          userData={whoAmI}
-          isLoading={whoAmILoading || !whoAmI}
-        />
+        {!!whoAmI && (
+          <UserInformationForm
+            userData={whoAmI}
+            isLoading={whoAmILoading || !whoAmI}
+          />
+        )}
       </div>
     </section>
   );

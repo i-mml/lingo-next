@@ -25,5 +25,13 @@
   "Subscription Information": "Subscription Information",
   "Subscription Type": "Purchased Subscription",
   "Subscription Whole Duration": "Total Subscription Period",
-  "Subscription Remain Duration": "Remaining Subscription Period"
+  "Subscription Remain Duration": "Remaining Subscription Period",
+
+  "username": "Username",
+  "enter_username": "Enter username",
+  "contact_information": "Contact Information",
+  "click_to_change_avatar": "Click to change avatar",
+  "Enter Email": "Enter Email",
+  "Enter Phone": "Enter Phone",
+  "Email": "Email"
 }
