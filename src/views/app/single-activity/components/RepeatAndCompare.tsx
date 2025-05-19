@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { RepeatAndCompareActivity } from "../types";
 import { useAudioPlayer } from "@/hooks/use-audio-player";
-import { useTextToAudio } from "@/hooks/use-text-to-audio";
 import WaveLoading from "@/components/shared/WaveLoading";
 import { IconButton } from "@mui/material";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
@@ -25,42 +24,134 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
   const { playAudio, isPlaying } = useAudioPlayer(sentence.audio);
   const [attempts, setAttempts] = useState(0);
   const [showSkipButton, setShowSkipButton] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [recognitionInstance, setRecognitionInstance] = useState<any>(null);
 
   // Speech recognition setup
-  let recognition: any = null;
-  if (
-    typeof window !== "undefined" &&
-    (window as any).webkitSpeechRecognition
-  ) {
-    recognition = new (window as any).webkitSpeechRecognition();
-    recognition.continuous = false;
-    recognition.interimResults = true;
-    recognition.lang = "en-US";
-    recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript;
-      const words = transcript.split(" ");
-      setSpokenWords(words);
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const SpeechRecognition =
+        (window as any).webkitSpeechRecognition ||
+        (window as any).SpeechRecognition;
+      if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.lang = "en-US";
+        recognition.maxAlternatives = 3;
+
+        recognition.onresult = (event: any) => {
+          const results = event.results[0];
+          let bestTranscript = results[0].transcript;
+          let bestConfidence = results[0].confidence;
+
+          for (let i = 1; i < results.length; i++) {
+            if (results[i].confidence > bestConfidence) {
+              bestTranscript = results[i].transcript;
+              bestConfidence = results[i].confidence;
+            }
+          }
+
+          const words = bestTranscript.split(" ");
+          setSpokenWords(words);
+        };
+
+        recognition.onerror = (event: any) => {
+          console.error("Speech recognition error:", event.error);
+          setIsRecording(false);
+          if (event.error === "no-speech") {
+            setError("No speech detected. Please try again.");
+          } else if (event.error === "audio-capture") {
+            setError(
+              "Microphone access denied. Please check your permissions."
+            );
+          } else if (event.error === "network") {
+            setError("Network error. Please check your connection.");
+          }
+        };
+
+        recognition.onend = () => {
+          if (isRecording) {
+            try {
+              recognition.start();
+            } catch (error) {
+              console.error("Error restarting recognition:", error);
+              setIsRecording(false);
+              setError("Recording stopped unexpectedly. Please try again.");
+            }
+          }
+        };
+
+        setRecognitionInstance(recognition);
+      }
+    }
+
+    return () => {
+      if (recognitionInstance) {
+        try {
+          recognitionInstance.stop();
+        } catch (error) {
+          console.error("Error stopping recognition:", error);
+        }
+      }
     };
-  }
+  }, []);
 
   const startRecording = () => {
+    if (!recognitionInstance) {
+      setError("Speech recognition is not supported in your browser.");
+      return;
+    }
+
     setSpokenWords([]);
     setAccuracyPercentage(null);
-    setIsRecording(true);
-    recognition && recognition.start();
+    setError(null);
+
+    try {
+      recognitionInstance.start();
+      setIsRecording(true);
+    } catch (error) {
+      console.error("Error starting speech recognition:", error);
+      setError("Failed to start recording. Please try again.");
+      setIsRecording(false);
+    }
   };
 
   function normalizeWord(word: string) {
-    // Remove all punctuation for comparison
-    return word.replace(/[.,;!?،؟:؛\-—_"'()\[\]{}]/g, "").toLowerCase();
+    // Only normalize spaces and convert to lowercase
+    return word.toLowerCase().replace(/\s+/g, " ").trim();
+  }
+
+  function cleanTargetWord(word: string) {
+    // Remove all punctuation and special characters from target words
+    return word
+      .replace(/[.,;!?،؟:؛\-—_"'()\[\]{}]/g, "")
+      .toLowerCase()
+      .trim();
   }
 
   const getWordColor = (word: string, index: number) => {
     if (!spokenWords[index]) return "";
-    return normalizeWord(spokenWords[index]) === normalizeWord(word)
-      ? "#22c55e"
-      : "#ef4444";
+    const normalizedSpoken = normalizeWord(spokenWords[index]);
+    const cleanedTarget = cleanTargetWord(word);
+
+    // Check if words match after cleaning target
+    if (normalizedSpoken === cleanedTarget) {
+      return "#22c55e"; // Green for exact match
+    }
+
+    // Check if words are similar enough
+    if (
+      normalizedSpoken.includes(cleanedTarget) ||
+      cleanedTarget.includes(normalizedSpoken) ||
+      levenshteinDistance(normalizedSpoken, cleanedTarget) <= 2
+    ) {
+      return "#f59e0b"; // Yellow for close match
+    }
+
+    return "#ef4444"; // Red for no match
   };
+
   const handleGoNext = () => {
     handleNext();
     playSuccess();
@@ -72,24 +163,39 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
   };
 
   const calculateAccuracy = (spoken: string[]) => {
-    // Remove punctuation from both spoken and target
+    // Clean target words but keep spoken words as is
     const targetWords = sentence.text
-      .replace(/[.,;!?،؟:؛\-—_"'()\[\]{}]/g, "")
-      .split(" ");
+      .split(" ")
+      .map((word) => cleanTargetWord(word));
+    const spokenWords = spoken.map((word) => normalizeWord(word));
+
     let matchCount = 0;
+    let totalWords = targetWords.length;
+
     targetWords.forEach((word, index) => {
-      if (
-        spoken[index] &&
-        normalizeWord(spoken[index]) === normalizeWord(word)
-      ) {
-        matchCount++;
+      if (spokenWords[index]) {
+        const spokenWord = spokenWords[index];
+
+        // Exact match
+        if (spokenWord === word) {
+          matchCount++;
+        } else {
+          // Check for similar words
+          if (
+            spokenWord.includes(word) ||
+            word.includes(spokenWord) ||
+            levenshteinDistance(spokenWord, word) <= 2
+          ) {
+            matchCount += 0.9;
+          }
+        }
       }
     });
-    const accuracy = (matchCount / targetWords.length) * 100;
 
+    const accuracy = (matchCount / totalWords) * 100;
     setAccuracyPercentage(accuracy);
 
-    if (accuracy > 90) {
+    if (accuracy >= 85) {
       setTimeout(() => {
         handleGoNext();
       }, 1000);
@@ -98,10 +204,50 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
     }
   };
 
+  // Levenshtein distance function for fuzzy matching
+  function levenshteinDistance(a: string, b: string): number {
+    if (a.length === 0) return b.length;
+    if (b.length === 0) return a.length;
+
+    const matrix = [];
+
+    for (let i = 0; i <= b.length; i++) {
+      matrix[i] = [i];
+    }
+
+    for (let j = 0; j <= a.length; j++) {
+      matrix[0][j] = j;
+    }
+
+    for (let i = 1; i <= b.length; i++) {
+      for (let j = 1; j <= a.length; j++) {
+        if (b.charAt(i - 1) === a.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j] + 1
+          );
+        }
+      }
+    }
+
+    return matrix[b.length][a.length];
+  }
+
   const stopRecording = () => {
-    setIsRecording(false);
-    recognition && recognition.stop();
-    calculateAccuracy(spokenWords);
+    if (!recognitionInstance) return;
+
+    try {
+      recognitionInstance.stop();
+      setIsRecording(false);
+      calculateAccuracy(spokenWords);
+    } catch (error) {
+      console.error("Error stopping speech recognition:", error);
+      setError("Failed to stop recording. Please try again.");
+      setIsRecording(false);
+    }
   };
 
   const percentageColorGenerator = (percentage: number) => {
@@ -121,7 +267,7 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
     if (score < 90) {
       setAttempts((prev) => {
         const newAttempts = prev + 1;
-        if (newAttempts >= 3) {
+        if (newAttempts >= 1) {
           setShowSkipButton(true);
         }
         return newAttempts;
