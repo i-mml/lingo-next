@@ -47,6 +47,7 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       className={`${vazirMatnRD.className} ${dana.className}`}
+      translate="no"
     >
       <head>
         <link rel="apple-touch-icon" href="/zabano-main-logo.png" />
@@ -54,6 +55,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="google" content="notranslate" />
 
         <script
           async
