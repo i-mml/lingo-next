@@ -16,6 +16,7 @@
     "@mui/material-nextjs": "^6.4.3",
     "@mui/system": "^6.4.7",
     "@react-oauth/google": "^0.12.1",
+    "@sentry/nextjs": "^9.22.0",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query": "^5.67.1",
     "@tanstack/react-query-devtools": "^5.67.1",
