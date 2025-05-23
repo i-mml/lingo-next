@@ -230,9 +230,9 @@ const Roleplay: React.FC<Props> = ({
   // Conversation screen
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col items-center">
-      {/* <OutlineButton className="w-fit px-2 ml-auto" onClick={handleSkip}>
+      <OutlineButton className="w-fit px-2 ml-auto" onClick={handleSkip}>
         نمیتوانم صحبت کنم، پایان درس
-      </OutlineButton> */}
+      </OutlineButton>
 
       <div className="bg-backgroundMain rounded-xl shadow-lg py-4 pt-8 px-10 mb-8 w-full flex items-center justify-center min-h-[180px]">
         <div
