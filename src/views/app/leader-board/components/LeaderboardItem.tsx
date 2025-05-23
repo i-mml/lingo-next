@@ -82,6 +82,10 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
               width={48}
               height={48}
               className="object-cover"
+              priority={rank <= 10}
+              loading={rank <= 10 ? "eager" : "lazy"}
+              quality={75}
+              sizes="48px"
             />
           </div>
         ) : (
@@ -119,20 +123,13 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
                   width={400}
                   height={400}
                   className="w-full h-auto rounded-lg"
+                  quality={90}
+                  priority={true}
+                  sizes="(max-width: 768px) 100vw, 400px"
                 />
               ) : (
                 <></>
               )}
-              {/* <button
-                onClick={() => {
-                  // TODO: Implement report functionality
-                  console.log("Report user:", username);
-                  setIsModalOpen(false);
-                }}
-                className="absolute bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
-              >
-                گزارش
-              </button> */}
             </div>
           </div>
         </CustomModal>
