@@ -285,9 +285,9 @@ const RepeatAndCompare: React.FC<Props> = ({
 
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col items-center">
-      <OutlineButton className="w-fit px-2 ml-auto" onClick={handleSkip}>
+      {/* <OutlineButton className="w-fit px-2 ml-auto" onClick={handleSkip}>
         نمیتوانم صحبت کنم، پایان درس
-      </OutlineButton>
+      </OutlineButton> */}
       {/* Progress bar and count can be added here if needed */}
       <div className="bg-backgroundMain rounded-xl shadow-lg pt-8 p-10 mb-8 w-full flex items-center justify-center min-h-[180px]">
         <span className="text-2xl font-bold text-center text-main" dir="ltr">
