@@ -6,13 +6,19 @@ import { IconButton } from "@mui/material";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import PrimaryButton from "@/components/shared/PrimaryButton";
+import OutlineButton from "@/components/shared/OutlineButton";
 
 interface Props {
   activity: RepeatAndCompareActivity;
   handleNext: () => void;
+  handleSkip: () => void;
 }
 
-const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
+const RepeatAndCompare: React.FC<Props> = ({
+  activity,
+  handleNext,
+  handleSkip,
+}) => {
   const sentence = activity.sentences[0];
   const [audioPlayed, setAudioPlayed] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -278,9 +284,12 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto pt-8 flex flex-col items-center">
+    <div className="w-full max-w-2xl mx-auto flex flex-col items-center">
+      <OutlineButton className="w-fit px-2 ml-auto" onClick={handleSkip}>
+        نمیتوانم صحبت کنم، پایان درس
+      </OutlineButton>
       {/* Progress bar and count can be added here if needed */}
-      <div className="bg-backgroundMain rounded-xl shadow-lg p-10 mb-8 w-full flex items-center justify-center min-h-[180px]">
+      <div className="bg-backgroundMain rounded-xl shadow-lg pt-8 p-10 mb-8 w-full flex items-center justify-center min-h-[180px]">
         <span className="text-2xl font-bold text-center text-main" dir="ltr">
           {sentence.text}
         </span>

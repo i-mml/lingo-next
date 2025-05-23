@@ -9,12 +9,14 @@ import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import Lottie from "lottie-react";
 import conversationLottie from "@/assets/lotties/unit-converstaion.json";
 import PrimaryButton from "@/components/shared/PrimaryButton";
+import OutlineButton from "@/components/shared/OutlineButton";
 
 interface Props {
   activity: RoleplayActivity;
   handleNext: () => void;
   selectedActor: string | null;
   onActorSelect: (actor: string) => void;
+  handleSkip: () => void;
 }
 
 const Roleplay: React.FC<Props> = ({
@@ -22,6 +24,7 @@ const Roleplay: React.FC<Props> = ({
   handleNext,
   selectedActor,
   onActorSelect,
+  handleSkip,
 }) => {
   const [audioPlayed, setAudioPlayed] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -191,8 +194,12 @@ const Roleplay: React.FC<Props> = ({
 
   // Conversation screen
   return (
-    <div className="w-full max-w-2xl mx-auto pt-8 flex flex-col items-center">
-      <div className="bg-backgroundMain rounded-xl shadow-lg py-4 px-10 mb-8 w-full flex items-center justify-center min-h-[180px]">
+    <div className="w-full max-w-2xl mx-auto flex flex-col items-center">
+      <OutlineButton className="w-fit px-2 ml-auto" onClick={handleSkip}>
+        نمیتوانم صحبت کنم، پایان درس
+      </OutlineButton>
+
+      <div className="bg-backgroundMain rounded-xl shadow-lg py-4 pt-8 px-10 mb-8 w-full flex items-center justify-center min-h-[180px]">
         <div
           className={`flex items-end gap-4 ${
             userIsCurrent ? "justify-end flex-row-reverse" : "justify-start"
@@ -206,7 +213,7 @@ const Roleplay: React.FC<Props> = ({
           <div
             className={`rounded-2xl px-6 py-4 shadow text-lg font-medium text-main ${
               userIsCurrent
-                ? "bg-gray-100 dark:bg-gray-800"
+                ? "bg-blue-500 dark:bg-gray-800"
                 : "bg-blue-200 dark:bg-blue-800"
             }`}
             style={{
@@ -215,7 +222,7 @@ const Roleplay: React.FC<Props> = ({
             }}
           >
             <span
-              className="font-bold block mb-1 text-gray400 text-left"
+              className="font-bold block mb-1 text-gray300 text-left"
               dir="ltr"
             >
               {userIsCurrent ? "You" : otherActor?.name}
