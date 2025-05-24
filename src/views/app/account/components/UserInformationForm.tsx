@@ -223,7 +223,7 @@ const UserInformationForm = ({ userData, isLoading }: any) => {
             name: "name",
             value: userInfo.name,
             onChange: handleChange,
-            placeholder: translate("pages.profile.Enter Fullname"),
+            placeholder: translate("pages.login.Enter Fullname"),
           }}
         />
       </div>

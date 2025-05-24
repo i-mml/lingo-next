@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Trophy, Star } from "lucide-react";
 import Image from "next/image";
+import CustomModal from "@/components/shared/CustomModal";
 
 interface LeaderboardItemProps {
   rank: number;
@@ -21,6 +22,8 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
   avatar,
   isCurrentUser = false,
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const getRankColor = (rank: number) => {
     switch (rank) {
       case 1:
@@ -35,6 +38,12 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
   };
 
   const displayName = name || username || "کاربر";
+
+  const handleImageClick = () => {
+    if (avatar) {
+      setIsModalOpen(true);
+    }
+  };
 
   return (
     <div
@@ -61,13 +70,24 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
       {/* Avatar */}
       <div className="w-12 h-12 rounded-full bg-backgroundLayout flex items-center justify-center overflow-hidden">
         {avatar ? (
-          <Image
-            src={avatar}
-            alt={displayName}
-            width={48}
-            height={48}
-            className="object-cover"
-          />
+          <div
+            className={`w-12 h-12 rounded-full overflow-hidden ${
+              avatar ? "cursor-pointer hover:opacity-80 transition-opacity" : ""
+            }`}
+            onClick={handleImageClick}
+          >
+            <Image
+              src={avatar}
+              alt={displayName}
+              width={48}
+              height={48}
+              className="object-cover"
+              priority={rank <= 10}
+              loading={rank <= 10 ? "eager" : "lazy"}
+              quality={75}
+              sizes="48px"
+            />
+          </div>
         ) : (
           <span className="text-xl font-bold text-gray400">
             {displayName.charAt(0).toUpperCase()}
@@ -89,6 +109,33 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
           <span className="text-xp font-bold">{xp.toLocaleString()} XP</span>
         </div>
       </div>
+      {isModalOpen ? (
+        <CustomModal open={isModalOpen} toggle={() => setIsModalOpen(false)}>
+          <div className="p-4">
+            <h3 className="font-bold text-base line-clamp-1 max-w-[80%] mb-4">
+              {displayName}
+            </h3>
+            <div className="relative">
+              {avatar ? (
+                <Image
+                  src={avatar || ""}
+                  alt={displayName}
+                  width={400}
+                  height={400}
+                  className="w-full h-auto rounded-lg"
+                  quality={90}
+                  priority={true}
+                  sizes="(max-width: 768px) 100vw, 400px"
+                />
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+        </CustomModal>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

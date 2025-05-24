@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import { useParams } from "next/navigation";
 import { localesDictionary } from "@/constants/locales";
@@ -13,6 +13,10 @@ import moment from "moment-jalaali";
 import OutlineButton from "@/components/shared/OutlineButton";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
+import ClassRegistrationModal from "@/components/shared/ClassRegistrationModal";
+import GroupClassInfoCard from "@/components/shared/GroupClassInfoCard";
+import { getPaymentPackageStart } from "@/api/services/payment";
+import { toast } from "react-toastify";
 
 // TypeScript type for group class
 export type GroupClass = {
@@ -51,12 +55,48 @@ const GroupClassList: React.FC = () => {
       }),
   });
 
-  // Extract unique levels for tabs
-  const levels = useMemo(
-    () => Array.from(new Set(groupClasses.map((cls) => cls.course.title))),
-    [groupClasses]
-  );
+  // Extract unique levels for tabs and sort them naturally
+  const levels = useMemo(() => {
+    // Helper to extract a comparable value from level string
+    const parseLevel = (level: string | undefined | null) => {
+      if (!level || typeof level !== "string") return ["Z", 0, 0];
+      const match = level.match(/^([A-Z]+)([0-9]?(?:\.[0-9])?)?(-U)?/i);
+      if (!match) return [level];
+      const [, letter, number, bu] = match;
+      return [
+        letter ? letter.toUpperCase() : "Z",
+        number ? parseFloat(number) : 0,
+        bu ? 1 : 0,
+      ];
+    };
+    const uniqueLevels = Array.from(
+      new Set(groupClasses.map((cls) => cls.course.title))
+    );
+    uniqueLevels.sort((a, b) => {
+      const aCourse = groupClasses.find(
+        (cls) => cls.course.title === a
+      )?.course;
+      const bCourse = groupClasses.find(
+        (cls) => cls.course.title === b
+      )?.course;
+      const aParsed = parseLevel(aCourse?.level);
+      const bParsed = parseLevel(bCourse?.level);
+      for (let i = 0; i < Math.max(aParsed.length, bParsed.length); i++) {
+        if ((aParsed[i] || 0) < (bParsed[i] || 0)) return -1;
+        if ((aParsed[i] || 0) > (bParsed[i] || 0)) return 1;
+      }
+      return 0;
+    });
+    return uniqueLevels;
+  }, [groupClasses]);
   const [selectedLevel, setSelectedLevel] = useState(levels[0] || "");
+
+  // Ensure selectedLevel is always set to the first sorted level on first load or when levels change
+  useEffect(() => {
+    if (levels.length > 0) {
+      setSelectedLevel(levels[0]);
+    }
+  }, [levels]);
 
   // Filter and sort classes
   const filteredClasses = useMemo(() => {
@@ -66,10 +106,33 @@ const GroupClassList: React.FC = () => {
   }, [groupClasses, selectedLevel]);
 
   const getRowStyle = (available: number, capacity: number) => {
-    if (capacity === 0 || available <= capacity / 4)
-      return { color: "#d32f2f" };
-    if (available <= capacity / 2) return { color: "#ffc107" };
-    return { color: "#388e3c" };
+    if (available >= 5) return { color: "#388e3c" };
+    if (available >= 4 && available < 5) return { color: "#ffc107" };
+    if (available < 4) return { color: "#d32f2f" };
+    return {};
+  };
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPaymentLink, setSelectedPaymentLink] = useState<string | null>(
+    null
+  );
+  const [selectedClass, setSelectedClass] = useState<GroupClass | null>(null);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  const handleGetGateWay = async (gateWayLink: string) => {
+    try {
+      setIsRedirecting(true);
+      await getPaymentPackageStart(gateWayLink).then((res) => {
+        if (res?.data?.url) {
+          window.location.href = res?.data?.url;
+        } else {
+          toast.error("خطا در انتقال به درگاه");
+          setIsRedirecting(false);
+        }
+      });
+    } catch {
+      setIsRedirecting(false);
+    }
   };
 
   if (isLoading)
@@ -113,189 +176,84 @@ const GroupClassList: React.FC = () => {
         </div>
       )}
 
-      <div className="p-4 md:p-8 w-full max-w-5xl">
+      <div className="p-4 md:p-8 w-full max-w-6xl">
         {/* Tabs */}
-        <div className="flex flex-wrap gap-2 mb-4 border-b-2 border-borderMain">
+        <div className="flex gap-4 border-b mb-8 overflow-x-auto scrollbar-hide">
           {levels.map((level) => (
             <button
               key={level}
-              className={`px-4 py-2 rounded-t-lg font-bold text-base border-b-4 transition-all duration-200 ${
-                selectedLevel === level
-                  ? "border-primary text-primary bg-backgroundMain"
-                  : "border-transparent text-gray300 bg-backgroundMain"
-              }`}
+              className={`px-6 py-3 text-lg font-semibold transition rounded-t-lg
+                ${
+                  selectedLevel === level
+                    ? "border-b-4 border-yellow-400 text-yellow-400 bg-backgroundLayout"
+                    : "text-gray-300 hover:text-yellow-400"
+                }
+              `}
               onClick={() => setSelectedLevel(level)}
             >
               {level}
             </button>
           ))}
         </div>
-        {/* Mobile Cards */}
-        <div className="flex flex-col gap-4 md:hidden">
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredClasses.map((cls) => (
             <div
               key={cls.id}
-              className="rounded-xl shadow-lg mb-4 overflow-hidden bg-backgroundLayout"
+              className="bg-backgroundLayout rounded-2xl shadow-xl p-6 flex flex-col justify-between transition hover:shadow-2xl"
             >
-              <div className="flex flex-col divide-y divide-borderMain">
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">سطح دوره</span>
-                  <span>{cls.course.title}</span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">نوع دوره</span>
-                  <span>
-                    {cls.course.type === "group"
-                      ? cls.course.is_online
-                        ? "آنلاین"
-                        : "حضوری"
-                      : "-"}
-                  </span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">روز</span>
-                  <span>{cls.day_of_week}</span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">ساعت</span>
-                  <span>
-                    {cls.start_time}-{cls.end_time}
-                  </span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">تاریخ شروع</span>
-                  <span>{moment(cls.start_date).format("jYYYY/jMM/jDD")}</span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">تاریخ پایان</span>
-                  <span>{moment(cls.end_date).format("jYYYY/jMM/jDD")}</span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">ظرفیت</span>
-                  <span
-                    style={getRowStyle(cls.available_capacity, cls.capacity)}
-                    className="px-2 py-1 rounded font-bold"
-                  >
-                    {cls.available_capacity === 0
-                      ? "صفر"
-                      : cls.available_capacity}
-                  </span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">تعداد جلسات</span>
-                  <span>{cls.course.total_sessions}</span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">شهریه</span>
-                  <span>{cls.course.fee.toLocaleString()} تومان</span>
-                </div>
-              </div>
-              <div className="p-4">
+              <GroupClassInfoCard course={cls} variant="list" />
+              <div className="flex justify-end">
                 {cls.available_capacity === 0 ? (
                   <button
-                    className="w-full bg-gray-100 text-gray-400 py-2 rounded-lg cursor-not-allowed"
+                    className="px-6 py-2 rounded-full bg-gray-700 text-gray-400 font-bold cursor-not-allowed"
                     disabled
                   >
                     ناموجود
                   </button>
                 ) : (
-                  <a
-                    href={cls.payment_link}
-                    className="w-full block text-center bg-primary text-white font-bold py-2 rounded-lg hover:bg-primary/90"
-                  >
-                    ثبت نام
-                  </a>
+                  <>
+                    <button
+                      onClick={() => {
+                        setSelectedPaymentLink(cls.payment_link);
+                        setSelectedClass(cls);
+                        setModalOpen(true);
+                      }}
+                      className="inline-flex items-center gap-2 px-8 py-2 rounded-full bg-green-400 text-white font-extrabold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400"
+                    >
+                      <span>ثبت نام</span>
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M5 12h14m-7-7l7 7-7 7"
+                        />
+                      </svg>
+                    </button>
+                    <ClassRegistrationModal
+                      open={modalOpen}
+                      toggleModal={() => setModalOpen(false)}
+                      onConfirm={handleGetGateWay}
+                      paymentLink={selectedPaymentLink}
+                      course={selectedClass}
+                      isRedirecting={isRedirecting}
+                    />
+                  </>
                 )}
               </div>
             </div>
           ))}
           {filteredClasses.length === 0 && (
-            <div className="py-8 text-gray-500 bg-backgroundMain rounded-xl text-center">
+            <div className="col-span-full py-8 text-gray-500 bg-backgroundMain rounded-xl text-center">
               هیچ کلاسی برای این سطح موجود نیست.
             </div>
           )}
-        </div>
-        {/* Desktop Table */}
-        <div className="overflow-x-auto rounded-xl shadow-lg hidden md:block">
-          <table className="min-w-[900px] w-full text-center border-separate border-spacing-0">
-            <thead>
-              <tr className="bg-backgroundLayout text-main text-base">
-                <th className="py-3 px-0">سطح دوره</th>
-                <th className="py-3 px-0">شهریه</th>
-                <th className="py-3 px-0">تعداد جلسات</th>
-                <th className="py-3 px-0">ظرفیت</th>
-                <th className="py-3 px-0">تاریخ شروع</th>
-                <th className="py-3 px-0">تاریخ پایان</th>
-                <th className="py-3 px-0">ساعت</th>
-                <th className="py-3 px-0">روز</th>
-                <th className="py-3 px-0">نوع دوره</th>
-                <th className="py-3 px-0">ثبت نام</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredClasses.map((cls) => (
-                <tr
-                  key={cls.id}
-                  className="text-base font-bold border-b border-borderMain bg-backgroundLayout"
-                >
-                  <td className="py-2 px-2 text-main">{cls.course.title}</td>
-                  <td className="py-2 px-2 text-main">
-                    {cls.course.fee.toLocaleString()} تومان
-                  </td>
-                  <td className="py-2 px-2 text-main">
-                    {cls.course.total_sessions}
-                  </td>
-                  <td
-                    className="py-2 px-2 text-main"
-                    style={getRowStyle(cls.available_capacity, cls.capacity)}
-                  >
-                    {cls.available_capacity === 0
-                      ? "صفر"
-                      : cls.available_capacity}
-                  </td>
-                  <td className="py-2 px-2 text-main">
-                    {moment(cls.start_date).format("jYYYY/jMM/jDD")}
-                  </td>
-                  <td className="py-2 px-2 text-main">
-                    {moment(cls.end_date).format("jYYYY/jMM/jDD")}
-                  </td>
-                  <td className="py-2 px-2 text-main">
-                    {cls.start_time.slice(0, 5)}-{cls.end_time.slice(0, 5)}
-                  </td>
-                  <td className="py-2 px-2 text-main">{cls.day_of_week}</td>
-                  <td className="py-2 px-2 text-main">
-                    {cls.course.type === "group"
-                      ? cls.course.is_online
-                        ? "آنلاین"
-                        : "حضوری"
-                      : "-"}
-                  </td>
-                  <td className="py-2 px-2 text-main">
-                    {cls.available_capacity === 0 ? (
-                      <span className="opacity-60">-</span>
-                    ) : (
-                      <a
-                        href={cls.payment_link}
-                        className="bg-primary text-white px-3 py-1 rounded-lg hover:bg-primary/90 transition"
-                      >
-                        ثبت نام
-                      </a>
-                    )}
-                  </td>
-                </tr>
-              ))}
-              {filteredClasses.length === 0 && (
-                <tr>
-                  <td
-                    colSpan={10}
-                    className="py-8 text-gray-500 bg-white text-center"
-                  >
-                    هیچ کلاسی برای این سطح موجود نیست.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
         </div>
       </div>
     </div>

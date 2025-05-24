@@ -72,6 +72,11 @@ const SingleActivity: React.FC = () => {
     setCurrentIndex(currentIndex + 1);
   };
 
+  const handleSkip = () => {
+    finisherUserPatternProgress(activityData?.[currentIndex]?.id);
+    setIsActivityFinished(true);
+  };
+
   useEffect(() => {
     if (activityData?.[currentIndex]?.id) {
       handleStart();
@@ -89,6 +94,7 @@ const SingleActivity: React.FC = () => {
       <RepeatAndCompare
         activity={activityData?.[currentIndex]?.content}
         handleNext={handleNext}
+        handleSkip={handleSkip}
       />
     ),
     writeAndCompare: (
@@ -109,6 +115,7 @@ const SingleActivity: React.FC = () => {
         handleNext={handleNext}
         selectedActor={selectedActor}
         onActorSelect={setSelectedActor}
+        handleSkip={handleSkip}
       />
     ),
     fillTheGapsAndListenAudio: (

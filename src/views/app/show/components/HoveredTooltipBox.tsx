@@ -19,6 +19,8 @@ const HoveredTooltipBox = ({
   flashCardIsLoading,
   toggleWordInfoModal,
   setSelectedWord,
+  movie,
+  inUnit,
 }: any) => {
   const { handleTextToSpeech, textToSpeachMutation } = useTextToAudio();
   const params = useParams();
@@ -56,15 +58,15 @@ const HoveredTooltipBox = ({
       translation: currentSubtitle?.sentence?.translate,
       time_start: currentSubtitle?.start_time,
       time_end: currentSubtitle?.end_time,
-      movie: videoId,
+      movie: !inUnit ? videoId : movie?.id,
       word: word?.text,
       word_rel: word?.id,
       word_rel_id: word?.id,
-      base_movie_file: episodeData?.file,
       word_translation: word?.translate,
-      episode: Number(episodeId),
+      episode: !inUnit ? !!Number(episodeId) : movie?.episode?.id,
+      base_movie_file: !inUnit ? episodeData?.file : movie?.episode?.file,
     }),
-    [currentSubtitle, videoId, word, episodeData, episodeId]
+    [currentSubtitle, videoId, word, episodeData, episodeId, movie]
   );
 
   const reportWordParams = useMemo(

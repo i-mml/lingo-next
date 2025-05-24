@@ -204,6 +204,8 @@ const Subtitle = React.memo(
                 currentSubtitle={currentSubtitle}
                 toggleWordInfoModal={toggleWordInfoModal}
                 setSelectedWord={setSelectedWord}
+                movie={movie}
+                inUnit={inUnit}
               />
             ))}
           </Box>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RoleplayActivity } from "../types";
 import { useAudioPlayer } from "@/hooks/use-audio-player";
 import { useTextToAudio } from "@/hooks/use-text-to-audio";
@@ -9,12 +9,14 @@ import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import Lottie from "lottie-react";
 import conversationLottie from "@/assets/lotties/unit-converstaion.json";
 import PrimaryButton from "@/components/shared/PrimaryButton";
+import OutlineButton from "@/components/shared/OutlineButton";
 
 interface Props {
   activity: RoleplayActivity;
   handleNext: () => void;
   selectedActor: string | null;
   onActorSelect: (actor: string) => void;
+  handleSkip: () => void;
 }
 
 const Roleplay: React.FC<Props> = ({
@@ -22,6 +24,7 @@ const Roleplay: React.FC<Props> = ({
   handleNext,
   selectedActor,
   onActorSelect,
+  handleSkip,
 }) => {
   const [audioPlayed, setAudioPlayed] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -35,6 +38,41 @@ const Roleplay: React.FC<Props> = ({
   const isTTSLoading = textToSpeachMutation.isLoading;
   const [failedAttempts, setFailedAttempts] = useState(0);
   const [showSkipButton, setShowSkipButton] = useState(false);
+  const [hasMicrophoneAccess, setHasMicrophoneAccess] = useState<
+    boolean | null
+  >(null);
+
+  // Check microphone access
+  useEffect(() => {
+    const checkMicrophoneAccess = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
+        setHasMicrophoneAccess(true);
+        // Stop the stream immediately after checking
+        stream.getTracks().forEach((track) => track.stop());
+      } catch (err) {
+        setHasMicrophoneAccess(false);
+        setError("شما دسترسی به میکروفون ندارید");
+      }
+    };
+
+    checkMicrophoneAccess();
+  }, []);
+
+  const requestMicrophoneAccess = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      setHasMicrophoneAccess(true);
+      setError(null);
+      // Stop the stream immediately after getting access
+      stream.getTracks().forEach((track) => track.stop());
+    } catch (err) {
+      setHasMicrophoneAccess(false);
+      setError("شما دسترسی به میکروفون ندارید");
+    }
+  };
 
   // Speech recognition setup
   let recognition: any = null;
@@ -191,8 +229,12 @@ const Roleplay: React.FC<Props> = ({
 
   // Conversation screen
   return (
-    <div className="w-full max-w-2xl mx-auto pt-8 flex flex-col items-center">
-      <div className="bg-backgroundMain rounded-xl shadow-lg py-4 px-10 mb-8 w-full flex items-center justify-center min-h-[180px]">
+    <div className="w-full max-w-2xl mx-auto flex flex-col items-center">
+      {/* <OutlineButton className="w-fit px-2 ml-auto" onClick={handleSkip}>
+        نمیتوانم صحبت کنم، پایان درس
+      </OutlineButton> */}
+
+      <div className="bg-backgroundMain rounded-xl shadow-lg py-4 pt-8 px-10 mb-8 w-full flex items-center justify-center min-h-[180px]">
         <div
           className={`flex items-end gap-4 ${
             userIsCurrent ? "justify-end flex-row-reverse" : "justify-start"
@@ -206,7 +248,7 @@ const Roleplay: React.FC<Props> = ({
           <div
             className={`rounded-2xl px-6 py-4 shadow text-lg font-medium text-main ${
               userIsCurrent
-                ? "bg-gray-100 dark:bg-gray-800"
+                ? "bg-blue-500 dark:bg-gray-800"
                 : "bg-blue-200 dark:bg-blue-800"
             }`}
             style={{
@@ -215,7 +257,7 @@ const Roleplay: React.FC<Props> = ({
             }}
           >
             <span
-              className="font-bold block mb-1 text-gray400 text-left"
+              className="font-bold block mb-1 text-gray300 text-left"
               dir="ltr"
             >
               {userIsCurrent ? "You" : otherActor?.name}
@@ -229,81 +271,106 @@ const Roleplay: React.FC<Props> = ({
       <div className="flex flex-col items-center gap-6 w-full">
         {userIsCurrent ? (
           <>
-            <div className="flex items-center gap-8">
-              <IconButton
-                onClick={handlePlay}
-                disabled={isPlaying || isTTSLoading}
-                className="!w-20 !h-20 !bg-primary/10 shadow-lg border-2 border-primary flex items-center justify-center"
-              >
-                {isPlaying || isTTSLoading ? (
-                  <WaveLoading />
-                ) : (
-                  <VolumeUpIcon className="!w-10 !h-10 !text-primary" />
-                )}
-              </IconButton>
-              <IconButton
-                onClick={isRecording ? stopRecording : startRecording}
-                className="!w-20 !h-20 !bg-primary/10 shadow-lg border-2 border-primary flex items-center justify-center"
-              >
-                <KeyboardVoiceIcon
-                  className={`!w-10 !h-10 !text-primary ${
-                    isRecording ? "animate-ping" : ""
-                  }`}
-                />
-              </IconButton>
-            </div>
-            <div className="text-center text-gray400 mt-2">
-              {isRecording ? "درحال ضبط..." : "Tap to record your voice"}
-            </div>
-            {/* Per-word feedback */}
-            {spokenWords.length > 0 && (
-              <div
-                className="text-main font-medium flex items-center flex-wrap justify-center mt-6"
-                dir="ltr"
-              >
-                {activity.content.text.split(" ").map((word, index) => (
-                  <span
-                    className="font-medium text-lg lg:text-xl"
-                    key={index}
-                    style={{
-                      color: getWordColor(word, index),
-                      marginRight: "5px",
-                    }}
+            {hasMicrophoneAccess === false ? (
+              <div className="flex flex-col items-center gap-4">
+                <p className="text-red-500 text-center mb-4">
+                  شما دسترسی به میکروفون ندارید
+                </p>
+                <PrimaryButton
+                  onClick={requestMicrophoneAccess}
+                  className="bg-primary hover:bg-primary/90"
+                >
+                  درخواست دسترسی به میکروفون
+                </PrimaryButton>
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center gap-8">
+                  <IconButton
+                    onClick={handlePlay}
+                    disabled={isPlaying || isTTSLoading}
+                    className="!w-20 !h-20 !bg-primary/10 shadow-lg border-2 border-primary flex items-center justify-center"
                   >
-                    {word}
-                  </span>
-                ))}
-              </div>
-            )}
-            {/* Accuracy percentage */}
-            {accuracyPercentage !== null && (
-              <div
-                className={`mt-4 text-xl font-bold ${percentageColorGenerator(
-                  accuracyPercentage
-                )}`}
-              >
-                {Math.round(accuracyPercentage)}%
-              </div>
-            )}
-            {/* Error message */}
-            {error && (
-              <div className="mt-2 text-red-500 font-bold">{error}</div>
-            )}
-            {showSkipButton && (
-              <PrimaryButton
-                onClick={() => {
-                  setAudioPlayed(false);
-                  setAccuracyPercentage(null);
-                  setSpokenWords([]);
-                  setError(null);
-                  setFailedAttempts(0);
-                  setShowSkipButton(false);
-                  handleNext();
-                }}
-                className="mt-1 px-6 py-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
-              >
-                رد شدن
-              </PrimaryButton>
+                    {isPlaying || isTTSLoading ? (
+                      <WaveLoading />
+                    ) : (
+                      <VolumeUpIcon className="!w-10 !h-10 !text-primary" />
+                    )}
+                  </IconButton>
+                  <IconButton
+                    onClick={isRecording ? stopRecording : startRecording}
+                    disabled={!hasMicrophoneAccess}
+                    className={`!w-20 !h-20 !bg-primary/10 shadow-lg border-2 border-primary flex items-center justify-center ${
+                      !hasMicrophoneAccess
+                        ? "opacity-50 cursor-not-allowed"
+                        : ""
+                    }`}
+                  >
+                    <KeyboardVoiceIcon
+                      className={`!w-10 !h-10 !text-primary ${
+                        isRecording ? "animate-ping" : ""
+                      }`}
+                    />
+                  </IconButton>
+                </div>
+                <div className="text-center text-gray400 mt-2">
+                  {!hasMicrophoneAccess
+                    ? "لطفا دسترسی به میکروفون را فعال کنید"
+                    : isRecording
+                    ? "درحال ضبط..."
+                    : "Tap to record your voice"}
+                </div>
+                {/* Per-word feedback */}
+                {spokenWords.length > 0 && (
+                  <div
+                    className="text-main font-medium flex items-center flex-wrap justify-center mt-6"
+                    dir="ltr"
+                  >
+                    {activity.content.text.split(" ").map((word, index) => (
+                      <span
+                        className="font-medium text-lg lg:text-xl"
+                        key={index}
+                        style={{
+                          color: getWordColor(word, index),
+                          marginRight: "5px",
+                        }}
+                      >
+                        {word}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                {/* Accuracy percentage */}
+                {accuracyPercentage !== null && (
+                  <div
+                    className={`mt-4 text-xl font-bold ${percentageColorGenerator(
+                      accuracyPercentage
+                    )}`}
+                  >
+                    {Math.round(accuracyPercentage)}%
+                  </div>
+                )}
+                {/* Error message */}
+                {error && (
+                  <div className="mt-2 text-red-500 font-bold">{error}</div>
+                )}
+                {showSkipButton && (
+                  <PrimaryButton
+                    onClick={() => {
+                      setAudioPlayed(false);
+                      setAccuracyPercentage(null);
+                      setSpokenWords([]);
+                      setError(null);
+                      setFailedAttempts(0);
+                      setShowSkipButton(false);
+                      handleNext();
+                    }}
+                    className="mt-1 px-6 py-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
+                  >
+                    رد شدن
+                  </PrimaryButton>
+                )}
+              </>
             )}
           </>
         ) : (

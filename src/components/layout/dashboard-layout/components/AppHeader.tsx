@@ -9,8 +9,6 @@ import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
-import GraduationIcon from "@/assets/graduation.svg";
-import ToLearnIcon from "@/assets/to-learn.svg";
 import { useTranslation } from "react-i18next";
 import { useLoginModal } from "@/store/use-login-modal";
 import { useAuth } from "@/hooks/use-auth";
@@ -26,6 +24,8 @@ import SearchModal from "@/components/modals/SearchModal";
 import XpIcon from "@/assets/xp.svg";
 import { GetGamificationStats } from "@/api/services/gamification";
 import CoinsIcon from "@/assets/coins.svg";
+import SystemUpdateIcon from "@mui/icons-material/SystemUpdate";
+import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
 
 const AppHeader: React.FC = () => {
   const { t: translate } = useTranslation();
@@ -35,7 +35,7 @@ const AppHeader: React.FC = () => {
   const { theme }: any = useThemeCreator();
   const pathname = usePathname();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isSuccess } = useQuery({
     queryKey: ["get-gamification-stats"],
     queryFn: GetGamificationStats,
     enabled: !isGuest && !!whoAmI?.userpreference?.preferred_language,
@@ -54,7 +54,7 @@ const AppHeader: React.FC = () => {
         ) : (
           !isGuest && (
             <div className="left flex items-center text-main-text">
-              {!!data?.xp && (
+              {!!data ? (
                 <div className="flex items-center">
                   <Link href="/app/leader-board">
                     <AppHeaderItem
@@ -73,6 +73,8 @@ const AppHeader: React.FC = () => {
                     />
                   </Link>
                 </div>
+              ) : (
+                <></>
               )}
             </div>
           )
@@ -144,17 +146,24 @@ const AppHeader: React.FC = () => {
               ورود | ثبت نام
             </OutlineButton>
           ) : (
-            <Link href="/public/download-app" className="w-[30%] block">
-              <OutlineButton className="w-full h-11 p-0">
-                دانلود اپ
-              </OutlineButton>
-            </Link>
+            <div className="w-[30%] grid grid-cols-2 gap-3">
+              <Link href="/public/download-app" className="block">
+                <OutlineButton className="w-full h-11 p-0 !text-main">
+                  <SystemUpdateIcon />
+                </OutlineButton>
+              </Link>
+              <Link href="/public/web-contact-us" className="w-full block">
+                <OutlineButton className="w-full h-11 p-0 !text-main">
+                  <HeadsetMicIcon />
+                </OutlineButton>
+              </Link>
+            </div>
           )}
         </div>
 
         {!isLoading && !isGuest && (
           <div className="mobile-header-bottom flex items-center justify-between w-full mt-2">
-            {!!data?.xp && (
+            {!!data ? (
               <div
                 className={clsx(
                   "flex items-center gap-3",
@@ -178,6 +187,8 @@ const AppHeader: React.FC = () => {
                   />
                 </Link>
               </div>
+            ) : (
+              <></>
             )}
             {!!whoAmI?.userpreference?.preferred_language &&
               pathname?.includes("/public/home") && (

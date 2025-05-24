@@ -200,7 +200,7 @@ const LoginView = ({ inModal = false, inModalCallback = () => {} }) => {
           setUser(res?.data);
           handleLoginApp(
             res?.data?.token_data,
-            res?.data?.is_onboard ? redirectLink : "/app/on-boarding",
+            !!res?.data?.is_onboard ? redirectLink : "/app/on-boarding",
             res?.data?.is_onboard
           );
         }

@@ -108,14 +108,20 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
           title: t("containers.sidebar.Podcasts"),
           link: `/public/podcast-list`,
           icon: <PodcastsIcon className="!text-3xl" />,
-          hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
+          hide:
+            isGuest ||
+            !whoAmI?.userpreference?.preferred_language ||
+            whoAmI?.userpreference?.preferred_language !== 2,
         },
         {
           id: 8,
           title: t("containers.sidebar.Music"),
           link: `/public/music-list`,
           icon: <QueueMusicOutlinedIcon className="!text-3xl" />,
-          hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
+          hide:
+            isGuest ||
+            !whoAmI?.userpreference?.preferred_language ||
+            whoAmI?.userpreference?.preferred_language !== 2,
         },
       ],
       hide: false,
@@ -129,21 +135,30 @@ const DrawerMenu = ({ open, toggleDrawerMenu }: IProps) => {
           title: "یادگیری با درس",
           link: "/app/units",
           icon: <Book />,
-          hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
+          hide:
+            isGuest ||
+            !whoAmI?.userpreference?.preferred_language ||
+            whoAmI?.userpreference?.preferred_language !== 2,
         },
         {
           id: 10,
           title: t("containers.sidebar.Vocabulary"),
           link: "/public/vocabulary",
           icon: <TranslateIcon className="!text-3xl" />,
-          hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
+          hide:
+            isGuest ||
+            !whoAmI?.userpreference?.preferred_language ||
+            whoAmI?.userpreference?.preferred_language !== 2,
         },
         {
           id: 11,
           title: t("containers.sidebar.Grammers"),
           link: `/public/grammar-list`,
           icon: <AutoStoriesIcon className="!text-3xl" />,
-          hide: isGuest || whoAmI?.userpreference?.preferred_language !== 2,
+          hide:
+            isGuest ||
+            !whoAmI?.userpreference?.preferred_language ||
+            whoAmI?.userpreference?.preferred_language !== 2,
         },
         {
           id: 12,

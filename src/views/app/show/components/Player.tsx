@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Lottie from "lottie-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { shallow } from "zustand/shallow";
@@ -18,8 +18,11 @@ import { useVideoPlayerStore } from "../store/playerStore";
 import ArrowLeaner from "@/assets/lotties/arrow-leaner.json";
 import ActiveUserMovieTracker from "./ActiveUserMovieTracker";
 import PlayerContainer from "./PlayerContainer";
-import { Grid, Grid2 } from "@mui/material";
+import { Grid } from "@mui/material";
 import { FlashCardBox } from "./FlashcardBox";
+import Link from "next/link";
+import { ArrowForward } from "@mui/icons-material";
+import { contentTypeInfos } from "@/constants/content-types-infos";
 
 const Player = ({
   movie,
@@ -74,8 +77,13 @@ const Player = ({
     [videoId, episodeId]
   );
   const queryFn = useMemo(
-    () => () => GetMovieFlashCard(`?movie=${videoId}&episode=${episodeId}`),
-    [videoId, episodeId]
+    () => () =>
+      GetMovieFlashCard(
+        `?movie=${!inUnit ? videoId : movieData?.id}&episode=${
+          !inUnit ? Number(episodeId) : movieData?.episode?.id
+        }`
+      ),
+    [videoId, episodeId, movieData]
   );
 
   const { data, refetch } = useQuery({
@@ -254,7 +262,7 @@ const Player = ({
             backgroundColor: theme?.palette?.background?.main,
           }}
           sx={{
-            padding: { xs: "unset", md: "0 16px" },
+            padding: { xs: "24px 0 0", md: "14px 16px 0" },
             // eslint-disable-next-line no-restricted-globals
             maxHeight: { xs: window.innerHeight, md: "100vh" },
             // eslint-disable-next-line no-restricted-globals
@@ -262,6 +270,26 @@ const Player = ({
             overflow: "hidden",
           }}
         >
+          {!inUnit ? (
+            <>
+              <div className="absolute top-0 right-4 md:right-8 z-50 py-3 px-4 ">
+                <div className="flex items-center justify-start md:justify-end mb-2 ">
+                  <Link
+                    href={`/public/${
+                      contentTypeInfos?.[
+                        movieData?.content_type as keyof typeof contentTypeInfos
+                      ]?.route
+                    }/${movieData?.id}-${movieData?.slug}`}
+                    className="font-bold text-sm md:text-base text-gray400 bg-backgroundMain rounded-lg p-1"
+                  >
+                    <ArrowForward /> بازگشت
+                  </Link>
+                </div>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
           <Grid
             item
             xs={16}
