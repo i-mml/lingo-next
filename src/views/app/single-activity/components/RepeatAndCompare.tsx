@@ -201,7 +201,6 @@ const RepeatAndCompare: React.FC<Props> = ({
     setSpokenWords([]);
     setAttempts(0);
     setShowSkipButton(false);
-    stopRecording();
   };
 
   const calculateAccuracy = (spoken: string[]) => {
