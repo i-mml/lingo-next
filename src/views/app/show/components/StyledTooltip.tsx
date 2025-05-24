@@ -19,6 +19,8 @@ export const StyledTooltip = (props: any) => {
     currentSubtitle,
     refetchFlashCards,
     toggleWordInfoModal,
+    movie,
+    inUnit,
   } = props;
   const { main_fontSize } = useVideoPlayerStore(
     (state) => ({
@@ -75,6 +77,8 @@ export const StyledTooltip = (props: any) => {
             flashCardIsLoading={postFlashcardsMutation.isPending}
             toggleWordInfoModal={toggleWordInfoModal}
             setSelectedWord={setSelectedWord}
+            inUnit={inUnit}
+            movie={movie}
           />
         ) : null
       }

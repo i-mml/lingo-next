@@ -77,8 +77,13 @@ const Player = ({
     [videoId, episodeId]
   );
   const queryFn = useMemo(
-    () => () => GetMovieFlashCard(`?movie=${videoId}&episode=${episodeId}`),
-    [videoId, episodeId]
+    () => () =>
+      GetMovieFlashCard(
+        `?movie=${!inUnit ? videoId : movieData?.id}&episode=${
+          !inUnit ? Number(episodeId) : movieData?.episode?.id
+        }`
+      ),
+    [videoId, episodeId, movieData]
   );
 
   const { data, refetch } = useQuery({
