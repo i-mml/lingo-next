@@ -125,7 +125,7 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
             }
             ${inputValue.length > 0 ? "text-left" : "text-right"}
           `}
-          placeholder="چیزی که میشنوی را بنویس"
+          placeholder="پاسخ را بنویسید"
           value={inputValue}
           onChange={handleInputChange}
           disabled={!audioPlayed || redirecting}
