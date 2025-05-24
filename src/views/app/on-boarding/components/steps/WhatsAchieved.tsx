@@ -31,7 +31,7 @@ const WhatsAchieved = (props: IProps) => {
 
   const redirectLink = searchParams.get("rdc")
     ? searchParams.get("rdc")
-    : "public/home";
+    : "/public/home";
 
   if (showOptions) {
     return (
