@@ -3,6 +3,9 @@
 import React from "react";
 import ClassCard from "./components/ClassCard";
 import { BookOpen } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { GetAcademyBookings } from "@/api/services/academy";
+import MyClassCard from "./components/MyClassCard";
 
 interface ClassData {
   id: number;
@@ -27,30 +30,10 @@ interface ClassData {
 }
 
 const MyClasses: React.FC = () => {
-  // This would typically come from an API call
-  const classes: ClassData[] = [
-    {
-      id: 1,
-      schedule_info: {
-        start_date: "2025-05-08",
-        end_date: "2025-06-08",
-        start_time: "11:00:00",
-        end_time: "14:03:00",
-        day_of_week: "شنبه و دوشنبه",
-        capacity: 10,
-        current_enrollment: 1,
-      },
-      session_count: 20,
-      status: 2,
-      status_display: "Payment Confirmed",
-      payment_status: {
-        is_paid: true,
-        payment_date: "2025-05-08T08:28:14.843530Z",
-        payment_tracking_number: "223608435231",
-      },
-      user_email: "mehdishariati12@gmail.com",
-    },
-  ];
+  const { data: classes = [], isLoading } = useQuery({
+    queryKey: ["get-academy-bookings"],
+    queryFn: GetAcademyBookings,
+  });
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -64,10 +47,12 @@ const MyClasses: React.FC = () => {
         </div>
 
         {/* Classes List */}
-        {classes.length > 0 ? (
+        {isLoading ? (
+          <div className="text-center py-12 text-gray-400">Loading...</div>
+        ) : classes.length > 0 ? (
           <div className="space-y-6">
-            {classes.map((classData) => (
-              <ClassCard key={classData.id} classData={classData} />
+            {classes.map((classData: any) => (
+              <MyClassCard key={classData.id} classData={classData} />
             ))}
           </div>
         ) : (
