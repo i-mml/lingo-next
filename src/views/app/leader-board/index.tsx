@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import LeaderboardItem from "./components/LeaderboardItem";
 import ProfileCompletionBox from "./components/ProfileCompletionBox";
 import { useQuery } from "@tanstack/react-query";
@@ -6,6 +6,7 @@ import { GetGamificationLeaderboard } from "@/api/services/gamification";
 import Lottie from "lottie-react";
 import leaderboardAnimation from "@/assets/lotties/leaderboard.json";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useInView } from "react-intersection-observer";
 
 interface LeaderboardUser {
   rank: number;
@@ -32,6 +33,11 @@ const Leaderboard: React.FC = () => {
   const [page, setPage] = useState(1);
   const [allUsers, setAllUsers] = useState<LeaderboardUser[]>([]);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  const { ref: inViewRef, inView: youInView } = useInView({
+    root: document.getElementById("leaderboard-container"),
+    threshold: 0.5,
+  });
 
   const { data: gamificationData } = useQuery<LeaderboardResponse>({
     queryKey: ["get-gamification-leaderboard-without-loading"],
@@ -120,7 +126,7 @@ const Leaderboard: React.FC = () => {
         {/* Leaderboard List */}
         <div
           id="leaderboard-container"
-          style={{ height: "calc(100vh - 400px)", overflow: "auto" }}
+          style={{ height: "60vh", overflow: "auto" }}
         >
           <InfiniteScroll
             dataLength={allUsers.length}
@@ -145,13 +151,18 @@ const Leaderboard: React.FC = () => {
             }
           >
             <div className="space-y-3">
-              {allUsers?.map((user: LeaderboardUser) => (
-                <LeaderboardItem
-                  key={`${user.username}-${user.rank}`}
-                  {...user}
-                  isCurrentUser={user.username === data?.you?.username}
-                />
-              ))}
+              {allUsers?.map((user: LeaderboardUser, idx) => {
+                const isYou = user.username === data?.you?.username;
+                // Attach the observer ref to the "You" item
+                return (
+                  <div
+                    key={`${user.username}-${user.rank}`}
+                    ref={isYou ? inViewRef : undefined}
+                  >
+                    <LeaderboardItem {...user} isCurrentUser={isYou} />
+                  </div>
+                );
+              })}
               {showCurrentUserSeparately && data.you && (
                 <>
                   <div className="my-2 border-t border-gray-200" />
@@ -169,6 +180,16 @@ const Leaderboard: React.FC = () => {
               )}
             </div>
           </InfiniteScroll>
+          {/* Sticky You Card */}
+          {data?.you && !youInView && (
+            <div className="fixed bottom-24 left-0 right-0 z-50 flex justify-center pointer-events-none px-2 md:px-0">
+              <div className="pointer-events-auto w-full max-w-xl">
+                <div className="border-2 border-primary rounded-xl shadow-lg bg-backgroundMain">
+                  <LeaderboardItem {...data.you} isCurrentUser={true} />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
