@@ -78,11 +78,11 @@ export const useAuth = () => {
   });
 
   useEffect(() => {
-    if (whoAmI && !whoAmI?.data?.userpreference) {
+    if (whoAmI && !whoAmI?.data?.userpreference?.preferred_language) {
       updateUser({ is_onboard: false });
       router.replace(`/app/on-boarding?rdc=${encodeURIComponent(pathName)}`);
     }
-  }, []);
+  }, [whoAmI]);
 
   const hasSubscription: boolean = !isGuest && !!whoAmI?.data?.has_subscription;
 
