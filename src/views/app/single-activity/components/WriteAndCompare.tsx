@@ -10,6 +10,7 @@ import {
 } from "@mui/icons-material";
 import Lottie from "lottie-react";
 import PlayingSpeaker from "@/assets/lotties/playing-speaker.json";
+import OutlineButton from "@/components/shared/OutlineButton";
 
 interface WriteAndCompareProps {
   activity: WriteAndCompareActivity;
@@ -26,6 +27,8 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [redirecting, setRedirecting] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const normalizeText = (text: string) => {
@@ -52,6 +55,16 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
     setIsCorrect(null);
   };
 
+  const handleGoNext = () => {
+    handleNext();
+    setInputValue("");
+    setChecked(false);
+    setIsCorrect(null);
+    setRedirecting(false);
+    setShowHint(false);
+    setAttempts(0);
+  };
+
   const handleCheck = () => {
     const normalizedInput = normalizeText(inputValue);
     const correct = activity.sentence.answers.some(
@@ -61,20 +74,14 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
     setIsCorrect(correct);
     if (!correct) {
       playWrong();
+      setAttempts((prev) => prev + 1);
       return;
     } else {
       playSuccess();
     }
     if (correct) {
       setRedirecting(true);
-      setTimeout(() => {
-        handleNext();
-        setInputValue("");
-        setChecked(false);
-        setIsCorrect(null);
-        setRedirecting(false);
-        setShowHint(false);
-      }, 1500);
+      setTimeout(() => {}, 1500);
     }
   };
 
@@ -159,7 +166,7 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
         )}
       </div>
       {/* Check Answer */}
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex justify-center items-center gap-4 w-full">
         <PrimaryButton
           className="w-40"
           onClick={handleCheck}
@@ -169,6 +176,13 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
         >
           {redirecting ? "رفتن به سوال بعدی..." : "چک کردن"}
         </PrimaryButton>
+        {attempts > 0 ? (
+          <OutlineButton className="w-1/2 px-2" onClick={handleGoNext}>
+            رد شدن
+          </OutlineButton>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -201,6 +201,7 @@ const RepeatAndCompare: React.FC<Props> = ({
     setSpokenWords([]);
     setAttempts(0);
     setShowSkipButton(false);
+    stopRecording();
   };
 
   const calculateAccuracy = (spoken: string[]) => {
@@ -416,14 +417,13 @@ const RepeatAndCompare: React.FC<Props> = ({
             )}
             {/* Attempts counter */}
             <div className="text-sm text-gray-500 mt-2">تلاش: {attempts}/3</div>
-            {showSkipButton && (
-              <PrimaryButton
-                onClick={handleGoNext}
-                className="mt-1 px-6 py-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
-              >
-                رد شدن
-              </PrimaryButton>
-            )}
+
+            <PrimaryButton
+              onClick={handleGoNext}
+              className="mt-1 px-6 py-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
+            >
+              رد شدن
+            </PrimaryButton>
           </>
         )}
       </div>

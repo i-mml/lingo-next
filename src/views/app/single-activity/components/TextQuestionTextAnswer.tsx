@@ -5,6 +5,7 @@ import {
   CloseOutlined,
   Lightbulb,
 } from "@mui/icons-material";
+import OutlineButton from "@/components/shared/OutlineButton";
 
 interface TextQuestionTextAnswerProps {
   activity: {
@@ -29,6 +30,7 @@ const TextQuestionTextAnswer: React.FC<TextQuestionTextAnswerProps> = ({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [redirecting, setRedirecting] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const [attempts, setAttempts] = useState(0);
 
   const normalizeText = (text: string) => {
     return text
@@ -45,6 +47,16 @@ const TextQuestionTextAnswer: React.FC<TextQuestionTextAnswerProps> = ({
     setIsCorrect(null);
   };
 
+  const handleGoNext = () => {
+    handleNext();
+    setInputValue("");
+    setChecked(false);
+    setIsCorrect(null);
+    setRedirecting(false);
+    setShowHint(false);
+    setAttempts(0);
+  };
+
   const handleCheck = () => {
     const normalizedInput = normalizeText(inputValue);
     const correct = activity.answers.some(
@@ -53,17 +65,13 @@ const TextQuestionTextAnswer: React.FC<TextQuestionTextAnswerProps> = ({
     setChecked(true);
     setIsCorrect(correct);
     if (!correct) {
+      setAttempts((prev) => prev + 1);
       return;
     }
     if (correct) {
       setRedirecting(true);
       setTimeout(() => {
-        handleNext();
-        setInputValue("");
-        setChecked(false);
-        setIsCorrect(null);
-        setRedirecting(false);
-        setShowHint(false);
+        handleGoNext();
       }, 1500);
     }
   };
@@ -139,7 +147,7 @@ const TextQuestionTextAnswer: React.FC<TextQuestionTextAnswerProps> = ({
         )}
       </div>
       {/* Check Answer */}
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex justify-center items-center gap-4 w-full">
         <PrimaryButton
           className="w-40"
           onClick={handleCheck}
@@ -149,6 +157,13 @@ const TextQuestionTextAnswer: React.FC<TextQuestionTextAnswerProps> = ({
         >
           {redirecting ? "رفتن به سوال بعدی..." : "چک کردن"}
         </PrimaryButton>
+        {attempts > 0 ? (
+          <OutlineButton className="w-1/2 px-2" onClick={handleGoNext}>
+            رد شدن
+          </OutlineButton>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import { useTextToAudio } from "@/hooks/use-text-to-audio";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import { CheckCircleOutlined, CloseOutlined } from "@mui/icons-material";
 import { Lightbulb } from "lucide-react";
+import OutlineButton from "@/components/shared/OutlineButton";
 
 interface Props {
   activity: FillTheGapsWithTextAndListenAudioActivity;
@@ -23,9 +24,9 @@ const FillTheGapsWithTextAndListenAudio: React.FC<Props> = ({
   const [checked, setChecked] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [showHint, setShowHint] = useState(false);
+  const [attempts, setAttempts] = useState(0);
 
   const { playAudio: playWrong } = useAudioPlayer("/assets/wrong.mp3");
-  const { handleTextToSpeech } = useTextToAudio();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
@@ -45,6 +46,15 @@ const FillTheGapsWithTextAndListenAudio: React.FC<Props> = ({
       .join(" ");
   }
 
+  const handleGoNext = () => {
+    handleNext();
+    setInputValue("");
+    setChecked(false);
+    setIsCorrect(null);
+    setShowHint(false);
+    setAttempts(0);
+  };
+
   const handleCheck = () => {
     const normalizedInput = normalizeSentence(inputValue);
     const isCorrect = (
@@ -54,14 +64,11 @@ const FillTheGapsWithTextAndListenAudio: React.FC<Props> = ({
     setIsCorrect(isCorrect);
     if (!isCorrect) {
       playWrong();
+      setAttempts((prev) => prev + 1);
       return;
     } else {
       setTimeout(() => {
-        handleNext();
-        setInputValue("");
-        setChecked(false);
-        setIsCorrect(null);
-        setShowHint(false);
+        handleGoNext();
       }, 1000);
     }
   };
@@ -155,7 +162,7 @@ const FillTheGapsWithTextAndListenAudio: React.FC<Props> = ({
           </div>
         )}
 
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex justify-center items-center gap-4 w-full">
           <PrimaryButton
             className="w-40"
             onClick={handleCheck}
@@ -165,6 +172,13 @@ const FillTheGapsWithTextAndListenAudio: React.FC<Props> = ({
           >
             {"چک کردن"}
           </PrimaryButton>
+          {attempts > 0 ? (
+            <OutlineButton className="w-1/2 px-2" onClick={handleGoNext}>
+              رد شدن
+            </OutlineButton>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     );
