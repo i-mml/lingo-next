@@ -35,12 +35,15 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   );
 
   const shouldSkipLayout = useMemo(() => {
-    return NO_LAYOUT_PATTERNS.some((pattern) => {
-      if (typeof pattern === "string") {
-        return pathname.includes(pattern);
-      }
-      return false;
-    }) || (!isMobile && pathname.includes("video-info"));
+    return (
+      NO_LAYOUT_PATTERNS.some((pattern) => {
+        if (typeof pattern === "string") {
+          return pathname.includes(pattern);
+        }
+        return false;
+      }) ||
+      (!isMobile && pathname.includes("video-info"))
+    );
   }, [pathname]);
 
   const toggleDeviceBrowserModal = () => {
@@ -60,7 +63,6 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   if (shouldSkipLayout) {
     return <div className="w-full overflow-hidden">{children}</div>;
   }
-  console.log(shouldSkipHeader)
   return (
     <div className="flex items-start bg-backgroundLayout">
       {!zabanoNoHeader && <Sidebar />}
@@ -68,11 +70,15 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
       <div className="w-full flex-1 md:w-[calc(100%-200px)] relative md:pb-10">
         {!shouldSkipHeader && !zabanoNoHeader && <AppHeader />}
 
-        <div className={shouldSkipHeader || zabanoNoHeader ? "pb-12" : "pt-24 pb-12"}>
+        <div
+          className={
+            shouldSkipHeader || zabanoNoHeader ? "pb-12" : "pt-24 pb-12"
+          }
+        >
           {children}
         </div>
 
-        {!zabanoNoHeader && <BottomNavigation /> } 
+        {!zabanoNoHeader && <BottomNavigation />}
       </div>
 
       {/* Global modals and helpers */}

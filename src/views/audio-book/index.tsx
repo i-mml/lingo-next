@@ -112,7 +112,7 @@ const AudioBookView: FC<AudioBookProps> = (props) => {
   const safeContentType = contentType || 3; // Default to audio book (3) if undefined
 
   // Get user's preferred language (default to English - 2)
-  const preferredLanguage = whoAmI?.userpreference?.preferred_language || 2;
+  const preferredLanguage = whoAmI?.userpreference?.preferred_language ?? 2;
 
   return (
     <div>

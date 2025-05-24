@@ -57,7 +57,10 @@ const CatalogRowSliders = (
         return 212;
       }
     } else {
-      return whoAmI?.userpreference?.preferred_language === 2 ? 212 : 262;
+      return !whoAmI?.userpreference?.preferred_language ||
+        whoAmI?.userpreference?.preferred_language === 2
+        ? 212
+        : 262;
     }
   };
   const getImageHeight = () => {
@@ -68,7 +71,10 @@ const CatalogRowSliders = (
         return 318;
       }
     } else {
-      return whoAmI?.userpreference?.preferred_language === 2 ? 318 : 147;
+      return !whoAmI?.userpreference?.preferred_language ||
+        whoAmI?.userpreference?.preferred_language === 2
+        ? 318
+        : 147;
     }
   };
 
