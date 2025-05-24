@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import { useParams } from "next/navigation";
 import { localesDictionary } from "@/constants/locales";
@@ -88,6 +88,13 @@ const GroupClassList: React.FC = () => {
     return uniqueLevels;
   }, [groupClasses]);
   const [selectedLevel, setSelectedLevel] = useState(levels[0] || "");
+
+  // Ensure selectedLevel is always set to the first sorted level on first load or when levels change
+  useEffect(() => {
+    if (levels.length > 0) {
+      setSelectedLevel(levels[0]);
+    }
+  }, [levels]);
 
   // Filter and sort classes
   const filteredClasses = useMemo(() => {
@@ -218,11 +225,12 @@ const GroupClassList: React.FC = () => {
                     <span className="font-bold text-gray-400">ظرفیت:</span>
                     <span
                       style={getRowStyle(cls.available_capacity, cls.capacity)}
-                      className="font-bold ml-1 text-main"
+                      className="font-bold mr-1 text-main text-base"
                     >
                       {cls.available_capacity === 0
                         ? "صفر"
-                        : cls.available_capacity}
+                        : cls.available_capacity}{" "}
+                      نفر
                     </span>
                   </div>
                 </div>
