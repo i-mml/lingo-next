@@ -115,15 +115,18 @@ const GroupClassList: React.FC = () => {
 
       <div className="p-4 md:p-8 w-full max-w-5xl">
         {/* Tabs */}
-        <div className="flex flex-wrap gap-2 mb-4 border-b-2 border-borderMain">
+        <div className="flex gap-4 border-b mb-8 overflow-x-auto scrollbar-hide">
           {levels.map((level) => (
             <button
               key={level}
-              className={`px-4 py-2 rounded-t-lg font-bold text-base border-b-4 transition-all duration-200 ${
-                selectedLevel === level
-                  ? "border-primary text-primary bg-backgroundMain"
-                  : "border-transparent text-gray300 bg-backgroundMain"
-              }`}
+              className={`px-6 py-3 text-sm md:text-lg font-semibold transition rounded-t-lg
+                ${
+                  selectedLevel === level
+                    ? "border-b-4 border-yellow-400 text-yellow-400 bg-gray-900"
+                    : "text-gray-300 hover:text-yellow-400"
+                }
+              `}
+              style={{ minWidth: 160 }}
               onClick={() => setSelectedLevel(level)}
             >
               {level}
@@ -201,7 +204,7 @@ const GroupClassList: React.FC = () => {
                 ) : (
                   <a
                     href={cls.payment_link}
-                    className="w-full block text-center bg-primary text-white font-bold py-2 rounded-lg hover:bg-primary/90"
+                    className="w-full block text-center bg-green-400 text-white font-bold py-2 rounded-lg hover:bg-green-400/90"
                   >
                     ثبت نام
                   </a>
@@ -216,69 +219,86 @@ const GroupClassList: React.FC = () => {
           )}
         </div>
         {/* Desktop Table */}
-        <div className="overflow-x-auto rounded-xl shadow-lg hidden md:block">
-          <table className="min-w-[900px] w-full text-center border-separate border-spacing-0">
-            <thead>
-              <tr className="bg-backgroundLayout text-main text-base">
-                <th className="py-3 px-0">سطح دوره</th>
-                <th className="py-3 px-0">شهریه</th>
-                <th className="py-3 px-0">تعداد جلسات</th>
-                <th className="py-3 px-0">ظرفیت</th>
-                <th className="py-3 px-0">تاریخ شروع</th>
-                <th className="py-3 px-0">تاریخ پایان</th>
-                <th className="py-3 px-0">ساعت</th>
-                <th className="py-3 px-0">روز</th>
-                <th className="py-3 px-0">نوع دوره</th>
-                <th className="py-3 px-0">ثبت نام</th>
+        <div className="overflow-x-auto rounded-2xl shadow-2xl hidden md:block bg-gray-900 mt-8">
+          <table className="min-w-[1000px] w-full text-center border-separate border-spacing-y-4">
+            <thead className="sticky top-0 z-10">
+              <tr className="bg-gray-800 text-yellow-400 text-lg">
+                {/* <th className="py-5 rounded-t-2xl">سطح دوره</th> */}
+                <th>روز</th>
+                <th>تاریخ شروع</th>
+                <th>تاریخ پایان</th>
+                <th>تعداد جلسات</th>
+                <th>ساعت</th>
+                <th className="py-2">شهریه</th>
+                <th>ظرفیت</th>
+                <th>نوع دوره</th>
+                <th>ثبت نام</th>
               </tr>
             </thead>
             <tbody>
-              {filteredClasses.map((cls) => (
+              {filteredClasses.map((cls, idx) => (
                 <tr
                   key={cls.id}
-                  className="text-base font-bold border-b border-borderMain bg-backgroundLayout"
+                  className={`transition-all duration-200 bg-gray-900 hover:bg-gray-800 shadow-md hover:shadow-xl rounded-2xl`}
+                  style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}
                 >
-                  <td className="py-2 px-2 text-main">{cls.course.title}</td>
-                  <td className="py-2 px-2 text-main">
-                    {cls.course.fee.toLocaleString()} تومان
+                  {/* <td className="py-6 px-2 text-main rounded-s-2xl">
+                    {cls.course.title}
+                  </td> */}
+                  <td className="py-6 px-2 text-main">{cls.day_of_week}</td>
+                  <td className="py-6 px-2 text-main">
+                    {moment(cls.start_date).format("jYYYY/jMM/jDD")}
                   </td>
-                  <td className="py-2 px-2 text-main">
+                  <td className="py-6 px-2 text-main">
+                    {moment(cls.end_date).format("jYYYY/jMM/jDD")}
+                  </td>
+                  <td className="py-6 px-2 text-main">
                     {cls.course.total_sessions}
                   </td>
+                  <td className="py-6 px-2 text-main">
+                    {cls.start_time.slice(0, 5)}-{cls.end_time.slice(0, 5)}
+                  </td>
+                  <td className="py-6 px-2 text-main">
+                    {cls.course.fee.toLocaleString()} تومان
+                  </td>
                   <td
-                    className="py-2 px-2 text-main"
+                    className="py-6 px-2 text-main"
                     style={getRowStyle(cls.available_capacity, cls.capacity)}
                   >
                     {cls.available_capacity === 0
                       ? "صفر"
                       : cls.available_capacity}
                   </td>
-                  <td className="py-2 px-2 text-main">
-                    {moment(cls.start_date).format("jYYYY/jMM/jDD")}
-                  </td>
-                  <td className="py-2 px-2 text-main">
-                    {moment(cls.end_date).format("jYYYY/jMM/jDD")}
-                  </td>
-                  <td className="py-2 px-2 text-main">
-                    {cls.start_time.slice(0, 5)}-{cls.end_time.slice(0, 5)}
-                  </td>
-                  <td className="py-2 px-2 text-main">{cls.day_of_week}</td>
-                  <td className="py-2 px-2 text-main">
+
+                  <td className="py-6 px-2 text-main">
                     {cls.course.type === "group"
                       ? cls.course.is_online
                         ? "آنلاین"
                         : "حضوری"
                       : "-"}
                   </td>
-                  <td className="py-2 px-2 text-main">
+                  <td className="py-6 px-2 text-main rounded-e-2xl">
                     {cls.available_capacity === 0 ? (
                       <span className="opacity-60">-</span>
                     ) : (
                       <a
                         href={cls.payment_link}
-                        className="bg-primary text-white px-3 py-1 rounded-lg hover:bg-primary/90 transition"
+                        className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-green-400 to-green-300 text-black font-extrabold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400"
                       >
-                        ثبت نام
+                        <span className="text-sm">ثبت نام</span>
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M5 12h14m-7-7l7 7-7 7"
+                          />
+                        </svg>
                       </a>
                     )}
                   </td>
@@ -288,7 +308,7 @@ const GroupClassList: React.FC = () => {
                 <tr>
                   <td
                     colSpan={10}
-                    className="py-8 text-gray-500 bg-white text-center"
+                    className="py-8 text-gray-500 bg-gray-900 text-center rounded-b-2xl"
                   >
                     هیچ کلاسی برای این سطح موجود نیست.
                   </td>

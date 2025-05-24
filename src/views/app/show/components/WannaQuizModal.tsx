@@ -65,8 +65,7 @@ const WannaQuizModal = (props: IProps) => {
               <OutlineButton
                 className="w-32 lg:w-40"
                 onClick={() => {
-                  // @ts-ignore
-                  navigate(
+                  router.push(
                     `/${preSubRoute}/show/${movieData?.id}/${
                       movieData?.episodes?.[contentIndex + 1]?.id
                     }`
