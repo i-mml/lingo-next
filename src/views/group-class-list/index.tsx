@@ -51,11 +51,42 @@ const GroupClassList: React.FC = () => {
       }),
   });
 
-  // Extract unique levels for tabs
-  const levels = useMemo(
-    () => Array.from(new Set(groupClasses.map((cls) => cls.course.title))),
-    [groupClasses]
-  );
+  // Extract unique levels for tabs and sort them naturally
+  const levels = useMemo(() => {
+    // Helper to extract a comparable value from level string
+    const parseLevel = (level: string) => {
+      // Examples: "A1.1", "A1.2", "B", "B-U", "C"
+      // Split into parts: letter, number, subnumber, etc.
+      const match = level.match(/^([A-Z]+)([0-9]?(?:\.[0-9])?)?(-U)?/i);
+      if (!match) return [level];
+      const [, letter, number, bu] = match;
+      return [
+        letter ? letter.toUpperCase() : "Z", // fallback to Z for unknown
+        number ? parseFloat(number) : 0,
+        bu ? 1 : 0,
+      ];
+    };
+    const uniqueLevels = Array.from(
+      new Set(groupClasses.map((cls) => cls.course.title))
+    );
+    uniqueLevels.sort((a, b) => {
+      const aCourse = groupClasses.find(
+        (cls) => cls.course.title === a
+      )?.course;
+      const bCourse = groupClasses.find(
+        (cls) => cls.course.title === b
+      )?.course;
+      if (!aCourse || !bCourse) return 0;
+      const aParsed = parseLevel(aCourse.level);
+      const bParsed = parseLevel(bCourse.level);
+      for (let i = 0; i < Math.max(aParsed.length, bParsed.length); i++) {
+        if ((aParsed[i] || 0) < (bParsed[i] || 0)) return -1;
+        if ((aParsed[i] || 0) > (bParsed[i] || 0)) return 1;
+      }
+      return 0;
+    });
+    return uniqueLevels;
+  }, [groupClasses]);
   const [selectedLevel, setSelectedLevel] = useState(levels[0] || "");
 
   // Filter and sort classes
@@ -207,7 +238,7 @@ const GroupClassList: React.FC = () => {
                 ) : (
                   <a
                     href={cls.payment_link}
-                    className="inline-flex items-center gap-2 px-8 py-2 rounded-full bg-green-400 text-black font-extrabold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400"
+                    className="inline-flex items-center gap-2 px-8 py-2 rounded-full bg-green-400 text-white font-extrabold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400"
                   >
                     <span>ثبت نام</span>
                     <svg
