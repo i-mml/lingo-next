@@ -54,14 +54,13 @@ const GroupClassList: React.FC = () => {
   // Extract unique levels for tabs and sort them naturally
   const levels = useMemo(() => {
     // Helper to extract a comparable value from level string
-    const parseLevel = (level: string) => {
-      // Examples: "A1.1", "A1.2", "B", "B-U", "C"
-      // Split into parts: letter, number, subnumber, etc.
+    const parseLevel = (level: string | undefined | null) => {
+      if (!level || typeof level !== "string") return ["Z", 0, 0];
       const match = level.match(/^([A-Z]+)([0-9]?(?:\.[0-9])?)?(-U)?/i);
       if (!match) return [level];
       const [, letter, number, bu] = match;
       return [
-        letter ? letter.toUpperCase() : "Z", // fallback to Z for unknown
+        letter ? letter.toUpperCase() : "Z",
         number ? parseFloat(number) : 0,
         bu ? 1 : 0,
       ];
@@ -76,9 +75,8 @@ const GroupClassList: React.FC = () => {
       const bCourse = groupClasses.find(
         (cls) => cls.course.title === b
       )?.course;
-      if (!aCourse || !bCourse) return 0;
-      const aParsed = parseLevel(aCourse.level);
-      const bParsed = parseLevel(bCourse.level);
+      const aParsed = parseLevel(aCourse?.level);
+      const bParsed = parseLevel(bCourse?.level);
       for (let i = 0; i < Math.max(aParsed.length, bParsed.length); i++) {
         if ((aParsed[i] || 0) < (bParsed[i] || 0)) return -1;
         if ((aParsed[i] || 0) > (bParsed[i] || 0)) return 1;
