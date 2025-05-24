@@ -1,7 +1,7 @@
 import { useUserInfo } from "@/store";
 import { useLoginModal } from "@/store/use-login-modal";
 import { IOnboardData } from "@/types/on-boarding";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import StarterPoint from "./components/steps/StarterPoint";
@@ -23,6 +23,7 @@ const OnBoardingView = () => {
     referral_code: null,
   });
 
+  const queryClient = useQueryClient();
   const { updateUser } = useUserInfo();
   const { closeModal } = useLoginModal();
 
@@ -39,6 +40,8 @@ const OnBoardingView = () => {
         .then(() => {
           toast.success("تعیین سطح با موفقیت انجام شد.");
           updateUser({ is_onboard: true });
+          queryClient.invalidateQueries();
+          queryClient.removeQueries();
         })
         .catch(() => toast.error("تعیین سطح شما با خطا مواجه شد.")),
   });
