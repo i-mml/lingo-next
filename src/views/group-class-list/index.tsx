@@ -13,6 +13,10 @@ import moment from "moment-jalaali";
 import OutlineButton from "@/components/shared/OutlineButton";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
+import ClassRegistrationModal from "@/components/shared/ClassRegistrationModal";
+import GroupClassInfoCard from "@/components/shared/GroupClassInfoCard";
+import { getPaymentPackageStart } from "@/api/services/payment";
+import { toast } from "react-toastify";
 
 // TypeScript type for group class
 export type GroupClass = {
@@ -108,6 +112,29 @@ const GroupClassList: React.FC = () => {
     return {};
   };
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPaymentLink, setSelectedPaymentLink] = useState<string | null>(
+    null
+  );
+  const [selectedClass, setSelectedClass] = useState<GroupClass | null>(null);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  const handleGetGateWay = async (gateWayLink: string) => {
+    try {
+      setIsRedirecting(true);
+      await getPaymentPackageStart(gateWayLink).then((res) => {
+        if (res?.data?.url) {
+          window.location.href = res?.data?.url;
+        } else {
+          toast.error("خطا در انتقال به درگاه");
+          setIsRedirecting(false);
+        }
+      });
+    } catch {
+      setIsRedirecting(false);
+    }
+  };
+
   if (isLoading)
     return (
       <div className="min-h-screen bg-backgroundMain flex flex-col items-center px-2 py-8">
@@ -175,64 +202,7 @@ const GroupClassList: React.FC = () => {
               key={cls.id}
               className="bg-backgroundLayout rounded-2xl shadow-xl p-6 flex flex-col justify-between transition hover:shadow-2xl"
             >
-              <div className="flex flex-col gap-2 mb-4">
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-lg text-main">
-                    {cls.day_of_week}
-                  </span>
-                  <span className="text-xs text-gray-400">
-                    {cls.course.is_online ? "آنلاین" : "حضوری"}
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-4 mt-2 text-sm">
-                  <div>
-                    <span className="font-bold text-gray-400">تاریخ شروع:</span>{" "}
-                    <span className="text-main">
-                      {moment(cls.start_date).format("jYYYY/jMM/jDD")}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="font-bold text-gray-400">
-                      تاریخ پایان:
-                    </span>{" "}
-                    <span className="text-main">
-                      {moment(cls.end_date).format("jYYYY/jMM/jDD")}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="font-bold text-gray-400">ساعت:</span>{" "}
-                    <span className="text-main">
-                      {cls.start_time.slice(0, 5)}-{cls.end_time.slice(0, 5)}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="font-bold text-gray-400">
-                      تعداد جلسات:
-                    </span>{" "}
-                    <span className="text-main">
-                      {cls.course.total_sessions}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="font-bold text-gray-400">شهریه:</span>{" "}
-                    <span className="text-main">
-                      {cls.course.fee.toLocaleString()} تومان
-                    </span>
-                  </div>
-                  <div>
-                    <span className="font-bold text-gray-400">ظرفیت:</span>
-                    <span
-                      style={getRowStyle(cls.available_capacity, cls.capacity)}
-                      className="font-bold mr-1 text-main text-base"
-                    >
-                      {cls.available_capacity === 0
-                        ? "صفر"
-                        : cls.available_capacity}{" "}
-                      نفر
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <GroupClassInfoCard course={cls} variant="list" />
               <div className="flex justify-end">
                 {cls.available_capacity === 0 ? (
                   <button
@@ -242,25 +212,39 @@ const GroupClassList: React.FC = () => {
                     ناموجود
                   </button>
                 ) : (
-                  <a
-                    href={cls.payment_link}
-                    className="inline-flex items-center gap-2 px-8 py-2 rounded-full bg-green-400 text-white font-extrabold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400"
-                  >
-                    <span>ثبت نام</span>
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
+                  <>
+                    <button
+                      onClick={() => {
+                        setSelectedPaymentLink(cls.payment_link);
+                        setSelectedClass(cls);
+                        setModalOpen(true);
+                      }}
+                      className="inline-flex items-center gap-2 px-8 py-2 rounded-full bg-green-400 text-white font-extrabold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 12h14m-7-7l7 7-7 7"
-                      />
-                    </svg>
-                  </a>
+                      <span>ثبت نام</span>
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M5 12h14m-7-7l7 7-7 7"
+                        />
+                      </svg>
+                    </button>
+                    <ClassRegistrationModal
+                      open={modalOpen}
+                      toggleModal={() => setModalOpen(false)}
+                      onConfirm={handleGetGateWay}
+                      paymentLink={selectedPaymentLink}
+                      course={selectedClass}
+                      isRedirecting={isRedirecting}
+                    />
+                  </>
                 )}
               </div>
             </div>
