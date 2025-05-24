@@ -66,10 +66,10 @@ const GroupClassList: React.FC = () => {
   }, [groupClasses, selectedLevel]);
 
   const getRowStyle = (available: number, capacity: number) => {
-    if (capacity === 0 || available <= capacity / 4)
-      return { color: "#d32f2f" };
-    if (available <= capacity / 2) return { color: "#ffc107" };
-    return { color: "#388e3c" };
+    if (available >= 5) return { color: "#388e3c" };
+    if (available >= 4 && available < 5) return { color: "#ffc107" };
+    if (available < 4) return { color: "#d32f2f" };
+    return {};
   };
 
   if (isLoading)
@@ -113,90 +113,93 @@ const GroupClassList: React.FC = () => {
         </div>
       )}
 
-      <div className="p-4 md:p-8 w-full max-w-5xl">
+      <div className="p-4 md:p-8 w-full max-w-6xl">
         {/* Tabs */}
         <div className="flex gap-4 border-b mb-8 overflow-x-auto scrollbar-hide">
           {levels.map((level) => (
             <button
               key={level}
-              className={`px-6 py-3 text-sm md:text-lg font-semibold transition rounded-t-lg
+              className={`px-6 py-3 text-lg font-semibold transition rounded-t-lg
                 ${
                   selectedLevel === level
-                    ? "border-b-4 border-yellow-400 text-yellow-400 bg-gray-900"
+                    ? "border-b-4 border-yellow-400 text-yellow-400 bg-backgroundLayout"
                     : "text-gray-300 hover:text-yellow-400"
                 }
               `}
-              style={{ minWidth: 160 }}
               onClick={() => setSelectedLevel(level)}
             >
               {level}
             </button>
           ))}
         </div>
-        {/* Mobile Cards */}
-        <div className="flex flex-col gap-4 md:hidden">
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredClasses.map((cls) => (
             <div
               key={cls.id}
-              className="rounded-xl shadow-lg mb-4 overflow-hidden bg-backgroundLayout"
+              className="bg-backgroundLayout rounded-2xl shadow-xl p-6 flex flex-col justify-between transition hover:shadow-2xl"
             >
-              <div className="flex flex-col divide-y divide-borderMain">
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">سطح دوره</span>
-                  <span>{cls.course.title}</span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">نوع دوره</span>
-                  <span>
-                    {cls.course.type === "group"
-                      ? cls.course.is_online
-                        ? "آنلاین"
-                        : "حضوری"
-                      : "-"}
+              <div className="flex flex-col gap-2 mb-4">
+                <div className="flex justify-between items-center">
+                  <span className="font-bold text-lg text-main">
+                    {cls.day_of_week}
+                  </span>
+                  <span className="text-xs text-gray-400">
+                    {cls.course.is_online ? "آنلاین" : "حضوری"}
                   </span>
                 </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">روز</span>
-                  <span>{cls.day_of_week}</span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">ساعت</span>
-                  <span>
-                    {cls.start_time}-{cls.end_time}
-                  </span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">تاریخ شروع</span>
-                  <span>{moment(cls.start_date).format("jYYYY/jMM/jDD")}</span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">تاریخ پایان</span>
-                  <span>{moment(cls.end_date).format("jYYYY/jMM/jDD")}</span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">ظرفیت</span>
-                  <span
-                    style={getRowStyle(cls.available_capacity, cls.capacity)}
-                    className="px-2 py-1 rounded font-bold"
-                  >
-                    {cls.available_capacity === 0
-                      ? "صفر"
-                      : cls.available_capacity}
-                  </span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">تعداد جلسات</span>
-                  <span>{cls.course.total_sessions}</span>
-                </div>
-                <div className="flex justify-between py-3 px-2 text-main">
-                  <span className="font-bold">شهریه</span>
-                  <span>{cls.course.fee.toLocaleString()} تومان</span>
+                <div className="flex flex-wrap gap-4 mt-2 text-sm">
+                  <div>
+                    <span className="font-bold text-gray-400">تاریخ شروع:</span>{" "}
+                    <span className="text-main">
+                      {moment(cls.start_date).format("jYYYY/jMM/jDD")}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-gray-400">
+                      تاریخ پایان:
+                    </span>{" "}
+                    <span className="text-main">
+                      {moment(cls.end_date).format("jYYYY/jMM/jDD")}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-gray-400">ساعت:</span>{" "}
+                    <span className="text-main">
+                      {cls.start_time.slice(0, 5)}-{cls.end_time.slice(0, 5)}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-gray-400">
+                      تعداد جلسات:
+                    </span>{" "}
+                    <span className="text-main">
+                      {cls.course.total_sessions}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-gray-400">شهریه:</span>{" "}
+                    <span className="text-main">
+                      {cls.course.fee.toLocaleString()} تومان
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-gray-400">ظرفیت:</span>
+                    <span
+                      style={getRowStyle(cls.available_capacity, cls.capacity)}
+                      className="font-bold ml-1 text-main"
+                    >
+                      {cls.available_capacity === 0
+                        ? "صفر"
+                        : cls.available_capacity}
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="p-4">
+              <div className="flex justify-end">
                 {cls.available_capacity === 0 ? (
                   <button
-                    className="w-full bg-gray-100 text-gray-400 py-2 rounded-lg cursor-not-allowed"
+                    className="px-6 py-2 rounded-full bg-gray-700 text-gray-400 font-bold cursor-not-allowed"
                     disabled
                   >
                     ناموجود
@@ -204,118 +207,32 @@ const GroupClassList: React.FC = () => {
                 ) : (
                   <a
                     href={cls.payment_link}
-                    className="w-full block text-center bg-green-400 text-white font-bold py-2 rounded-lg hover:bg-green-400/90"
+                    className="inline-flex items-center gap-2 px-8 py-2 rounded-full bg-green-400 text-black font-extrabold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400"
                   >
-                    ثبت نام
+                    <span>ثبت نام</span>
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12h14m-7-7l7 7-7 7"
+                      />
+                    </svg>
                   </a>
                 )}
               </div>
             </div>
           ))}
           {filteredClasses.length === 0 && (
-            <div className="py-8 text-gray-500 bg-backgroundMain rounded-xl text-center">
+            <div className="col-span-full py-8 text-gray-500 bg-backgroundMain rounded-xl text-center">
               هیچ کلاسی برای این سطح موجود نیست.
             </div>
           )}
-        </div>
-        {/* Desktop Table */}
-        <div className="overflow-x-auto rounded-2xl shadow-2xl hidden md:block bg-gray-900 mt-8">
-          <table className="min-w-[1000px] w-full text-center border-separate border-spacing-y-4">
-            <thead className="sticky top-0 z-10">
-              <tr className="bg-gray-800 text-yellow-400 text-lg">
-                {/* <th className="py-5 rounded-t-2xl">سطح دوره</th> */}
-                <th>روز</th>
-                <th>تاریخ شروع</th>
-                <th>تاریخ پایان</th>
-                <th>تعداد جلسات</th>
-                <th>ساعت</th>
-                <th className="py-2">شهریه</th>
-                <th>ظرفیت</th>
-                <th>نوع دوره</th>
-                <th>ثبت نام</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredClasses.map((cls, idx) => (
-                <tr
-                  key={cls.id}
-                  className={`transition-all duration-200 bg-gray-900 hover:bg-gray-800 shadow-md hover:shadow-xl rounded-2xl`}
-                  style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}
-                >
-                  {/* <td className="py-6 px-2 text-main rounded-s-2xl">
-                    {cls.course.title}
-                  </td> */}
-                  <td className="py-6 px-2 text-main">{cls.day_of_week}</td>
-                  <td className="py-6 px-2 text-main">
-                    {moment(cls.start_date).format("jYYYY/jMM/jDD")}
-                  </td>
-                  <td className="py-6 px-2 text-main">
-                    {moment(cls.end_date).format("jYYYY/jMM/jDD")}
-                  </td>
-                  <td className="py-6 px-2 text-main">
-                    {cls.course.total_sessions}
-                  </td>
-                  <td className="py-6 px-2 text-main">
-                    {cls.start_time.slice(0, 5)}-{cls.end_time.slice(0, 5)}
-                  </td>
-                  <td className="py-6 px-2 text-main">
-                    {cls.course.fee.toLocaleString()} تومان
-                  </td>
-                  <td
-                    className="py-6 px-2 text-main"
-                    style={getRowStyle(cls.available_capacity, cls.capacity)}
-                  >
-                    {cls.available_capacity === 0
-                      ? "صفر"
-                      : cls.available_capacity}
-                  </td>
-
-                  <td className="py-6 px-2 text-main">
-                    {cls.course.type === "group"
-                      ? cls.course.is_online
-                        ? "آنلاین"
-                        : "حضوری"
-                      : "-"}
-                  </td>
-                  <td className="py-6 px-2 text-main rounded-e-2xl">
-                    {cls.available_capacity === 0 ? (
-                      <span className="opacity-60">-</span>
-                    ) : (
-                      <a
-                        href={cls.payment_link}
-                        className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-green-400 to-green-300 text-black font-extrabold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400"
-                      >
-                        <span className="text-sm">ثبت نام</span>
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M5 12h14m-7-7l7 7-7 7"
-                          />
-                        </svg>
-                      </a>
-                    )}
-                  </td>
-                </tr>
-              ))}
-              {filteredClasses.length === 0 && (
-                <tr>
-                  <td
-                    colSpan={10}
-                    className="py-8 text-gray-500 bg-gray-900 text-center rounded-b-2xl"
-                  >
-                    هیچ کلاسی برای این سطح موجود نیست.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
