@@ -6,6 +6,7 @@ import Link from "next/link";
 import PrimaryButton from "./shared/PrimaryButton";
 import Image from "next/image";
 import ShowMore from "./shared/ShowMore";
+import OutlineButton from "./shared/OutlineButton";
 
 interface ModalProps {
   open: boolean;
@@ -15,7 +16,7 @@ interface ModalProps {
       link: string;
       title: string;
     };
-    cta:string;
+    cta: string;
     description: string;
     event_type: "public";
     image: string;
@@ -34,7 +35,7 @@ const GlobalActionModal = ({ open, onClose, eventData }: ModalProps) => {
           alt={eventData?.title}
           width={100}
           height={100}
-          className="w-full h-full object-cover rounded-lg my-5"
+          className="w-full h-full object-cover rounded-lg my-5 max-w-80 mx-auto"
         />
         <ShowMore
           text={eventData?.description}
@@ -43,14 +44,19 @@ const GlobalActionModal = ({ open, onClose, eventData }: ModalProps) => {
           textClassName="text-sm"
           lineClampClassName="!line-clamp-5"
         />
-        <Link
-          href={eventData?.cta_data?.link}
-          className="block mt-5 w-full max-w-md mx-auto"
-        >
-          <PrimaryButton className="w-full" onClick={() => onClose()}>
-            {eventData?.cta_data?.title}
-          </PrimaryButton>
-        </Link>
+        <div className="flex items-center gap-4 mt-5 ">
+          <Link
+            href={eventData?.cta_data?.link}
+            className="block w-full max-w-md mx-auto"
+          >
+            <PrimaryButton className="w-full" onClick={() => onClose()}>
+              {eventData?.cta_data?.title}
+            </PrimaryButton>
+          </Link>
+          <OutlineButton className="w-1/2" onClick={onClose}>
+            بستن
+          </OutlineButton>
+        </div>
       </div>
     </CustomModal>
   );

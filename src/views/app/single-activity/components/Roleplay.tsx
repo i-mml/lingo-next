@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { RoleplayActivity } from "../types";
 import { useAudioPlayer } from "@/hooks/use-audio-player";
 import { useTextToAudio } from "@/hooks/use-text-to-audio";
@@ -10,6 +10,7 @@ import Lottie from "lottie-react";
 import conversationLottie from "@/assets/lotties/unit-converstaion.json";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import OutlineButton from "@/components/shared/OutlineButton";
+import contractionMap from "@/constants/contractions";
 
 interface Props {
   activity: RoleplayActivity;
@@ -36,8 +37,6 @@ const Roleplay: React.FC<Props> = ({
   const { playAudio, isPlaying } = useAudioPlayer(activity.content.audio);
   const { handleTextToSpeech, textToSpeachMutation } = useTextToAudio();
   const isTTSLoading = textToSpeachMutation.isLoading;
-  const [failedAttempts, setFailedAttempts] = useState(0);
-  const [showSkipButton, setShowSkipButton] = useState(false);
   const [hasMicrophoneAccess, setHasMicrophoneAccess] = useState<
     boolean | null
   >(null);
@@ -74,43 +73,110 @@ const Roleplay: React.FC<Props> = ({
     }
   };
 
-  // Speech recognition setup
-  let recognition: any = null;
-  if (
-    typeof window !== "undefined" &&
-    (window as any).webkitSpeechRecognition
-  ) {
-    recognition = new (window as any).webkitSpeechRecognition();
-    recognition.continuous = false;
-    recognition.interimResults = true;
-    recognition.lang = "en-US";
-    recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript;
-      const words = transcript.split(" ");
-      setSpokenWords(words);
-    };
+  function normalizeWord(word: string) {
+    let normalized = word.toLowerCase().replace(/\s+/g, " ").trim();
+    if (contractionMap[normalized]) {
+      normalized = contractionMap[normalized];
+    }
+    return normalized;
   }
 
+  function cleanTargetWord(word: string) {
+    let cleaned = word
+      .replace(/[.,;!?،؟:؛\-—_"'()\[\]{}]/g, "")
+      .toLowerCase()
+      .trim();
+    if (contractionMap[cleaned]) {
+      cleaned = contractionMap[cleaned];
+    }
+    return cleaned;
+  }
+
+  // Speech recognition logic
+  const recognitionRef = useRef<any>(null);
+  const [lastAttemptWords, setLastAttemptWords] = useState<string[]>([]);
+  const lastAttemptWordsRef = useRef<string[]>([]);
+
+  const [isSupported, setIsSupported] = useState(true);
+
+  useEffect(() => {
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+    setIsSupported(!!SpeechRecognition);
+  }, []);
+
+  const initRecognition = () => {
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setIsSupported(false);
+      return null;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.onresult = (event: any) => {
+      const spokenText = event.results[0][0].transcript;
+      const words = spokenText.split(" ");
+      setSpokenWords(words);
+      setAccuracyPercentage(null);
+      setLastAttemptWords(words);
+      lastAttemptWordsRef.current = words;
+    };
+    recognition.onerror = (event: any) => {
+      setIsRecording(false);
+      if (event.error === "no-speech") {
+        setError("صدایی صوتی تشخیص داده نشد. لطفا دوباره تلاش کنید.");
+      } else if (event.error === "audio-capture") {
+        setError("دسترسی به میکروفون را فعال کنید.");
+      } else if (event.error === "network") {
+        setError("خطای شبکه. لطفا دوباره تلاش کنید.");
+      }
+    };
+    recognition.onend = () => {
+      // Do nothing here, only handle in stopRecording
+    };
+    return recognition;
+  };
+
   const startRecording = () => {
+    const recognition = initRecognition();
+    if (!recognition) {
+      setError("مرورگر شما از ضبط صدا پشتیبانی نمیکند");
+      return;
+    }
+    recognitionRef.current = recognition;
     setSpokenWords([]);
     setAccuracyPercentage(null);
     setError(null);
+    setLastAttemptWords([]);
+    lastAttemptWordsRef.current = [];
     setIsRecording(true);
-    recognition && recognition.start();
+    recognition.start();
   };
 
-  function normalizeWord(word: string) {
-    // Remove all punctuation for comparison
-    return word.replace(/[.,;!?،؟:؛\-—_"'()\[\]{}]/g, "").toLowerCase();
-  }
+  const stopRecording = () => {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (err) {
+        console.warn("Recognition already stopped.");
+      }
+    }
+    setIsRecording(false);
+    if (lastAttemptWordsRef.current.length > 0) {
+      calculateAccuracy(lastAttemptWordsRef.current);
+    }
+  };
 
   const handleGoNext = () => {
     setAudioPlayed(false);
     setAccuracyPercentage(null);
     setSpokenWords([]);
     setError(null);
-    setFailedAttempts(0);
-    setShowSkipButton(false);
     handleNext();
   };
 
@@ -136,18 +202,7 @@ const Roleplay: React.FC<Props> = ({
       }, 1000);
     } else {
       setError("دوباره تلاش کنید ..!");
-      setFailedAttempts((prev) => {
-        const newAttempts = prev + 1;
-        if (newAttempts >= 3) setShowSkipButton(true);
-        return newAttempts;
-      });
     }
-  };
-
-  const stopRecording = () => {
-    setIsRecording(false);
-    recognition && recognition.stop();
-    calculateAccuracy(spokenWords);
   };
 
   // Play audio or TTS
@@ -358,22 +413,6 @@ const Roleplay: React.FC<Props> = ({
                 {error && (
                   <div className="mt-2 text-red-500 font-bold">{error}</div>
                 )}
-                {showSkipButton && (
-                  <PrimaryButton
-                    onClick={() => {
-                      setAudioPlayed(false);
-                      setAccuracyPercentage(null);
-                      setSpokenWords([]);
-                      setError(null);
-                      setFailedAttempts(0);
-                      setShowSkipButton(false);
-                      handleNext();
-                    }}
-                    className="mt-1 px-6 py-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
-                  >
-                    رد شدن
-                  </PrimaryButton>
-                )}
               </>
             )}
           </>
@@ -395,9 +434,9 @@ const Roleplay: React.FC<Props> = ({
             </div>
           </>
         )}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 mt-4 ">
           <PrimaryButton
-            className="mt-4 px-8 py-3 rounded-full bg-primary text-white font-bold text-lg shadow-lg disabled:opacity-50"
+            className="px-8 py-3 rounded-full bg-primary text-white font-bold text-lg shadow-lg disabled:opacity-50"
             buttonProps={{
               disabled: userIsCurrent
                 ? accuracyPercentage === null || accuracyPercentage < 90

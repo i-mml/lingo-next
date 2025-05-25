@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { RepeatAndCompareActivity } from "../types";
 import { useAudioPlayer } from "@/hooks/use-audio-player";
 import WaveLoading from "@/components/shared/WaveLoading";
@@ -7,6 +7,7 @@ import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import OutlineButton from "@/components/shared/OutlineButton";
+import contractionMap from "@/constants/contractions";
 
 interface Props {
   activity: RepeatAndCompareActivity;
@@ -14,11 +15,7 @@ interface Props {
   handleSkip: () => void;
 }
 
-const RepeatAndCompare: React.FC<Props> = ({
-  activity,
-  handleNext,
-  handleSkip,
-}) => {
+const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
   const sentence = activity.sentences[0];
   const [audioPlayed, setAudioPlayed] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -29,12 +26,15 @@ const RepeatAndCompare: React.FC<Props> = ({
   const { playAudio: playSuccess } = useAudioPlayer("/assets/correct.mp3");
   const { playAudio, isPlaying } = useAudioPlayer(sentence.audio);
   const [attempts, setAttempts] = useState(0);
-  const [showSkipButton, setShowSkipButton] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [recognitionInstance, setRecognitionInstance] = useState<any>(null);
   const [hasMicrophoneAccess, setHasMicrophoneAccess] = useState<
     boolean | null
   >(null);
+  const [isSupported, setIsSupported] = useState(true);
+
+  const recognitionRef = useRef<any>(null);
+  const timeoutRef = useRef<any>(null);
+  const lastAttemptWordsRef = useRef<string[]>([]);
 
   // Check microphone access
   useEffect(() => {
@@ -68,115 +68,146 @@ const RepeatAndCompare: React.FC<Props> = ({
     }
   };
 
-  // Speech recognition setup
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const SpeechRecognition =
-        (window as any).webkitSpeechRecognition ||
-        (window as any).SpeechRecognition;
-      if (SpeechRecognition) {
-        const recognition = new SpeechRecognition();
-        recognition.continuous = false;
-        recognition.interimResults = true;
-        recognition.lang = "en-US";
-        recognition.maxAlternatives = 3;
+  const initRecognition = () => {
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
 
-        recognition.onresult = (event: any) => {
-          const results = event.results[0];
-          let bestTranscript = results[0].transcript;
-          let bestConfidence = results[0].confidence;
-
-          for (let i = 1; i < results.length; i++) {
-            if (results[i].confidence > bestConfidence) {
-              bestTranscript = results[i].transcript;
-              bestConfidence = results[i].confidence;
-            }
-          }
-
-          const words = bestTranscript.split(" ");
-          setSpokenWords(words);
-        };
-
-        recognition.onerror = (event: any) => {
-          console.error("Speech recognition error:", event.error);
-          setIsRecording(false);
-          if (event.error === "no-speech") {
-            setError("No speech detected. Please try again.");
-          } else if (event.error === "audio-capture") {
-            setError(
-              "Microphone access denied. Please check your permissions."
-            );
-          } else if (event.error === "network") {
-            setError("Network error. Please check your connection.");
-          }
-        };
-
-        recognition.onend = () => {
-          if (isRecording) {
-            try {
-              recognition.start();
-            } catch (error) {
-              console.error("Error restarting recognition:", error);
-              setIsRecording(false);
-              setError("Recording stopped unexpectedly. Please try again.");
-            }
-          }
-        };
-
-        setRecognitionInstance(recognition);
-      }
+    if (!SpeechRecognition) {
+      setIsSupported(false);
+      return null;
     }
 
-    return () => {
-      if (recognitionInstance) {
-        try {
-          recognitionInstance.stop();
-        } catch (error) {
-          console.error("Error stopping recognition:", error);
-        }
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = (event: any) => {
+      const spokenText = event.results[0][0].transcript;
+      const words = spokenText.split(" ");
+      setSpokenWords(words);
+      setAccuracyPercentage(null);
+      lastAttemptWordsRef.current = words;
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error("Speech recognition error:", event.error);
+      setIsRecording(false);
+      if (event.error === "no-speech") {
+        setError("No speech detected. Please try again.");
+      } else if (event.error === "audio-capture") {
+        setError("Microphone access denied. Please check your permissions.");
+      } else if (event.error === "network") {
+        setError("Network error. Please check your connection.");
       }
     };
-  }, []);
 
-  const startRecording = () => {
-    if (!recognitionInstance) {
-      setError("Speech recognition is not supported in your browser.");
+    recognition.onend = () => {
+      // Do nothing here, only handle in handleStop
+    };
+
+    return recognition;
+  };
+
+  const handleStart = () => {
+    const recognition = initRecognition();
+    if (!recognition) {
+      setError("مرورگر شما از ضبط صدا پشتیبانی نمیکند");
       return;
     }
+    recognitionRef.current = recognition;
 
     setSpokenWords([]);
     setAccuracyPercentage(null);
     setError(null);
 
-    try {
-      recognitionInstance.start();
-      setIsRecording(true);
-    } catch (error) {
-      console.error("Error starting speech recognition:", error);
-      setError("Failed to start recording. Please try again.");
-      setIsRecording(false);
+    lastAttemptWordsRef.current = [];
+    setIsRecording(true);
+    recognition.start();
+  };
+
+  const handleStop = () => {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (err) {
+        console.warn("Recognition already stopped.");
+      }
+    }
+    setIsRecording(false);
+    // Always use the latest words from ref
+    if (lastAttemptWordsRef.current.length > 0) {
+      calculateAccuracy(lastAttemptWordsRef.current);
     }
   };
 
+  const percentageColorGenerator = (percentage: number) => {
+    if (percentage < 50) {
+      return "!text-[red]";
+    }
+    if (percentage > 50 && percentage < 85) {
+      return "!text-yellow-500";
+    }
+    if (percentage >= 85) {
+      return "!text-green-500";
+    }
+    return "";
+  };
+
+  useEffect(() => {
+    // Check if browser supports speech recognition
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+    setIsSupported(!!SpeechRecognition);
+
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch (err) {}
+      }
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
   function normalizeWord(word: string) {
-    // Only normalize spaces and convert to lowercase
-    return word.toLowerCase().replace(/\s+/g, " ").trim();
+    // Convert to lowercase and remove extra spaces
+    let normalized = word.toLowerCase().replace(/\s+/g, " ").trim();
+
+    // Check for contractions
+    if (contractionMap[normalized]) {
+      normalized = contractionMap[normalized];
+    }
+
+    return normalized;
   }
 
   function cleanTargetWord(word: string) {
-    // Remove all punctuation and special characters from target words
-    return word
+    // Remove punctuation and special characters
+    let cleaned = word
       .replace(/[.,;!?،؟:؛\-—_"'()\[\]{}]/g, "")
       .toLowerCase()
       .trim();
+
+    // Check for contractions
+    if (contractionMap[cleaned]) {
+      cleaned = contractionMap[cleaned];
+    }
+
+    return cleaned;
   }
 
   const getWordColor = (word: string, index: number) => {
     if (!spokenWords[index]) return "";
+
     const normalizedSpoken = normalizeWord(spokenWords[index]);
     const cleanedTarget = cleanTargetWord(word);
 
-    // Check if words match after cleaning target
+    // Check if words match after cleaning and normalization
     if (normalizedSpoken === cleanedTarget) {
       return "#22c55e"; // Green for exact match
     }
@@ -200,7 +231,6 @@ const RepeatAndCompare: React.FC<Props> = ({
     setAccuracyPercentage(null);
     setSpokenWords([]);
     setAttempts(0);
-    setShowSkipButton(false);
   };
 
   const calculateAccuracy = (spoken: string[]) => {
@@ -236,10 +266,11 @@ const RepeatAndCompare: React.FC<Props> = ({
     const accuracy = (matchCount / totalWords) * 100;
     setAccuracyPercentage(accuracy);
 
+    // Only proceed if accuracy is above 85% and not recording
     if (accuracy >= 85) {
       setTimeout(() => {
         handleGoNext();
-      }, 1000);
+      }, 1500); // Give user time to see the accuracy
     } else {
       handleAttempt(accuracy);
     }
@@ -277,40 +308,10 @@ const RepeatAndCompare: React.FC<Props> = ({
     return matrix[b.length][a.length];
   }
 
-  const stopRecording = () => {
-    if (!recognitionInstance) return;
-
-    try {
-      recognitionInstance.stop();
-      setIsRecording(false);
-      calculateAccuracy(spokenWords);
-    } catch (error) {
-      console.error("Error stopping speech recognition:", error);
-      setError("Failed to stop recording. Please try again.");
-      setIsRecording(false);
-    }
-  };
-
-  const percentageColorGenerator = (percentage: number) => {
-    if (percentage < 50) {
-      return "!text-[red]";
-    }
-    if (percentage > 50 && percentage < 85) {
-      return "!text-yellow-500";
-    }
-    if (percentage >= 85) {
-      return "!text-green-500";
-    }
-    return "";
-  };
-
   const handleAttempt = (score: number) => {
     if (score < 90) {
       setAttempts((prev) => {
         const newAttempts = prev + 1;
-        if (newAttempts >= 1) {
-          setShowSkipButton(true);
-        }
         return newAttempts;
       });
     } else {
@@ -329,103 +330,109 @@ const RepeatAndCompare: React.FC<Props> = ({
           {sentence.text}
         </span>
       </div>
-      <div className="flex flex-col items-center gap-4 w-full">
-        {hasMicrophoneAccess === false ? (
-          <div className="flex flex-col items-center gap-4">
-            <p className="text-red-500 text-center mb-4">
-              شما دسترسی به میکروفون ندارید
-            </p>
-            <PrimaryButton
-              onClick={requestMicrophoneAccess}
-              className="bg-primary hover:bg-primary/90"
-            >
-              درخواست دسترسی به میکروفون
-            </PrimaryButton>
-          </div>
-        ) : (
-          <>
-            <div className="flex items-center gap-8">
-              <IconButton
-                disabled={isPlaying}
-                onClick={() => {
-                  playAudio();
-                  setAudioPlayed(true);
-                }}
-                className="!w-20 !h-20 !bg-backgroundMain shadow-lg"
+      {isSupported ? (
+        <div>مرورگر شما از ضبط صدا پشتیبانی نمیکند</div>
+      ) : (
+        <div className="flex flex-col items-center gap-4 w-full">
+          {hasMicrophoneAccess === false ? (
+            <div className="flex flex-col items-center gap-4">
+              <p className="text-red-500 text-center mb-4">
+                شما دسترسی به میکروفون ندارید
+              </p>
+              <PrimaryButton
+                onClick={requestMicrophoneAccess}
+                className="bg-primary hover:bg-primary/90"
               >
-                {isPlaying ? (
-                  <WaveLoading />
-                ) : (
-                  <VolumeUpIcon className="!w-10 !h-10 !text-main" />
-                )}
-              </IconButton>
-              <IconButton
-                disabled={!audioPlayed || !hasMicrophoneAccess}
-                onClick={isRecording ? stopRecording : startRecording}
-                className={`!w-20 !h-20 !bg-backgroundMain shadow-lg border-2 border-primary flex items-center justify-center ${
-                  !audioPlayed || !hasMicrophoneAccess
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
-                }`}
-              >
-                <KeyboardVoiceIcon
-                  className={`!w-10 !h-10 !text-main ${
-                    isRecording ? "animate-ping" : ""
+                درخواست دسترسی به میکروفون
+              </PrimaryButton>
+            </div>
+          ) : (
+            <>
+              <div className="flex items-center gap-8">
+                <IconButton
+                  disabled={isPlaying}
+                  onClick={() => {
+                    playAudio();
+                    setAudioPlayed(true);
+                  }}
+                  className="!w-20 !h-20 !bg-backgroundMain shadow-lg"
+                >
+                  {isPlaying ? (
+                    <WaveLoading />
+                  ) : (
+                    <VolumeUpIcon className="!w-10 !h-10 !text-main" />
+                  )}
+                </IconButton>
+                <IconButton
+                  disabled={!audioPlayed || !hasMicrophoneAccess}
+                  onClick={isRecording ? handleStop : handleStart}
+                  className={`!w-20 !h-20 !bg-backgroundMain shadow-lg border-2 border-primary flex items-center justify-center ${
+                    !audioPlayed || !hasMicrophoneAccess
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
                   }`}
-                />
-              </IconButton>
-            </div>
-            <div className="text-center text-gray-500 mt-2">
-              {!hasMicrophoneAccess
-                ? "لطفا دسترسی به میکروفون را فعال کنید"
-                : audioPlayed
-                ? isRecording
-                  ? "درحال ضبط..."
-                  : "روی دکمه بزن تا صداتو ضبط کنی"
-                : "روی دکمه بزن تا بشنوی"}
-            </div>
-            {/* Per-word feedback */}
-            {spokenWords.length > 0 && (
-              <div
-                className="text-main font-medium flex items-center flex-wrap justify-center mt-6"
-                dir="ltr"
-              >
-                {sentence.text.split(" ").map((word, index) => (
-                  <span
-                    className="text-main font-medium text-lg lg:text-xl"
-                    key={index}
-                    style={{
-                      color: getWordColor(word, index),
-                      marginRight: "5px",
-                    }}
-                  >
-                    {word}
-                  </span>
-                ))}
+                >
+                  <KeyboardVoiceIcon
+                    className={`!w-10 !h-10 !text-main ${
+                      isRecording ? "animate-ping" : ""
+                    }`}
+                  />
+                </IconButton>
               </div>
-            )}
-            {/* Accuracy percentage */}
-            {accuracyPercentage !== null && (
-              <div
-                className={`mt-4 text-xl font-bold ${percentageColorGenerator(
-                  accuracyPercentage
-                )}`}
-              >
-                {Math.round(accuracyPercentage)}%
+              <div className="text-center text-gray-500 mt-2">
+                {!hasMicrophoneAccess
+                  ? "لطفا دسترسی به میکروفون را فعال کنید"
+                  : audioPlayed
+                  ? isRecording
+                    ? "درحال ضبط..."
+                    : "روی دکمه بزن تا صداتو ضبط کنی"
+                  : "روی دکمه بزن تا بشنوی"}
               </div>
-            )}
-            {/* Attempts counter */}
-            <div className="text-sm text-gray-500 mt-2">تلاش: {attempts}/3</div>
+              {/* Show spoken words feedback */}
+              {spokenWords.length > 0 && (
+                <div
+                  className="text-main font-medium flex items-center flex-wrap justify-center mt-6"
+                  dir="ltr"
+                >
+                  {sentence.text.split(" ").map((word, index) => (
+                    <span
+                      className="text-main font-medium text-lg lg:text-xl"
+                      key={index}
+                      style={{
+                        color: getWordColor(word, index),
+                        marginRight: "5px",
+                      }}
+                    >
+                      {word}
+                    </span>
+                  ))}
+                </div>
+              )}
+              {/* Show accuracy percentage */}
+              {accuracyPercentage !== null && (
+                <div
+                  className={`mt-4 text-xl font-bold ${percentageColorGenerator(
+                    accuracyPercentage
+                  )}`}
+                >
+                  {Math.round(accuracyPercentage)}%
+                </div>
+              )}
+              {/* Attempts counter */}
+              <div className="text-sm text-gray-500 mt-2">
+                تلاش: {attempts}/3
+              </div>
 
-            <PrimaryButton
-              onClick={handleGoNext}
-              className="mt-1 px-6 py-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
-            >
-              رد شدن
-            </PrimaryButton>
-          </>
-        )}
-      </div>
+              <PrimaryButton
+                onClick={handleGoNext}
+                className="mt-1 px-6 py-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
+              >
+                رد شدن
+              </PrimaryButton>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };
