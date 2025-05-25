@@ -39,7 +39,7 @@ const TextQuestionSingleChoiceImageAnswer: React.FC<Props> = ({
           </span>
         </div>
       </div>
-      <div className="flex flex-wrap gap-12 items-center justify-center w-full">
+      <div className="flex flex-wrap gap-4 md:gap-8 items-center justify-center w-full">
         {activity.answers.map((ans, idx) => {
           const isCorrect = correctIndex === idx;
           const isSelected = selected === idx;
@@ -48,7 +48,7 @@ const TextQuestionSingleChoiceImageAnswer: React.FC<Props> = ({
           return (
             <button
               key={ans.image}
-              className={`w-44 h-44 rounded-full overflow-hidden flex items-center justify-center shadow-lg transition-all
+              className={`w-24 md:w-44 h-24 md:h-44 rounded-full overflow-hidden flex items-center justify-center shadow-lg transition-all
                 ${isCorrect ? "border-4 border-green-500" : ""}
                 ${
                   isSelected && !isCorrect
