@@ -81,7 +81,9 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
     }
     if (correct) {
       setRedirecting(true);
-      setTimeout(() => {}, 1500);
+      setTimeout(() => {
+        handleGoNext();
+      }, 1500);
     }
   };
 
