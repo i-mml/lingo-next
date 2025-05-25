@@ -81,7 +81,7 @@ const LeaderboardItem: React.FC<LeaderboardItemProps> = ({
               alt={displayName}
               width={48}
               height={48}
-              className="object-cover"
+              className="object-cover w-12 h-12 rounded-full"
               priority={rank <= 10}
               loading={rank <= 10 ? "eager" : "lazy"}
               quality={75}
