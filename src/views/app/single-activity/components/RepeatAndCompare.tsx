@@ -35,6 +35,7 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
   const recognitionRef = useRef<any>(null);
   const timeoutRef = useRef<any>(null);
   const lastAttemptWordsRef = useRef<string[]>([]);
+  const shouldCalculateOnEnd = useRef(false);
 
   // Check microphone access
   useEffect(() => {
@@ -72,17 +73,14 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
     const SpeechRecognition =
       (window as any).SpeechRecognition ||
       (window as any).webkitSpeechRecognition;
-
     if (!SpeechRecognition) {
       setIsSupported(false);
       return null;
     }
-
     const recognition = new SpeechRecognition();
     recognition.lang = "en-US";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
-
     recognition.onresult = (event: any) => {
       const spokenText = event.results[0][0].transcript;
       const words = spokenText.split(" ");
@@ -90,23 +88,26 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
       setAccuracyPercentage(null);
       lastAttemptWordsRef.current = words;
     };
-
     recognition.onerror = (event: any) => {
-      console.error("Speech recognition error:", event.error);
       setIsRecording(false);
       if (event.error === "no-speech") {
-        setError("No speech detected. Please try again.");
+        setError("صدایی صوتی تشخیص داده نشد. لطفا دوباره تلاش کنید.");
       } else if (event.error === "audio-capture") {
-        setError("Microphone access denied. Please check your permissions.");
+        setError("دسترسی به میکروفون را فعال کنید.");
       } else if (event.error === "network") {
-        setError("Network error. Please check your connection.");
+        setError("خطای شبکه. لطفا دوباره تلاش کنید.");
       }
     };
-
     recognition.onend = () => {
-      // Do nothing here, only handle in handleStop
+      setIsRecording(false);
+      if (
+        shouldCalculateOnEnd.current &&
+        lastAttemptWordsRef.current.length > 0
+      ) {
+        calculateAccuracy(lastAttemptWordsRef.current);
+      }
+      shouldCalculateOnEnd.current = false;
     };
-
     return recognition;
   };
 
@@ -128,6 +129,7 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
   };
 
   const handleStop = () => {
+    shouldCalculateOnEnd.current = true;
     if (recognitionRef.current) {
       try {
         recognitionRef.current.stop();
@@ -136,10 +138,6 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
       }
     }
     setIsRecording(false);
-    // Always use the latest words from ref
-    if (lastAttemptWordsRef.current.length > 0) {
-      calculateAccuracy(lastAttemptWordsRef.current);
-    }
   };
 
   const percentageColorGenerator = (percentage: number) => {

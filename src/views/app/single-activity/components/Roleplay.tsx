@@ -92,6 +92,33 @@ const Roleplay: React.FC<Props> = ({
     return cleaned;
   }
 
+  // Add levenshteinDistance for fuzzy matching
+  function levenshteinDistance(a: string, b: string): number {
+    if (a.length === 0) return b.length;
+    if (b.length === 0) return a.length;
+    const matrix = [];
+    for (let i = 0; i <= b.length; i++) {
+      matrix[i] = [i];
+    }
+    for (let j = 0; j <= a.length; j++) {
+      matrix[0][j] = j;
+    }
+    for (let i = 1; i <= b.length; i++) {
+      for (let j = 1; j <= a.length; j++) {
+        if (b.charAt(i - 1) === a.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j] + 1
+          );
+        }
+      }
+    }
+    return matrix[b.length][a.length];
+  }
+
   // Speech recognition logic
   const recognitionRef = useRef<any>(null);
   const [lastAttemptWords, setLastAttemptWords] = useState<string[]>([]);
@@ -180,26 +207,36 @@ const Roleplay: React.FC<Props> = ({
     handleNext();
   };
 
+  // Update calculateAccuracy to use fuzzy matching and threshold 85
   const calculateAccuracy = (spoken: string[]) => {
-    // Remove punctuation from both spoken and target
     const targetWords = activity.content.text
-      .replace(/[.,;!?،؟:؛\-—_"'()\[\]{}]/g, "")
-      .split(" ");
+      .split(" ")
+      .map((word) => cleanTargetWord(word));
+    const spokenWordsNorm = spoken.map((word) => normalizeWord(word));
     let matchCount = 0;
+    let totalWords = targetWords.length;
     targetWords.forEach((word, index) => {
-      if (
-        spoken[index] &&
-        normalizeWord(spoken[index]) === normalizeWord(word)
-      ) {
-        matchCount++;
+      if (spokenWordsNorm[index]) {
+        const spokenWord = spokenWordsNorm[index];
+        if (spokenWord === word) {
+          matchCount++;
+        } else {
+          if (
+            spokenWord.includes(word) ||
+            word.includes(spokenWord) ||
+            levenshteinDistance(spokenWord, word) <= 2
+          ) {
+            matchCount += 0.9;
+          }
+        }
       }
     });
-    const accuracy = (matchCount / targetWords.length) * 100;
+    const accuracy = (matchCount / totalWords) * 100;
     setAccuracyPercentage(accuracy);
-    if (accuracy >= 90) {
+    if (accuracy >= 85) {
       setTimeout(() => {
         handleGoNext();
-      }, 1000);
+      }, 1500);
     } else {
       setError("دوباره تلاش کنید ..!");
     }
@@ -221,12 +258,22 @@ const Roleplay: React.FC<Props> = ({
   const otherActor = activity.actors.find((a) => a.name !== selectedActor);
   const userActor = activity.actors.find((a) => a.name === selectedActor);
 
-  // Per-word feedback coloring like RepeatAndCompare
+  // Update getWordColor to use fuzzy matching
   const getWordColor = (word: string, index: number) => {
     if (!spokenWords[index]) return "";
-    return normalizeWord(spokenWords[index]) === normalizeWord(word)
-      ? "#22c55e"
-      : "#ef4444";
+    const normalizedSpoken = normalizeWord(spokenWords[index]);
+    const cleanedTarget = cleanTargetWord(word);
+    if (normalizedSpoken === cleanedTarget) {
+      return "#22c55e"; // Green for exact match
+    }
+    if (
+      normalizedSpoken.includes(cleanedTarget) ||
+      cleanedTarget.includes(normalizedSpoken) ||
+      levenshteinDistance(normalizedSpoken, cleanedTarget) <= 2
+    ) {
+      return "#f59e0b"; // Yellow for close match
+    }
+    return "#ef4444"; // Red for no match
   };
 
   // Percentage color generator like RepeatAndCompare
