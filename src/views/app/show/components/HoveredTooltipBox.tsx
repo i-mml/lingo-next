@@ -63,7 +63,7 @@ const HoveredTooltipBox = ({
       word_rel: word?.id,
       word_rel_id: word?.id,
       word_translation: word?.translate,
-      episode: !inUnit ? !!Number(episodeId) : movie?.episode?.id,
+      episode: !inUnit ? Number(episodeId) : movie?.episode?.id,
       base_movie_file: !inUnit ? episodeData?.file : movie?.episode?.file,
     }),
     [currentSubtitle, videoId, word, episodeData, episodeId, movie]
