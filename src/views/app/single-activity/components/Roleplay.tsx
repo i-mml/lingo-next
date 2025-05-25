@@ -104,6 +104,16 @@ const Roleplay: React.FC<Props> = ({
     return word.replace(/[.,;!?،؟:؛\-—_"'()\[\]{}]/g, "").toLowerCase();
   }
 
+  const handleGoNext = () => {
+    setAudioPlayed(false);
+    setAccuracyPercentage(null);
+    setSpokenWords([]);
+    setError(null);
+    setFailedAttempts(0);
+    setShowSkipButton(false);
+    handleNext();
+  };
+
   const calculateAccuracy = (spoken: string[]) => {
     // Remove punctuation from both spoken and target
     const targetWords = activity.content.text
@@ -122,13 +132,7 @@ const Roleplay: React.FC<Props> = ({
     setAccuracyPercentage(accuracy);
     if (accuracy >= 90) {
       setTimeout(() => {
-        setAudioPlayed(false);
-        setAccuracyPercentage(null);
-        setSpokenWords([]);
-        setError(null);
-        setFailedAttempts(0);
-        setShowSkipButton(false);
-        handleNext();
+        handleGoNext();
       }, 1000);
     } else {
       setError("دوباره تلاش کنید ..!");
@@ -391,32 +395,40 @@ const Roleplay: React.FC<Props> = ({
             </div>
           </>
         )}
-        <PrimaryButton
-          className="mt-4 px-8 py-3 rounded-full bg-primary text-white font-bold text-lg shadow-lg disabled:opacity-50"
-          buttonProps={{
-            disabled: userIsCurrent
-              ? accuracyPercentage === null || accuracyPercentage < 90
-              : !audioPlayed,
-          }}
-          onClick={() => {
-            if (userIsCurrent) {
-              if (accuracyPercentage !== null && accuracyPercentage >= 90) {
-                setAudioPlayed(false);
-                setAccuracyPercentage(null);
-                setSpokenWords([]);
-                setError(null);
-                handleNext();
+        <div className="flex items-center gap-4">
+          <PrimaryButton
+            className="mt-4 px-8 py-3 rounded-full bg-primary text-white font-bold text-lg shadow-lg disabled:opacity-50"
+            buttonProps={{
+              disabled: userIsCurrent
+                ? accuracyPercentage === null || accuracyPercentage < 90
+                : !audioPlayed,
+            }}
+            onClick={() => {
+              if (userIsCurrent) {
+                if (accuracyPercentage !== null && accuracyPercentage >= 90) {
+                  setAudioPlayed(false);
+                  setAccuracyPercentage(null);
+                  setSpokenWords([]);
+                  setError(null);
+                  handleNext();
+                } else {
+                  setError("دوباره تلاش کنید");
+                }
               } else {
-                setError("دوباره تلاش کنید");
+                setAudioPlayed(false);
+                handleNext();
               }
-            } else {
-              setAudioPlayed(false);
-              handleNext();
-            }
-          }}
-        >
-          ادامه
-        </PrimaryButton>
+            }}
+          >
+            ادامه
+          </PrimaryButton>
+          <PrimaryButton
+            onClick={handleGoNext}
+            className="mt-1 px-6 py-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
+          >
+            رد شدن
+          </PrimaryButton>
+        </div>
       </div>
     </div>
   );
