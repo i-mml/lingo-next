@@ -330,7 +330,7 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
           {sentence.text}
         </span>
       </div>
-      {isSupported ? (
+      {!isSupported ? (
         <div>مرورگر شما از ضبط صدا پشتیبانی نمیکند</div>
       ) : (
         <div className="flex flex-col items-center gap-4 w-full">
