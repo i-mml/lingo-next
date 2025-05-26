@@ -9,9 +9,12 @@ import { PostUserPreferences } from "@/api/services/user-preferences";
 import SelectLanguage from "./components/steps/SelectLanguage";
 import SelectAccent from "./components/steps/SelectAccent";
 import SelectLevel from "./components/steps/SelectLevel";
-import SelectDailyGoal from "./components/steps/SelectDailyGoal";
+import SelectWeeklyGoal from "./components/steps/SelectWeeklyGoal";
 import EnableNotification from "./components/steps/EnableNotif";
 import WhatsAchieved from "./components/steps/WhatsAchieved";
+import SelectAgeRange from "./components/steps/SelectAgeRange";
+import SelectUserGoal from "./components/steps/SelectUserGoal";
+import SelectLearningPreference from "./components/steps/SelectLearningPreference";
 
 const OnBoardingView = () => {
   const [step, setStep] = useState(1);
@@ -19,8 +22,11 @@ const OnBoardingView = () => {
     language: null,
     accent: null,
     level: null,
-    daily_goal: null,
+    weekly_time: null,
     referral_code: null,
+    age_range: null,
+    user_goal: null,
+    learning_preference: null,
   });
 
   const queryClient = useQueryClient();
@@ -34,8 +40,11 @@ const OnBoardingView = () => {
         preferred_accent:
           onBoardData.language?.id === 2 ? onBoardData.accent : (1 as any),
         knowledge_level: onBoardData.level as any,
-        daily_goal: onBoardData?.daily_goal as any,
+        weekly_time: onBoardData?.weekly_time as any,
         referral_code: onBoardData?.referral_code as any,
+        age_range: onBoardData?.age_range as any,
+        user_goal: onBoardData?.user_goal as any,
+        learning_preference: onBoardData?.learning_preference as any,
       })
         .then(() => {
           toast.success("تعیین سطح با موفقیت انجام شد.");
@@ -90,9 +99,12 @@ const OnBoardingView = () => {
           languageId={onBoardData.language?.id}
         />
       ) : null}
-      {step === 5 ? <SelectDailyGoal {...propsToPass} /> : null}
-      {step === 6 ? <EnableNotification {...propsToPass} /> : null}
-      {step === 7 ? (
+      {step === 5 ? <SelectWeeklyGoal {...propsToPass} /> : null}
+      {step === 6 ? <SelectAgeRange {...propsToPass} /> : null}
+      {step === 7 ? <SelectUserGoal {...propsToPass} /> : null}
+      {step === 8 ? <SelectLearningPreference {...propsToPass} /> : null}
+      {step === 9 ? <EnableNotification {...propsToPass} /> : null}
+      {step === 10 ? (
         <WhatsAchieved
           {...propsToPass}
           nextAction={handleSubmitUserPreference}

@@ -51,7 +51,7 @@ const WhatsAchieved = (props: IProps) => {
             </span>
           </Link>
           <Link
-            href={"/" + redirectLink}
+            href={"/public/home"}
             className="flex-1 flex items-center gap-3 bg-gradient-to-r from-blue-100 to-blue-50 shadow-lg h-20 rounded-xl px-6 py-5 hover:scale-105 transition-transform cursor-pointer"
           >
             <Film className="w-8 h-8 text-blue-500" />

@@ -12,18 +12,18 @@ interface IProps {
 
 const OnBoardBottomNav = (props: IProps) => {
   const { step, selected, handleNextAction, isLoading = false } = props;
-  console.log({ selected, isLoading }, !selected || isLoading);
+
   return (
     <div className="flex items-center gap-2.5 onboard-buttom">
       {/* <DotSteps step={step} /> */}
       <div className="flashcard-modal-footer flex-1" dir="ltr">
         <div className="flashcrds-length-box w-[91.1%] md:w-full mx-auto md:mx-0 rounded-lg border border-borderMain bg-backgroundMain py-2 px-3 flex items-center gap-3">
-          <span className="length-number text-[#e5e7eb] text-base font-semibold">{`${step}/${7}`}</span>
+          <span className="length-number text-[#e5e7eb] text-base font-semibold">{`${step}/${10}`}</span>
 
           <div className="length-progress-wrapper w-full bg-[#262626] h-2 rounded-[200px]">
             <span
               className="length-progress block bg-[#e28f00] h-2 rounded-[200px]"
-              style={{ width: `${(step / 7) * 100}%` }}
+              style={{ width: `${(step / 10) * 100}%` }}
             ></span>
           </div>
         </div>
@@ -39,7 +39,7 @@ const OnBoardBottomNav = (props: IProps) => {
           <WaveLoading />
         ) : (
           <div className="flex">
-            <span>{step !== 7 ? "بعدی" : "شروع"}</span>
+            <span>{step !== 10 ? "بعدی" : "شروع"}</span>
             <LeftArrow />
           </div>
         )}

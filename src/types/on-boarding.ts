@@ -30,6 +30,9 @@ export interface IOnboardData {
   language: ICmsLanguage | null;
   accent: IAccent | null;
   level: number | null;
-  daily_goal: number | null;
+  weekly_time: number | null;
   referral_code: string | null;
+  age_range?: number | null;
+  user_goal?: number | null;
+  learning_preference?: number | null;
 }

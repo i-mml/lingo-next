@@ -12,8 +12,11 @@ export const PostUserPreferences = async (params: {
   preferred_language?: number;
   preferred_accent?: number;
   knowledge_level?: number;
-  daily_goal?: number;
   referral_code?: string;
+  age_range?: number;
+  user_goal?: number;
+  learning_preference?: number;
+  weekly_time?: number;
 }) => {
   const response = await axiosInstance.post("/userpereference/", params);
 

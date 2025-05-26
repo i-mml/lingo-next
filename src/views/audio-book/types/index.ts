@@ -3,7 +3,7 @@ import { CmsCatalogList } from "@/api/types/cms";
 interface UserPreference {
   preferred_language?: number;
   preferred_accent?: number;
-  daily_goal?: number;
+  weekly_time?: number;
   knowledge_level?: number;
   preferred_accent_display?: string;
   knowledge_level_display?: string;
