@@ -41,9 +41,11 @@ const AudioQuestionTextAnswer: React.FC<AudioQuestionTextAnswerProps> = ({
 
   const normalizeText = (text: string) => {
     return text
+      .normalize("NFKD")
       .toLowerCase()
       .replace(/[.,/#!$%^&*;:{}=\-_`~()؟،؟'"\\]/g, "")
       .replace(/\s{2,}/g, " ")
+      .replace(/\r?\n/g, " ")
       .replace(/^[.!?]+|[.!?]+$/g, "")
       .trim();
   };

@@ -36,6 +36,7 @@ const FillTheGapsWithTextAndListenAudio: React.FC<Props> = ({
 
   function normalizeSentence(str: string) {
     return str
+      .normalize("NFKD")
       .toLowerCase()
       .replace(/[.,/#!$%^&*;:{}=\-_`~()؟،؟'"\\]/g, "")
       .replace(/\s{2,}/g, " ")

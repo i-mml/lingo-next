@@ -34,8 +34,10 @@ const TextQuestionTextAnswer: React.FC<TextQuestionTextAnswerProps> = ({
 
   const normalizeText = (text: string) => {
     return text
+      .normalize("NFKD")
       .toLowerCase()
       .replace(/[.,/#!$%^&*;:{}=\-_`~()؟،؟'"\\]/g, "")
+      .replace(/\r?\n/g, " ")
       .replace(/\s{2,}/g, " ")
       .replace(/^[.!?]+|[.!?]+$/g, "")
       .trim();

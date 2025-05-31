@@ -33,6 +33,7 @@ const WriteAndCompare: React.FC<WriteAndCompareProps> = ({
 
   const normalizeText = (text: string) => {
     return text
+      .normalize("NFKD")
       .toLowerCase()
       .replace(/[.,/#!$%^&*;:{}=\-_`~()؟،؟'"\\]/g, "")
       .replace(/\s{2,}/g, " ")
