@@ -7,6 +7,7 @@ import OutlineButton from "./OutlineButton";
 import WaveLoading from "./WaveLoading";
 import VoiceIcon from "@/assets/voice.svg";
 import Confetti from "react-confetti";
+import contractionMap from "@/constants/contractions";
 
 const VoiceChecker: React.FC<{
   targetText: string;
@@ -52,22 +53,40 @@ const VoiceChecker: React.FC<{
     });
   };
 
+  const normalizeText = (text: string) => {
+    let normalized = text
+      .normalize("NFKD")
+      .toLowerCase()
+      .replace(/[.,/#!$%^&*;:{}=\-_`~()؟،؟'\":?!]/g, "")
+      .replace(/\r?\n/g, " ")
+      .replace(/\s{2,}/g, " ")
+      .replace(/^[.!?]+|[.!?]+$/g, "")
+      .trim();
+
+    if (contractionMap[normalized]) {
+      normalized = contractionMap[normalized];
+    }
+
+    return normalized;
+  };
+
   const getWordColor = (word: string, index: number) => {
     if (!spokenWords[index]) return "";
-    return spokenWords[index]?.replace(/[.,;!?]/g, "").toLowerCase() ===
-      word?.replace(/[.,;!?]/g, "").toLowerCase()
+    return normalizeText(spokenWords[index]) === normalizeText(word)
       ? "green"
       : "red";
   };
+
   const calculateAccuracy = (spokenWords: string[]) => {
-    const targetWords = targetText?.replace(/[.,;!?]/g, "").split(" ");
+    const targetWords = targetText
+      .split(" ")
+      .map((word) => normalizeText(word));
     let matchCount = 0;
 
     targetWords.forEach((word, index) => {
       if (
         spokenWords[index] &&
-        spokenWords[index]?.replace(/[.,;!?]/g, "").toLowerCase() ===
-          word?.replace(/[.,;!?]/g, "").toLowerCase()
+        normalizeText(spokenWords[index]) === normalizeText(word)
       ) {
         matchCount++;
       }
@@ -99,7 +118,15 @@ const VoiceChecker: React.FC<{
         setCelebrate(false);
       }, 5000);
     }
+    return () => {
+      recognition.stop();
+    };
   }, [celebrate]);
+
+  useEffect(() => {
+    setSpokenWords([]);
+    setAccuracyPercentage(null);
+  }, [targetText]);
 
   return (
     <div>

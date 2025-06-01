@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { RepeatAndCompareActivity } from "../types";
 import { useAudioPlayer } from "@/hooks/use-audio-player";
 import WaveLoading from "@/components/shared/WaveLoading";
@@ -8,6 +8,8 @@ import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import OutlineButton from "@/components/shared/OutlineButton";
 import contractionMap from "@/constants/contractions";
+import { useTranslation } from "react-i18next";
+import VoiceChecker from "@/components/shared/VoiceChecker";
 
 interface Props {
   activity: RepeatAndCompareActivity;
@@ -26,151 +28,41 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
   const { playAudio: playSuccess } = useAudioPlayer("/assets/correct.mp3");
   const { playAudio, isPlaying } = useAudioPlayer(sentence.audio);
   const [attempts, setAttempts] = useState(0);
-  const [error, setError] = useState<string | null>(null);
-  const [hasMicrophoneAccess, setHasMicrophoneAccess] = useState<
-    boolean | null
-  >(null);
+  const [hasMicrophonePermission, setHasMicrophonePermission] = useState(false);
+  const [isSpeechSupported, setIsSpeechSupported] = useState(false);
   const [isSupported, setIsSupported] = useState(true);
+  const { t: translate } = useTranslation();
 
-  const recognitionRef = useRef<any>(null);
-  const timeoutRef = useRef<any>(null);
-  const lastAttemptWordsRef = useRef<string[]>([]);
-  const shouldCalculateOnEnd = useRef(false);
-
-  // Check microphone access
-  useEffect(() => {
-    const checkMicrophoneAccess = async () => {
+  const checkMicrophonePermission = useCallback(async () => {
+    if ("MediaRecorder" in window) {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-        });
-        setHasMicrophoneAccess(true);
-        // Stop the stream immediately after checking
-        stream.getTracks().forEach((track) => track.stop());
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+        setHasMicrophonePermission(true);
       } catch (err) {
-        setHasMicrophoneAccess(false);
-        setError("شما دسترسی به میکروفون ندارید");
+        setHasMicrophonePermission(false);
+        console.error("Error accessing microphone:", err);
       }
-    };
-
-    checkMicrophoneAccess();
-  }, []);
-
-  const requestMicrophoneAccess = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      setHasMicrophoneAccess(true);
-      setError(null);
-      // Stop the stream immediately after getting access
-      stream.getTracks().forEach((track) => track.stop());
-    } catch (err) {
-      setHasMicrophoneAccess(false);
-      setError("شما دسترسی به میکروفون ندارید");
+    } else {
+      alert(translate("erros.BROWSER_AUDIO_RECORD_SUPPORT"));
     }
-  };
+  }, [translate]);
 
-  const initRecognition = () => {
+  const checkBrowserSpeechSupport = () => {
     const SpeechRecognition =
       (window as any).SpeechRecognition ||
       (window as any).webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      setIsSupported(false);
-      return null;
+    if (!!SpeechRecognition) {
+      setIsSpeechSupported(true);
+    } else {
+      console.error("SpeechRecognition is not supported in this browser.");
+      setIsSpeechSupported(false);
     }
-    const recognition = new SpeechRecognition();
-    recognition.lang = "en-US";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-    recognition.onresult = (event: any) => {
-      const spokenText = event.results[0][0].transcript;
-      const words = spokenText.split(" ");
-      setSpokenWords(words);
-      setAccuracyPercentage(null);
-      lastAttemptWordsRef.current = words;
-    };
-    recognition.onerror = (event: any) => {
-      setIsRecording(false);
-      if (event.error === "no-speech") {
-        setError("صدایی صوتی تشخیص داده نشد. لطفا دوباره تلاش کنید.");
-      } else if (event.error === "audio-capture") {
-        setError("دسترسی به میکروفون را فعال کنید.");
-      } else if (event.error === "network") {
-        setError("خطای شبکه. لطفا دوباره تلاش کنید.");
-      }
-    };
-    recognition.onend = () => {
-      setIsRecording(false);
-      if (
-        shouldCalculateOnEnd.current &&
-        lastAttemptWordsRef.current.length > 0
-      ) {
-        calculateAccuracy(lastAttemptWordsRef.current);
-      }
-      shouldCalculateOnEnd.current = false;
-    };
-    return recognition;
-  };
-
-  const handleStart = () => {
-    const recognition = initRecognition();
-    if (!recognition) {
-      setError("مرورگر شما از ضبط صدا پشتیبانی نمیکند");
-      return;
-    }
-    recognitionRef.current = recognition;
-
-    setSpokenWords([]);
-    setAccuracyPercentage(null);
-    setError(null);
-
-    lastAttemptWordsRef.current = [];
-    setIsRecording(true);
-    recognition.start();
-  };
-
-  const handleStop = () => {
-    shouldCalculateOnEnd.current = true;
-    if (recognitionRef.current) {
-      try {
-        recognitionRef.current.stop();
-      } catch (err) {
-        console.warn("Recognition already stopped.");
-      }
-    }
-    setIsRecording(false);
-  };
-
-  const percentageColorGenerator = (percentage: number) => {
-    if (percentage < 50) {
-      return "!text-[red]";
-    }
-    if (percentage > 50 && percentage < 85) {
-      return "!text-yellow-500";
-    }
-    if (percentage >= 85) {
-      return "!text-green-500";
-    }
-    return "";
   };
 
   useEffect(() => {
-    // Check if browser supports speech recognition
-    const SpeechRecognition =
-      (window as any).SpeechRecognition ||
-      (window as any).webkitSpeechRecognition;
-    setIsSupported(!!SpeechRecognition);
-
-    return () => {
-      if (recognitionRef.current) {
-        try {
-          recognitionRef.current.stop();
-        } catch (err) {}
-      }
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
+    checkMicrophonePermission();
+    checkBrowserSpeechSupport();
+  }, [checkMicrophonePermission]);
 
   function normalizeWord(word: string) {
     // Convert to lowercase and remove extra spaces
@@ -198,29 +90,6 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
 
     return cleaned;
   }
-
-  const getWordColor = (word: string, index: number) => {
-    if (!spokenWords[index]) return "";
-
-    const normalizedSpoken = normalizeWord(spokenWords[index]);
-    const cleanedTarget = cleanTargetWord(word);
-
-    // Check if words match after cleaning and normalization
-    if (normalizedSpoken === cleanedTarget) {
-      return "#22c55e"; // Green for exact match
-    }
-
-    // Check if words are similar enough
-    if (
-      normalizedSpoken.includes(cleanedTarget) ||
-      cleanedTarget.includes(normalizedSpoken) ||
-      levenshteinDistance(normalizedSpoken, cleanedTarget) <= 2
-    ) {
-      return "#f59e0b"; // Yellow for close match
-    }
-
-    return "#ef4444"; // Red for no match
-  };
 
   const handleGoNext = () => {
     handleNext();
@@ -317,6 +186,27 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
     }
   };
 
+  if (!isSpeechSupported) {
+    return (
+      <div className="w-full max-w-2xl mx-auto flex flex-col items-center">
+        <div className="flex items-center justify-center flex-col gap-6">
+          <div className="give-mic-access">
+            <div className="give-mic-title mb-3">
+              مرورگر شما از این قابلیت پشتیبانی نمیکند ، با مرورگر دیگری امتحان
+              کنید.
+            </div>
+            <OutlineButton
+              onClick={handleGoNext}
+              buttonProps={{ type: "button" }}
+            >
+              بستن
+            </OutlineButton>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col items-center">
       {/* <OutlineButton className="w-fit px-2 ml-auto" onClick={handleSkip}>
@@ -328,109 +218,45 @@ const RepeatAndCompare: React.FC<Props> = ({ activity, handleNext }) => {
           {sentence.text}
         </span>
       </div>
-      {!isSupported ? (
-        <div>مرورگر شما از ضبط صدا پشتیبانی نمیکند</div>
-      ) : (
-        <div className="flex flex-col items-center gap-4 w-full">
-          {hasMicrophoneAccess === false ? (
-            <div className="flex flex-col items-center gap-4">
-              <p className="text-red-500 text-center mb-4">
-                شما دسترسی به میکروفون ندارید
-              </p>
-              <PrimaryButton
-                onClick={requestMicrophoneAccess}
-                className="bg-primary hover:bg-primary/90"
-              >
-                درخواست دسترسی به میکروفون
-              </PrimaryButton>
+      <div>
+        {hasMicrophonePermission ? (
+          <>
+            <VoiceChecker
+              speachCompareMutation={{
+                mutate: ({
+                  target_text,
+                  voice_text,
+                }: {
+                  target_text: string;
+                  voice_text: string;
+                }) => {
+                  calculateAccuracy(voice_text.split(" "));
+                },
+              }}
+              targetText={normalizeWord(sentence?.text || "")}
+            />
+            <PrimaryButton
+              onClick={handleGoNext}
+              className="w-full max-w-[208px] mt-3 px-6 py-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
+            >
+              رد شدن
+            </PrimaryButton>
+          </>
+        ) : (
+          <div className="flex flex-col justify-center items-center gap-4 p-2">
+            <div className="text-main text-center mb-3">
+              {translate("errors.YOU_SHOULD_GIVE_ACCESS")}
             </div>
-          ) : (
-            <>
-              <div className="flex items-center gap-8">
-                <IconButton
-                  disabled={isPlaying}
-                  onClick={() => {
-                    playAudio();
-                    setAudioPlayed(true);
-                  }}
-                  className="!w-20 !h-20 !bg-backgroundMain shadow-lg"
-                >
-                  {isPlaying ? (
-                    <WaveLoading />
-                  ) : (
-                    <VolumeUpIcon className="!w-10 !h-10 !text-main" />
-                  )}
-                </IconButton>
-                <IconButton
-                  disabled={!audioPlayed || !hasMicrophoneAccess}
-                  onClick={isRecording ? handleStop : handleStart}
-                  className={`!w-20 !h-20 !bg-backgroundMain shadow-lg border-2 border-primary flex items-center justify-center ${
-                    !audioPlayed || !hasMicrophoneAccess
-                      ? "opacity-50 cursor-not-allowed"
-                      : ""
-                  }`}
-                >
-                  <KeyboardVoiceIcon
-                    className={`!w-10 !h-10 !text-main ${
-                      isRecording ? "animate-ping" : ""
-                    }`}
-                  />
-                </IconButton>
-              </div>
-              <div className="text-center text-gray-500 mt-2">
-                {!hasMicrophoneAccess
-                  ? "لطفا دسترسی به میکروفون را فعال کنید"
-                  : audioPlayed
-                  ? isRecording
-                    ? "درحال ضبط..."
-                    : "روی دکمه بزن تا صداتو ضبط کنی"
-                  : "روی دکمه بزن تا بشنوی"}
-              </div>
-              {/* Show spoken words feedback */}
-              {spokenWords.length > 0 && (
-                <div
-                  className="text-main font-medium flex items-center flex-wrap justify-center mt-6"
-                  dir="ltr"
-                >
-                  {sentence.text.split(" ").map((word, index) => (
-                    <span
-                      className="text-main font-medium text-lg lg:text-xl"
-                      key={index}
-                      style={{
-                        color: getWordColor(word, index),
-                        marginRight: "5px",
-                      }}
-                    >
-                      {word}
-                    </span>
-                  ))}
-                </div>
-              )}
-              {/* Show accuracy percentage */}
-              {accuracyPercentage !== null && (
-                <div
-                  className={`mt-4 text-xl font-bold ${percentageColorGenerator(
-                    accuracyPercentage
-                  )}`}
-                >
-                  {Math.round(accuracyPercentage)}%
-                </div>
-              )}
-              {/* Attempts counter */}
-              <div className="text-sm text-gray-500 mt-2">
-                تلاش: {attempts}/3
-              </div>
-
-              <PrimaryButton
-                onClick={handleGoNext}
-                className="mt-1 px-6 py-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
-              >
-                رد شدن
-              </PrimaryButton>
-            </>
-          )}
-        </div>
-      )}
+            <OutlineButton
+              onClick={checkMicrophonePermission}
+              buttonProps={{ type: "button" }}
+              className="w-full max-w-md"
+            >
+              {translate("errors.GIVE_MIC_ACCESS")}
+            </OutlineButton>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
