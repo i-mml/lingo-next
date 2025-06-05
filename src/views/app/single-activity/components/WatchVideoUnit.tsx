@@ -71,7 +71,7 @@ const WatchVideoUnit = ({
 
   return (
     <ThemeProvider theme={showPageTheme}>
-      <div dir="rtl">
+      <div dir="rtl" className="max-h-[100vh] overflow-hidden">
         <Player
           title={data?.title}
           difficulty={data?.difficulty}
