@@ -1344,7 +1344,7 @@ const NewLanding = () => {
             {[
               {
                 name: "ماهانه",
-                price: "99,000",
+                price: "199,000",
                 period: "تومان",
                 features: [],
                 discount: "",
@@ -1356,7 +1356,7 @@ const NewLanding = () => {
               },
               {
                 name: "سه ماهه",
-                price: "199,000",
+                price: "299,000",
                 period: "تومان",
                 features: [],
                 discount: "30%",
@@ -1368,7 +1368,7 @@ const NewLanding = () => {
               },
               {
                 name: "شش ماهه",
-                price: "299,000",
+                price: "499,000",
                 period: "تومان",
                 features: [],
                 discount: "35%",
@@ -1380,7 +1380,7 @@ const NewLanding = () => {
               },
               {
                 name: "سالانه",
-                price: "499,000",
+                price: "899,000",
                 period: "تومان",
                 features: [],
                 discount: "40%",
