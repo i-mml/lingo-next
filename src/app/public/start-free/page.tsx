@@ -53,7 +53,7 @@ export const metadata: Metadata = {
 const StartFreePage = async () => {
   const catalogs = await GetCmsByContentTypeFree();
   const banners = await GetCmsByBanner(1);
-
+  console.log({ catalogs });
   return (
     <>
       <script
